@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{159641D6-6404-4A2A-AE62-294DE0FE8301}") = "InvoicesIntegration", "InvoicesIntegration\InvoicesIntegration.dtproj", "{605743EC-2968-422C-AF06-AF2EE8DBC625}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Development|Default = Development|Default
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{605743EC-2968-422C-AF06-AF2EE8DBC625}.Development|Default.ActiveCfg = Development
+		{605743EC-2968-422C-AF06-AF2EE8DBC625}.Development|Default.Build.0 = Development
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {30BF6EFF-AE04-41D2-8D02-280E7D11D7D6}
+	EndGlobalSection
+EndGlobal
