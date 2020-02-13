@@ -1,0 +1,1022 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/11/2020 4:15:12 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ETP025"
+  DTS:CreatorName="ELTRANSPLUS\andreydruzhinin"
+  DTS:DTSID="{5B901DA5-2002-44A9-B648-60F5EE9F460C}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.71"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="32"
+  DTS:VersionGUID="{CC04784B-6CE7-4778-94CE-462A0AD73F29}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Eltransplus]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{403970C5-EC92-4000-9E2B-5AD29D5787C6}"
+      DTS:ObjectName="SMTP Eltransplus">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=10.10.0.50;UseWindowsAuthentication=True;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{3E204CE9-5C1A-4597-879B-270725B91712}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="id">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{C44581B3-8161-4E50-A3F0-6414C00D531F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Message">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{92F03803-14C0-4658-A841-38C514D1526D}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="Obj">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{61BC6C84-7466-46B3-A24C-B55ECB9AEFB8}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="Subject">
+      <DTS:VariableValue
+        DTS:DataType="8">тест</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{0A501CE3-71FA-46F4-AC4A-ACE2962D49F2}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="ToLine">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Container_FOR"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Контейнер &quot;Цикл по каждому элементу&quot;"
+      DTS:DTSID="{7dadf09b-2058-4d4b-a64a-4bee81f1c51e}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Container_FOR">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{9a42b26e-0812-40c4-930c-44f5d7c7cdc3}"
+        DTS:ObjectName="{82E40C60-FDD8-410C-9F79-3AB5436911ED}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::Obj" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Container_FOR\MessageSent"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{3ef0d32e-badd-44da-a8e5-e96e8b3e953f}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="MessageSent"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="DECLARE @VarID VARCHAR(50) = ?&#xA;UPDATE webproject.dbo.notices_msg&#xA;SET MessageSent = 1&#xA;WHERE id = @VarID" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              <SQLTask:ParameterBinding
+                SQLTask:ParameterName="@VarID"
+                SQLTask:DtsVariableName="User::id"
+                SQLTask:ParameterDirection="Input"
+                SQLTask:DataType="20"
+                SQLTask:ParameterSize="0" />
+            </SQLTask:SqlTaskData>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Container_FOR\Задача &quot;Отправка почты&quot;"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:Description="Задача &quot;Отправка почты&quot;"
+          DTS:DTSID="{6f008a6c-fa1b-4903-9524-46e138d4a8f7}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Задача &quot;Отправка почты&quot;"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="Subject">@[User::Subject]</DTS:PropertyExpression>
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[User::ToLine]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{403970C5-EC92-4000-9E2B-5AD29D5787C6}"
+              SendMailTask:From="info@eltransplus.ru"
+              SendMailTask:BCC="mailing@eltransplus.ru"
+              SendMailTask:Subject="тест"
+              SendMailTask:MessageSourceType="Variable"
+              SendMailTask:MessageSource="User::Message" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Container_FOR.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{2c368c74-65db-4c05-9dd6-3e20aeda3d5c}"
+          DTS:From="Package\Container_FOR\Задача &quot;Отправка почты&quot;"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\Container_FOR\MessageSent"
+          DTS:Value="2" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{197CE6F3-3C2E-459B-ADAA-23323DFAAD0B}"
+          DTS:ObjectName="{197CE6F3-3C2E-459B-ADAA-23323DFAAD0B}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::Subject" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{28357F4D-82A6-42B9-BD9C-F3FC47C4696F}"
+          DTS:ObjectName="{28357F4D-82A6-42B9-BD9C-F3FC47C4696F}"
+          DTS:ValueIndex="1"
+          DTS:VariableName="User::ToLine" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{BD8AFCBD-BE73-4B5D-A6C4-27615EA6041B}"
+          DTS:ObjectName="{BD8AFCBD-BE73-4B5D-A6C4-27615EA6041B}"
+          DTS:ValueIndex="2"
+          DTS:VariableName="User::id" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{567197E3-90A8-41A9-BCC9-EE48DF046AFD}"
+          DTS:ObjectName="{567197E3-90A8-41A9-BCC9-EE48DF046AFD}"
+          DTS:ValueIndex="3"
+          DTS:VariableName="User::Message" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT досмотр"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{D1441B4E-F608-4787-8221-62504F17F3B1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT досмотр"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport + CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Уведомление о досмотре' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#xA;&#x9;&#x9;,ROW_NUMBER() OVER (PARTITION BY cr.UserName, n.[CargoID] ORDER BY (SELECT NULL)) row_num&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.customs_examination_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.customs_examination_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;AND NOT EXISTS(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms&#xA;&#x9;&#x9;WHERE ms.CargoID = cm.CargoID and ms.Username = cm.UserName and ms.event_name = 'Уведомление о досмотре')&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE dosmotr = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;&#x9;&#x9;WHERE row_num = 1&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND dosmotr = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Уведомление о досмотре')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT закрытие ТТ"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{2ddbfa53-07a3-4ec6-b507-0175f312d2dd}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT закрытие ТТ"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Завершение транзита' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_TransportDeliveryCloseDateTimeCaption [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.transit_closure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.transit_closure_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_TransportDeliveryCloseDateTimeCaption IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_TransportDeliveryCloseDateTimeCaption IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Завершение транзита')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT новых записей ED Main"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{C6073918-C39B-4A11-978B-F432803C3FA1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT новых записей ED Main"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="USE [webproject]&#xA;GO&#xA;INSERT INTO [dbo].[alta_notices]           &#xA;&#x9;&#x9;   ([EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,[&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;&#x9;&#x9;   ,[regnum]&#xA;&#x9;&#x9;   ,[transport]&#xA;&#x9;&#x9;   ,[ptd_sign]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,[CargoID]&#xA;&#x9;&#x9;   ,[Name])&#xA;     &#xA;&#x9; SELECT * FROM (&#xA;     SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9;  ,ca.[&amp;&amp;PRIM]&#xA;&#x9;  ,ca.VAT&#xA;&#x9;  ,ca.RegNum&#xA;&#x9;  ,ca.transport&#xA;&#x9;  ,ca.ptd_sign&#xA;&#x9;,CASE&#xA;&#x9;WHEN [MessageType] IN &#xA;&#x9;    ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124')&#xA;&#x9;&#x9; THEN 1&#xA;&#x9;&#x9; ELSE 0&#xA;&#x9;END decision&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'ED.11002' THEN 1&#xA;&#x9;ELSE 0&#xA;&#x9;END open_ed&#xA;&#x9;,CASE&#xA;&#x9;WHEN [MessageType] = 'CMN.11001' THEN 1&#xA;&#x9;ELSE 0&#xA;&#x9;END reg&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'CMN.11005' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END dosmotr&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'CMN.11049' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END ptd_notice&#x9;&#xA;  FROM [gtd].[dbo].[EDMsgs]&#xA;  CROSS APPLY &#xA;  (SELECT [&amp;&amp;PRIM], &#xA;  CASE WHEN CHARINDEX('/', [14_4]) &gt; 0 THEN SUBSTRING([14_4], 1, CHARINDEX('/', [14_4]) - 1)&#xA;  ELSE [14_4]&#xA;  END VAT,&#xA;  g.RegNum,&#xA;  COALESCE(NULLIF(COALESCE(g.[18], ''), ''), NULLIF(COALESCE(g.[21], ''), ''),'') transport,&#xA;  g.[1_3] ptd_sign&#xA;  FROM gtd.dbo.GTDList g WHERE g.DOCGID = [DocGuid]) AS ca&#xA;  WHERE InOutDateTime BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, 1, GETDATE())&#xA;  ) x&#xA;  CROSS APPLY (SELECT [CargoID], cust.[Name]&#xA;  FROM [BI].[dwh].[CargoDelivery] cd &#xA;  JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = cd.CargoID  &#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]&#xA;  WHERE cd.[DeliveryNo_] = x.[&amp;&amp;PRIM] AND x.VAT = cust.[VAT Registration No_]) AS ca1&#xA;  WHERE &#xA;  NOT EXISTS(SELECT 0 FROM [dbo].[alta_notices] n WHERE n.[EnvelopeID] = x.EnvelopeID)&#xA;  AND (decision = 1 OR open_ed = 1 OR reg = 1 OR dosmotr = 1 OR ptd_notice = 1)&#xA;  GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT новых записей ED TNP"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{07ce3597-ddc9-48a9-9511-26d8f3c4fef5}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT новых записей ED TNP"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="USE [webproject]&#xA;GO&#xA;INSERT INTO [dbo].[alta_notices]           &#xA;     ([EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,[&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;     ,[regnum]&#xA;     ,[transport]&#xA;&#x9; ,[ptd_sign]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,[CargoID]&#xA;     ,[Name])&#xA;  SELECT * FROM (&#xA;     SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9;   ,ca.[&amp;&amp;PRIM]&#xA;&#x9;   ,ca.VAT&#xA;&#x9;   ,ca.RegNum&#xA;&#x9;   ,ca.transport&#xA;&#x9;   ,ca.ptd_sign&#xA; ,CASE&#xA; WHEN [MessageType] IN &#xA;     ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124')&#xA;   THEN 1&#xA;   ELSE 0&#xA; END decision&#xA; ,CASE &#xA; WHEN [MessageType] = 'ED.11002' THEN 1&#xA; ELSE 0&#xA; END open_ed&#xA; ,CASE&#xA; WHEN [MessageType] = 'CMN.11001' THEN 1&#xA; ELSE 0&#xA; END reg&#xA; ,CASE &#xA; WHEN [MessageType] = 'CMN.11005' THEN 1 &#xA; ELSE 0&#xA; END dosmotr&#xA; ,CASE &#xA; WHEN [MessageType] = 'CMN.11049' THEN 1 &#xA; ELSE 0&#xA; END ptd_notice &#xA;  FROM [gtd_tnp].[dbo].[EDMsgs]&#xA;  CROSS APPLY &#xA;  (SELECT [&amp;&amp;PRIM], &#xA;  CASE WHEN CHARINDEX('/', [14_4]) &gt; 0 THEN SUBSTRING([14_4], 1, CHARINDEX('/', [14_4]) - 1)&#xA;  ELSE [14_4]&#xA;  END VAT,&#xA;  g.RegNum,&#xA;  COALESCE(NULLIF(COALESCE(g.[18], ''), ''), NULLIF(COALESCE(g.[21], ''), ''),'') transport&#xA;  ,g.[1_3] ptd_sign&#xA;  FROM gtd_tnp.dbo.GTDList g WHERE g.DOCGID = [DocGuid]) AS ca&#xA;  WHERE InOutDateTime BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, 1, GETDATE())&#xA;  ) x&#xA;  CROSS APPLY (SELECT [CargoID], cust.[Name]&#xA;  FROM [BI].[dwh].[CargoDelivery] cd &#xA;  JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = cd.CargoID  &#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]&#xA;  WHERE cd.[DeliveryNo_] = x.[&amp;&amp;PRIM] AND x.VAT = cust.[VAT Registration No_]) AS ca1&#xA;  WHERE &#xA;  NOT EXISTS(SELECT 0 FROM [dbo].[alta_notices] n WHERE n.[EnvelopeID] = x.EnvelopeID)&#xA;  AND (decision = 1 OR open_ed = 1 OR reg = 1 OR dosmotr = 1 OR ptd_notice = 1)&#xA;  GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT отправка уведомления ПТД"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{3D48D3DC-6A1A-4245-B818-26FD12950082}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT отправка уведомления ПТД"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport + CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Отправка уведомления о прибытии (ПТД)' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#xA;&#x9;&#x9;,ROW_NUMBER() OVER (PARTITION BY cr.UserName, n.[CargoID] ORDER BY (SELECT NULL)) row_num&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.ptd_arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.ptd_arrival_notice_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;AND NOT EXISTS(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms&#xA;&#x9;&#x9;WHERE ms.CargoID = cm.CargoID and ms.Username = cm.UserName and ms.event_name = 'Отправка уведомления о прибытии (ПТД)')&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE ptd_notice = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;&#x9;&#x9;WHERE row_num = 1&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND ptd_notice = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Отправка уведомления о прибытии (ПТД)')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT подача ДТ"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{1551B988-D2D1-431F-BBAD-56856DD6B809}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT подача ДТ"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#xA;&#x9;&#x9;,'Признак ПТД: ' + (CASE WHEN x.ptd_sign = 'ПТД' THEN 'ПТД' ELSE '-' END) + CHAR(13) + CHAR(10) + 'Транспортное средство: ' + x.transport&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT&#x9;&#x9;&#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Подача ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#xA;&#x9;&#x9;,ROW_NUMBER() OVER (PARTITION BY cr.UserName, n.[CargoID] ORDER BY (SELECT NULL)) row_num&#xA;&#x9;&#x9;,n.transport&#x9;&#xA;&#x9;&#x9;,n.ptd_sign&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.dt_submit_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_submit_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;AND NOT EXISTS(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms&#xA;&#x9;&#x9;WHERE ms.CargoID = cm.CargoID and ms.Username = cm.UserName and ms.event_name = 'Подача ДТ')&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE open_ed = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;&#x9;&#x9;WHERE row_num = 1&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND [open_ed] = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Подача ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT получение ТСД"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{7c8b69d7-ebeb-46ea-98f4-720d23cee9fc}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT получение ТСД"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Получение ТСД' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_TCD_DATE_TIME [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.tcd_reception_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.tcd_reception_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_TCD_DATE_TIME IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_TCD_DATE_TIME IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Получение ТСД')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT прибытие"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{A2B2F86D-0693-4B6F-AB00-5F60C4801B67}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT прибытие"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Прибытие на терминал' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.[DELIVERY_SVX_DATE_TIME] [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.terminal_arrival_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.terminal_arrival_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE [DELIVERY_SVX_DATE_TIME] IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND [DELIVERY_SVX_DATE_TIME] IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Прибытие на терминал')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT регистрация ДТ"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{5BBEF9D4-3BF1-408E-904C-2C088D7536D1}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT регистрация ДТ"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#xA;&#x9;&#x9;,'Признак ПТД: ' + (CASE WHEN x.ptd_sign = 'ПТД' THEN 'ПТД' ELSE '-' END) + CHAR(13) + CHAR(10) + 'Транспортное средство: ' + x.transport + CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.Result&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Регистрация ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#xA;&#x9;&#x9;,ROW_NUMBER() OVER (PARTITION BY cr.UserName, n.[CargoID] ORDER BY (SELECT NULL)) row_num&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.ptd_sign&#xA;&#x9;&#x9;,n.Result&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.dt_registration_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_registration_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;AND NOT EXISTS(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms&#xA;&#x9;&#x9;WHERE ms.CargoID = cm.CargoID and ms.Username = cm.UserName and ms.event_name = 'Регистрация ДТ')&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE reg = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;&#x9;&#x9;WHERE row_num = 1&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND reg = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Регистрация ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT решение по товарам"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{00BAB4E6-7EFB-4FAE-BF64-D3EF0372C214}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT решение по товарам"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport + CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum + CHAR(13) + CHAR(10) + 'Решение: ' + x.result&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Решение по ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#xA;&#x9;&#x9;,ROW_NUMBER() OVER (PARTITION BY cr.UserName, n.[CargoID] ORDER BY (SELECT NULL)) row_num&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.Result&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.dt_decision_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_decision_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;AND NOT EXISTS(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms&#xA;&#x9;&#x9;WHERE ms.CargoID = cm.CargoID and ms.Username = cm.UserName and ms.event_name = 'Решение по ДТ')&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE decision = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;&#x9;&#x9;WHERE row_num = 1&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND decision = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Решение по ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\INSERT убытие"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{7c8f036d-9de8-4b24-91e8-8fc09065792c}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="INSERT убытие"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Убытие с терминала' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_DEPARTURE_SVX_DATE_TIME [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND ev.terminal_departure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.terminal_departure_flag = 1) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_DEPARTURE_SVX_DATE_TIME IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_DEPARTURE_SVX_DATE_TIME IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Убытие с терминала')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Messages"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{b0ce7cb9-e767-41ff-9ef8-6fee987cb239}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Messages"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="SELECT&#xA;  COALESCE(t.No_, '') + ' ' + COALESCE(t.CargoID, '') + ' ' + COALESCE(t.CustomerName, '') + ' ' + COALESCE(t.event_name, '') + ' ' + COALESCE(REPLACE(CONVERT(VARCHAR(16),&#xA;  t.event_datetime, 104), '-', '.'), '') + ' ' + COALESCE(REPLACE(CONVERT(VARCHAR(16),&#xA;  t.event_datetime, 108), '-', '.'), '') AS MessageText&#xA; ,t.Username&#xA; ,t.id&#xA; ,COALESCE(t.message_text, '')&#xA;FROM webproject.dbo.notices_msg t&#xA;WHERE t.MessageSent IS NULL&#xA;OR t.MessageSent = 0"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::Obj" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\UPDATE отправки man"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{0c632d38-7739-4727-85cc-3c6a6d57f505}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="UPDATE отправки man"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;WHERE [old] = 0 AND &#xA;([DELIVERY_SVX_DATE_TIME] &lt; DATEADD(hour, -2, GETDATE())&#xA;OR [man_TCD_DATE_TIME] &lt; DATEADD(hour, -2, GETDATE())&#xA;OR [man_TransportDeliveryCloseDateTimeCaption] &lt; DATEADD(hour, -2, GETDATE())&#xA;OR [man_DEPARTURE_SVX_DATE_TIME] &lt; DATEADD(hour, -2, GETDATE()))&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\UPDATE отправки ЭД"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{0CB66B34-FBDB-4534-AFD7-BC4D38E7174D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="UPDATE отправки ЭД"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;WHERE [old] = 0 AND InOutDateTime &lt; DATEADD(hour, -2, GETDATE())&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Обновление таблицы SEND"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{099F4BCB-8331-4541-A44C-4561BCC7CB10}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Обновление таблицы SEND"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [webproject].[dbo].[notices_send]&#xA;GO&#xA;INSERT INTO [webproject].[dbo].[notices_send]&#xA;           ([CargoID]&#xA;           ,[UserName])&#xA;  SELECT DISTINCT ca.CargoID, f.username&#xA;  FROM [webproject].[dbo].[notices_user_filters] f&#xA;  CROSS APPLY &#xA;  (SELECT cargoid &#xA;  FROM [BI].[dwh].[MonitorsDatamart] m&#xA;  WHERE &#xA;  f.customer_filter = m.CustomerName&#xA;  OR f.sto_department_filter = m.DCLDepartmentCode&#xA;  OR f.sto_specialist_filter = m.STOSalesPersoCode&#xA;  OR f.decl_creater_filter = m.CreaterUsername_Full&#xA;  OR f.decl_reg_filter = m.RegUsername_Full&#xA;  OR f.terminal_filter = m.TERMINAL_NAME) AS ca&#xA;  WHERE [CargoID] IS NOT NULL&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{06EE6F3F-9ACE-4E8A-91D3-7D8190D958CE}"
+      DTS:From="Package\INSERT новых записей ED Main"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\INSERT подача ДТ" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{D9B057CE-9AEF-4F34-BECB-A9497771E1EE}"
+      DTS:From="Package\INSERT подача ДТ"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
+      DTS:To="Package\INSERT регистрация ДТ" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 10]"
+      DTS:CreationName=""
+      DTS:DTSID="{a75d2784-0e99-4555-925d-7f067ddbb683}"
+      DTS:From="Package\Messages"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 10"
+      DTS:To="Package\Container_FOR" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 11]"
+      DTS:CreationName=""
+      DTS:DTSID="{260D94E3-140B-40E1-BF50-8942E41E9BB0}"
+      DTS:From="Package\Обновление таблицы SEND"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 11"
+      DTS:To="Package\INSERT новых записей ED TNP" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 12]"
+      DTS:CreationName=""
+      DTS:DTSID="{F6DD965B-749E-4D77-ADE1-0B626E28BA32}"
+      DTS:From="Package\UPDATE отправки man"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 12"
+      DTS:To="Package\Messages" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 13]"
+      DTS:CreationName=""
+      DTS:DTSID="{0A956585-63AF-41B4-9B7D-82CF3C40554C}"
+      DTS:From="Package\UPDATE отправки ЭД"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 13"
+      DTS:To="Package\INSERT прибытие" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 14]"
+      DTS:CreationName=""
+      DTS:DTSID="{A3655053-47DA-4A87-AA49-D52F1D032CCB}"
+      DTS:From="Package\INSERT новых записей ED TNP"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 14"
+      DTS:To="Package\INSERT новых записей ED Main" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{15EA886D-221B-4207-8041-54951089585B}"
+      DTS:From="Package\INSERT регистрация ДТ"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 2"
+      DTS:To="Package\INSERT отправка уведомления ПТД" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{73E66FB1-47A7-4D48-8C19-02A4725E1043}"
+      DTS:From="Package\INSERT отправка уведомления ПТД"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 3"
+      DTS:To="Package\INSERT досмотр" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{1A1FD65A-1278-4956-B7D1-7A13F76E8374}"
+      DTS:From="Package\INSERT досмотр"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 4"
+      DTS:To="Package\INSERT решение по товарам" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{D46D09C7-2D8A-449B-A56A-E0511BCDA17C}"
+      DTS:From="Package\INSERT решение по товарам"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 5"
+      DTS:To="Package\UPDATE отправки ЭД" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{3C76A7E1-02D6-4DEE-87C6-16705EA77D6B}"
+      DTS:From="Package\INSERT прибытие"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 6"
+      DTS:To="Package\INSERT получение ТСД" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{517C653F-5EAE-4039-8595-531F10B2EE27}"
+      DTS:From="Package\INSERT получение ТСД"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 7"
+      DTS:To="Package\INSERT закрытие ТТ" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{ED288CD8-D5E8-4FA9-9928-9ED34153E971}"
+      DTS:From="Package\INSERT закрытие ТТ"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 8"
+      DTS:To="Package\INSERT убытие" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{77C40758-3A03-4C24-AA69-A9E78D0EF9D1}"
+      DTS:From="Package\INSERT убытие"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 9"
+      DTS:To="Package\UPDATE отправки man" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="143,42"
+          Id="Package\Container_FOR\MessageSent"
+          TopLeft="65,117" />
+        <NodeLayout
+          Size="205,42"
+          Id="Package\Container_FOR\Задача &quot;Отправка почты&quot;"
+          TopLeft="36.5,21.5" />
+        <EdgeLayout
+          Id="Package\Container_FOR.PrecedenceConstraints[Ограничение]"
+          TopLeft="137.75,63.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,53.5"
+              Start="0,0"
+              End="0,46">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-28.87931640625,17.29296875,57.7586328125,11.4140625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="247,177"
+          Size="247,220"
+          Id="Package\Container_FOR"
+          TopLeft="514,402" />
+        <NodeLayout
+          Size="158,42"
+          Id="Package\INSERT досмотр"
+          TopLeft="81.7142857142857,513.142857142857" />
+        <NodeLayout
+          Size="180,42"
+          Id="Package\INSERT закрытие ТТ"
+          TopLeft="313.3,491" />
+        <NodeLayout
+          Size="233,42"
+          Id="Package\INSERT новых записей ED Main"
+          TopLeft="44.7142857142857,211.428571428571" />
+        <NodeLayout
+          Size="230,42"
+          Id="Package\INSERT новых записей ED TNP"
+          TopLeft="54.2142857142857,128" />
+        <NodeLayout
+          Size="255,42"
+          Id="Package\INSERT отправка уведомления ПТД"
+          TopLeft="33.2142857142857,437.714285714286" />
+        <NodeLayout
+          Size="170,42"
+          Id="Package\INSERT подача ДТ"
+          TopLeft="75.7142857142857,286.857142857143" />
+        <NodeLayout
+          Size="194,42"
+          Id="Package\INSERT получение ТСД"
+          TopLeft="306.3,575" />
+        <NodeLayout
+          Size="166,42"
+          Id="Package\INSERT прибытие"
+          TopLeft="320.3,659" />
+        <NodeLayout
+          Size="196,42"
+          Id="Package\INSERT регистрация ДТ"
+          TopLeft="62.7142857142857,362.285714285714" />
+        <NodeLayout
+          Size="220,42"
+          Id="Package\INSERT решение по товарам"
+          TopLeft="50.7142857142857,588.571428571429" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\INSERT убытие"
+          TopLeft="326.8,407" />
+        <NodeLayout
+          Size="126,42"
+          Id="Package\Messages"
+          TopLeft="567,321" />
+        <NodeLayout
+          Size="190,42"
+          Id="Package\UPDATE отправки man"
+          TopLeft="312.3,323" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\UPDATE отправки ЭД"
+          TopLeft="69.2142857142857,664" />
+        <NodeLayout
+          Size="214,42"
+          Id="Package\Обновление таблицы SEND"
+          TopLeft="59,32" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="160.964285714286,253.428571428571">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.4285714285716"
+              Start="0,0"
+              End="0,25.9285714285716">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9285714285716" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="160.714285714286,328.857142857143">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.428571428571"
+              Start="0,0"
+              End="0,25.928571428571">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.928571428571" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 10]"
+          TopLeft="633.75,363">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 11]"
+          TopLeft="167.607142857143,74">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,54"
+              Start="0,0"
+              End="0,46.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,46.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 12]"
+          TopLeft="502.3,343">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="64.6999999999999,0"
+              Start="0,0"
+              End="57.1999999999999,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="57.1999999999999,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 13]"
+          TopLeft="252.214285714286,682.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="68.0857142857143,0"
+              Start="0,0"
+              End="60.5857142857143,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="60.5857142857143,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 14]"
+          TopLeft="165.214285714286,170">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,41.4285714285714"
+              Start="0,0"
+              End="0,33.9285714285714">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,33.9285714285714" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="160.714285714286,404.285714285714">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.4285714285714"
+              Start="0,0"
+              End="0,25.9285714285714">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9285714285714" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="160.714285714286,479.714285714286">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.4285714285713"
+              Start="0,0"
+              End="0,25.9285714285713">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9285714285713" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 4]"
+          TopLeft="160.714285714286,555.142857142857">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.4285714285714"
+              Start="0,0"
+              End="0,25.9285714285714">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9285714285714" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 5]"
+          TopLeft="160.714285714286,630.571428571429">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33.4285714285714"
+              Start="0,0"
+              End="0,25.9285714285714">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.9285714285714" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 6]"
+          TopLeft="403.3,659">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-42"
+              Start="0,0"
+              End="0,-34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 7]"
+          TopLeft="403.3,575">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-42"
+              Start="0,0"
+              End="0,-34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 8]"
+          TopLeft="403.3,491">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-42"
+              Start="0,0"
+              End="0,-34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 9]"
+          TopLeft="405.3,407">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-42"
+              Start="0,0"
+              End="0,-34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

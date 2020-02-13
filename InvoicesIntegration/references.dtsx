@@ -1,0 +1,58 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/11/2020 11:57:56 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ETP025"
+  DTS:CreatorName="ELTRANSPLUS\andreydruzhinin"
+  DTS:DTSID="{A310EB0E-C398-4B7E-B540-B259A928F975}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.71"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{C9380247-F554-4BDB-8E38-5D7090585E41}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SVH temp"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{C3AD0558-2E37-4E33-9384-72479F2AF44E}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SVH temp"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="USE [automation]&#xA;GO&#xA;&#xA;INSERT INTO [dbo].[ref_svh_temp]&#xA;           ([G30_ITN]&#xA;           ,[G300]&#xA;           ,[G3010]&#xA;           ,[G30AEOOWN]&#xA;           ,[G30AEOCNTR]&#xA;           ,[G301]&#xA;           ,[G30AEOKIND]&#xA;           ,[G30AEORCOD]&#xA;           ,[G3011]&#xA;           ,[G30]&#xA;           ,[G30D]&#xA;           ,[G30DD]&#xA;           ,[G30POST]&#xA;           ,[G30A]&#xA;           ,[G30AN]&#xA;           ,[G30SUBD]&#xA;           ,[G30CITY]&#xA;           ,[G30STREET]&#xA;           ,[G30BUILD]&#xA;           ,[G30LNAME]&#xA;           ,[G3012]&#xA;           ,[G30121]&#xA;           ,[G30122])&#xA;     SELECT [G30_ITN]&#xA;      ,[G300]&#xA;      ,[G3010]&#xA;      ,[G30AEOOWN]&#xA;      ,[G30AEOCNTR]&#xA;      ,[G301]&#xA;      ,[G30AEOKIND]&#xA;      ,[G30AEORCOD]&#xA;      ,[G3011]&#xA;      ,[G30]&#xA;      ,[G30D]&#xA;      ,[G30DD]&#xA;      ,[G30POST]&#xA;      ,[G30A]&#xA;      ,[G30AN]&#xA;      ,[G30SUBD]&#xA;      ,[G30CITY]&#xA;      ,[G30STREET]&#xA;      ,[G30BUILD]&#xA;      ,[G30LNAME]&#xA;      ,[G3012]&#xA;      ,[G30121]&#xA;      ,[G30122] FROM (&#xA;SELECT d.*       &#xA;&#x9;,ROW_NUMBER() OVER (PARTITION BY [G3012] ORDER BY [GD1] DESC, [GD11] DESC) row_num&#xA;  FROM [Docs2SQL].[dbo].[DBRHEAD] d&#xA;  WHERE [G30] LIKE '[0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9][0-9]/[0-9][0-9][0-9][0-9][0-9]/[0-9]'&#xA;  ) x&#xA;  WHERE row_num = 1&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="126,42"
+          Id="Package\SVH temp"
+          TopLeft="49,50" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

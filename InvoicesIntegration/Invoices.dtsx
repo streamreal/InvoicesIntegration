@@ -1,4 +1,4 @@
-﻿<?xml version="1.0"?>
+<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="1/23/2020 5:16:41 PM"
@@ -11,44 +11,29 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{4E12AB34-D59B-4F5A-9190-7445DED7DBA7}">
+  DTS:VersionBuild="8"
+  DTS:VersionGUID="{5DB7FC3F-60C4-4D29-B398-CDFB00C71B94}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:ConnectionManagers>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[10.0.0.33.webproject.phpuser 1]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{E9D01615-8F31-4D72-B281-6840FE8127C6}"
-      DTS:ObjectName="10.0.0.33.webproject.phpuser 1">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=10.0.0.33;User ID=phpuser;Initial Catalog=webproject;Provider=MSOLEDBSQL.1;Persist Security Info=True;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAp8uuBJwNckCnx3+ebIxpKQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADvuVA78UsRsHzQVTOMb3lGAAAAAASAAACgAAAAEAAAAITii+WLkfOdUk2nK0ILADwYAAAAzXUWDjzaxFWNI5QmLHe8lcNpoTb9eofKFAAAAA2AbcnfLPkIK17Qk8XNrk2t7N+w</DTS:Password>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[10.10.0.28.Invoices2SQL.phpuser 1]"
-      DTS:CreationName="OLEDB"
-      DTS:DTSID="{CF634995-21E2-4296-B0BC-DABE71CA8ECF}"
-      DTS:ObjectName="10.10.0.28.Invoices2SQL.phpuser 1">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:ConnectionString="Data Source=10.10.0.28;User ID=phpuser;Initial Catalog=Invoices2SQL;Provider=MSOLEDBSQL.1;Persist Security Info=True;Auto Translate=False;">
-          <DTS:Password
-            DTS:Name="Password"
-            Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAp8uuBJwNckCnx3+ebIxpKQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAApawKyOmID5RddR8onHjy9AAAAAASAAACgAAAAEAAAAE8hCnlXMlpNg83rBHvIH4QYAAAASa6wiRpOhe3Vimo1mplsXEsn0b3ovmMyFAAAAE9e8TUsjltfB+1V4RhVTtAcrciy</DTS:Password>
-        </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-  </DTS:ConnectionManagers>
   <DTS:Variables />
   <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Truncate"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{D710498C-CFF9-40CD-9000-C1105A45015D}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{269005C9-151E-46DF-9269-93184C45A32A}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [webproject].[dbo].[InvoicesNew]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Загрузка данных"
       DTS:CreationName="Microsoft.Pipeline"
@@ -122,8 +107,8 @@
               <connections>
                 <connection
                   refId="Package\Загрузка данных\Загрузка в webproject.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[10.0.0.33.webproject.phpuser 1]"
-                  connectionManagerRefId="Package.ConnectionManagers[10.0.0.33.webproject.phpuser 1]"
+                  connectionManagerID="{269005C9-151E-46DF-9269-93184C45A32A}:invalid"
+                  connectionManagerRefId="{269005C9-151E-46DF-9269-93184C45A32A}:invalid"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                   name="OleDbConnection" />
               </connections>
@@ -3568,8 +3553,8 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
               <connections>
                 <connection
                   refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Connections[OleDbConnection]"
-                  connectionManagerID="Package.ConnectionManagers[10.10.0.28.Invoices2SQL.phpuser 1]"
-                  connectionManagerRefId="Package.ConnectionManagers[10.10.0.28.Invoices2SQL.phpuser 1]"
+                  connectionManagerID="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}:invalid"
+                  connectionManagerRefId="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}:invalid"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                   name="OleDbConnection" />
               </connections>
@@ -9371,8 +9356,25 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
-          SQLTask:Connection="{CF634995-21E2-4296-B0BC-DABE71CA8ECF}"
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
           SQLTask:SqlStatementSource="INSERT [dbo].[InvoicesID] ([ID])&#xA;(SELECT DISTINCT i.[ID] FROM [dbo].[InvoicesNew] i&#xA;WHERE i.[ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Перенос в таблицу"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{CB12DB7C-4255-4A2D-8515-4C024EDAB158}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Перенос в таблицу"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{269005C9-151E-46DF-9269-93184C45A32A}"
+          SQLTask:SqlStatementSource="EXECUTE [webproject].[dbo].[ToInvoices] " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -9385,6 +9387,22 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение"
       DTS:To="Package\Задача &quot;Выполнение SQL&quot;" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{00F2BBDF-8939-4FA9-B72E-B62DB67D2A8C}"
+      DTS:From="Package\Truncate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
+      DTS:To="Package\Загрузка данных" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{535C3F6F-4834-4BB5-9C00-AE8991A39965}"
+      DTS:From="Package\Задача &quot;Выполнение SQL&quot;"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 2"
+      DTS:To="Package\Перенос в таблицу" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -9397,29 +9415,81 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="161,42"
           Id="Package\Загрузка данных"
-          TopLeft="132,45" />
+          TopLeft="128,120" />
         <NodeLayout
           Size="208,42"
           Id="Package\Задача &quot;Выполнение SQL&quot;"
-          TopLeft="103,133" />
+          TopLeft="109,205" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="209.75,87">
+          TopLeft="210.75,162">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,46"
+              EndConnector="0,43"
               Start="0,0"
-              End="0,38.5">
+              End="0,35.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,38.5" />
+                    End="0,35.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Truncate"
+          TopLeft="150,45" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="209.5,87">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Перенос в таблицу"
+          TopLeft="127,277" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="213,247">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,30"
+              Start="0,0"
+              End="0,22.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -9443,21 +9513,21 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
         <NodeLayout
           Size="186,42"
           Id="Package\Загрузка данных\Загрузка в webproject"
-          TopLeft="296,171" />
+          TopLeft="300,162" />
         <EdgeLayout
           Id="Package\Загрузка данных.Paths[Выход источника &quot;OLE DB&quot;]"
-          TopLeft="391.5,90">
+          TopLeft="393.5,90">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,81"
+              EndConnector="0,72"
               Start="0,0"
-              End="0,73.5">
+              End="0,64.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,73.5" />
+                    End="0,64.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -9470,14 +9540,6 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Загрузка данных\Загрузка из таблицы InvoicesNew">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
     design-time-name="Package\Загрузка данных\Загрузка в webproject">
     <Properties>
       <Property>
@@ -9487,6 +9549,14 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
         <Name>TableInfoObjectType</Name>
         <Value
           type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Загрузка данных\Загрузка из таблицы InvoicesNew">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
       </Property>
     </Properties>
   </PipelineComponentMetadata>

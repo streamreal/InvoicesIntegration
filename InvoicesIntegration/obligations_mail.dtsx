@@ -1,0 +1,533 @@
+<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/24/2020 10:37:09 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ETP025"
+  DTS:CreatorName="ELTRANSPLUS\andreydruzhinin"
+  DTS:DTSID="{77DA6AEF-D850-4266-A204-E37E0CD30E09}"
+  DTS:EnableConfig="True"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.71"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package1"
+  DTS:PackageType="5"
+  DTS:VersionBuild="55"
+  DTS:VersionGUID="{728A7BEA-EAD6-4CA3-BDCE-FB8FCC81BE0D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[SMTP Eltransplus]"
+      DTS:CreationName="SMTP"
+      DTS:DTSID="{403970C5-EC92-4000-9E2B-5AD29D5787C6}"
+      DTS:ObjectName="SMTP Eltransplus">
+      <DTS:ObjectData>
+        <SmtpConnectionManager
+          ConnectionString="SmtpServer=10.10.0.50;UseWindowsAuthentication=True;EnableSsl=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{EDB935EB-5298-4F57-A442-3F4BFCCEBA32}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="EmailList">
+      <DTS:VariableValue
+        DTS:DataType="8">test@mail.ru</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{5422B82F-1B70-475B-A844-DD7574E1B8AD}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="EmailListNotification">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{8DB7A64F-5713-4AB0-B064-36EB28E14398}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="LetterTextNotification">
+      <DTS:VariableValue
+        DTS:DataType="8"
+        xml:space="preserve"></DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{ADA670BB-3954-4981-9BF1-ABDC4094CE1F}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="NotificationID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{9CB91C8A-F6DC-43FB-85B6-0D0123D17C91}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="NotificationResultSet">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{A892B75E-266F-4C7B-8B00-67E638175D31}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="ResultSet">
+      <DTS:VariableValue
+        DTS:DataSubType="ManagedSerializable"
+        DTS:DataType="13">
+        <SOAP-ENV:Envelope xmlns:clr="http://schemas.microsoft.com/soap/encoding/clr/1.0" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          SOAP-ENV:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+          <SOAP-ENV:Body>
+            <xsd:anyType
+              id="ref-1"></xsd:anyType>
+          </SOAP-ENV:Body>
+        </SOAP-ENV:Envelope>
+      </DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\SELECT из таблицы Obligations"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{8D6BB42B-C87C-4E78-80EE-7CA1C71D1834}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SELECT из таблицы Obligations"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="WITH C AS (&#xA;SELECT &#xA;CASE WHEN s.EMAIL LIKE '%@eltransplus.ru' THEN s.EMAIL + ';' ELSE NULL END AS Email1,&#xA;m.email + ';' AS Email2,&#xA;CASE WHEN o.ID_obligation = 6 THEN 'sycheva@eltransplus.ru' + ';' ELSE NULL END AS Email3,&#xA;'denismukhin@eltransplus.ru' AS Email4,&#xA;'Наименование обязательства: ' + IIF(COALESCE(o.Obligation_Name, '') = '', '-', o.Obligation_Name) + char(13) + char(10) +&#xA;'Заказчик: ' + IIF(COALESCE(o.[CustomerName], '') = '', '-', o.[CustomerName]) + char(13) + char(10) +&#xA;'Номер ДТ: ' + IIF(COALESCE(o.RegNum, '') = '', '-', o.RegNum) + char(13) + char(10) +&#xA;'Номер доставки: ' + IIF(COALESCE(o.Delivery, '') = '', '-', o.Delivery) + char(13) + char(10) +&#xA;'Номер груза: ' + IIF(COALESCE(o.[CargoID], '') = '', '-', o.[CargoID]) + char(13) + char(10)  +&#xA;'Предельный срок предоставления документов/подачи ДТ: ' + IIF(o.[Marginal_Action_Date] IS NULL, '-', CONVERT(nvarchar, o.[Marginal_Action_Date], 104))&#xA;AS MessageText&#xA;FROM [BI].[dwh].[Obligations] o &#xA;LEFT JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] s ON o.STOSalesPersonName = s.SalespersonName&#xA;LEFT JOIN [webproject].[dbo].[monitor_emails] m ON o.DCLdepartmentcode = m.leader_of_dept&#xA;WHERE&#xA;o.[STOSalesPersonName] IS NOT NULL&#xA;AND o.[ID_Obligation] IN (0,1,2,3,4,5,6,7,8)&#xA;AND o.[ID_Category] = 1&#xA;AND o.[id] &gt; (SELECT TOP (1) [maxid_email] FROM [BI].[dwh].[Obligation_Types] ORDER BY [maxid_email] DESC)&#xA;)&#xA;SELECT  &#xA;CASE &#xA;WHEN Email1 IS NULL AND Email2 IS NULL AND Email3 IS NULL THEN Email4&#xA;ELSE LEFT(COALESCE(Email1, '') + COALESCE(Email2, '') + COALESCE(Email3, ''), LEN(COALESCE(Email1, '') + COALESCE(Email2, '') + COALESCE(Email3, '')) - 1)&#xA;END AS Emails,&#xA;C.MessageText&#xA;FROM C"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::ResultSet" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\SELECT из таблицы Obligations 2"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{f1ea91e9-5593-4287-9a39-adfd01f044ec}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="SELECT из таблицы Obligations 2"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:BypassPrepare="False"
+          SQLTask:SqlStatementSource="WITH C AS (&#xA;SELECT &#xA;CASE WHEN s.EMAIL LIKE '%@eltransplus.ru' THEN s.EMAIL + ';' ELSE NULL END AS Email1,&#xA;m.email + ';' AS Email2,&#xA;'Наименование обязательства: ' + IIF(COALESCE(o.Obligation_Name, '') = '', '-', o.Obligation_Name) + char(13) + char(10) +&#xA;'Заказчик: ' + IIF(COALESCE(o.[CustomerName], '') = '', '-', o.[CustomerName]) + char(13) + char(10) +&#xA;'Номер ДТ: ' + IIF(COALESCE(o.RegNum, '') = '', '-', o.RegNum) + char(13) + char(10) +&#xA;'Номер доставки: ' + IIF(COALESCE(o.Delivery, '') = '', '-', o.Delivery) + char(13) + char(10) +&#xA;'Номер груза: ' + IIF(COALESCE(o.[CargoID], '') = '', '-', o.[CargoID]) + char(13) + char(10)  +&#xA;'Предельный срок предоставления документов/подачи ДТ: ' + IIF(o.[Marginal_Action_Date] IS NULL, '-', CONVERT(nvarchar, o.[Marginal_Action_Date], 104)) + char(13) + char(10)  +&#xA;'Контрольная дата: ' + CONVERT(nvarchar(max), COALESCE([man_Prompt_Date], [Prompt_Date]), 104)&#xA;AS MessageText,&#xA;o.id&#xA;FROM [BI].[dwh].[Obligations] o &#xA;LEFT JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] s ON s.SalespersonName LIKE o.[Specialist] + '%'&#xA;LEFT JOIN [webproject].[dbo].[monitor_emails] m ON o.DCLdepartmentcode = m.leader_of_dept&#xA;WHERE&#xA;[Specialist] IS NOT NULL&#xA;AND o.[ID_Category] = 1&#xA;AND CAST(GETDATE() AS date) = COALESCE([man_Prompt_Date], [Prompt_Date])&#xA;AND o.[sent_notification] = 0&#xA;)&#xA;SELECT  &#xA;CASE &#xA;WHEN Email1 IS NULL AND Email2 IS NULL THEN 'mailing@eltransplus.ru'&#xA;ELSE LEFT(COALESCE(Email1, '') + COALESCE(Email2, ''), LEN(COALESCE(Email1, '') + COALESCE(Email2, '')) - 1)&#xA;END AS Emails,&#xA;C.MessageText,&#xA;C.id&#xA;FROM C"
+          SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ResultBinding
+            SQLTask:ResultName="0"
+            SQLTask:DtsVariableName="User::NotificationResultSet" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\UPDATE max(id) - Obligation_types"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:DTSID="{E7D3A9C5-A717-4B03-91EC-D6B0AD85AA57}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="UPDATE max(id) - Obligation_types"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE [BI].[dwh].[Obligation_Types]&#xA;SET [maxid_email] = (SELECT MAX(id) FROM [BI].[dwh].[Obligations])&#xA;WHERE [maxid_email] is not null" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Контейнер &quot;Цикл по каждому элементу&quot;"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Контейнер &quot;Цикл по каждому элементу&quot;"
+      DTS:DTSID="{6EAC704B-BEAA-49C6-A718-573D18BF1CC3}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Контейнер &quot;Цикл по каждому элементу&quot;">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{66F4DB38-AAEE-4B0B-BC6A-6565E3156157}"
+        DTS:ObjectName="{66F4DB38-AAEE-4B0B-BC6A-6565E3156157}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::ResultSet" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{7D048600-1108-4126-98E6-FAE09FC8D13C}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="LetterText">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по каждому элементу&quot;\Отправка почтовых уведомлений"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:DTSID="{5032321F-6CFC-415F-BD08-36521CF552A9}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:ExecValue="1"
+          DTS:ExecValueType="3"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Отправка почтовых уведомлений"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="2">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[User::EmailList]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{403970C5-EC92-4000-9E2B-5AD29D5787C6}"
+              SendMailTask:From="info@eltransplus.ru"
+              SendMailTask:To="test@mail.ru"
+              SendMailTask:BCC="mailing@eltransplus.ru"
+              SendMailTask:Subject="Уведомление о новом незавершенном обязательстве"
+              SendMailTask:MessageSourceType="Variable"
+              SendMailTask:MessageSource="User::LetterText" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{30576F8C-C0C4-41A8-A223-E60AE0D045BB}"
+          DTS:ObjectName="{30576F8C-C0C4-41A8-A223-E60AE0D045BB}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::EmailList" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{0952B520-9B82-4F7A-838D-81AB2DE9E434}"
+          DTS:ObjectName="{0952B520-9B82-4F7A-838D-81AB2DE9E434}"
+          DTS:ValueIndex="1"
+          DTS:VariableName="User::LetterText" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1"
+      DTS:CreationName="STOCK:FOREACHLOOP"
+      DTS:Description="Контейнер &quot;Цикл по каждому элементу&quot;"
+      DTS:DTSID="{1c8ad654-006c-4c1a-aec8-aa4bf630aae4}"
+      DTS:ExecutableType="STOCK:FOREACHLOOP"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Контейнер &quot;Цикл по каждому элементу&quot; 1">
+      <DTS:ForEachEnumerator
+        DTS:CreationName="Microsoft.ForEachADOEnumerator"
+        DTS:DTSID="{b444e0b9-9f58-43e0-98e1-c21e4af2a523}"
+        DTS:ObjectName="{66F4DB38-AAEE-4B0B-BC6A-6565E3156157}">
+        <DTS:ObjectData>
+          <FEEADO
+            EnumType="EnumerateRowsInFirstTable"
+            VarName="User::NotificationResultSet" />
+        </DTS:ObjectData>
+      </DTS:ForEachEnumerator>
+      <DTS:Variables>
+        <DTS:Variable
+          DTS:CreationName=""
+          DTS:DTSID="{1a3ed381-b825-4636-bf15-9573647afc5c}"
+          DTS:IncludeInDebugDump="2345"
+          DTS:Namespace="User"
+          DTS:ObjectName="LetterText">
+          <DTS:VariableValue
+            DTS:DataType="8"
+            xml:space="preserve"></DTS:VariableValue>
+        </DTS:Variable>
+      </DTS:Variables>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1\Задача &quot;Выполнение SQL&quot;"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Задача &quot;Выполнение SQL&quot;"
+          DTS:DTSID="{2E4D3B67-4643-4DED-93A5-1FAD923AB8CA}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Задача &quot;Выполнение SQL&quot;"
+          DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="SqlStatementSource">"UPDATE [BI].[dwh].[Obligations]
+SET [sent_notification] = 1
+WHERE [id] = " + (DT_WSTR, 100) @[User::NotificationID]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:BypassPrepare="False"
+              SQLTask:SqlStatementSource="UPDATE [BI].[dwh].[Obligations]&#xA;SET [sent_notification] = 1&#xA;WHERE [id] = 0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1\Отправка почтовых уведомлений"
+          DTS:CreationName="Microsoft.SendMailTask"
+          DTS:DTSID="{87f85fb6-4cea-4c51-9b12-b852a9f91722}"
+          DTS:ExecutableType="Microsoft.SendMailTask"
+          DTS:ExecValue="1"
+          DTS:ExecValueType="3"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Отправка почтовых уведомлений"
+          DTS:TaskContact="Send Mail Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+          DTS:ThreadHint="1">
+          <DTS:Variables />
+          <DTS:PropertyExpression
+            DTS:Name="ToLine">@[User::EmailListNotification]</DTS:PropertyExpression>
+          <DTS:ObjectData>
+            <SendMailTask:SendMailTaskData
+              SendMailTask:SMTPServer="{403970C5-EC92-4000-9E2B-5AD29D5787C6}"
+              SendMailTask:From="info@eltransplus.ru"
+              SendMailTask:BCC="mailing@eltransplus.ru"
+              SendMailTask:Subject="Уведомление о наступлении контрольной даты по незавершенному обязательству"
+              SendMailTask:MessageSourceType="Variable"
+              SendMailTask:MessageSource="User::LetterTextNotification" xmlns:SendMailTask="www.microsoft.com/sqlserver/dts/tasks/sendmailtask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{60E3D3AF-7F04-408C-9584-DDE90D581BFC}"
+          DTS:From="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1\Задача &quot;Выполнение SQL&quot;"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1\Отправка почтовых уведомлений" />
+      </DTS:PrecedenceConstraints>
+      <DTS:ForEachVariableMappings>
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{8EA2EE59-729F-4B6A-9F66-30C54D14A07C}"
+          DTS:ObjectName="{8EA2EE59-729F-4B6A-9F66-30C54D14A07C}"
+          DTS:ValueIndex="0"
+          DTS:VariableName="User::EmailListNotification" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{9BAD1FE6-2951-4FF4-9071-2102E74EEC9D}"
+          DTS:ObjectName="{9BAD1FE6-2951-4FF4-9071-2102E74EEC9D}"
+          DTS:ValueIndex="1"
+          DTS:VariableName="User::LetterTextNotification" />
+        <DTS:ForEachVariableMapping
+          DTS:CreationName=""
+          DTS:DTSID="{FE95AEAD-9230-4181-9CEE-2A2B73E8DA49}"
+          DTS:ObjectName="{FE95AEAD-9230-4181-9CEE-2A2B73E8DA49}"
+          DTS:ValueIndex="2"
+          DTS:VariableName="User::NotificationID" />
+      </DTS:ForEachVariableMappings>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{CE6E6A1D-D845-41F4-A840-376E3B39597F}"
+      DTS:From="Package\SELECT из таблицы Obligations"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\Контейнер &quot;Цикл по каждому элементу&quot;" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{A47161A9-859C-4FC3-88AB-BBDA4E62800A}"
+      DTS:From="Package\SELECT из таблицы Obligations"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
+      DTS:To="Package\UPDATE max(id) - Obligation_types" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{D7571E13-F696-4D31-961F-C3584737B93A}"
+      DTS:From="Package\SELECT из таблицы Obligations 2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 3"
+      DTS:To="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="208,42"
+          Id="Package\SELECT из таблицы Obligations"
+          TopLeft="94,35" />
+        <NodeLayout
+          Size="217,42"
+          Id="Package\UPDATE max(id) - Obligation_types"
+          TopLeft="353,37" />
+        <NodeLayout
+          Size="243,42"
+          Id="Package\Контейнер &quot;Цикл по каждому элементу&quot;\Отправка почтовых уведомлений"
+          TopLeft="50,44" />
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="316,141"
+          Size="316,184"
+          Id="Package\Контейнер &quot;Цикл по каждому элементу&quot;"
+          TopLeft="36,134" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="196,77">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,57"
+              Start="0,0"
+              End="0,49.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="302,57">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="51,0"
+              Start="0,0"
+              End="43.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="43.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="208,42"
+          Id="Package\SELECT из таблицы Obligations 2"
+          TopLeft="503,147" />
+        <NodeLayout
+          Size="243,42"
+          Id="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1\Отправка почтовых уведомлений"
+          TopLeft="78,111" />
+        <NodeLayout
+          Size="208,42"
+          Id="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1\Задача &quot;Выполнение SQL&quot;"
+          TopLeft="94,37" />
+        <EdgeLayout
+          Id="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1.PrecedenceConstraints[Ограничение]"
+          TopLeft="198.75,79">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32"
+              Start="0,0"
+              End="0,24.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="346,206"
+          Size="346,249"
+          Id="Package\Контейнер &quot;Цикл по каждому элементу&quot; 1"
+          TopLeft="424,233" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="607,189">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-10,44"
+              Start="0,0"
+              End="-10,36.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,18"
+                    Point2="0,22"
+                    Point3="-4,22" />
+                  <mssgle:LineSegment
+                    End="-6,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-6,22"
+                    Point2="-10,22"
+                    Point3="-10,26" />
+                  <mssgle:LineSegment
+                    End="-10,36.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

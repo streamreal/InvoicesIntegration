@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="10.10.0.28.automation.phpuser"
+  DTS:DTSID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}"
+  DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=10.10.0.28;User ID=phpuser;Initial Catalog=automation;Persist Security Info=True;Application Name=SSIS-InvoicesIntegration-{76382CC5-2C1A-4767-958A-4AFC8DEA4336}10.10.0.28.automation.phpuser;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAp8uuBJwNckCnx3+ebIxpKQAAAAACAAAAAAADZgAAwAAAABAAAABEiMZ0BIg7U/9HirMoMUN3AAAAAASAAACgAAAAEAAAAKv23BlYxMOI2ipjUUsEzWp4AAAAQxy1cygM7oN4vomxO8eMkzpDv8uavGiR4/ThRvFwlyZ9HUwLshBLObGwtfofAhL0PLFRc0Sv+rt4/GoaJQNZW03qNmEv/e0N7nOhU/2SMfPKQ3ItfHOyP9ix6TZGUvco1KD7lUHATCA4X/rzEIokEKoYX7DmiOzYFAAAAIqKg0UK83qVSeWVgdk9bD4G9bkn</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="10.0.0.33.webproject.phpuser"
+  DTS:DTSID="{269005C9-151E-46DF-9269-93184C45A32A}"
+  DTS:CreationName="OLEDB">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=10.0.0.33;User ID=phpuser;Initial Catalog=webproject;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAp8uuBJwNckCnx3+ebIxpKQAAAAACAAAAAAADZgAAwAAAABAAAAC1lc9w7S67C3/B882nRmZ3AAAAAASAAACgAAAAEAAAAOlw8qim6RLl7Ya+JfAoecZ4AAAAz1net+AkzXT9Zhv/KDeM0yHRkQxMY8AQtIWpVnBQYU1Ff6Zuj1CPIDR8wtvfsss8ew63xm7//AJgvEWgP9gNM57uXW6WWcbhMWQz4JpoHrdtiteV9HPiWU7UeKCSdFV2vvZELY970E0rNc6heDwsgzQ9tagZdReTFAAAAB+ewTASTB7B0/sK6W58JBrFGDTQ</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>
