@@ -8,7 +8,7 @@
       DTS:ConnectionString="Data Source=10.10.0.28;User ID=phpuser;Initial Catalog=Invoices2SQL;Provider=SQLNCLI11.1;Persist Security Info=True;Auto Translate=False;">
       <DTS:Password
         DTS:Name="Password"
-        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAp8uuBJwNckCnx3+ebIxpKQAAAAACAAAAAAADZgAAwAAAABAAAAAARIxo6pmvMlNFmBwAkymeAAAAAASAAACgAAAAEAAAALPZAOD+wBlK1x2hONCyVy94AAAAPUPW41Fam4jpqLxm5FR4jnhNi7LVaNQzgGKvDMJEo7EKkX/75i79AjSdbu324MsVUuW02MwgS3QNPeGXEvNSjQUzDMFNZxNbfxH21n6JvspgyBKM8Tf2F5LMGpPm1R2IiV0puBT4rTxCHqfOAeH702fh8cDDTKmkFAAAACUBtHwPs2Tb4YGFWqWWo7xe9G4X</DTS:Password>
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAACAAAAAAADZgAAwAAAABAAAAD187CafYJggKs3mZW08soGAAAAAASAAACgAAAAEAAAAInR0fQRy6kK+0JQk2IdIoh4AAAAlu34wD+tBpV8kCzTz5PGTBeJL6FlLNMQn7ppq68DBMcu9kPWQXlsYpGGDwZaaEZ7i8e9qvG5yOrT4pUoSYaLWhMgLCBgeZidmOth5wj4ndtpEKSI1CoDr52+/86tkY0exeYX6JRG3KIJ5dKfGdoEKhYv+jnEb/eWFAAAADvzqyjiAEzHZokZw+A5PYaLr+nO</DTS:Password>
     </DTS:ConnectionManager>
   </DTS:ObjectData>
 </DTS:ConnectionManager>

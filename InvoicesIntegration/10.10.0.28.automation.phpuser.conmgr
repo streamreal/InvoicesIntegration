@@ -8,7 +8,7 @@
       DTS:ConnectionString="Data Source=10.10.0.28;User ID=phpuser;Initial Catalog=automation;Persist Security Info=True;Application Name=SSIS-InvoicesIntegration-{76382CC5-2C1A-4767-958A-4AFC8DEA4336}10.10.0.28.automation.phpuser;">
       <DTS:Password
         DTS:Name="Password"
-        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAp8uuBJwNckCnx3+ebIxpKQAAAAACAAAAAAADZgAAwAAAABAAAABEiMZ0BIg7U/9HirMoMUN3AAAAAASAAACgAAAAEAAAAKv23BlYxMOI2ipjUUsEzWp4AAAAQxy1cygM7oN4vomxO8eMkzpDv8uavGiR4/ThRvFwlyZ9HUwLshBLObGwtfofAhL0PLFRc0Sv+rt4/GoaJQNZW03qNmEv/e0N7nOhU/2SMfPKQ3ItfHOyP9ix6TZGUvco1KD7lUHATCA4X/rzEIokEKoYX7DmiOzYFAAAAIqKg0UK83qVSeWVgdk9bD4G9bkn</DTS:Password>
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAACAAAAAAADZgAAwAAAABAAAADqTGkXy1GjuTHCjaavim4vAAAAAASAAACgAAAAEAAAAKm/WXfbSV2biwgxtN+q5gN4AAAAcaMarVg3kkSBwsEtXcJ3GitWRl69BMsKzkXdMW31Rk/h3NOzkWoB7+KtKT5xO02L73av1MeRwFjJ8znIq9N1c2BW5ecEWvkRKd+d9tfl9lq6F0OlR6NSaPPYGmKi5dznMHB+5VY8EHTRSY/1xuEXk2tDHF8QY1bTFAAAAHrk09QRP4IxHLeVEYlKeItZR7Bw</DTS:Password>
     </DTS:ConnectionManager>
   </DTS:ObjectData>
 </DTS:ConnectionManager>

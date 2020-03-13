@@ -12,7 +12,7 @@
   DTS:ObjectName="Package"
   DTS:PackageType="5"
   DTS:VersionBuild="8"
-  DTS:VersionGUID="{5DB7FC3F-60C4-4D29-B398-CDFB00C71B94}">
+  DTS:VersionGUID="{FDB3157B-D15A-4831-8A96-5DE29B5979B0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -73,7 +73,7 @@
                   dataType="System.String"
                   description="Команда SQL для выполнения."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
                 <property
                   dataType="System.Int32"
                   description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
@@ -3524,7 +3524,7 @@
                   dataType="System.String"
                   description="Команда SQL для выполнения."
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT i.*, d.ID source_id, d.DOCDATE doc_date,
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91">SELECT i.*, d.ID source_id, d.DOCDATE doc_date,
 inv.[14_INN], inv.[14_KPP], inv.[14_NAME] 
 FROM (SELECT * FROM [dbo].[InvoicesNew]
 WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].[Docs] d on d.gid = i.ID join [gtd].[dbo].[INVList] inv on i.id = inv.docgid</property>
