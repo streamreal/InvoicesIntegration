@@ -11,11 +11,11 @@ namespace сSharpProject
     {
         public static void Main()
         {
-            //Web_api w = new Web_api();
-            //w.ProcessXml();
+            Web_api w = new Web_api();
+            w.ProcessXml();
 
-            Linq l = new Linq();
-            l.Go_inv();
+            //Linq l = new Linq();
+            //l.Go_inv();
         }
     }
 }

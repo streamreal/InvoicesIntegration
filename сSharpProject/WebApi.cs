@@ -98,18 +98,19 @@ namespace сSharpProject
 
                             //запрос на получение файла в очереди
                             HttpWebRequest jReq = (HttpWebRequest)WebRequest.Create(jUrl);
-                            jReq.Method = "GET";                            
+                            jReq.Method = "GET";
+                            HttpWebResponse jResp;
 
                             //10 циклов по 6 секунд - ждем возврата файла в течение минуты
-                            for (int i = 0; i < 10; i++)
+                        for (int i = 0; i < 10; i++)
                             {
                                 System.Threading.Thread.Sleep(6000);
-                              
-                                    using (HttpWebResponse jResp = (HttpWebResponse)jReq.GetResponse())
-                                    {                                   
-                                    if (jResp.ContentType.StartsWith("application/pdf"))
+
+                                    jResp = (HttpWebResponse)jReq.GetResponse();
+                                                                       
+                                    if (jResp.ContentType.StartsWith("application/pdf"))                                       
                                         {
-                                        Console.WriteLine("j");
+                                        Console.WriteLine("js");
                                             MemoryStream ms = new MemoryStream();
                                             jResp.GetResponseStream().CopyTo(ms);
                                             byte[] pdf = ms.ToArray();
@@ -118,8 +119,9 @@ namespace сSharpProject
                                             File.WriteAllBytes(result, pdf);
                                             return result;
                                         }
-                                    }
-                               
+
+                                    jResp.Close();
+
                             }
                             throw new TimeOutException();
                         }
