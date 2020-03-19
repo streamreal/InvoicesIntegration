@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="103"
-  DTS:VersionGUID="{E7A91D34-D38A-4EBC-A1F7-7A2B18498DDE}">
+  DTS:VersionBuild="109"
+  DTS:VersionGUID="{568A185F-D05E-4886-B223-046F1450F7C6}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAAJppigzaD6ndVBmX5TlsECAAAAAASAAACgAAAAEAAAAHuVFpAqT8ETPf5atQEqtIkYAAAAlUuuztMpCExEqGaUPJGBC18S03xgT6cHFAAAAFaIenLfwIfR+OYc34tqI6uQ2xnD</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACqf+kdQUQ4ser6QVGGW2ysAAAAAASAAACgAAAAEAAAAD0pBzDX9zjTeB4mUykqUZEYAAAA/LjD5jQ99S8EnB/8mgwh/1oh3Dp4+FhHFAAAAHOQU83ELnZxfa8a9SxR2Tc/H1WI</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -121,68 +121,178 @@
   </DTS:Variables>
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Contract additions"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{4A3A3BA9-2B4A-40F3-9BCC-452BDE8F8272}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Contract additions"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.contract_addition', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.contract_addition;  &#xA;GO&#xA;SELECT td.[G4403]&#xA;      ,td.[G441]&#xA;      ,td.[G442]&#xA;      ,td.[G442R]&#xA;      ,td.[G443]&#xA;      ,td.[G444]&#xA;      ,td.[ED_ID]&#xA;      ,td.[DocNum]&#xA;INTO [automation].[dbo].[contract_addition]&#xA;FROM [automation].[dbo].[contracts] c &#xA;JOIN [automation].[dbo].[DBRTECHD] td&#xA;ON c.DocNum = td.DocNum AND td.G441 = '03012' AND td.G32 = '1'&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Contracts"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{9AF7BCFF-A692-48C0-A321-4B6662CC0D00}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Contracts"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.contracts', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.contracts;  &#xA;GO&#xA;SELECT * &#xA;INTO [automation].[dbo].[contracts]&#xA;FROM&#xA;(&#xA;SELECT h.G141, ROW_NUMBER() OVER (PARTITION BY h.G141, ca1.G442, ca1.G443 ORDER BY h.GD1 DESC, h.GD11 DESC) AS rn, &#xA;ca1.G4403,&#xA;ca1.G441,&#xA;ca1.G442,&#xA;ca1.G442R,&#xA;ca1.G443,&#xA;ca1.G444,&#xA;ca1.ED_ID,&#xA;ca1.DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;CROSS APPLY (SELECT TOP (1) td.G4403,&#xA;td.G441,&#xA;td.G442,&#xA;td.G442R,&#xA;td.G443,&#xA;td.G444,&#xA;td.ED_ID,&#xA;td.DocNum FROM [Docs2SQL].[dbo].[DBRTECHD] td WHERE h.DocNum = td.DocNum AND td.G441 = '03011' AND td.G32 = '1') AS ca1&#xA;) x&#xA;OUTER APPLY (SELECT TOP (1) G442 G442_PS FROM [Docs2SQL].[dbo].[DBRTECHD] td WHERE x.DocNum = td.DocNum AND td.G441 = '03031' AND td.G32 = '1') AS oa1 &#xA;WHERE rn = 1&#xA;GO&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
       DTS:refId="Package\Docs2SQL transformation"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{E9D89376-6C8A-4981-A921-4B82E76B1CC7}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{368A207B-0039-4942-8E7A-61C366F5AF39}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Docs2SQL transformation"
-      DTS:ThreadHint="0">
+      DTS:ObjectName="Docs2SQL transformation">
       <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.DBRHEAD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRHEAD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVAR', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVAR;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_TOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_TOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_DES', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_DES;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD_PARSE', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD_PARSE;  &#xA;GO&#xA;SELECT * INTO automation.dbo.DBRHEAD&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTECHD&#xA;FROM [Docs2SQL].[dbo].[DBRTECHD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTOVAR&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;GO&#xA;&#xA;SELECT * INTO automation.dbo.DBRTOVG&#xA;FROM [Docs2SQL].[dbo].[DBRTOVG]&#xA;GO&#xA;UPDATE automation.dbo.DBRTOVG&#xA;SET G31_15 = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15)))&#xA;END),&#xA;G31_15_MOD = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15_MOD))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15_MOD)))&#xA;END)&#xA;GO&#xA;SELECT DocNum, G32, automation.dbo.RowsConcat(TEXT1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_DES&#xA;FROM (&#xA;SELECT TOP (100) PERCENT * FROM (&#xA;SELECT NUMREC = 0, [G31_1] TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;UNION&#xA;SELECT NUMREC, TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO]&#xA;WHERE NGR = '31' AND TYP_NGR = '01') x&#xA;ORDER BY DocNum ASC, G32 ASC, NUMREC ASC&#xA;) y&#xA;GROUP BY DocNum, G32&#xA;GO&#xA;SELECT DocNum, G32, G32G, automation.dbo.RowsConcat(text1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_TOVG&#xA;FROM (&#xA;SELECT TOP (100) PERCENT DocNum, G32, G32G, NUMREC, TEXT1&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO] d &#xA;WHERE d.NGR = '31' AND d.TYP_NGR = 'G1'&#xA;ORDER BY DocNum ASC, G32 ASC, G32G ASC, NUMREC ASC&#xA;) x&#xA;GROUP BY DocNum, G32, G32G&#xA;GO&#xA;SET ANSI_PADDING ON&#xA;GO&#xA;CREATE NONCLUSTERED INDEX [G442] ON [automation].[dbo].[DBRTECHD]&#xA;(&#xA;&#x9;[G442] ASC&#xA;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]&#xA;GO&#xA;SELECT DocNum, g32, G441, num, G443, G447 &#xA;INTO automation.dbo.DBRTECHD_PARSE&#xA;FROM (&#xA;SELECT DocNum, g32, G441,&#xA;automation.dbo.RowsConcat(COALESCE(G442, ''), ' ИЛИ ') num&#xA;FROM [automation].[dbo].[DBRTECHD]&#xA;WHERE (G441 = '01191' AND G447 IS NOT NULL AND G447 &gt;= GETDATE())&#xA;OR (G441 = '01206' AND (G447 IS NULL OR G447 &gt;= GETDATE()))&#xA;GROUP BY DocNum, g32, G441) x&#xA;OUTER APPLY (SELECT TOP (1) G443, G447 FROM [automation].[dbo].[DBRTECHD] t&#xA;WHERE t.G442 = x.num) AS oa&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovar&#xA;ON [dbo].[DBRTOVAR] ([G32],[DocNum])&#xA;INCLUDE ([G33],[G333])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX descr&#xA;ON [dbo].[DBRDINFO_DES] ([DocNum],[G32])&#xA;INCLUDE ([text1])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovg&#xA;ON [dbo].[DBRDINFO_TOVG] ([DocNum],[G32],[G32G])&#xA;INCLUDE ([text1])&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
-    </DTS:Executable>
-    <DTS:Executable
-      DTS:refId="Package\Terminals"
-      DTS:CreationName="Microsoft.ExecuteSQLTask"
-      DTS:Description="Execute SQL Task"
-      DTS:DTSID="{e368c909-51e8-4659-a9c5-f499cc2037a5}"
-      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
-      DTS:LocaleID="-1"
-      DTS:ObjectName="Terminals"
-      DTS:ThreadHint="0">
-      <DTS:Variables />
-      <DTS:ObjectData>
-        <SQLTask:SqlTaskData
-          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="TRUNCATE TABLE [automation].[dbo].[TERMINALS]&#xA;GO&#xA;INSERT INTO [automation].[dbo].[TERMINALS]&#xA;           ([NAV_CODE]&#xA;           ,[NLIC]&#xA;           ,[DBEGIN]&#xA;           ,[G30A]&#xA;           ,[G30AN]&#xA;           ,[G30SUBD]&#xA;           ,[G30CITY]&#xA;           ,[G30STREET]&#xA;           ,[G30BUILD]&#xA;           ,[G30LNAME]&#xA;           ,[G3012]&#xA;           ,[VAT])&#xA;SELECT &#xA;x.code,&#xA;ca1.NLIC,&#xA;ca1.DBEGIN,&#xA;x.G30A,&#xA;x.G30AN,&#xA;x.G30SUBD,&#xA;x.G30CITY,&#xA;x.G30STREET,&#xA;x.G30BUILD,&#xA;x.G30LNAME,&#xA;x.G3012,&#xA;ca1.INN&#xA;FROM (&#xA;SELECT *&#xA;  FROM [BI].[dwh].[Warehouses] w&#xA;  CROSS APPLY&#xA;  (SELECT TOP (1)&#xA;  h.[G30_ITN]&#xA; ,h.[G300]&#xA; ,h.[G3010]&#xA; ,h.[G30AEOOWN]&#xA; ,h.[G30AEOCNTR]&#xA; ,h.[G301]&#xA; ,h.[G30AEOKIND]&#xA; ,h.[G30AEORCOD]&#xA; ,h.[G3011]&#xA; ,h.[G30]&#xA; ,h.[G30D]&#xA; ,h.[G30DD]&#xA; ,h.[G30POST]&#xA; ,h.[G30A]&#xA; ,h.[G30AN]&#xA; ,h.[G30SUBD]&#xA; ,h.[G30CITY]&#xA; ,h.[G30STREET]&#xA; ,h.[G30BUILD]&#xA; ,h.[G30LNAME]&#xA; ,h.[G3012]&#xA; ,h.[G30121]&#xA; ,h.[G30122]&#xA;FROM [BI].[dwh].[MonitorsDatamart] md JOIN [automation].[dbo].[DBRHEAD] h&#xA;ON md.RegNumDT = h.DocNum&#xA;WHERE md.Terminal_Code = w.Code &#xA;AND h.G300 = 11&#xA;AND w.[Customs Code] = h.G3012&#xA;ORDER BY h.GD1 DESC, h.GD11 DESC) AS ca&#xA;) x&#xA;CROSS APPLY (&#xA;SELECT TOP (1) [INN], [NLIC], [DBEGIN] &#xA;FROM [automation].[dbo].[ref_warehouses_fts_full] ff &#xA;WHERE &#xA;x.[Customs Code] = ff.KODT &#xA;AND LTRIM(RTRIM(x.G301)) = LTRIM(RTRIM(ff.NLIC))&#xA;ORDER BY CONVERT(date, DBEGIN, 104) DESC&#xA;) AS ca1&#xA;GO&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
-      </DTS:ObjectData>
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Base tables"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{E9D89376-6C8A-4981-A921-4B82E76B1CC7}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Base tables"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.DBRHEAD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRHEAD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVAR', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVAR;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_TOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_TOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_DES', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_DES;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD_PARSE', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD_PARSE;  &#xA;GO&#xA;SELECT * INTO automation.dbo.DBRHEAD&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTECHD&#xA;FROM [Docs2SQL].[dbo].[DBRTECHD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTOVAR&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;GO&#xA;&#xA;SELECT * INTO automation.dbo.DBRTOVG&#xA;FROM [Docs2SQL].[dbo].[DBRTOVG]&#xA;GO&#xA;UPDATE automation.dbo.DBRTOVG&#xA;SET G31_15 = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15)))&#xA;END),&#xA;G31_15_MOD = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15_MOD))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15_MOD)))&#xA;END)&#xA;GO&#xA;SELECT DocNum, G32, automation.dbo.RowsConcat(TEXT1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_DES&#xA;FROM (&#xA;SELECT TOP (100) PERCENT * FROM (&#xA;SELECT NUMREC = 0, [G31_1] TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;UNION&#xA;SELECT NUMREC, TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO]&#xA;WHERE NGR = '31' AND TYP_NGR = '01') x&#xA;ORDER BY DocNum ASC, G32 ASC, NUMREC ASC&#xA;) y&#xA;GROUP BY DocNum, G32&#xA;GO&#xA;SELECT DocNum, G32, G32G, automation.dbo.RowsConcat(text1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_TOVG&#xA;FROM (&#xA;SELECT TOP (100) PERCENT DocNum, G32, G32G, NUMREC, TEXT1&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO] d &#xA;WHERE d.NGR = '31' AND d.TYP_NGR = 'G1'&#xA;ORDER BY DocNum ASC, G32 ASC, G32G ASC, NUMREC ASC&#xA;) x&#xA;GROUP BY DocNum, G32, G32G&#xA;GO&#xA;SET ANSI_PADDING ON&#xA;GO&#xA;CREATE NONCLUSTERED INDEX [G442] ON [automation].[dbo].[DBRTECHD]&#xA;(&#xA;&#x9;[G442] ASC&#xA;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]&#xA;GO&#xA;SELECT DocNum, g32, G441, num, G443, G447, G4403, G442R, ED_ID&#xA;INTO automation.dbo.DBRTECHD_PARSE&#xA;FROM (&#xA;SELECT DocNum, g32, G441,&#xA;automation.dbo.RowsConcat(COALESCE(G442, ''), ' ИЛИ ') num&#xA;FROM [automation].[dbo].[DBRTECHD]&#xA;WHERE (G441 = '01191' AND G447 IS NOT NULL AND G447 &gt;= GETDATE())&#xA;OR (G441 = '01206' AND (G447 IS NULL OR G447 &gt;= GETDATE()))&#xA;GROUP BY DocNum, g32, G441) x&#xA;OUTER APPLY (SELECT TOP (1) G443, G447, G4403, G442R, ED_ID FROM [automation].[dbo].[DBRTECHD] t&#xA;WHERE t.G442 = x.num) AS oa&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovar&#xA;ON [dbo].[DBRTOVAR] ([G32],[DocNum])&#xA;INCLUDE ([G33],[G333])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX descr&#xA;ON [dbo].[DBRDINFO_DES] ([DocNum],[G32])&#xA;INCLUDE ([text1])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovg&#xA;ON [dbo].[DBRDINFO_TOVG] ([DocNum],[G32],[G32G])&#xA;INCLUDE ([text1])&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Border"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{52CB275A-FB45-45FA-830D-F544A2CE593A}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Border"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.border', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.border;  &#xA;GO&#xA;SELECT h.G141, h.[G3012], t.G29, ca.customs_name&#xA;INTO [automation].[dbo].[border]&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;JOIN [Docs2SQL].[dbo].[DBRTRANS] t ON t.DocNum = h.DocNum&#xA;OUTER APPLY (SELECT TOP (1) [customs_name] FROM [automation].[dbo].[customs_ref] r WHERE r.code = t.G29) AS ca&#xA;WHERE t.G29 IS NOT NULL AND h.[G3012] IS NOT NULL&#xA;GROUP BY G141, G3012, G29, customs_name&#xA;GO&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Common docs"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{B484CDB3-ACFF-4C88-BE89-3E1B41E3021E}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Common docs"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.common_docs', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.common_docs;  &#xA;GO&#xA;SELECT [G141]&#xA;      ,[G4403]     &#xA;      ,[G441]        &#xA;      ,[G442]     &#xA;      ,[G442R]     &#xA;      ,[G443]&#xA;      ,[G444]&#xA;&#x9;  ,[ED_ID]   &#xA;INTO automation.dbo.common_docs&#xA;FROM (&#xA;SELECT DISTINCT  &#xA;      h.[G141]&#xA;      ,[G4403]     &#xA;      ,[G441]        &#xA;      ,[G442]     &#xA;      ,[G442R]     &#xA;      ,[G443]&#xA;      ,[G444]&#xA;&#x9;  ,[ED_ID]     &#xA;&#x9;  ,DENSE_RANK() OVER (PARTITION BY h.[G141] ORDER BY h.GD1 DESC, h.GD11 DESC, td.DocNum) rn&#xA;  FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;  JOIN [Docs2SQL].[dbo].[DBRTECHD] td ON h.DocNum = td.DocNum&#xA;  WHERE td.G441 IN ('11002','04011','09034')&#xA;  OR CHARINDEX('.STJPR', td.ED_ID) &gt; 0&#xA;  OR CHARINDEX('.STTOR', td.ED_ID) &gt; 0&#xA;  ) x&#xA;  WHERE rn = 1&#xA;  GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Contract additions"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4A3A3BA9-2B4A-40F3-9BCC-452BDE8F8272}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Contract additions"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.contract_addition', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.contract_addition;  &#xA;GO&#xA;SELECT td.[G4403]&#xA;      ,td.[G441]&#xA;      ,td.[G442]&#xA;      ,td.[G442R]&#xA;      ,td.[G443]&#xA;      ,td.[G444]&#xA;      ,td.[ED_ID]&#xA;      ,td.[DocNum]&#xA;INTO [automation].[dbo].[contract_addition]&#xA;FROM [automation].[dbo].[contracts] c &#xA;JOIN [automation].[dbo].[DBRTECHD] td&#xA;ON c.DocNum = td.DocNum AND td.G441 = '03012' AND td.G32 = '1'&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Contracts"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{9AF7BCFF-A692-48C0-A321-4B6662CC0D00}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Contracts"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.contracts', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.contracts;  &#xA;GO&#xA;SELECT * &#xA;INTO [automation].[dbo].[contracts]&#xA;FROM&#xA;(&#xA;SELECT h.G141, ROW_NUMBER() OVER (PARTITION BY h.G141, ca1.G442, ca1.G443 ORDER BY h.GD1 DESC, h.GD11 DESC) AS rn, &#xA;ca1.G4403,&#xA;ca1.G441,&#xA;ca1.G442,&#xA;ca1.G442R,&#xA;ca1.G443,&#xA;ca1.G444,&#xA;ca1.ED_ID,&#xA;ca1.DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;CROSS APPLY (SELECT TOP (1) td.G4403,&#xA;td.G441,&#xA;td.G442,&#xA;td.G442R,&#xA;td.G443,&#xA;td.G444,&#xA;td.ED_ID,&#xA;td.DocNum FROM [Docs2SQL].[dbo].[DBRTECHD] td WHERE h.DocNum = td.DocNum AND td.G441 = '03011' AND td.G32 = '1') AS ca1&#xA;) x&#xA;OUTER APPLY (SELECT TOP (1) G442 G442_PS FROM [Docs2SQL].[dbo].[DBRTECHD] td WHERE x.DocNum = td.DocNum AND td.G441 = '03031' AND td.G32 = '1') AS oa1 &#xA;WHERE rn = 1&#xA;GO&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Descriptions"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{6A33E152-8435-43CF-A8B4-7F84EA9D80A8}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Descriptions"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.description', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.description;  &#xA;GO&#xA;SELECT [G071]&#xA;      ,[G072]&#xA;      ,[G073]&#xA;      ,[G32]&#xA;      ,[G4401]&#xA;      ,[G4402]&#xA;      ,[G4403]&#xA;      ,[G44020]&#xA;      ,[G44_CUST]&#xA;      ,[G440]&#xA;      ,[G441]&#xA;      ,[G441A]&#xA;      ,[ID_BDRD]&#xA;      ,[PRSBDRD]&#xA;      ,[PREVNUMTYP]&#xA;      ,[PREVNUMDOC]&#xA;      ,[RECORDID]&#xA;      ,[EXECUTBODY]&#xA;      ,[EXECNAME]&#xA;      ,[INETURL]&#xA;      ,[G442]&#xA;      ,[G442LIC1]&#xA;      ,[G442LIC2]&#xA;      ,[G442R]&#xA;      ,[G442SIMP]&#xA;      ,[G44MDP1]&#xA;      ,[G44MDP2]&#xA;      ,[G443]&#xA;      ,[G444]&#xA;      ,[G445]&#xA;      ,[G446]&#xA;      ,[G447]&#xA;      ,[G4480ET]&#xA;      ,[G4481ET]&#xA;      ,[G44STPER]&#xA;      ,[G44SFCNTRY]&#xA;      ,[G44ALLDOC]&#xA;      ,[G4491]&#xA;      ,[G4492]&#xA;      ,[G4493]&#xA;      ,[G44DD]&#xA;      ,[NZP]&#xA;      ,[DMODIFY]&#xA;      ,[TMODIFY]&#xA;      ,[ED_ID]&#xA;      ,[DocNum]&#xA;INTO [automation].[dbo].[description]&#xA;FROM [Docs2SQL].[dbo].[DBRTECHD]&#xA;WHERE &#xA;(G441 = '09020')&#xA;OR (G441 = '09021')&#xA;OR (G441 = '09022')&#xA;OR (G441 = '09023' AND G444 LIKE '%ОПИСАНИЕ%')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Terminals"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{e368c909-51e8-4659-a9c5-f499cc2037a5}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Terminals"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [automation].[dbo].[TERMINALS]&#xA;GO&#xA;INSERT INTO [automation].[dbo].[TERMINALS]&#xA;           ([NAV_CODE]&#xA;           ,[NLIC]&#xA;           ,[DBEGIN]&#xA;           ,[G30A]&#xA;           ,[G30AN]&#xA;           ,[G30SUBD]&#xA;           ,[G30CITY]&#xA;           ,[G30STREET]&#xA;           ,[G30BUILD]&#xA;           ,[G30LNAME]&#xA;           ,[G3012]&#xA;           ,[VAT])&#xA;SELECT &#xA;x.code,&#xA;ca1.NLIC,&#xA;ca1.DBEGIN,&#xA;x.G30A,&#xA;x.G30AN,&#xA;x.G30SUBD,&#xA;x.G30CITY,&#xA;x.G30STREET,&#xA;x.G30BUILD,&#xA;x.G30LNAME,&#xA;x.G3012,&#xA;ca1.INN&#xA;FROM (&#xA;SELECT *&#xA;  FROM [BI].[dwh].[Warehouses] w&#xA;  CROSS APPLY&#xA;  (SELECT TOP (1)&#xA;  h.[G30_ITN]&#xA; ,h.[G300]&#xA; ,h.[G3010]&#xA; ,h.[G30AEOOWN]&#xA; ,h.[G30AEOCNTR]&#xA; ,h.[G301]&#xA; ,h.[G30AEOKIND]&#xA; ,h.[G30AEORCOD]&#xA; ,h.[G3011]&#xA; ,h.[G30]&#xA; ,h.[G30D]&#xA; ,h.[G30DD]&#xA; ,h.[G30POST]&#xA; ,h.[G30A]&#xA; ,h.[G30AN]&#xA; ,h.[G30SUBD]&#xA; ,h.[G30CITY]&#xA; ,h.[G30STREET]&#xA; ,h.[G30BUILD]&#xA; ,h.[G30LNAME]&#xA; ,h.[G3012]&#xA; ,h.[G30121]&#xA; ,h.[G30122]&#xA;FROM [BI].[dwh].[MonitorsDatamart] md JOIN [automation].[dbo].[DBRHEAD] h&#xA;ON md.RegNumDT = h.DocNum&#xA;WHERE md.Terminal_Code = w.Code &#xA;AND h.G300 = 11&#xA;AND w.[Customs Code] = h.G3012&#xA;ORDER BY h.GD1 DESC, h.GD11 DESC) AS ca&#xA;) x&#xA;CROSS APPLY (&#xA;SELECT TOP (1) [INN], [NLIC], [DBEGIN] &#xA;FROM [automation].[dbo].[ref_warehouses_fts_full] ff &#xA;WHERE &#xA;x.[Customs Code] = ff.KODT &#xA;AND LTRIM(RTRIM(x.G301)) = LTRIM(RTRIM(ff.NLIC))&#xA;ORDER BY CONVERT(date, DBEGIN, 104) DESC&#xA;) AS ca1&#xA;GO&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{DD897990-7001-4D0A-BA51-94B06F53C734}"
+          DTS:From="Package\Docs2SQL transformation\Base tables"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\Docs2SQL transformation\Terminals" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{D361BD4D-7DB4-4561-A8C8-BF30464B7B96}"
+          DTS:From="Package\Docs2SQL transformation\Terminals"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 1"
+          DTS:To="Package\Docs2SQL transformation\Contracts" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 2]"
+          DTS:CreationName=""
+          DTS:DTSID="{50EA6107-C580-4FB8-9ACC-4ADF58E6F800}"
+          DTS:From="Package\Docs2SQL transformation\Contracts"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 2"
+          DTS:To="Package\Docs2SQL transformation\Contract additions" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 3]"
+          DTS:CreationName=""
+          DTS:DTSID="{B2FBF13F-8BEE-4CE8-A9D4-4E917B6808F0}"
+          DTS:From="Package\Docs2SQL transformation\Contract additions"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 3"
+          DTS:To="Package\Docs2SQL transformation\Descriptions" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 4]"
+          DTS:CreationName=""
+          DTS:DTSID="{F9574792-AB17-4B4D-87A4-41E138905428}"
+          DTS:From="Package\Docs2SQL transformation\Descriptions"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 4"
+          DTS:To="Package\Docs2SQL transformation\Common docs" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 5]"
+          DTS:CreationName=""
+          DTS:DTSID="{4C21A6F1-203B-4F1E-8A13-39BAD78C8606}"
+          DTS:From="Package\Docs2SQL transformation\Common docs"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 5"
+          DTS:To="Package\Docs2SQL transformation\Border" />
+      </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Контейнер"
@@ -7477,32 +7587,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
-  <DTS:PrecedenceConstraints>
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
-      DTS:CreationName=""
-      DTS:DTSID="{DD897990-7001-4D0A-BA51-94B06F53C734}"
-      DTS:From="Package\Docs2SQL transformation"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Ограничение"
-      DTS:To="Package\Terminals" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
-      DTS:CreationName=""
-      DTS:DTSID="{D361BD4D-7DB4-4561-A8C8-BF30464B7B96}"
-      DTS:From="Package\Terminals"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Ограничение 1"
-      DTS:To="Package\Contracts" />
-    <DTS:PrecedenceConstraint
-      DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
-      DTS:CreationName=""
-      DTS:DTSID="{50EA6107-C580-4FB8-9ACC-4ADF58E6F800}"
-      DTS:From="Package\Contracts"
-      DTS:LogicalAnd="True"
-      DTS:ObjectName="Ограничение 2"
-      DTS:To="Package\Contract additions" />
-  </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
 <!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
@@ -7516,17 +7600,172 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="123,42"
-          Id="Package\Contracts"
-          TopLeft="500,414" />
+          Size="132,42"
+          Id="Package\Docs2SQL transformation\Base tables"
+          TopLeft="47,8.5" />
         <NodeLayout
-          Size="199,42"
-          Id="Package\Docs2SQL transformation"
-          TopLeft="462,273" />
+          Size="110,42"
+          Id="Package\Docs2SQL transformation\Border"
+          TopLeft="65,419" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Docs2SQL transformation\Common docs"
+          TopLeft="44,353" />
+        <NodeLayout
+          Size="164,42"
+          Id="Package\Docs2SQL transformation\Contract additions"
+          TopLeft="40,215.5" />
+        <NodeLayout
+          Size="123,42"
+          Id="Package\Docs2SQL transformation\Contracts"
+          TopLeft="53,147.5" />
+        <NodeLayout
+          Size="136,42"
+          Id="Package\Docs2SQL transformation\Descriptions"
+          TopLeft="52,283.5" />
         <NodeLayout
           Size="125,42"
-          Id="Package\Terminals"
-          TopLeft="500,343" />
+          Id="Package\Docs2SQL transformation\Terminals"
+          TopLeft="53,76.5" />
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение]"
+          TopLeft="114.25,50.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="115,118.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="118.25,189.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="121,257.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 4]"
+          TopLeft="118.5,325.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27.5"
+              Start="0,0"
+              End="0,20">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 5]"
+          TopLeft="118.5,395">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24"
+              Start="0,0"
+              End="0,16.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="263,523"
+          Size="263,566"
+          Id="Package\Docs2SQL transformation"
+          TopLeft="434,229" />
         <NodeLayout
           Size="159,42"
           Id="Package\Контейнер\Delete duplicates"
@@ -7684,76 +7923,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           Size="218,42"
           Id="Package\Таможенные представители"
           TopLeft="580,164" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="562,315">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,28"
-              Start="0,0"
-              End="0,20.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="562,385">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,29"
-              Start="0,0"
-              End="0,21.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,21.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="164,42"
-          Id="Package\Contract additions"
-          TopLeft="487,482" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="565.25,456">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,26"
-              Start="0,0"
-              End="0,18.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,18.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>

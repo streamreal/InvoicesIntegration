@@ -67,5 +67,6 @@
   <ItemGroup>
     <Compile Include="EdmsgConvert.cs" />
     <Compile Include="RowsConcat.cs" />
+    <Compile Include="ParseContainers.cs" />
   </ItemGroup>
 </Project>
