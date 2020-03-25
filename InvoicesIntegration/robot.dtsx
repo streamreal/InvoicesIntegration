@@ -13,8 +13,8 @@
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
   DTS:SuppressConfigurationWarnings="True"
-  DTS:VersionBuild="219"
-  DTS:VersionGUID="{E51AEED9-F498-4837-B6F7-E7D83801B33A}">
+  DTS:VersionBuild="228"
+  DTS:VersionGUID="{B9966AFB-C046-4227-842A-BFDF378296F9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -39,7 +39,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAD7k9RHupvT3+ttoKSuQpk1AAAAAASAAACgAAAAEAAAAPG5U7aPRjSchktsNOQYI7cYAAAAA5R0zZkm0ZQZFFIWZNDV7xdKysT0IXbcFAAAAIWPIOc0ninhgWW34wO5HdVvMQ6G</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAABSvWM9NcGPH/uT0rjqU/jeAAAAAASAAACgAAAAEAAAAAXjDjGsQf9n9J2rzfcxjbsYAAAAKV4e8+DT2nQYY58fCX74hMdKcAfr8dMmFAAAAN+N7avniWxl6gWoSGklYndJw+mn</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -152,14 +152,35 @@
           VSTAMinorVersion="0"
           Language="CSharp">
           <ProjectItem
-            Name="Properties\Settings.settings"
-            Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
+            Name="Properties\AssemblyInfo.cs"
+            Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_43ad3105359348378939d7f081bb24e3")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_43ad3105359348378939d7f081bb24e3")]
+[assembly: AssemblyCopyright("Copyright @  2020")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
           <ProjectItem
             Name="Properties\Resources.resx"
             Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -579,35 +600,14 @@ namespace ST_43ad3105359348378939d7f081bb24e3.Properties {
     }
 }]]></ProjectItem>
           <ProjectItem
-            Name="Properties\AssemblyInfo.cs"
-            Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_43ad3105359348378939d7f081bb24e3")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_43ad3105359348378939d7f081bb24e3")]
-[assembly: AssemblyCopyright("Copyright @  2020")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+            Name="Properties\Settings.settings"
+            Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
           <ProjectItem
             Name="Properties\Resources.Designer.cs"
             Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -7974,14 +7974,35 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</Binary
           VSTAMinorVersion="0"
           Language="CSharp">
           <ProjectItem
-            Name="Properties\Settings.settings"
-            Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
+            Name="Properties\AssemblyInfo.cs"
+            Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_762886c2d06b40b6888773b5641adf4b")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_762886c2d06b40b6888773b5641adf4b")]
+[assembly: AssemblyCopyright("Copyright @  2020")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
           <ProjectItem
             Name="Properties\Resources.resx"
             Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -8268,35 +8289,14 @@ namespace ST_762886c2d06b40b6888773b5641adf4b.Properties {
     }
 }]]></ProjectItem>
           <ProjectItem
-            Name="Properties\AssemblyInfo.cs"
-            Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_762886c2d06b40b6888773b5641adf4b")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_762886c2d06b40b6888773b5641adf4b")]
-[assembly: AssemblyCopyright("Copyright @  2020")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+            Name="Properties\Settings.settings"
+            Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
           <ProjectItem
             Name="Properties\Resources.Designer.cs"
             Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -8522,7 +8522,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="DECLARE @guid nvarchar(500) = ?;&#xA;UPDATE rc&#xA;SET    [auto_hs_code] = oa_ext.hs_code&#xA;      ,[auto_hs_code_add] = oa_ext.hs_code_add&#xA;      ,[auto_common_des]= oa_ext.common_des&#xA;      ,[auto_tovg_des]= oa_ext.tovg_des&#xA;      ,[auto_sert_num]= oa_ext.sert_num&#xA;      ,[auto_sert_from]= oa_ext.sert_from&#xA;      ,[auto_sert_to]= oa_ext.sert_to&#xA;      ,[auto_sgr_num]= oa_ext.sgr_num&#xA;      ,[auto_sgr_from]= oa_ext.sgr_from&#xA;      ,[auto_sgr_to]= oa_ext.sgr_to&#x9;  &#xA;&#x9;  ,[country_code_let] = oa_country.code_name&#xA;&#x9;  ,[country_code_num] = oa_country.code_num&#xA;&#x9;  ,[unit_code_num] = oa_units.code&#x9;&#xA;&#x9;  ,[transport_doc] = oa_else.transport_doc&#x9; &#xA;&#x9;  ,[ref_regnum] = oa_ext.DocNum&#xA;&#x9;  ,[ref_G32] = oa_ext.G32&#xA;&#x9;  ,[decl_hs_code] = IIF(COALESCE(rc.man_hscode, '') = '', COALESCE(oa_ext.hs_code, ''), rc.man_hscode)&#xA;&#x9;  ,[decl_hs_code_add] = IIF(COALESCE(rc.man_hscode, '') = '', COALESCE(oa_ext.hs_code_add, ''), rc.man_addcode)&#xA;      ,[decl_common_des] = IIF(COALESCE(rc.man_hscode, '') = '', COALESCE(oa_ext.common_des, ''), rc.man_des_common)&#xA;      ,[decl_tovg_des] = IIF(COALESCE(rc.man_hscode, '') = '', COALESCE(oa_ext.tovg_des, ''), rc.man_des_tovg)&#xA;      ,[decl_sert_num] = IIF(COALESCE(rc.man_hscode, '') = '', COALESCE(oa_ext.sert_num, ''), rc.man_sert_num)&#xA;      ,[decl_sert_from] = IIF(COALESCE(rc.man_hscode, '') = '', oa_ext.sert_from, rc.man_sert_from)&#xA;      ,[decl_sert_to] = IIF(COALESCE(rc.man_hscode, '') = '', oa_ext.sert_to, rc.man_sert_to)&#xA;      ,[decl_sgr_num] = IIF(COALESCE(rc.man_hscode, '') = '', COALESCE(oa_ext.sgr_num, ''), rc.man_sgr_num)&#xA;      ,[decl_sgr_from] = IIF(COALESCE(rc.man_hscode, '') = '', oa_ext.sgr_from, rc.man_sgr_from)&#xA;      ,[decl_sgr_to] = IIF(COALESCE(rc.man_hscode, '') = '', oa_ext.sgr_to, rc.man_sgr_to)&#x9;&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;OUTER APPLY ( &#xA;SELECT TOP (1) &#xA;t.G33 hs_code,&#xA;t.G333 hs_code_add,&#xA;dd.text1 common_des,&#xA;dt.text1 tovg_des,&#xA;dp_sert.num sert_num,&#xA;dp_sert.G443 sert_from,&#xA;dp_sert.G447 sert_to,&#xA;dp_sgr.num sgr_num,&#xA;dp_sgr.G443 sgr_from,&#xA;dp_sgr.G447 sgr_to,&#xA;t.DocNum,&#xA;t.G32&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;JOIN [Docs2SQL].[dbo].[DBRTECHD] td ON h.DocNum = td.DocNum AND td.G441 = '03011' AND td.G32 = '1' &#xA;JOIN [automation].[dbo].[DBRTOVAR] t ON h.DocNum = t.DocNum&#xA;JOIN [automation].[dbo].[DBRDINFO_DES] dd ON t.DocNum = dd.DocNum AND t.G32 = dd.G32&#xA;JOIN [automation].[dbo].[DBRTOVG] tovg ON t.DocNum = tovg.docnum AND t.G32 = tovg.G32 &#xA;JOIN [automation].[dbo].[DBRDINFO_TOVG] dt ON tovg.DocNum = dt.DocNum AND tovg.G32 = dt.G32 AND tovg.G32G = dt.G32G&#xA;LEFT JOIN [automation].[dbo].[DBRTECHD_PARSE] dp_sert ON dp_sert.G441 = '01191' AND tovg.DocNum = dp_sert.DocNum AND tovg.G32 = dp_sert.g32&#xA;LEFT JOIN [automation].[dbo].[DBRTECHD_PARSE] dp_sgr ON dp_sgr.G441 = '01206' AND tovg.DocNum = dp_sgr.DocNum AND tovg.G32 = dp_sgr.g32&#xA;WHERE &#xA;h.[G141] = rc.VAT&#xA;AND td.G442 = rc.contract_num &#xA;AND td.G443 = rc.contract_date&#xA;AND (tovg.G31_15 = rc.article OR tovg.G31_15_MOD = rc.model)&#xA;ORDER BY h.GD1 DESC, h.GD11 DESC&#xA;) AS oa_ext&#xA;OUTER APPLY ( &#xA;SELECT TOP (1) &#xA;r.[code_name], r.[code_num]&#xA;FROM [automation].[dbo].[ref_countries] r&#xA;WHERE r.[description] = rc.country&#xA;) AS oa_country&#xA;OUTER APPLY ( &#xA;SELECT TOP (1) &#xA;r.code&#xA;FROM [automation].[dbo].[ref_measurement_units] r&#xA;WHERE r.[code_name] = rc.unit_measurement&#xA;) AS oa_units&#xA;OUTER APPLY ( &#xA;SELECT &#xA;CASE&#xA;WHEN rc.Transport_Method_NAV = 'Морской транспорт' THEN '02011'&#xA;WHEN rc.Transport_Method_NAV = 'Железнодорожный транспорт' THEN '02013'&#xA;WHEN rc.Transport_Method_NAV LIKE '%Автотранспорт%' OR rc.Transport_Method_NAV LIKE '%Сборный груз%' THEN '02015'&#xA;WHEN rc.Transport_Method_NAV = 'Авиатранспорт' THEN '02017'&#xA;ELSE ''&#xA;END transport_doc&#xA;) AS oa_else&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET rc.distinct_code = &#xA;(CASE&#xA;WHEN EXISTS (SELECT 0 FROM [automation].[dbo].[distinct_codes] d &#xA;WHERE CHARINDEX (d.[hs_code], rc.[decl_hs_code], 1) = 1)&#xA;THEN 1000000 + rc.row_id&#xA;ELSE 0&#xA;END)&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET  [group_num] = rc.[group]&#xA;&#x9;,[item_num] = rc.[item]&#xA;&#x9;,[item_gross] = rc.item_gross_sum&#xA;&#x9;,[item_net] = rc.item_net_sum&#xA;&#x9;,[item_packages] = rc.item_packages_sum&#xA;&#x9;,[item_price] = rc.item_price_sum&#xA;FROM (&#xA;SELECT &#xA;*&#xA;,[group] = DENSE_RANK() OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)) ORDER BY COALESCE([decl_tovg_des], ''))&#xA;,[item] = DENSE_RANK() OVER (PARTITION BY [guid] ORDER BY COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_gross_sum] = SUM(gross) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_net_sum] = SUM(net) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_packages_sum] = SUM(packages_qty) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_price_sum] = SUM(price) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;FROM &#xA;[automation].[dbo].[request_contents]) rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET [packing_code] = &#xA;CASE&#xA;WHEN (rc.item_gross - rc.item_net) / COALESCE(NULLIF(rc.item_packages, 0), 1) &lt; 1 THEN 'CT'&#xA;WHEN (rc.item_gross - rc.item_net) / COALESCE(NULLIF(rc.item_packages, 0), 1) &gt;= 1 AND (rc.item_gross - rc.item_net) / COALESCE(NULLIF(rc.item_packages, 0), 1) &lt; 4 THEN 'BX'&#xA;ELSE 'CS'&#xA;END&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET item_containers = oa_container.parsing&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;OUTER APPLY (&#xA;SELECT automation.dbo.ParseContainers(x.item_concat, oa.else_concat) parsing&#xA;FROM (&#xA;SELECT rcc.[guid], rcc.item_num, automation.dbo.rowsconcat(ltrim(rtrim([request_container])), ', ') item_concat    &#xA;FROM [automation].[dbo].[request_contents] rcc&#xA;WHERE rcc.[guid] = rc.[guid] AND rcc.item_num = rc.item_num&#xA;GROUP BY rcc.[guid], rcc.item_num&#xA;) x&#xA;OUTER APPLY (SELECT automation.dbo.rowsconcat(ltrim(rtrim([request_container])), ', ') else_concat  &#xA;FROM [automation].[dbo].[request_contents] rccc&#xA;WHERE rccc.[guid] = x.[guid] AND rccc.item_num &lt;&gt; x.item_num&#xA;) AS oa&#xA;) AS oa_container&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET qty_containers = &#xA;CASE&#xA;WHEN LEN(COALESCE([item_containers], '')) = 0 THEN 0&#xA;WHEN LEN(COALESCE([item_containers], '')) &gt; 0 AND CHARINDEX(',', COALESCE([item_containers], '')) = 0 THEN 1&#xA;ELSE 1 + (LEN(COALESCE([item_containers], '')) - LEN(REPLACE(COALESCE([item_containers], ''), ',', '')))&#xA;END&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET rc.ref_regnum = oa_self.ref_regnum, rc.ref_G32 = oa_self.ref_G32&#xA;FROM [automation].[dbo].[request_contents] rc &#xA;OUTER APPLY &#xA;(SELECT TOP (1) rcc.ref_regnum, rcc.ref_G32 &#xA;FROM [automation].[dbo].[request_contents] rcc&#xA;WHERE rcc.ref_regnum IS NOT NULL AND rcc.ref_G32 IS NOT NULL &#xA;AND (rcc.decl_sert_num = rc.decl_sert_num OR rcc.decl_sgr_num = rc.decl_sgr_num)) AS oa_self&#xA;WHERE [rc].[guid] = @guid AND rc.ref_regnum IS NULL AND rc.ref_G32 IS NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="DECLARE @guid nvarchar(500) = ?;&#xA;&#xA;UPDATE rc&#xA;SET    [ref_hs_code] = oa_ext.hs_code&#xA;      ,[ref_hs_code_add] = oa_ext.hs_addcode&#xA;      ,[ref_common_des]= oa_ext.common_des&#xA;      ,[ref_tovg_des]= oa_ext.tovg_des&#xA;      ,[ref_sert_num]= oa_ext.sert_num&#xA;      ,[ref_sert_from]= oa_ext.sert_from&#xA;      ,[ref_sert_to]= oa_ext.sert_to&#xA;      ,[ref_sgr_num]= oa_ext.sgr_num&#xA;      ,[ref_sgr_from]= oa_ext.sgr_from&#x9;&#xA;&#x9;  ,[ref_sgr_to]= oa_ext.sgr_to&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;OUTER APPLY ( &#xA;SELECT TOP (1) &#xA;      [G_31] common_des&#xA;      ,[G_33_1] hs_code&#xA;      ,[G_33_2] hs_addcode     &#xA;      ,[G31_1] tovg_des  &#xA;      ,[sert_num] sert_num&#xA;      ,[sert_begin] sert_from&#xA;      ,[sert_end] sert_to&#xA;      ,[sgr_num] sgr_num&#xA;      ,[sgr_begin] sgr_from&#xA;      ,[sgr_end] sgr_to&#xA;FROM [automation].[dbo].[new_ref] old&#xA;WHERE &#xA;old.[vat] = rc.VAT&#xA;AND old.[contract_num] = rc.contract_num &#xA;AND old.[contract_date] = rc.contract_date&#xA;AND (old.[G31_15] = rc.article OR old.[G31_15_MOD] = rc.model)&#xA;ORDER BY [release_date] DESC, [release_time] DESC&#xA;) AS oa_ext&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET    [auto_hs_code] = oa_ext.hs_code&#xA;      ,[auto_hs_code_add] = oa_ext.hs_code_add&#xA;      ,[auto_common_des]= oa_ext.common_des&#xA;      ,[auto_tovg_des]= oa_ext.tovg_des&#xA;      ,[auto_sert_num]= oa_ext.sert_num&#xA;      ,[auto_sert_from]= oa_ext.sert_from&#xA;      ,[auto_sert_to]= oa_ext.sert_to&#xA;      ,[auto_sgr_num]= oa_ext.sgr_num&#xA;      ,[auto_sgr_from]= oa_ext.sgr_from&#xA;      ,[auto_sgr_to]= oa_ext.sgr_to&#x9;  &#xA;&#x9;  ,[country_code_let] = oa_country.code_name&#xA;&#x9;  ,[country_code_num] = oa_country.code_num&#xA;&#x9;  ,[unit_code_num] = oa_units.code&#x9;&#xA;&#x9;  ,[transport_doc] = oa_else.transport_doc&#x9; &#xA;&#x9;  ,[ref_regnum] = oa_ext.DocNum&#xA;&#x9;  ,[ref_G32] = oa_ext.G32&#xA;&#x9;  ,[decl_hs_code] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_hscode&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.hs_code&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_hs_code&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;&#x9;  ,[decl_hs_code_add] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_addcode&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.hs_code_add&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_hs_code_add&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_common_des] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_des_common&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.common_des&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_common_des&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_tovg_des] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_des_tovg&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.tovg_des&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_tovg_des&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_sert_num] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_sert_num&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.sert_num&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_sert_num&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_sert_from] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_sert_from&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.sert_from&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_sert_from&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_sert_to] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_sert_to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.sert_to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_sert_to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_sgr_num] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_sgr_num&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.sgr_num&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_sgr_num&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_sgr_from] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_sgr_from&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.sgr_from&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_sgr_from&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;      ,[decl_sgr_to] = CASE &#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') &lt;&gt; '' THEN rc.man_sgr_to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') &lt;&gt; '' THEN oa_ext.sgr_to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;WHEN COALESCE(rc.man_hscode, '') = '' AND COALESCE(oa_ext.hs_code, '') = '' AND COALESCE(rc.ref_hs_code, '') &lt;&gt; '' THEN rc.ref_sgr_to&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;ELSE NULL&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;END &#xA;FROM [automation].[dbo].[request_contents] rc&#xA;OUTER APPLY ( &#xA;SELECT TOP (1) &#xA;t.G33 hs_code,&#xA;t.G333 hs_code_add,&#xA;dd.text1 common_des,&#xA;dt.text1 tovg_des,&#xA;dp_sert.num sert_num,&#xA;dp_sert.G443 sert_from,&#xA;dp_sert.G447 sert_to,&#xA;dp_sgr.num sgr_num,&#xA;dp_sgr.G443 sgr_from,&#xA;dp_sgr.G447 sgr_to,&#xA;t.DocNum,&#xA;t.G32&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;JOIN [Docs2SQL].[dbo].[DBRTECHD] td ON h.DocNum = td.DocNum AND td.G441 = '03011' AND td.G32 = '1' &#xA;JOIN [automation].[dbo].[DBRTOVAR] t ON h.DocNum = t.DocNum&#xA;JOIN [automation].[dbo].[DBRDINFO_DES] dd ON t.DocNum = dd.DocNum AND t.G32 = dd.G32&#xA;JOIN [automation].[dbo].[DBRTOVG] tovg ON t.DocNum = tovg.docnum AND t.G32 = tovg.G32 &#xA;JOIN [automation].[dbo].[DBRDINFO_TOVG] dt ON tovg.DocNum = dt.DocNum AND tovg.G32 = dt.G32 AND tovg.G32G = dt.G32G&#xA;LEFT JOIN [automation].[dbo].[DBRTECHD_PARSE] dp_sert ON dp_sert.G441 = '01191' AND tovg.DocNum = dp_sert.DocNum AND tovg.G32 = dp_sert.g32&#xA;LEFT JOIN [automation].[dbo].[DBRTECHD_PARSE] dp_sgr ON dp_sgr.G441 = '01206' AND tovg.DocNum = dp_sgr.DocNum AND tovg.G32 = dp_sgr.g32&#xA;WHERE &#xA;h.[G141] = rc.VAT&#xA;AND td.G442 = rc.contract_num &#xA;AND td.G443 = rc.contract_date&#xA;AND (tovg.G31_15 = rc.article OR tovg.G31_15_MOD = rc.model)&#xA;ORDER BY h.GD1 DESC, h.GD11 DESC&#xA;) AS oa_ext&#xA;OUTER APPLY ( &#xA;SELECT TOP (1) &#xA;r.[code_name], r.[code_num]&#xA;FROM [automation].[dbo].[ref_countries] r&#xA;WHERE r.[description] = rc.country&#xA;) AS oa_country&#xA;OUTER APPLY ( &#xA;SELECT TOP (1) &#xA;r.code&#xA;FROM [automation].[dbo].[ref_measurement_units] r&#xA;WHERE r.[code_name] = rc.unit_measurement&#xA;) AS oa_units&#xA;OUTER APPLY ( &#xA;SELECT &#xA;CASE&#xA;WHEN rc.Transport_Method_NAV = 'Морской транспорт' THEN '02011'&#xA;WHEN rc.Transport_Method_NAV = 'Железнодорожный транспорт' THEN '02013'&#xA;WHEN rc.Transport_Method_NAV LIKE '%Автотранспорт%' OR rc.Transport_Method_NAV LIKE '%Сборный груз%' THEN '02015'&#xA;WHEN rc.Transport_Method_NAV = 'Авиатранспорт' THEN '02017'&#xA;ELSE ''&#xA;END transport_doc&#xA;) AS oa_else&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET rc.distinct_code = &#xA;(CASE&#xA;WHEN EXISTS (SELECT 0 FROM [automation].[dbo].[distinct_codes] d &#xA;WHERE CHARINDEX (d.[hs_code], rc.[decl_hs_code], 1) = 1)&#xA;THEN 1000000 + rc.row_id&#xA;ELSE 0&#xA;END)&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET  [group_num] = rc.[group]&#xA;&#x9;,[item_num] = rc.[item]&#xA;&#x9;,[item_gross] = rc.item_gross_sum&#xA;&#x9;,[item_net] = rc.item_net_sum&#xA;&#x9;,[item_packages] = rc.item_packages_sum&#xA;&#x9;,[item_price] = rc.item_price_sum&#xA;FROM (&#xA;SELECT &#xA;*&#xA;,[group] = DENSE_RANK() OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)) ORDER BY COALESCE([decl_tovg_des], ''))&#xA;,[item] = DENSE_RANK() OVER (PARTITION BY [guid] ORDER BY COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_gross_sum] = SUM(gross) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_net_sum] = SUM(net) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_packages_sum] = SUM(packages_qty) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;,[item_price_sum] = SUM(price) OVER (PARTITION BY [guid], COALESCE([decl_hs_code], '') + COALESCE([decl_hs_code_add], '') + COALESCE([country_code_let], '') + CAST([distinct_code] AS nvarchar(20)))&#xA;FROM &#xA;[automation].[dbo].[request_contents]) rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET [packing_code] = &#xA;CASE&#xA;WHEN (rc.item_gross - rc.item_net) / COALESCE(NULLIF(rc.item_packages, 0), 1) &lt; 1 THEN 'CT'&#xA;WHEN (rc.item_gross - rc.item_net) / COALESCE(NULLIF(rc.item_packages, 0), 1) &gt;= 1 AND (rc.item_gross - rc.item_net) / COALESCE(NULLIF(rc.item_packages, 0), 1) &lt; 4 THEN 'BX'&#xA;ELSE 'CS'&#xA;END&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET item_containers = oa_container.parsing&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;OUTER APPLY (&#xA;SELECT automation.dbo.ParseContainers(x.item_concat, oa.else_concat) parsing&#xA;FROM (&#xA;SELECT rcc.[guid], rcc.item_num, automation.dbo.rowsconcat(ltrim(rtrim([request_container])), ', ') item_concat    &#xA;FROM [automation].[dbo].[request_contents] rcc&#xA;WHERE rcc.[guid] = rc.[guid] AND rcc.item_num = rc.item_num&#xA;GROUP BY rcc.[guid], rcc.item_num&#xA;) x&#xA;OUTER APPLY (SELECT automation.dbo.rowsconcat(ltrim(rtrim([request_container])), ', ') else_concat  &#xA;FROM [automation].[dbo].[request_contents] rccc&#xA;WHERE rccc.[guid] = x.[guid] AND rccc.item_num &lt;&gt; x.item_num&#xA;) AS oa&#xA;) AS oa_container&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET qty_containers = &#xA;CASE&#xA;WHEN LEN(COALESCE([item_containers], '')) = 0 THEN 0&#xA;WHEN LEN(COALESCE([item_containers], '')) &gt; 0 AND CHARINDEX(',', COALESCE([item_containers], '')) = 0 THEN 1&#xA;ELSE 1 + (LEN(COALESCE([item_containers], '')) - LEN(REPLACE(COALESCE([item_containers], ''), ',', '')))&#xA;END&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;WHERE [rc].[guid] = @guid&#xA;&#xA;UPDATE rc&#xA;SET rc.ref_regnum = oa_self.ref_regnum, rc.ref_G32 = oa_self.ref_G32&#xA;FROM [automation].[dbo].[request_contents] rc &#xA;OUTER APPLY &#xA;(SELECT TOP (1) rcc.ref_regnum, rcc.ref_G32 &#xA;FROM [automation].[dbo].[request_contents] rcc&#xA;WHERE rcc.ref_regnum IS NOT NULL AND rcc.ref_G32 IS NOT NULL &#xA;AND (rcc.decl_sert_num = rc.decl_sert_num OR rcc.decl_sgr_num = rc.decl_sgr_num)) AS oa_self&#xA;WHERE [rc].[guid] = @guid AND rc.ref_regnum IS NULL AND rc.ref_G32 IS NULL" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="@guid"
                 SQLTask:DtsVariableName="User::docguid"
@@ -8545,7 +8545,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="DECLARE @guid nvarchar(500) = ?;&#xA;UPDATE rc&#xA;SET [man_TERMINAL_NAME] = oa_manual_data.man_TERMINAL_NAME&#xA;      ,[man_TrainTransportDesc] = oa_manual_data.man_TrainTransportDesc&#xA;      ,[man_DELIVERY_SVX_DATE_TIME] = oa_manual_data.man_DELIVERY_SVX_DATE_TIME&#xA;      ,[man_TCD_DATE_TIME] = oa_manual_data.man_TCD_DATE_TIME&#xA;      ,[man_TransportDeliveryCloseDateTimeCaption] = oa_manual_data.man_TransportDeliveryCloseDateTimeCaption&#xA;      ,[Delivery] = oa_delivery.Delivery&#xA;      ,[Terminal_NAV] = oa_delivery.Terminal_NAV&#xA;      ,[Transport_Method_NAV] = oa_delivery.Transport_Method_NAV&#xA;      ,[VAT] = oa_customer.VAT&#xA;&#x9;  ,[currency_code] = oa_currency.code_num&#xA;FROM [automation].[dbo].[request_contents] rc    &#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) &#xA;   [man_TERMINAL_NAME]&#xA;  ,[man_TrainTransportDesc]    &#xA;  ,[man_DELIVERY_SVX_DATE_TIME]&#xA;  ,[man_TCD_DATE_TIME]&#xA;  ,[man_TransportDeliveryCloseDateTimeCaption]&#xA;  FROM [webproject].[dbo].[monitor_manual_data] w&#xA;  WHERE w.key_code = rc.cargoid&#xA;  ) AS oa_manual_data  &#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) &#xA;  c.DeliveryNo_ Delivery &#xA;  ,sd.[Terminal Code] Terminal_NAV&#xA;  ,sd.[Transport Method] Transport_Method_NAV&#xA;  FROM [BI].[dwh].[CargoDelivery] c&#xA;  JOIN [BI].[dwh].[ETP$SQL_Delivery] sd ON sd.No_ = c.DeliveryNo_&#xA;  WHERE c.CargoID = rc.cargoid &#xA;  ) AS oa_delivery  &#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) &#xA;  cust.[VAT Registration No_] VAT  &#xA;  FROM [BI].[dwh].[ETP$SQL_Cargo] c&#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON c.[Customer No_] = cust.No_  &#xA;  WHERE c.[Cargo ID] = rc.cargoid&#xA;  ) AS oa_customer&#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) c.code_num&#xA;  FROM [automation].[dbo].[currency] c  &#xA;  WHERE c.code_letter = rc.currency&#xA;  ) AS oa_currency&#xA; WHERE [rc].[guid] = @guid" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="DECLARE @guid nvarchar(500) = ?;&#xA;UPDATE rc&#xA;SET [man_TERMINAL_NAME] = oa_manual_data.man_TERMINAL_NAME&#xA;      ,[man_TrainTransportDesc] = oa_manual_data.man_TrainTransportDesc&#xA;      ,[man_DELIVERY_SVX_DATE_TIME] = oa_manual_data.man_DELIVERY_SVX_DATE_TIME&#xA;      ,[man_TCD_DATE_TIME] = oa_manual_data.man_TCD_DATE_TIME&#xA;      ,[man_TransportDeliveryCloseDateTimeCaption] = oa_manual_data.man_TransportDeliveryCloseDateTimeCaption&#xA;      ,[Delivery] = oa_delivery.Delivery&#xA;      ,[Terminal_NAV] = oa_delivery.Terminal_NAV&#xA;      ,[Transport_Method_NAV] = oa_delivery.Transport_Method_NAV&#xA;      ,[VAT] = oa_customer.VAT&#xA;&#x9;  ,[currency_code] = oa_currency.code_num&#xA;&#x9;  ,[usd_rate] = oa_currency_usd.[Value]&#xA;      ,[eur_rate] = oa_currency_eur.[Value]&#xA;      ,[currency_rate] = oa_currency_actual.[Value]&#xA;      ,[currency_nominal] = oa_currency_actual.Nominal&#xA;FROM [automation].[dbo].[request_contents] rc    &#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) &#xA;   [man_TERMINAL_NAME]&#xA;  ,[man_TrainTransportDesc]    &#xA;  ,[man_DELIVERY_SVX_DATE_TIME]&#xA;  ,[man_TCD_DATE_TIME]&#xA;  ,[man_TransportDeliveryCloseDateTimeCaption]&#xA;  FROM [webproject].[dbo].[monitor_manual_data] w&#xA;  WHERE w.key_code = rc.cargoid&#xA;  ) AS oa_manual_data  &#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) &#xA;  c.DeliveryNo_ Delivery &#xA;  ,sd.[Terminal Code] Terminal_NAV&#xA;  ,sd.[Transport Method] Transport_Method_NAV&#xA;  FROM [BI].[dwh].[CargoDelivery] c&#xA;  JOIN [BI].[dwh].[ETP$SQL_Delivery] sd ON sd.No_ = c.DeliveryNo_&#xA;  WHERE c.CargoID = rc.cargoid &#xA;  ) AS oa_delivery  &#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) &#xA;  cust.[VAT Registration No_] VAT  &#xA;  FROM [BI].[dwh].[ETP$SQL_Cargo] c&#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON c.[Customer No_] = cust.No_  &#xA;  WHERE c.[Cargo ID] = rc.cargoid&#xA;  ) AS oa_customer&#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) c.code_num&#xA;  FROM [automation].[dbo].[currency] c  &#xA;  WHERE c.code_letter = rc.currency&#xA;  ) AS oa_currency  &#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) [Nominal], [Value]&#xA;  FROM [automation].[dbo].[currency_rates] c  &#xA;  WHERE c.CharCode = rc.currency AND c.[Date] = CAST(GETDATE() AS date)&#xA;  ) AS oa_currency_actual&#xA;  OUTER APPLY (&#xA;  SELECT TOP (1) [Value]&#xA;  FROM [automation].[dbo].[currency_rates] c  &#xA;  WHERE c.CharCode = 'USD' AND c.[Date] = CAST(GETDATE() AS date)&#xA;  ) AS oa_currency_usd&#xA;    OUTER APPLY (&#xA;  SELECT TOP (1) [Value]&#xA;  FROM [automation].[dbo].[currency_rates] c  &#xA;  WHERE c.CharCode = 'EUR' AND c.[Date] = CAST(GETDATE() AS date)&#xA;  ) AS oa_currency_eur&#xA; WHERE [rc].[guid] = @guid" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="@guid"
                 SQLTask:DtsVariableName="User::docguid"
@@ -8612,7 +8612,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="DECLARE @counter int = NEXT VALUE FOR [automation].[dbo].[DT_seq];&#xA;DECLARE @guid nvarchar(500) = ?;&#xA;&#xA;INSERT [automation].[dbo].[request_header]&#xA;(&#xA;[guid]&#xA;      ,[contract_num]&#xA;      ,[contract_date]&#xA;      ,[man_TERMINAL_NAME]&#xA;      ,[man_TrainTransportDesc]&#xA;      ,[man_DELIVERY_SVX_DATE_TIME]&#xA;      ,[man_TCD_DATE_TIME]&#xA;      ,[man_TransportDeliveryCloseDateTimeCaption]&#xA;      ,[Delivery]&#xA;      ,[Terminal_NAV]&#xA;      ,[Transport_Method_NAV]&#xA;      ,[VAT]&#xA;      ,[num_customs_A]&#xA;      ,[num_date_A]&#xA;      ,[num_counter_A]&#xA;      ,[forms_3]&#xA;      ,[tov_qty_5]&#xA;      ,[pack_qty_6]&#xA;      ,[ptd_sign_7]&#xA;      ,[country_code_16]&#xA;      ,[country_name_16]&#xA;      ,[count_transport_18]&#xA;      ,[currency_22]&#xA;&#x9;  ,[currency_code]&#xA;      ,[price_sum_22]&#xA;      ,[transport_code_25]&#xA;      ,[transport_code_26]&#xA;      ,[NUM_VER]&#xA;      ,[DATA_VER]&#xA;      ,[TYP_DCL]&#xA;      ,[GUGTK]&#xA;      ,[COPY]&#xA;      ,[DCOPY]&#xA;      ,[Q_EDIT]&#xA;      ,[D_EDIT]&#xA;      ,[SOL]&#xA;      ,[MAX_ERR]&#xA;      ,[DD]&#xA;      ,[TM]&#xA;      ,[EXTRNL]&#xA;      ,[SCHET]&#xA;      ,[STEPCTRL]&#xA;      ,[TYP_DTC]&#xA;      ,[VID_KTC]&#xA;      ,[STAT]&#xA;      ,[G071]&#xA;      ,[G072]&#xA;      ,[G073]&#xA;      ,[UI_B_1]&#xA;      ,[UI_B_2]&#xA;      ,[UI_B_3]&#xA;      ,[SDS_SRV]&#xA;      ,[SDS_NUM]&#xA;      ,[SDS_CUST]&#xA;      ,[F_DECL]&#xA;      ,[RCCNCODE]&#xA;      ,[DPRESENT]&#xA;      ,[TPRESENT]&#xA;      ,[COMPLECTBL]&#xA;      ,[G011]&#xA;      ,[G0121]&#xA;      ,[G0131]&#xA;      ,[K0131]&#xA;      ,[G020]&#xA;      ,[G02_ITN]&#xA;      ,[G021]&#xA;      ,[G022]&#xA;      ,[G023POST]&#xA;      ,[G0231]&#xA;      ,[G0231N]&#xA;      ,[G023SUBD]&#xA;      ,[G023CITY]&#xA;      ,[G023STREET]&#xA;      ,[G023BUILD]&#xA;      ,[G024B]&#xA;      ,[G024N]&#xA;      ,[G024IN]&#xA;      ,[G027]&#xA;      ,[G0281]&#xA;      ,[G0281A]&#xA;      ,[G02821]&#xA;      ,[G02822]&#xA;      ,[G02823]&#xA;      ,[G0283]&#xA;      ,[G022A]&#xA;      ,[G027A]&#xA;      ,[G023APOST]&#xA;      ,[G0231A]&#xA;      ,[G0231AN]&#xA;      ,[G023ASUBD]&#xA;      ,[G023ACITY]&#xA;      ,[G023ASTREE]&#xA;      ,[G023ABUILD]&#xA;      ,[G029]&#xA;      ,[G02SM14]&#xA;      ,[G032]&#xA;      ,[G040]&#xA;      ,[G04]&#xA;      ,[G05]&#xA;      ,[G06]&#xA;      ,[G07]&#xA;      ,[G080]&#xA;      ,[G08_ITN]&#xA;      ,[G081]&#xA;      ,[G082]&#xA;      ,[G083POST]&#xA;      ,[G0831]&#xA;      ,[G0831A]&#xA;      ,[G083SUBD]&#xA;      ,[G083CITY]&#xA;      ,[G083STREET]&#xA;      ,[G083BUILD]&#xA;      ,[G084B]&#xA;      ,[G087]&#xA;      ,[G0881]&#xA;      ,[G0881A]&#xA;      ,[G08821]&#xA;      ,[G08822]&#xA;      ,[G08823]&#xA;      ,[G0883]&#xA;      ,[G089]&#xA;      ,[G082A]&#xA;      ,[G087A]&#xA;      ,[G083APOST]&#xA;      ,[G0831AA]&#xA;      ,[G0831AN]&#xA;      ,[G083ASUBD]&#xA;      ,[G083ACITY]&#xA;      ,[G083ASTREE]&#xA;      ,[G083ABUILD]&#xA;      ,[G08SM14]&#xA;      ,[G090]&#xA;      ,[G09_ITN]&#xA;      ,[G091]&#xA;      ,[G092]&#xA;      ,[G092A]&#xA;      ,[G093POST]&#xA;      ,[G0931]&#xA;      ,[G0931N]&#xA;      ,[G093SUBD]&#xA;      ,[G093CITY]&#xA;      ,[G093STREET]&#xA;      ,[G093BUILD]&#xA;      ,[G093APOST]&#xA;      ,[G0931A]&#xA;      ,[G0931AN]&#xA;      ,[G093ASUBD]&#xA;      ,[G093ACITY]&#xA;      ,[G093ASTREE]&#xA;      ,[G093ABUILD]&#xA;      ,[G094B]&#xA;      ,[G097]&#xA;      ,[G097A]&#xA;      ,[G0981]&#xA;      ,[G0981A]&#xA;      ,[G09821]&#xA;      ,[G09822]&#xA;      ,[G09823]&#xA;      ,[G0983]&#xA;      ,[G09SM14]&#xA;      ,[G11]&#xA;      ,[G12]&#xA;      ,[G121]&#xA;      ,[G122]&#xA;      ,[G12ZPK]&#xA;      ,[G140]&#xA;      ,[G14_ITN]&#xA;      ,[G141]&#xA;      ,[G142]&#xA;      ,[G142A]&#xA;      ,[G143POST]&#xA;      ,[G1431]&#xA;      ,[G1431N]&#xA;      ,[G143SUBD]&#xA;      ,[G143CITY]&#xA;      ,[G143STREET]&#xA;      ,[G143BUILD]&#xA;      ,[AEOROWNER]&#xA;      ,[AEOCNTRY]&#xA;      ,[AEONUM]&#xA;      ,[AEOKIND]&#xA;      ,[AEOREGCOD]&#xA;      ,[G143APOST]&#xA;      ,[G1431A]&#xA;      ,[G1431AN]&#xA;      ,[G143ASUBD]&#xA;      ,[G143ACITY]&#xA;      ,[G143ASTREE]&#xA;      ,[G143ABUILD]&#xA;      ,[G144B]&#xA;      ,[G147]&#xA;      ,[G147A]&#xA;      ,[G1481]&#xA;      ,[G1481A]&#xA;      ,[G14821]&#xA;      ,[G14822]&#xA;      ,[G14823]&#xA;      ,[G1483]&#xA;      ,[G15]&#xA;      ,[G15A]&#xA;      ,[G16]&#xA;      ,[G16A]&#xA;      ,[G17A]&#xA;      ,[G17B]&#xA;      ,[G180]&#xA;      ,[G182]&#xA;      ,[G19]&#xA;      ,[G202]&#xA;      ,[G2021]&#xA;      ,[G203]&#xA;      ,[G210]&#xA;      ,[G212]&#xA;      ,[G221]&#xA;      ,[G222]&#xA;      ,[G22ZPK]&#xA;      ,[G23]&#xA;      ,[G230]&#xA;      ,[G270]&#xA;      ,[G27_ITN]&#xA;      ,[G2710]&#xA;      ,[G271]&#xA;      ,[G27]&#xA;      ,[G2711]&#xA;      ,[G2712]&#xA;      ,[G28_ITN]&#xA;      ,[G28OKPO]&#xA;      ,[G28INN]&#xA;      ,[G281OTH]&#xA;      ,[G28ZAJMN]&#xA;      ,[G282]&#xA;      ,[G28211]&#xA;      ,[G28212]&#xA;      ,[G28221]&#xA;      ,[G28222]&#xA;      ,[G28230]&#xA;      ,[G2823]&#xA;      ,[G28240]&#xA;      ,[G2824]&#xA;      ,[G2825]&#xA;      ,[G30_ITN]&#xA;      ,[G300]&#xA;      ,[G3010]&#xA;      ,[G30AEOOWN]&#xA;      ,[G30AEOCNTR]&#xA;      ,[G301]&#xA;      ,[G30AEOKIND]&#xA;      ,[G30AEORCOD]&#xA;      ,[G3011]&#xA;      ,[G30]&#xA;      ,[G30D]&#xA;      ,[G30DD]&#xA;      ,[G30POST]&#xA;      ,[G30A]&#xA;      ,[G30AN]&#xA;      ,[G30SUBD]&#xA;      ,[G30CITY]&#xA;      ,[G30STREET]&#xA;      ,[G30BUILD]&#xA;      ,[G30LNAME]&#xA;      ,[G3012]&#xA;      ,[G30121]&#xA;      ,[G30122]&#xA;      ,[G45A1]&#xA;      ,[G45A2]&#xA;      ,[G45A3]&#xA;      ,[G45A4]&#xA;      ,[G45A5]&#xA;      ,[G45A6]&#xA;      ,[G45A7]&#xA;      ,[G45A8]&#xA;      ,[G53_ZTK]&#xA;      ,[G53_DT]&#xA;      ,[G53_DN]&#xA;      ,[G53_DD]&#xA;      ,[G53_POS]&#xA;      ,[G53_CC]&#xA;      ,[G53_CN]&#xA;      ,[G53_SUB]&#xA;      ,[G53_CIT]&#xA;      ,[G53_STR]&#xA;      ,[D54_ITN]&#xA;      ,[D5410]&#xA;      ,[D541]&#xA;      ,[D541D]&#xA;      ,[D5411]&#xA;      ,[D5411D]&#xA;      ,[D541_INN]&#xA;      ,[D541_KPP]&#xA;      ,[D542]&#xA;      ,[G542T]&#xA;      ,[D5441]&#xA;      ,[D5441NM]&#xA;      ,[D5441MDNM]&#xA;      ,[D5442]&#xA;      ,[D5443]&#xA;      ,[D5444]&#xA;      ,[D5445]&#xA;      ,[D5446]&#xA;      ,[D5447]&#xA;      ,[D5451]&#xA;      ,[D5451A]&#xA;      ,[D54521]&#xA;      ,[D54522]&#xA;      ,[D54523]&#xA;      ,[D5453]&#xA;      ,[G54_ITN]&#xA;      ,[G5410]&#xA;      ,[G541]&#xA;      ,[G541D]&#xA;      ,[G5411]&#xA;      ,[G5411D]&#xA;      ,[G541_INN]&#xA;      ,[G541_KPP]&#xA;      ,[G542]&#xA;      ,[G542TIME]&#xA;      ,[G5441]&#xA;      ,[G5441NM]&#xA;      ,[G5441MDNM]&#xA;      ,[G5442]&#xA;      ,[G5443]&#xA;      ,[G5444]&#xA;      ,[G5445]&#xA;      ,[G5446]&#xA;      ,[G5447]&#xA;      ,[G5451]&#xA;      ,[G5451A]&#xA;      ,[G54521]&#xA;      ,[G54522]&#xA;      ,[G54523]&#xA;      ,[G5453]&#xA;      ,[GD0]&#xA;      ,[GD1]&#xA;      ,[GD11]&#xA;      ,[GD2]&#xA;      ,[GD2FIO]&#xA;      ,[GD00]&#xA;      ,[GDDF]&#xA;      ,[RECPLATV]&#xA;      ,[RECSLOTM]&#xA;      ,[RECTRANS]&#xA;      ,[RECSUMPP]&#xA;      ,[RECPASP]&#xA;      ,[DMODIFY]&#xA;      ,[TMODIFY]&#xA;      ,[EDOC_GUID]&#xA;      ,[EDOC_ID]&#xA;      ,[P_STATUS1]&#xA;      ,[P_STATUS2]&#xA;      ,[DOCID]&#xA;      ,[NUM_PP]&#xA;      ,[G541DN]&#xA;      ,[G54PLACE]&#xA;      ,[G50RW]&#xA;      ,[DRV41]&#xA;      ,[DRV41NM]&#xA;      ,[DRV41MDNM]&#xA;      ,[DRV47]&#xA;      ,[DRV4CC]&#xA;      ,[DRV51]&#xA;      ,[DRV51A]&#xA;      ,[DRV521]&#xA;      ,[DRV522]&#xA;      ,[DRV523]&#xA;      ,[DRV53]&#xA;      ,[DRV241]&#xA;      ,[DRV241NM]&#xA;      ,[DRV241MDNM]&#xA;      ,[DRV247]&#xA;      ,[DRV24CC]&#xA;      ,[DRV251]&#xA;      ,[DRV251A]&#xA;      ,[DRV2521]&#xA;      ,[DRV2522]&#xA;      ,[DRV2523]&#xA;      ,[DRV253]&#xA;      ,[ACT_TP]&#xA;      ,[DocNum]&#xA;      ,[G02PHONE]&#xA;      ,[G02EMAIL]&#xA;      ,[G08PHONE]&#xA;      ,[G08EMAIL]&#xA;      ,[G09PHONE]&#xA;      ,[G09EMAIL]&#xA;      ,[G14PHONE]&#xA;      ,[G14EMAIL]&#xA;      ,[G54532]&#xA;      ,[G54EMAIL]&#xA;      ,[term_NAV_CODE]&#xA;      ,[term_NLIC]&#xA;      ,[term_DBEGIN]&#xA;      ,[term_G30A]&#xA;      ,[term_G30AN]&#xA;      ,[term_G30SUBD]&#xA;      ,[term_G30CITY]&#xA;      ,[term_G30STREET]&#xA;      ,[term_G30BUILD]&#xA;      ,[term_G30LNAME]&#xA;      ,[term_G3012]&#xA;      ,[term_VAT]&#xA;&#x9;  ,[overall_gross]&#xA;&#x9;  ,[overall_net]&#xA;&#x9;  ,[container_sign]&#xA;&#x9;  ,[customscode_border]&#xA;&#x9;  ,[customsname_border]&#xA;)&#xA;SELECT TOP (1)&#xA;&#x9;   [guid]&#xA;      ,[contract_num]&#xA;      ,[contract_date]     &#xA;      ,[man_TERMINAL_NAME]&#xA;      ,[man_TrainTransportDesc]&#xA;      ,[man_DELIVERY_SVX_DATE_TIME]&#xA;      ,[man_TCD_DATE_TIME]&#xA;      ,[man_TransportDeliveryCloseDateTimeCaption]&#xA;      ,[Delivery]&#xA;      ,[Terminal_NAV]&#xA;      ,[Transport_Method_NAV]&#xA;      ,rc.[VAT]&#x9;  &#xA;&#x9;  ,CASE &#xA;&#x9;  WHEN EXISTS(SELECT 0 FROM [automation].[dbo].[DBRHEAD] h WHERE h.G071 = '10620010' AND h.G141 = rc.VAT AND LEFT(h.G3012, 3) &lt;&gt; '106')&#xA;&#x9;  THEN '10620010'&#xA;&#x9;  ELSE '10129060'&#xA;&#x9;  END num_customs_A&#xA;&#x9;  ,num_date_A = (SELECT FORMAT(GETDATE(), 'ddMMyy'))&#xA;&#x9;  ,num_counter_A = (SELECT FORMAT(@counter, '0000000'))&#xA;&#x9;  ,forms_3 = 1 + CEILING((SELECT MAX(rc1.item_num) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid) / 3.0)&#xA;&#x9;  ,tov_qty_5 = (SELECT MAX(rc1.item_num) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid)&#xA;&#x9;  ,pack_qty_6 = (SELECT CAST(SUM(rc1.packages_qty) AS int) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid)&#xA;&#x9;  ,IIF([man_DELIVERY_SVX_DATE_TIME] IS NULL, 'ПТД', '') ptd_sign_7  &#x9;  &#xA;&#x9;  ,CASE&#xA;&#x9;  WHEN (SELECT COUNT(DISTINCT country) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid) &gt; 1 THEN '00'&#x9;  &#xA;&#x9;  ELSE rc.country_code_let&#xA;&#x9;  END country_code_16  &#xA;&#x9;  ,CASE&#xA;&#x9;  WHEN (SELECT COUNT(DISTINCT country) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid) &gt; 1 THEN 'РАЗНЫЕ'&#x9;  &#xA;&#x9;  ELSE rc.country&#xA;&#x9;  END country_name_16&#xA;&#x9;  ,count_transport_18 = 1 + (LEN([man_TrainTransportDesc]) - LEN(REPLACE([man_TrainTransportDesc], '/', '')))&#xA;&#x9;  ,rc.currency currency_22&#xA;&#x9;  ,rc.currency_code&#xA;&#x9;  ,price_sum_22 = (SELECT CAST(SUM(rc1.price) AS decimal(18, 2)) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid)&#xA;&#x9;  &#xA;&#x9;    ,CASE&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Морской транспорт' THEN '10'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Железнодорожный транспорт' THEN '20'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV LIKE '%Автотранспорт%' OR rc.Transport_Method_NAV LIKE '%Сборный груз%' THEN '31'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Авиатранспорт' THEN '40'&#xA;&#x9;&#x9;ELSE ''&#xA;&#x9;&#x9;END transport_code_25&#xA;&#x9;&#x9; &#xA;&#x9;&#x9;,CASE&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Морской транспорт' THEN ''&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Железнодорожный транспорт' THEN '20'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV LIKE '%Автотранспорт%' OR rc.Transport_Method_NAV LIKE '%Сборный груз%' THEN '31'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Авиатранспорт' THEN ''&#xA;&#x9;&#x9;ELSE ''&#xA;&#x9;&#x9;END transport_code_26&#xA;&#x9;&#xA;&#x9;  ,oa1.[NUM_VER]&#xA;      ,oa1.[DATA_VER]&#xA;      ,oa1.[TYP_DCL]&#xA;      ,oa1.[GUGTK]&#xA;      ,oa1.[COPY]&#xA;      ,oa1.[DCOPY]&#xA;      ,oa1.[Q_EDIT]&#xA;      ,oa1.[D_EDIT]&#xA;      ,oa1.[SOL]&#xA;      ,oa1.[MAX_ERR]&#xA;      ,oa1.[DD]&#xA;      ,oa1.[TM]&#xA;      ,oa1.[EXTRNL]&#xA;      ,oa1.[SCHET]&#xA;      ,oa1.[STEPCTRL]&#xA;      ,oa1.[TYP_DTC]&#xA;      ,oa1.[VID_KTC]&#xA;      ,oa1.[STAT]&#xA;      ,oa1.[G071]&#xA;      ,oa1.[G072]&#xA;      ,oa1.[G073]&#xA;      ,oa1.[UI_B_1]&#xA;      ,oa1.[UI_B_2]&#xA;      ,oa1.[UI_B_3]&#xA;      ,oa1.[SDS_SRV]&#xA;      ,oa1.[SDS_NUM]&#xA;      ,oa1.[SDS_CUST]&#xA;      ,oa1.[F_DECL]&#xA;      ,oa1.[RCCNCODE]&#xA;      ,oa1.[DPRESENT]&#xA;      ,oa1.[TPRESENT]&#xA;      ,oa1.[COMPLECTBL]&#xA;      ,oa1.[G011]&#xA;      ,oa1.[G0121]&#xA;      ,oa1.[G0131]&#xA;      ,oa1.[K0131]&#xA;      ,oa1.[G020]&#xA;      ,oa1.[G02_ITN]&#xA;      ,oa1.[G021]&#xA;      ,oa1.[G022]&#xA;      ,oa1.[G023POST]&#xA;      ,oa1.[G0231]&#xA;      ,oa1.[G0231N]&#xA;      ,oa1.[G023SUBD]&#xA;      ,oa1.[G023CITY]&#xA;      ,oa1.[G023STREET]&#xA;      ,oa1.[G023BUILD]&#xA;      ,oa1.[G024B]&#xA;      ,oa1.[G024N]&#xA;      ,oa1.[G024IN]&#xA;      ,oa1.[G027]&#xA;      ,oa1.[G0281]&#xA;      ,oa1.[G0281A]&#xA;      ,oa1.[G02821]&#xA;      ,oa1.[G02822]&#xA;      ,oa1.[G02823]&#xA;      ,oa1.[G0283]&#xA;      ,oa1.[G022A]&#xA;      ,oa1.[G027A]&#xA;      ,oa1.[G023APOST]&#xA;      ,oa1.[G0231A]&#xA;      ,oa1.[G0231AN]&#xA;      ,oa1.[G023ASUBD]&#xA;      ,oa1.[G023ACITY]&#xA;      ,oa1.[G023ASTREE]&#xA;      ,oa1.[G023ABUILD]&#xA;      ,oa1.[G029]&#xA;      ,oa1.[G02SM14]&#xA;      ,oa1.[G032]&#xA;      ,oa1.[G040]&#xA;      ,oa1.[G04]&#xA;      ,oa1.[G05]&#xA;      ,oa1.[G06]&#xA;      ,oa1.[G07]&#xA;      ,oa1.[G080]&#xA;      ,oa1.[G08_ITN]&#xA;      ,oa1.[G081]&#xA;      ,oa1.[G082]&#xA;      ,oa1.[G083POST]&#xA;      ,oa1.[G0831]&#xA;      ,oa1.[G0831A]&#xA;      ,oa1.[G083SUBD]&#xA;      ,oa1.[G083CITY]&#xA;      ,oa1.[G083STREET]&#xA;      ,oa1.[G083BUILD]&#xA;      ,oa1.[G084B]&#xA;      ,oa1.[G087]&#xA;      ,oa1.[G0881]&#xA;      ,oa1.[G0881A]&#xA;      ,oa1.[G08821]&#xA;      ,oa1.[G08822]&#xA;      ,oa1.[G08823]&#xA;      ,oa1.[G0883]&#xA;      ,oa1.[G089]&#xA;      ,oa1.[G082A]&#xA;      ,oa1.[G087A]&#xA;      ,oa1.[G083APOST]&#xA;      ,oa1.[G0831AA]&#xA;      ,oa1.[G0831AN]&#xA;      ,oa1.[G083ASUBD]&#xA;      ,oa1.[G083ACITY]&#xA;      ,oa1.[G083ASTREE]&#xA;      ,oa1.[G083ABUILD]&#xA;      ,oa1.[G08SM14]&#xA;      ,oa1.[G090]&#xA;      ,oa1.[G09_ITN]&#xA;      ,oa1.[G091]&#xA;      ,oa1.[G092]&#xA;      ,oa1.[G092A]&#xA;      ,oa1.[G093POST]&#xA;      ,oa1.[G0931]&#xA;      ,oa1.[G0931N]&#xA;      ,oa1.[G093SUBD]&#xA;      ,oa1.[G093CITY]&#xA;      ,oa1.[G093STREET]&#xA;      ,oa1.[G093BUILD]&#xA;      ,oa1.[G093APOST]&#xA;      ,oa1.[G0931A]&#xA;      ,oa1.[G0931AN]&#xA;      ,oa1.[G093ASUBD]&#xA;      ,oa1.[G093ACITY]&#xA;      ,oa1.[G093ASTREE]&#xA;      ,oa1.[G093ABUILD]&#xA;      ,oa1.[G094B]&#xA;      ,oa1.[G097]&#xA;      ,oa1.[G097A]&#xA;      ,oa1.[G0981]&#xA;      ,oa1.[G0981A]&#xA;      ,oa1.[G09821]&#xA;      ,oa1.[G09822]&#xA;      ,oa1.[G09823]&#xA;      ,oa1.[G0983]&#xA;      ,oa1.[G09SM14]&#xA;      ,oa1.[G11]&#xA;      ,oa1.[G12]&#xA;      ,oa1.[G121]&#xA;      ,oa1.[G122]&#xA;      ,oa1.[G12ZPK]&#xA;      ,oa1.[G140]&#xA;      ,oa1.[G14_ITN]&#xA;      ,oa1.[G141]&#xA;      ,oa1.[G142]&#xA;      ,oa1.[G142A]&#xA;      ,oa1.[G143POST]&#xA;      ,oa1.[G1431]&#xA;      ,oa1.[G1431N]&#xA;      ,oa1.[G143SUBD]&#xA;      ,oa1.[G143CITY]&#xA;      ,oa1.[G143STREET]&#xA;      ,oa1.[G143BUILD]&#xA;      ,oa1.[AEOROWNER]&#xA;      ,oa1.[AEOCNTRY]&#xA;      ,oa1.[AEONUM]&#xA;      ,oa1.[AEOKIND]&#xA;      ,oa1.[AEOREGCOD]&#xA;      ,oa1.[G143APOST]&#xA;      ,oa1.[G1431A]&#xA;      ,oa1.[G1431AN]&#xA;      ,oa1.[G143ASUBD]&#xA;      ,oa1.[G143ACITY]&#xA;      ,oa1.[G143ASTREE]&#xA;      ,oa1.[G143ABUILD]&#xA;      ,oa1.[G144B]&#xA;      ,oa1.[G147]&#xA;      ,oa1.[G147A]&#xA;      ,oa1.[G1481]&#xA;      ,oa1.[G1481A]&#xA;      ,oa1.[G14821]&#xA;      ,oa1.[G14822]&#xA;      ,oa1.[G14823]&#xA;      ,oa1.[G1483]&#xA;      ,oa1.[G15]&#xA;      ,oa1.[G15A]&#xA;      ,oa1.[G16]&#xA;      ,oa1.[G16A]&#xA;      ,oa1.[G17A]&#xA;      ,oa1.[G17B]&#xA;      ,oa1.[G180]&#xA;      ,oa1.[G182]&#xA;      ,oa1.[G19]&#xA;      ,oa1.[G202]&#xA;      ,oa1.[G2021]&#xA;      ,oa1.[G203]&#xA;      ,oa1.[G210]&#xA;      ,oa1.[G212]&#xA;      ,oa1.[G221]&#xA;      ,oa1.[G222]&#xA;      ,oa1.[G22ZPK]&#xA;      ,oa1.[G23]&#xA;      ,oa1.[G230]&#xA;      ,oa1.[G270]&#xA;      ,oa1.[G27_ITN]&#xA;      ,oa1.[G2710]&#xA;      ,oa1.[G271]&#xA;      ,oa1.[G27]&#xA;      ,oa1.[G2711]&#xA;      ,oa1.[G2712]&#xA;      ,oa1.[G28_ITN]&#xA;      ,oa1.[G28OKPO]&#xA;      ,oa1.[G28INN]&#xA;      ,oa1.[G281OTH]&#xA;      ,oa1.[G28ZAJMN]&#xA;      ,oa1.[G282]&#xA;      ,oa1.[G28211]&#xA;      ,oa1.[G28212]&#xA;      ,oa1.[G28221]&#xA;      ,oa1.[G28222]&#xA;      ,oa1.[G28230]&#xA;      ,oa1.[G2823]&#xA;      ,oa1.[G28240]&#xA;      ,oa1.[G2824]&#xA;      ,oa1.[G2825]&#xA;      ,oa1.[G30_ITN]&#xA;      ,oa1.[G300]&#xA;      ,oa1.[G3010]&#xA;      ,oa1.[G30AEOOWN]&#xA;      ,oa1.[G30AEOCNTR]&#xA;      ,oa1.[G301]&#xA;      ,oa1.[G30AEOKIND]&#xA;      ,oa1.[G30AEORCOD]&#xA;      ,oa1.[G3011]&#xA;      ,oa1.[G30]&#xA;      ,oa1.[G30D]&#xA;      ,oa1.[G30DD]&#xA;      ,oa1.[G30POST]&#xA;      ,oa1.[G30A]&#xA;      ,oa1.[G30AN]&#xA;      ,oa1.[G30SUBD]&#xA;      ,oa1.[G30CITY]&#xA;      ,oa1.[G30STREET]&#xA;      ,oa1.[G30BUILD]&#xA;      ,oa1.[G30LNAME]&#xA;      ,oa1.[G3012]&#xA;      ,oa1.[G30121]&#xA;      ,oa1.[G30122]&#xA;      ,oa1.[G45A1]&#xA;      ,oa1.[G45A2]&#xA;      ,oa1.[G45A3]&#xA;      ,oa1.[G45A4]&#xA;      ,oa1.[G45A5]&#xA;      ,oa1.[G45A6]&#xA;      ,oa1.[G45A7]&#xA;      ,oa1.[G45A8]&#xA;      ,oa1.[G53_ZTK]&#xA;      ,oa1.[G53_DT]&#xA;      ,oa1.[G53_DN]&#xA;      ,oa1.[G53_DD]&#xA;      ,oa1.[G53_POS]&#xA;      ,oa1.[G53_CC]&#xA;      ,oa1.[G53_CN]&#xA;      ,oa1.[G53_SUB]&#xA;      ,oa1.[G53_CIT]&#xA;      ,oa1.[G53_STR]&#xA;      ,oa1.[D54_ITN]&#xA;      ,oa1.[D5410]&#xA;      ,oa1.[D541]&#xA;      ,oa1.[D541D]&#xA;      ,oa1.[D5411]&#xA;      ,oa1.[D5411D]&#xA;      ,oa1.[D541_INN]&#xA;      ,oa1.[D541_KPP]&#xA;      ,oa1.[D542]&#xA;      ,oa1.[G542T]&#xA;      ,oa1.[D5441]&#xA;      ,oa1.[D5441NM]&#xA;      ,oa1.[D5441MDNM]&#xA;      ,oa1.[D5442]&#xA;      ,oa1.[D5443]&#xA;      ,oa1.[D5444]&#xA;      ,oa1.[D5445]&#xA;      ,oa1.[D5446]&#xA;      ,oa1.[D5447]&#xA;      ,oa1.[D5451]&#xA;      ,oa1.[D5451A]&#xA;      ,oa1.[D54521]&#xA;      ,oa1.[D54522]&#xA;      ,oa1.[D54523]&#xA;      ,oa1.[D5453]&#xA;      ,oa1.[G54_ITN]&#xA;      ,oa1.[G5410]&#xA;      ,oa1.[G541]&#xA;      ,oa1.[G541D]&#xA;      ,oa1.[G5411]&#xA;      ,oa1.[G5411D]&#xA;      ,oa1.[G541_INN]&#xA;      ,oa1.[G541_KPP]&#xA;      ,oa1.[G542]&#xA;      ,oa1.[G542TIME]&#xA;      ,oa1.[G5441]&#xA;      ,oa1.[G5441NM]&#xA;      ,oa1.[G5441MDNM]&#xA;      ,oa1.[G5442]&#xA;      ,oa1.[G5443]&#xA;      ,oa1.[G5444]&#xA;      ,oa1.[G5445]&#xA;      ,oa1.[G5446]&#xA;      ,oa1.[G5447]&#xA;      ,oa1.[G5451]&#xA;      ,oa1.[G5451A]&#xA;      ,oa1.[G54521]&#xA;      ,oa1.[G54522]&#xA;      ,oa1.[G54523]&#xA;      ,oa1.[G5453]&#xA;      ,oa1.[GD0]&#xA;      ,oa1.[GD1]&#xA;      ,oa1.[GD11]&#xA;      ,oa1.[GD2]&#xA;      ,oa1.[GD2FIO]&#xA;      ,oa1.[GD00]&#xA;      ,oa1.[GDDF]&#xA;      ,oa1.[RECPLATV]&#xA;      ,oa1.[RECSLOTM]&#xA;      ,oa1.[RECTRANS]&#xA;      ,oa1.[RECSUMPP]&#xA;      ,oa1.[RECPASP]&#xA;      ,oa1.[DMODIFY]&#xA;      ,oa1.[TMODIFY]&#xA;      ,oa1.[EDOC_GUID]&#xA;      ,oa1.[EDOC_ID]&#xA;      ,oa1.[P_STATUS1]&#xA;      ,oa1.[P_STATUS2]&#xA;      ,oa1.[DOCID]&#xA;      ,oa1.[NUM_PP]&#xA;      ,oa1.[G541DN]&#xA;      ,oa1.[G54PLACE]&#xA;      ,oa1.[G50RW]&#xA;      ,oa1.[DRV41]&#xA;      ,oa1.[DRV41NM]&#xA;      ,oa1.[DRV41MDNM]&#xA;      ,oa1.[DRV47]&#xA;      ,oa1.[DRV4CC]&#xA;      ,oa1.[DRV51]&#xA;      ,oa1.[DRV51A]&#xA;      ,oa1.[DRV521]&#xA;      ,oa1.[DRV522]&#xA;      ,oa1.[DRV523]&#xA;      ,oa1.[DRV53]&#xA;      ,oa1.[DRV241]&#xA;      ,oa1.[DRV241NM]&#xA;      ,oa1.[DRV241MDNM]&#xA;      ,oa1.[DRV247]&#xA;      ,oa1.[DRV24CC]&#xA;      ,oa1.[DRV251]&#xA;      ,oa1.[DRV251A]&#xA;      ,oa1.[DRV2521]&#xA;      ,oa1.[DRV2522]&#xA;      ,oa1.[DRV2523]&#xA;      ,oa1.[DRV253]&#xA;      ,oa1.[ACT_TP]&#xA;      ,oa1.[DocNum]&#xA;      ,oa1.[G02PHONE]&#xA;      ,oa1.[G02EMAIL]&#xA;      ,oa1.[G08PHONE]&#xA;      ,oa1.[G08EMAIL]&#xA;      ,oa1.[G09PHONE]&#xA;      ,oa1.[G09EMAIL]&#xA;      ,oa1.[G14PHONE]&#xA;      ,oa1.[G14EMAIL]&#xA;      ,oa1.[G54532]&#xA;      ,oa1.[G54EMAIL]&#xA;&#x9;&#x9;&#xA;&#x9;   ,oa2.term_NAV_CODE&#xA;      ,oa2.term_NLIC&#xA;      ,oa2.term_DBEGIN&#xA;      ,oa2.term_G30A&#xA;      ,oa2.term_G30AN&#xA;      ,oa2.term_G30SUBD&#xA;      ,oa2.term_G30CITY&#xA;      ,oa2.term_G30STREET&#xA;      ,oa2.term_G30BUILD&#xA;      ,oa2.term_G30LNAME&#xA;      ,oa2.term_G3012&#xA;      ,oa2.term_VAT&#xA;&#x9;  ,SUM(rc.gross) OVER (PARTITION BY [guid]) overall_gross&#xA;&#x9;  ,SUM(rc.net) OVER (PARTITION BY [guid]) overall_net&#xA;&#x9;  ,CASE &#xA;&#x9;  WHEN EXISTS (SELECT 0 FROM [automation].[dbo].[request_contents] rc WHERE COALESCE(rc.request_container, '') &lt;&gt; '' and rc.[guid] = @guid)&#xA;&#x9;  THEN 1&#xA;&#x9;  ELSE 0&#xA;&#x9;  END container_sign&#xA;&#x9;  ,oa3.G29&#xA;&#x9;  ,oa3.customs_name&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;&#xA;OUTER APPLY (SELECT TOP (1) h.*&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;JOIN [Docs2SQL].[dbo].[DBRTECHD] td ON h.DocNum = td.DocNum AND td.G441 = '03011' AND td.G32 = '1' &#xA;WHERE &#xA;h.[G141] = rc.VAT&#xA;AND td.G442 = rc.contract_num &#xA;AND td.G443 = rc.contract_date&#xA;ORDER BY h.GD1 DESC, h.GD11 DESC&#xA;) AS oa1&#xA;OUTER APPLY (SELECT TOP (1) &#xA;&#x9;&#x9;[NAV_CODE] term_NAV_CODE&#xA;      ,[NLIC] term_NLIC&#xA;      ,[DBEGIN] term_DBEGIN&#xA;      ,[G30A] term_G30A&#xA;      ,[G30AN] term_G30AN&#xA;      ,[G30SUBD] term_G30SUBD&#xA;      ,[G30CITY] term_G30CITY&#xA;      ,[G30STREET] term_G30STREET&#xA;      ,[G30BUILD] term_G30BUILD&#xA;      ,[G30LNAME] term_G30LNAME&#xA;      ,[G3012] term_G3012&#xA;      ,[VAT] term_VAT&#xA;FROM [automation].[dbo].[TERMINALS] w&#xA;WHERE w.NAV_CODE = rc.Terminal_NAV&#xA;) AS oa2&#xA;&#xA;OUTER APPLY (SELECT TOP (1) G29, customs_name FROM automation.dbo.border b &#xA;WHERE b.G141 = rc.VAT AND b.G3012 = oa2.term_G3012) AS oa3&#xA;&#xA;WHERE [rc].[guid] = @guid" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+              SQLTask:SqlStatementSource="DECLARE @counter int = NEXT VALUE FOR [automation].[dbo].[DT_seq];&#xA;DECLARE @guid nvarchar(500) = ?;&#xA;&#xA;INSERT [automation].[dbo].[request_header]&#xA;(&#xA;[guid]&#xA;      ,[contract_num]&#xA;      ,[contract_date]&#xA;      ,[man_TERMINAL_NAME]&#xA;      ,[man_TrainTransportDesc]&#xA;      ,[man_DELIVERY_SVX_DATE_TIME]&#xA;      ,[man_TCD_DATE_TIME]&#xA;      ,[man_TransportDeliveryCloseDateTimeCaption]&#xA;      ,[Delivery]&#xA;      ,[Terminal_NAV]&#xA;      ,[Transport_Method_NAV]&#xA;      ,[VAT]&#xA;      ,[num_customs_A]&#xA;      ,[num_date_A]&#xA;      ,[num_counter_A]&#xA;      ,[forms_3]&#xA;      ,[tov_qty_5]&#xA;      ,[pack_qty_6]&#xA;      ,[ptd_sign_7]&#xA;      ,[country_code_16]&#xA;      ,[country_name_16]&#xA;      ,[count_transport_18]&#xA;      ,[currency_22]&#xA;&#x9;  ,[currency_code]&#xA;      ,[price_sum_22]&#xA;      ,[transport_code_25]&#xA;      ,[transport_code_26]&#xA;      ,[NUM_VER]&#xA;      ,[DATA_VER]&#xA;      ,[TYP_DCL]&#xA;      ,[GUGTK]&#xA;      ,[COPY]&#xA;      ,[DCOPY]&#xA;      ,[Q_EDIT]&#xA;      ,[D_EDIT]&#xA;      ,[SOL]&#xA;      ,[MAX_ERR]&#xA;      ,[DD]&#xA;      ,[TM]&#xA;      ,[EXTRNL]&#xA;      ,[SCHET]&#xA;      ,[STEPCTRL]&#xA;      ,[TYP_DTC]&#xA;      ,[VID_KTC]&#xA;      ,[STAT]&#xA;      ,[G071]&#xA;      ,[G072]&#xA;      ,[G073]&#xA;      ,[UI_B_1]&#xA;      ,[UI_B_2]&#xA;      ,[UI_B_3]&#xA;      ,[SDS_SRV]&#xA;      ,[SDS_NUM]&#xA;      ,[SDS_CUST]&#xA;      ,[F_DECL]&#xA;      ,[RCCNCODE]&#xA;      ,[DPRESENT]&#xA;      ,[TPRESENT]&#xA;      ,[COMPLECTBL]&#xA;      ,[G011]&#xA;      ,[G0121]&#xA;      ,[G0131]&#xA;      ,[K0131]&#xA;      ,[G020]&#xA;      ,[G02_ITN]&#xA;      ,[G021]&#xA;      ,[G022]&#xA;      ,[G023POST]&#xA;      ,[G0231]&#xA;      ,[G0231N]&#xA;      ,[G023SUBD]&#xA;      ,[G023CITY]&#xA;      ,[G023STREET]&#xA;      ,[G023BUILD]&#xA;      ,[G024B]&#xA;      ,[G024N]&#xA;      ,[G024IN]&#xA;      ,[G027]&#xA;      ,[G0281]&#xA;      ,[G0281A]&#xA;      ,[G02821]&#xA;      ,[G02822]&#xA;      ,[G02823]&#xA;      ,[G0283]&#xA;      ,[G022A]&#xA;      ,[G027A]&#xA;      ,[G023APOST]&#xA;      ,[G0231A]&#xA;      ,[G0231AN]&#xA;      ,[G023ASUBD]&#xA;      ,[G023ACITY]&#xA;      ,[G023ASTREE]&#xA;      ,[G023ABUILD]&#xA;      ,[G029]&#xA;      ,[G02SM14]&#xA;      ,[G032]&#xA;      ,[G040]&#xA;      ,[G04]&#xA;      ,[G05]&#xA;      ,[G06]&#xA;      ,[G07]&#xA;      ,[G080]&#xA;      ,[G08_ITN]&#xA;      ,[G081]&#xA;      ,[G082]&#xA;      ,[G083POST]&#xA;      ,[G0831]&#xA;      ,[G0831A]&#xA;      ,[G083SUBD]&#xA;      ,[G083CITY]&#xA;      ,[G083STREET]&#xA;      ,[G083BUILD]&#xA;      ,[G084B]&#xA;      ,[G087]&#xA;      ,[G0881]&#xA;      ,[G0881A]&#xA;      ,[G08821]&#xA;      ,[G08822]&#xA;      ,[G08823]&#xA;      ,[G0883]&#xA;      ,[G089]&#xA;      ,[G082A]&#xA;      ,[G087A]&#xA;      ,[G083APOST]&#xA;      ,[G0831AA]&#xA;      ,[G0831AN]&#xA;      ,[G083ASUBD]&#xA;      ,[G083ACITY]&#xA;      ,[G083ASTREE]&#xA;      ,[G083ABUILD]&#xA;      ,[G08SM14]&#xA;      ,[G090]&#xA;      ,[G09_ITN]&#xA;      ,[G091]&#xA;      ,[G092]&#xA;      ,[G092A]&#xA;      ,[G093POST]&#xA;      ,[G0931]&#xA;      ,[G0931N]&#xA;      ,[G093SUBD]&#xA;      ,[G093CITY]&#xA;      ,[G093STREET]&#xA;      ,[G093BUILD]&#xA;      ,[G093APOST]&#xA;      ,[G0931A]&#xA;      ,[G0931AN]&#xA;      ,[G093ASUBD]&#xA;      ,[G093ACITY]&#xA;      ,[G093ASTREE]&#xA;      ,[G093ABUILD]&#xA;      ,[G094B]&#xA;      ,[G097]&#xA;      ,[G097A]&#xA;      ,[G0981]&#xA;      ,[G0981A]&#xA;      ,[G09821]&#xA;      ,[G09822]&#xA;      ,[G09823]&#xA;      ,[G0983]&#xA;      ,[G09SM14]&#xA;      ,[G11]&#xA;      ,[G12]&#xA;      ,[G121]&#xA;      ,[G122]&#xA;      ,[G12ZPK]&#xA;      ,[G140]&#xA;      ,[G14_ITN]&#xA;      ,[G141]&#xA;      ,[G142]&#xA;      ,[G142A]&#xA;      ,[G143POST]&#xA;      ,[G1431]&#xA;      ,[G1431N]&#xA;      ,[G143SUBD]&#xA;      ,[G143CITY]&#xA;      ,[G143STREET]&#xA;      ,[G143BUILD]&#xA;      ,[AEOROWNER]&#xA;      ,[AEOCNTRY]&#xA;      ,[AEONUM]&#xA;      ,[AEOKIND]&#xA;      ,[AEOREGCOD]&#xA;      ,[G143APOST]&#xA;      ,[G1431A]&#xA;      ,[G1431AN]&#xA;      ,[G143ASUBD]&#xA;      ,[G143ACITY]&#xA;      ,[G143ASTREE]&#xA;      ,[G143ABUILD]&#xA;      ,[G144B]&#xA;      ,[G147]&#xA;      ,[G147A]&#xA;      ,[G1481]&#xA;      ,[G1481A]&#xA;      ,[G14821]&#xA;      ,[G14822]&#xA;      ,[G14823]&#xA;      ,[G1483]&#xA;      ,[G15]&#xA;      ,[G15A]&#xA;      ,[G16]&#xA;      ,[G16A]&#xA;      ,[G17A]&#xA;      ,[G17B]&#xA;      ,[G180]&#xA;      ,[G182]&#xA;      ,[G19]&#xA;      ,[G202]&#xA;      ,[G2021]&#xA;      ,[G203]&#xA;      ,[G210]&#xA;      ,[G212]&#xA;      ,[G221]&#xA;      ,[G222]&#xA;      ,[G22ZPK]&#xA;      ,[G23]&#xA;      ,[G230]&#xA;      ,[G270]&#xA;      ,[G27_ITN]&#xA;      ,[G2710]&#xA;      ,[G271]&#xA;      ,[G27]&#xA;      ,[G2711]&#xA;      ,[G2712]&#xA;      ,[G28_ITN]&#xA;      ,[G28OKPO]&#xA;      ,[G28INN]&#xA;      ,[G281OTH]&#xA;      ,[G28ZAJMN]&#xA;      ,[G282]&#xA;      ,[G28211]&#xA;      ,[G28212]&#xA;      ,[G28221]&#xA;      ,[G28222]&#xA;      ,[G28230]&#xA;      ,[G2823]&#xA;      ,[G28240]&#xA;      ,[G2824]&#xA;      ,[G2825]&#xA;      ,[G30_ITN]&#xA;      ,[G300]&#xA;      ,[G3010]&#xA;      ,[G30AEOOWN]&#xA;      ,[G30AEOCNTR]&#xA;      ,[G301]&#xA;      ,[G30AEOKIND]&#xA;      ,[G30AEORCOD]&#xA;      ,[G3011]&#xA;      ,[G30]&#xA;      ,[G30D]&#xA;      ,[G30DD]&#xA;      ,[G30POST]&#xA;      ,[G30A]&#xA;      ,[G30AN]&#xA;      ,[G30SUBD]&#xA;      ,[G30CITY]&#xA;      ,[G30STREET]&#xA;      ,[G30BUILD]&#xA;      ,[G30LNAME]&#xA;      ,[G3012]&#xA;      ,[G30121]&#xA;      ,[G30122]&#xA;      ,[G45A1]&#xA;      ,[G45A2]&#xA;      ,[G45A3]&#xA;      ,[G45A4]&#xA;      ,[G45A5]&#xA;      ,[G45A6]&#xA;      ,[G45A7]&#xA;      ,[G45A8]&#xA;      ,[G53_ZTK]&#xA;      ,[G53_DT]&#xA;      ,[G53_DN]&#xA;      ,[G53_DD]&#xA;      ,[G53_POS]&#xA;      ,[G53_CC]&#xA;      ,[G53_CN]&#xA;      ,[G53_SUB]&#xA;      ,[G53_CIT]&#xA;      ,[G53_STR]&#xA;      ,[D54_ITN]&#xA;      ,[D5410]&#xA;      ,[D541]&#xA;      ,[D541D]&#xA;      ,[D5411]&#xA;      ,[D5411D]&#xA;      ,[D541_INN]&#xA;      ,[D541_KPP]&#xA;      ,[D542]&#xA;      ,[G542T]&#xA;      ,[D5441]&#xA;      ,[D5441NM]&#xA;      ,[D5441MDNM]&#xA;      ,[D5442]&#xA;      ,[D5443]&#xA;      ,[D5444]&#xA;      ,[D5445]&#xA;      ,[D5446]&#xA;      ,[D5447]&#xA;      ,[D5451]&#xA;      ,[D5451A]&#xA;      ,[D54521]&#xA;      ,[D54522]&#xA;      ,[D54523]&#xA;      ,[D5453]&#xA;      ,[G54_ITN]&#xA;      ,[G5410]&#xA;      ,[G541]&#xA;      ,[G541D]&#xA;      ,[G5411]&#xA;      ,[G5411D]&#xA;      ,[G541_INN]&#xA;      ,[G541_KPP]&#xA;      ,[G542]&#xA;      ,[G542TIME]&#xA;      ,[G5441]&#xA;      ,[G5441NM]&#xA;      ,[G5441MDNM]&#xA;      ,[G5442]&#xA;      ,[G5443]&#xA;      ,[G5444]&#xA;      ,[G5445]&#xA;      ,[G5446]&#xA;      ,[G5447]&#xA;      ,[G5451]&#xA;      ,[G5451A]&#xA;      ,[G54521]&#xA;      ,[G54522]&#xA;      ,[G54523]&#xA;      ,[G5453]&#xA;      ,[GD0]&#xA;      ,[GD1]&#xA;      ,[GD11]&#xA;      ,[GD2]&#xA;      ,[GD2FIO]&#xA;      ,[GD00]&#xA;      ,[GDDF]&#xA;      ,[RECPLATV]&#xA;      ,[RECSLOTM]&#xA;      ,[RECTRANS]&#xA;      ,[RECSUMPP]&#xA;      ,[RECPASP]&#xA;      ,[DMODIFY]&#xA;      ,[TMODIFY]&#xA;      ,[EDOC_GUID]&#xA;      ,[EDOC_ID]&#xA;      ,[P_STATUS1]&#xA;      ,[P_STATUS2]&#xA;      ,[DOCID]&#xA;      ,[NUM_PP]&#xA;      ,[G541DN]&#xA;      ,[G54PLACE]&#xA;      ,[G50RW]&#xA;      ,[DRV41]&#xA;      ,[DRV41NM]&#xA;      ,[DRV41MDNM]&#xA;      ,[DRV47]&#xA;      ,[DRV4CC]&#xA;      ,[DRV51]&#xA;      ,[DRV51A]&#xA;      ,[DRV521]&#xA;      ,[DRV522]&#xA;      ,[DRV523]&#xA;      ,[DRV53]&#xA;      ,[DRV241]&#xA;      ,[DRV241NM]&#xA;      ,[DRV241MDNM]&#xA;      ,[DRV247]&#xA;      ,[DRV24CC]&#xA;      ,[DRV251]&#xA;      ,[DRV251A]&#xA;      ,[DRV2521]&#xA;      ,[DRV2522]&#xA;      ,[DRV2523]&#xA;      ,[DRV253]&#xA;      ,[ACT_TP]&#xA;      ,[DocNum]&#xA;      ,[G02PHONE]&#xA;      ,[G02EMAIL]&#xA;      ,[G08PHONE]&#xA;      ,[G08EMAIL]&#xA;      ,[G09PHONE]&#xA;      ,[G09EMAIL]&#xA;      ,[G14PHONE]&#xA;      ,[G14EMAIL]&#xA;      ,[G54532]&#xA;      ,[G54EMAIL]&#xA;      ,[term_NAV_CODE]&#xA;      ,[term_NLIC]&#xA;      ,[term_DBEGIN]&#xA;      ,[term_G30A]&#xA;      ,[term_G30AN]&#xA;      ,[term_G30SUBD]&#xA;      ,[term_G30CITY]&#xA;      ,[term_G30STREET]&#xA;      ,[term_G30BUILD]&#xA;      ,[term_G30LNAME]&#xA;      ,[term_G3012]&#xA;      ,[term_VAT]&#xA;&#x9;  ,[overall_gross]&#xA;&#x9;  ,[overall_net]&#xA;&#x9;  ,[container_sign]&#xA;&#x9;  ,[customscode_border]&#xA;&#x9;  ,[customsname_border]&#xA;&#xA;&#x9;  ,[currency_rate_date]&#xA;&#x9;  ,[currency_rate_usd]&#xA;&#x9;  ,[currency_rate_eur]&#xA;&#x9;  ,[currency_rate_this]&#xA;)&#xA;SELECT TOP (1)&#xA;&#x9;   [guid]&#xA;      ,[contract_num]&#xA;      ,[contract_date]     &#xA;      ,[man_TERMINAL_NAME]&#xA;      ,[man_TrainTransportDesc]&#xA;      ,[man_DELIVERY_SVX_DATE_TIME]&#xA;      ,[man_TCD_DATE_TIME]&#xA;      ,[man_TransportDeliveryCloseDateTimeCaption]&#xA;      ,[Delivery]&#xA;      ,[Terminal_NAV]&#xA;      ,[Transport_Method_NAV]&#xA;      ,rc.[VAT]&#x9;  &#xA;&#x9;  ,CASE &#xA;&#x9;  WHEN EXISTS(SELECT 0 FROM [automation].[dbo].[DBRHEAD] h WHERE h.G071 = '10620010' AND h.G141 = rc.VAT AND LEFT(h.G3012, 3) &lt;&gt; '106')&#xA;&#x9;  THEN '10620010'&#xA;&#x9;  ELSE '10129060'&#xA;&#x9;  END num_customs_A&#xA;&#x9;  ,num_date_A = (SELECT FORMAT(GETDATE(), 'ddMMyy'))&#xA;&#x9;  ,num_counter_A = (SELECT FORMAT(@counter, '0000000'))&#xA;&#x9;  ,forms_3 = 1 + CEILING((SELECT MAX(rc1.item_num) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid) / 3.0)&#xA;&#x9;  ,tov_qty_5 = (SELECT MAX(rc1.item_num) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid)&#xA;&#x9;  ,pack_qty_6 = (SELECT CAST(SUM(rc1.packages_qty) AS int) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid)&#xA;&#x9;  ,IIF([man_DELIVERY_SVX_DATE_TIME] IS NULL, 'ПТД', '') ptd_sign_7  &#x9;  &#xA;&#x9;  ,CASE&#xA;&#x9;  WHEN (SELECT COUNT(DISTINCT country) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid) &gt; 1 THEN '00'&#x9;  &#xA;&#x9;  ELSE rc.country_code_let&#xA;&#x9;  END country_code_16  &#xA;&#x9;  ,CASE&#xA;&#x9;  WHEN (SELECT COUNT(DISTINCT country) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid) &gt; 1 THEN 'РАЗНЫЕ'&#x9;  &#xA;&#x9;  ELSE rc.country&#xA;&#x9;  END country_name_16&#xA;&#x9;  ,count_transport_18 = 1 + (LEN([man_TrainTransportDesc]) - LEN(REPLACE([man_TrainTransportDesc], '/', '')))&#xA;&#x9;  ,rc.currency currency_22&#xA;&#x9;  ,rc.currency_code&#xA;&#x9;  ,price_sum_22 = (SELECT CAST(SUM(rc1.price) AS decimal(18, 2)) FROM [automation].[dbo].[request_contents] rc1 WHERE rc1.[guid] = @guid)&#xA;&#x9;  &#xA;&#x9;    ,CASE&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Морской транспорт' THEN '10'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Железнодорожный транспорт' THEN '20'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV LIKE '%Автотранспорт%' OR rc.Transport_Method_NAV LIKE '%Сборный груз%' THEN '31'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Авиатранспорт' THEN '40'&#xA;&#x9;&#x9;ELSE ''&#xA;&#x9;&#x9;END transport_code_25&#xA;&#x9;&#x9; &#xA;&#x9;&#x9;,CASE&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Морской транспорт' THEN ''&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Железнодорожный транспорт' THEN '20'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV LIKE '%Автотранспорт%' OR rc.Transport_Method_NAV LIKE '%Сборный груз%' THEN '31'&#xA;&#x9;&#x9;WHEN rc.Transport_Method_NAV = 'Авиатранспорт' THEN ''&#xA;&#x9;&#x9;ELSE ''&#xA;&#x9;&#x9;END transport_code_26&#xA;&#x9;&#xA;&#x9;  ,oa1.[NUM_VER]&#xA;      ,oa1.[DATA_VER]&#xA;      ,oa1.[TYP_DCL]&#xA;      ,oa1.[GUGTK]&#xA;      ,oa1.[COPY]&#xA;      ,oa1.[DCOPY]&#xA;      ,oa1.[Q_EDIT]&#xA;      ,oa1.[D_EDIT]&#xA;      ,oa1.[SOL]&#xA;      ,oa1.[MAX_ERR]&#xA;      ,oa1.[DD]&#xA;      ,oa1.[TM]&#xA;      ,oa1.[EXTRNL]&#xA;      ,oa1.[SCHET]&#xA;      ,oa1.[STEPCTRL]&#xA;      ,oa1.[TYP_DTC]&#xA;      ,oa1.[VID_KTC]&#xA;      ,oa1.[STAT]&#xA;      ,oa1.[G071]&#xA;      ,oa1.[G072]&#xA;      ,oa1.[G073]&#xA;      ,oa1.[UI_B_1]&#xA;      ,oa1.[UI_B_2]&#xA;      ,oa1.[UI_B_3]&#xA;      ,oa1.[SDS_SRV]&#xA;      ,oa1.[SDS_NUM]&#xA;      ,oa1.[SDS_CUST]&#xA;      ,oa1.[F_DECL]&#xA;      ,oa1.[RCCNCODE]&#xA;      ,oa1.[DPRESENT]&#xA;      ,oa1.[TPRESENT]&#xA;      ,oa1.[COMPLECTBL]&#xA;      ,oa1.[G011]&#xA;      ,oa1.[G0121]&#xA;      ,oa1.[G0131]&#xA;      ,oa1.[K0131]&#xA;      ,oa1.[G020]&#xA;      ,oa1.[G02_ITN]&#xA;      ,oa1.[G021]&#xA;      ,oa1.[G022]&#xA;      ,oa1.[G023POST]&#xA;      ,oa1.[G0231]&#xA;      ,oa1.[G0231N]&#xA;      ,oa1.[G023SUBD]&#xA;      ,oa1.[G023CITY]&#xA;      ,oa1.[G023STREET]&#xA;      ,oa1.[G023BUILD]&#xA;      ,oa1.[G024B]&#xA;      ,oa1.[G024N]&#xA;      ,oa1.[G024IN]&#xA;      ,oa1.[G027]&#xA;      ,oa1.[G0281]&#xA;      ,oa1.[G0281A]&#xA;      ,oa1.[G02821]&#xA;      ,oa1.[G02822]&#xA;      ,oa1.[G02823]&#xA;      ,oa1.[G0283]&#xA;      ,oa1.[G022A]&#xA;      ,oa1.[G027A]&#xA;      ,oa1.[G023APOST]&#xA;      ,oa1.[G0231A]&#xA;      ,oa1.[G0231AN]&#xA;      ,oa1.[G023ASUBD]&#xA;      ,oa1.[G023ACITY]&#xA;      ,oa1.[G023ASTREE]&#xA;      ,oa1.[G023ABUILD]&#xA;      ,oa1.[G029]&#xA;      ,oa1.[G02SM14]&#xA;      ,oa1.[G032]&#xA;      ,oa1.[G040]&#xA;      ,oa1.[G04]&#xA;      ,oa1.[G05]&#xA;      ,oa1.[G06]&#xA;      ,oa1.[G07]&#xA;      ,oa1.[G080]&#xA;      ,oa1.[G08_ITN]&#xA;      ,oa1.[G081]&#xA;      ,oa1.[G082]&#xA;      ,oa1.[G083POST]&#xA;      ,oa1.[G0831]&#xA;      ,oa1.[G0831A]&#xA;      ,oa1.[G083SUBD]&#xA;      ,oa1.[G083CITY]&#xA;      ,oa1.[G083STREET]&#xA;      ,oa1.[G083BUILD]&#xA;      ,oa1.[G084B]&#xA;      ,oa1.[G087]&#xA;      ,oa1.[G0881]&#xA;      ,oa1.[G0881A]&#xA;      ,oa1.[G08821]&#xA;      ,oa1.[G08822]&#xA;      ,oa1.[G08823]&#xA;      ,oa1.[G0883]&#xA;      ,oa1.[G089]&#xA;      ,oa1.[G082A]&#xA;      ,oa1.[G087A]&#xA;      ,oa1.[G083APOST]&#xA;      ,oa1.[G0831AA]&#xA;      ,oa1.[G0831AN]&#xA;      ,oa1.[G083ASUBD]&#xA;      ,oa1.[G083ACITY]&#xA;      ,oa1.[G083ASTREE]&#xA;      ,oa1.[G083ABUILD]&#xA;      ,oa1.[G08SM14]&#xA;      ,oa1.[G090]&#xA;      ,oa1.[G09_ITN]&#xA;      ,oa1.[G091]&#xA;      ,oa1.[G092]&#xA;      ,oa1.[G092A]&#xA;      ,oa1.[G093POST]&#xA;      ,oa1.[G0931]&#xA;      ,oa1.[G0931N]&#xA;      ,oa1.[G093SUBD]&#xA;      ,oa1.[G093CITY]&#xA;      ,oa1.[G093STREET]&#xA;      ,oa1.[G093BUILD]&#xA;      ,oa1.[G093APOST]&#xA;      ,oa1.[G0931A]&#xA;      ,oa1.[G0931AN]&#xA;      ,oa1.[G093ASUBD]&#xA;      ,oa1.[G093ACITY]&#xA;      ,oa1.[G093ASTREE]&#xA;      ,oa1.[G093ABUILD]&#xA;      ,oa1.[G094B]&#xA;      ,oa1.[G097]&#xA;      ,oa1.[G097A]&#xA;      ,oa1.[G0981]&#xA;      ,oa1.[G0981A]&#xA;      ,oa1.[G09821]&#xA;      ,oa1.[G09822]&#xA;      ,oa1.[G09823]&#xA;      ,oa1.[G0983]&#xA;      ,oa1.[G09SM14]&#xA;      ,oa1.[G11]&#xA;      ,oa1.[G12]&#xA;      ,oa1.[G121]&#xA;      ,oa1.[G122]&#xA;      ,oa1.[G12ZPK]&#xA;      ,oa1.[G140]&#xA;      ,oa1.[G14_ITN]&#xA;      ,oa1.[G141]&#xA;      ,oa1.[G142]&#xA;      ,oa1.[G142A]&#xA;      ,oa1.[G143POST]&#xA;      ,oa1.[G1431]&#xA;      ,oa1.[G1431N]&#xA;      ,oa1.[G143SUBD]&#xA;      ,oa1.[G143CITY]&#xA;      ,oa1.[G143STREET]&#xA;      ,oa1.[G143BUILD]&#xA;      ,oa1.[AEOROWNER]&#xA;      ,oa1.[AEOCNTRY]&#xA;      ,oa1.[AEONUM]&#xA;      ,oa1.[AEOKIND]&#xA;      ,oa1.[AEOREGCOD]&#xA;      ,oa1.[G143APOST]&#xA;      ,oa1.[G1431A]&#xA;      ,oa1.[G1431AN]&#xA;      ,oa1.[G143ASUBD]&#xA;      ,oa1.[G143ACITY]&#xA;      ,oa1.[G143ASTREE]&#xA;      ,oa1.[G143ABUILD]&#xA;      ,oa1.[G144B]&#xA;      ,oa1.[G147]&#xA;      ,oa1.[G147A]&#xA;      ,oa1.[G1481]&#xA;      ,oa1.[G1481A]&#xA;      ,oa1.[G14821]&#xA;      ,oa1.[G14822]&#xA;      ,oa1.[G14823]&#xA;      ,oa1.[G1483]&#xA;      ,oa1.[G15]&#xA;      ,oa1.[G15A]&#xA;      ,oa1.[G16]&#xA;      ,oa1.[G16A]&#xA;      ,oa1.[G17A]&#xA;      ,oa1.[G17B]&#xA;      ,oa1.[G180]&#xA;      ,oa1.[G182]&#xA;      ,oa1.[G19]&#xA;      ,oa1.[G202]&#xA;      ,oa1.[G2021]&#xA;      ,oa1.[G203]&#xA;      ,oa1.[G210]&#xA;      ,oa1.[G212]&#xA;      ,oa1.[G221]&#xA;      ,oa1.[G222]&#xA;      ,oa1.[G22ZPK]&#xA;      ,oa1.[G23]&#xA;      ,oa1.[G230]&#xA;      ,oa1.[G270]&#xA;      ,oa1.[G27_ITN]&#xA;      ,oa1.[G2710]&#xA;      ,oa1.[G271]&#xA;      ,oa1.[G27]&#xA;      ,oa1.[G2711]&#xA;      ,oa1.[G2712]&#xA;      ,oa1.[G28_ITN]&#xA;      ,oa1.[G28OKPO]&#xA;      ,oa1.[G28INN]&#xA;      ,oa1.[G281OTH]&#xA;      ,oa1.[G28ZAJMN]&#xA;      ,oa1.[G282]&#xA;      ,oa1.[G28211]&#xA;      ,oa1.[G28212]&#xA;      ,oa1.[G28221]&#xA;      ,oa1.[G28222]&#xA;      ,oa1.[G28230]&#xA;      ,oa1.[G2823]&#xA;      ,oa1.[G28240]&#xA;      ,oa1.[G2824]&#xA;      ,oa1.[G2825]&#xA;      ,oa1.[G30_ITN]&#xA;      ,oa1.[G300]&#xA;      ,oa1.[G3010]&#xA;      ,oa1.[G30AEOOWN]&#xA;      ,oa1.[G30AEOCNTR]&#xA;      ,oa1.[G301]&#xA;      ,oa1.[G30AEOKIND]&#xA;      ,oa1.[G30AEORCOD]&#xA;      ,oa1.[G3011]&#xA;      ,oa1.[G30]&#xA;      ,oa1.[G30D]&#xA;      ,oa1.[G30DD]&#xA;      ,oa1.[G30POST]&#xA;      ,oa1.[G30A]&#xA;      ,oa1.[G30AN]&#xA;      ,oa1.[G30SUBD]&#xA;      ,oa1.[G30CITY]&#xA;      ,oa1.[G30STREET]&#xA;      ,oa1.[G30BUILD]&#xA;      ,oa1.[G30LNAME]&#xA;      ,oa1.[G3012]&#xA;      ,oa1.[G30121]&#xA;      ,oa1.[G30122]&#xA;      ,oa1.[G45A1]&#xA;      ,oa1.[G45A2]&#xA;      ,oa1.[G45A3]&#xA;      ,oa1.[G45A4]&#xA;      ,oa1.[G45A5]&#xA;      ,oa1.[G45A6]&#xA;      ,oa1.[G45A7]&#xA;      ,oa1.[G45A8]&#xA;      ,oa1.[G53_ZTK]&#xA;      ,oa1.[G53_DT]&#xA;      ,oa1.[G53_DN]&#xA;      ,oa1.[G53_DD]&#xA;      ,oa1.[G53_POS]&#xA;      ,oa1.[G53_CC]&#xA;      ,oa1.[G53_CN]&#xA;      ,oa1.[G53_SUB]&#xA;      ,oa1.[G53_CIT]&#xA;      ,oa1.[G53_STR]&#xA;      ,oa1.[D54_ITN]&#xA;      ,oa1.[D5410]&#xA;      ,oa1.[D541]&#xA;      ,oa1.[D541D]&#xA;      ,oa1.[D5411]&#xA;      ,oa1.[D5411D]&#xA;      ,oa1.[D541_INN]&#xA;      ,oa1.[D541_KPP]&#xA;      ,oa1.[D542]&#xA;      ,oa1.[G542T]&#xA;      ,oa1.[D5441]&#xA;      ,oa1.[D5441NM]&#xA;      ,oa1.[D5441MDNM]&#xA;      ,oa1.[D5442]&#xA;      ,oa1.[D5443]&#xA;      ,oa1.[D5444]&#xA;      ,oa1.[D5445]&#xA;      ,oa1.[D5446]&#xA;      ,oa1.[D5447]&#xA;      ,oa1.[D5451]&#xA;      ,oa1.[D5451A]&#xA;      ,oa1.[D54521]&#xA;      ,oa1.[D54522]&#xA;      ,oa1.[D54523]&#xA;      ,oa1.[D5453]&#xA;      ,oa1.[G54_ITN]&#xA;      ,oa1.[G5410]&#xA;      ,oa1.[G541]&#xA;      ,oa1.[G541D]&#xA;      ,oa1.[G5411]&#xA;      ,oa1.[G5411D]&#xA;      ,oa1.[G541_INN]&#xA;      ,oa1.[G541_KPP]&#xA;      ,oa1.[G542]&#xA;      ,oa1.[G542TIME]&#xA;      ,oa1.[G5441]&#xA;      ,oa1.[G5441NM]&#xA;      ,oa1.[G5441MDNM]&#xA;      ,oa1.[G5442]&#xA;      ,oa1.[G5443]&#xA;      ,oa1.[G5444]&#xA;      ,oa1.[G5445]&#xA;      ,oa1.[G5446]&#xA;      ,oa1.[G5447]&#xA;      ,oa1.[G5451]&#xA;      ,oa1.[G5451A]&#xA;      ,oa1.[G54521]&#xA;      ,oa1.[G54522]&#xA;      ,oa1.[G54523]&#xA;      ,oa1.[G5453]&#xA;      ,oa1.[GD0]&#xA;      ,oa1.[GD1]&#xA;      ,oa1.[GD11]&#xA;      ,oa1.[GD2]&#xA;      ,oa1.[GD2FIO]&#xA;      ,oa1.[GD00]&#xA;      ,oa1.[GDDF]&#xA;      ,oa1.[RECPLATV]&#xA;      ,oa1.[RECSLOTM]&#xA;      ,oa1.[RECTRANS]&#xA;      ,oa1.[RECSUMPP]&#xA;      ,oa1.[RECPASP]&#xA;      ,oa1.[DMODIFY]&#xA;      ,oa1.[TMODIFY]&#xA;      ,oa1.[EDOC_GUID]&#xA;      ,oa1.[EDOC_ID]&#xA;      ,oa1.[P_STATUS1]&#xA;      ,oa1.[P_STATUS2]&#xA;      ,oa1.[DOCID]&#xA;      ,oa1.[NUM_PP]&#xA;      ,oa1.[G541DN]&#xA;      ,oa1.[G54PLACE]&#xA;      ,oa1.[G50RW]&#xA;      ,oa1.[DRV41]&#xA;      ,oa1.[DRV41NM]&#xA;      ,oa1.[DRV41MDNM]&#xA;      ,oa1.[DRV47]&#xA;      ,oa1.[DRV4CC]&#xA;      ,oa1.[DRV51]&#xA;      ,oa1.[DRV51A]&#xA;      ,oa1.[DRV521]&#xA;      ,oa1.[DRV522]&#xA;      ,oa1.[DRV523]&#xA;      ,oa1.[DRV53]&#xA;      ,oa1.[DRV241]&#xA;      ,oa1.[DRV241NM]&#xA;      ,oa1.[DRV241MDNM]&#xA;      ,oa1.[DRV247]&#xA;      ,oa1.[DRV24CC]&#xA;      ,oa1.[DRV251]&#xA;      ,oa1.[DRV251A]&#xA;      ,oa1.[DRV2521]&#xA;      ,oa1.[DRV2522]&#xA;      ,oa1.[DRV2523]&#xA;      ,oa1.[DRV253]&#xA;      ,oa1.[ACT_TP]&#xA;      ,oa1.[DocNum]&#xA;      ,oa1.[G02PHONE]&#xA;      ,oa1.[G02EMAIL]&#xA;      ,oa1.[G08PHONE]&#xA;      ,oa1.[G08EMAIL]&#xA;      ,oa1.[G09PHONE]&#xA;      ,oa1.[G09EMAIL]&#xA;      ,oa1.[G14PHONE]&#xA;      ,oa1.[G14EMAIL]&#xA;      ,oa1.[G54532]&#xA;      ,oa1.[G54EMAIL]&#xA;&#x9;&#x9;&#xA;&#x9;   ,oa2.term_NAV_CODE&#xA;      ,oa2.term_NLIC&#xA;      ,oa2.term_DBEGIN&#xA;      ,oa2.term_G30A&#xA;      ,oa2.term_G30AN&#xA;      ,oa2.term_G30SUBD&#xA;      ,oa2.term_G30CITY&#xA;      ,oa2.term_G30STREET&#xA;      ,oa2.term_G30BUILD&#xA;      ,oa2.term_G30LNAME&#xA;      ,oa2.term_G3012&#xA;      ,oa2.term_VAT&#xA;&#x9;  ,SUM(rc.gross) OVER (PARTITION BY [guid]) overall_gross&#xA;&#x9;  ,SUM(rc.net) OVER (PARTITION BY [guid]) overall_net&#xA;&#x9;  ,CASE &#xA;&#x9;  WHEN EXISTS (SELECT 0 FROM [automation].[dbo].[request_contents] rc WHERE COALESCE(rc.request_container, '') &lt;&gt; '' and rc.[guid] = @guid)&#xA;&#x9;  THEN 1&#xA;&#x9;  ELSE 0&#xA;&#x9;  END container_sign&#xA;&#x9;  ,oa3.G29&#xA;&#x9;  ,oa3.customs_name&#xA;&#x9;  &#xA;&#x9;  ,currency_rate_date = (SELECT FORMAT(GETDATE(), 'dd.MM.yy'))&#xA;&#x9;  ,currency_rate_usd = COALESCE(rc.usd_rate, 0)&#xA;&#x9;  ,currency_rate_eur = COALESCE(rc.eur_rate, 0)&#xA;&#x9;  ,currency_rate_this = COALESCE(rc.currency_rate, 0)&#xA;&#xA;FROM [automation].[dbo].[request_contents] rc&#xA;&#xA;OUTER APPLY (SELECT TOP (1) h.*&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD] h&#xA;JOIN [Docs2SQL].[dbo].[DBRTECHD] td ON h.DocNum = td.DocNum AND td.G441 = '03011' AND td.G32 = '1' &#xA;WHERE &#xA;h.[G141] = rc.VAT&#xA;AND td.G442 = rc.contract_num &#xA;AND td.G443 = rc.contract_date&#xA;ORDER BY h.GD1 DESC, h.GD11 DESC&#xA;) AS oa1&#xA;OUTER APPLY (SELECT TOP (1) &#xA;&#x9;&#x9;[NAV_CODE] term_NAV_CODE&#xA;      ,[NLIC] term_NLIC&#xA;      ,[DBEGIN] term_DBEGIN&#xA;      ,[G30A] term_G30A&#xA;      ,[G30AN] term_G30AN&#xA;      ,[G30SUBD] term_G30SUBD&#xA;      ,[G30CITY] term_G30CITY&#xA;      ,[G30STREET] term_G30STREET&#xA;      ,[G30BUILD] term_G30BUILD&#xA;      ,[G30LNAME] term_G30LNAME&#xA;      ,[G3012] term_G3012&#xA;      ,[VAT] term_VAT&#xA;FROM [automation].[dbo].[TERMINALS] w&#xA;WHERE w.NAV_CODE = rc.Terminal_NAV&#xA;) AS oa2&#xA;&#xA;OUTER APPLY (SELECT TOP (1) G29, customs_name FROM automation.dbo.border b &#xA;WHERE b.G141 = rc.VAT AND b.G3012 = oa2.term_G3012) AS oa3&#xA;&#xA;WHERE [rc].[guid] = @guid" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ParameterBinding
                 SQLTask:ParameterName="@guid"
                 SQLTask:DtsVariableName="User::docguid"
@@ -9006,17 +9006,17 @@ namespace ST_2ddf136998d34a069af3162643bf2062.Properties {
                 Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
 <c:Project xmlns:c="http://schemas.microsoft.com/codeprojectml/2010/08/main" xmlns:msb="http://schemas.microsoft.com/developer/msbuild/2003" runtimeVersion="3.0" schemaVersion="1.0">
 	<msb:PropertyGroup>
-		<msb:CodeName>ST_2ddf136998d34a069af3162643bf2062</msb:CodeName>
 		<msb:Language>msBuild</msb:Language>
+		<msb:CodeName>ST_2ddf136998d34a069af3162643bf2062</msb:CodeName>
 		<msb:DisplayName>ST_2ddf136998d34a069af3162643bf2062</msb:DisplayName>
 		<msb:ProjectId>{1AE99256-C748-488B-913D-786FFB018DD1}</msb:ProjectId>
 	</msb:PropertyGroup>
 	<msb:ItemGroup>
 		<msb:Project Include="ST_2ddf136998d34a069af3162643bf2062.csproj"/>
-		<msb:File Include="Properties\AssemblyInfo.cs"/>
 		<msb:File Include="Properties\Settings.settings"/>
-		<msb:File Include="Declaration.cs"/>
+		<msb:File Include="Properties\AssemblyInfo.cs"/>
 		<msb:File Include="Properties\Resources.resx"/>
+		<msb:File Include="Declaration.cs"/>
 		<msb:File Include="Properties\Resources.Designer.cs"/>
 		<msb:File Include="Properties\Settings.Designer.cs"/>
 		<msb:File Include="ScriptMain.cs"/>
@@ -9501,6 +9501,9 @@ namespace ST_2ddf136998d34a069af3162643bf2062
                     new XElement("G_22_2", src_header.Rows[0].Field<decimal>("price_sum_22")),
                     new XElement("G_22_3", src_header.Rows[0].Field<string>("currency_22")),
 
+                    new XElement("G_23_1", Decimal.Round(src_header.Rows[0].Field<decimal>("currency_rate_this"), 4)),
+                    new XElement("G_23_2", Decimal.Round(src_header.Rows[0].Field<decimal>("currency_rate_this"), 4)),
+
                     new XElement("G_25_1", src_header.Rows[0].Field<string>("transport_code_25")),
                     new XElement("G_26_1", src_header.Rows[0].Field<string>("transport_code_26")),
                     new XElement("G_28_12", src_header.Rows[0].Field<string>("G28212")),
@@ -9550,9 +9553,14 @@ namespace ST_2ddf136998d34a069af3162643bf2062
                     new XElement("G_54_150", "0035"),
                     new XElement("G_54_15", "7728219369/772701001"),
 
-                    new XElement("___PRIM", new XAttribute("Name", "&&PRIM"), new XText(src_header.Rows[0].Field<string>("Delivery")))
+                    new XElement("___PRIM", new XAttribute("Name", "&&PRIM"), new XText(src_header.Rows[0].Field<string>("Delivery"))),
 
-                    }));
+                    new XElement("___DR", new XAttribute("Name", "&&DR"), src_header.Rows[0].Field<string>("currency_rate_date")),
+                    new XElement("___RUSD", new XAttribute("Name", "&&RUSD"), Decimal.Round(src_header.Rows[0].Field<decimal>("currency_rate_usd"), 4)),
+                    new XElement("___REUR", new XAttribute("Name", "&&REUR"), Decimal.Round(src_header.Rows[0].Field<decimal>("currency_rate_eur"), 4)),
+                    new XElement("___RR", new XAttribute("Name", "&&RR"), "true")
+
+            }));             
 
             string num = src_header.Rows[0].Field<string>("num_counter_A").Trim();
             declaration.Save(@"\\10.10.0.28\alta\Robot\Alta_import\" + "decl_" + num + ".xml");
@@ -9571,14 +9579,14 @@ namespace ST_2ddf136998d34a069af3162643bf2062
               <BinaryItem
                 Name="ST_2ddf136998d34a069af3162643bf2062.dll">TVqQAAMAAAAEAAAA//8AALgAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAgAAAAA4fug4AtAnNIbgBTM0hVGhpcyBwcm9ncmFtIGNhbm5vdCBiZSBydW4gaW4gRE9TIG1v
-ZGUuDQ0KJAAAAAAAAABQRQAATAEDAPYKcl4AAAAAAAAAAOAAIiALATAAAHAAAAAIAAAAAAAAlo8A
+ZGUuDQ0KJAAAAAAAAABQRQAATAEDAMMHe14AAAAAAAAAAOAAIiALATAAAHQAAAAIAAAAAAAAQpIA
 AAAgAAAAoAAAAAAAEAAgAAAAAgAABAAAAAAAAAAGAAAAAAAAAADgAAAAAgAAAAAAAAMAYIUAABAA
-ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAESPAABPAAAAAKAAAHgEAAAAAAAAAAAAAAAAAAAA
+ABAAAAAAEAAAEAAAAAAAABAAAAAAAAAAAAAAAPCRAABPAAAAAKAAAHgEAAAAAAAAAAAAAAAAAAAA
 AAAAAMAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAAnG8AAAAgAAAAcAAAAAIA
-AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAHgEAAAAoAAAAAYAAAByAAAAAAAAAAAAAAAAAABAAABA
-LnJlbG9jAAAMAAAAAMAAAAACAAAAeAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAB4
-jwAAAAAAAEgAAAACAAUA5FYAAKg3AAABAAAAAAAAAIyOAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAIAAACAAAAAAAAAAAAAAACCAAAEgAAAAAAAAAAAAAAC50ZXh0AAAASHIAAAAgAAAAdAAAAAIA
+AAAAAAAAAAAAAAAAACAAAGAucnNyYwAAAHgEAAAAoAAAAAYAAAB2AAAAAAAAAAAAAAAAAABAAABA
+LnJlbG9jAAAMAAAAAMAAAAACAAAAfAAAAAAAAAAAAAAAAAAAQAAAQgAAAAAAAAAAAAAAAAAAAAAk
+kgAAAAAAAEgAAAACAAUAeFgAAMA4AAABAAAAAAAAADiRAAC4AAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAABswDgDWDQAAAQAAEXMQAAAKJXIBAABwbxEAAAolchcAAHBv
 EgAACiVyJwAAcG8TAAAKCnI5AABwAnLEAABwKBQAAApy9AAAcAJyewEAcCgUAAAKC3MVAAAKDHMV
 AAAKDQZvFgAACnMXAAAKEwYRBghvGAAACibeDBEGLAcRBm8ZAAAK3AcGbxYAAApzFwAAChMHEQcJ
@@ -9642,7 +9650,7 @@ cycAAAqicykAAAoJbyAAAAoWbyEAAApy1QEAcCgCAAArbyoAAAoTBXLdCQBwCW8gAAAKFm8hAAAK
 ctUBAHAoAgAAK28qAAAKci8KAHAoFAAACm8rAAAKBm8WAAAKcywAAAoTCR2NJQAAASUWcjkKAHCi
 JRcCoiUYcgYLAHCiJRkRBaIlGnIaCwBwoiUbKCMAAAoTCBIIcgMCAHAoJAAACqIlHHIiCwBwoigt
 AAAKEQlzLgAACiVvLwAACm8wAAAKbzEAAAom3gwRCSwHEQlvGQAACtwqAAABKAAAAgBhAAtsAAwA
-AAAAAgCGAAuRAAwAAAAAAgBlDWTJDQwAAAAAHgIoMgAACiobMBIAShUAAAIAABFzEQAABgpzEAAA
+AAAAAgCGAAuRAAwAAAAAAgBlDWTJDQwAAAAAHgIoMgAACiobMBIA4BYAAAIAABFzEQAABgpzEAAA
 CiVyAQAAcG8RAAAKJXIXAABwbxIAAAolcicAAHBvEwAACgtyOQAAcAJyKAsAcCgUAAAKcvQAAHAC
 cnsBAHAoFAAACgxyfgsAcAJyCwwAcCgUAAAKDQZzFQAACn0JAAAEcxUAAAoTBAZzFQAACn0KAAAE
 B28WAAAKcxcAAAoTBxEHBnsJAAAEbxgAAAom3gwRBywHEQdvGQAACtwIB28WAAAKcxcAAAoTCBEI
@@ -9651,7 +9659,7 @@ CW8ZAAAK3HJ/AQBwKBoAAAoGewkAAAQoGwAACn4NAAAEJS0XJn4MAAAE/gYYAAAGczMAAAolgA0A
 AAQoBAAAKwb+BhIAAAZzNQAACigFAAArcx4AAAoTBREFcjcMAHAoGgAACm83AAAKKAYAACtvOQAA
 ChMKKxgRCm86AAAKJSVvOwAACm88AAAKbz0AAAoRCm8+AAAKLd/eDBEKLAcRCm8ZAAAK3BEFcksM
 AHAoGgAACm83AAAKKAYAACtvOQAAChMKKxgRCm86AAAKJSVvOwAACm88AAAKbz0AAAoRCm8+AAAK
-Ld/eDBEKLAcRCm8ZAAAK3HKTAQBwcpsBAHAUcx8AAAoXjQ0AAAElFnJdDABwKBoAAAofa40NAAAB
+Ld/eDBEKLAcRCm8ZAAAK3HKTAQBwcpsBAHAUcx8AAAoXjQ0AAAElFnJdDABwKBoAAAofcY0NAAAB
 JRZy4QcAcCgaAAAKcu0HAHBzHgAACqIlF3LzBwBwKBoAAApy/wcAcHMeAAAKoiUYcicIAHAoGgAA
 CnJtDABwcx4AAAqiJRlyBQgAcCgaAAAKEQRvIAAAChZvIQAACnIRCABwKAIAACtzHgAACqIlGnJz
 DABwKBoAAAoRBG8gAAAKFm8hAAAKcmUCAHAoAgAAK3MeAAAKoiUbcoMMAHAoGgAAChEEbyAAAAoW
@@ -9702,315 +9710,327 @@ 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
-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
-R1VJRAAAAGQzAABEBAAAI0Jsb2IAAAAAAAAAAgAAAVcdogkJCwAAAPoBMwAWAAABAAAAQgAAAAsA
-AAASAAAAHQAAAA0AAABcAAAAAgAAABQAAAAFAAAAAgAAAAMAAAAEAAAACQAAAAEAAAAIAAAAAQAA
-AAQAAAAMAAAAAAAMBgEAAAAAAAYAeQQCCAYACAUCCAYAxQPvBw8AdggAAAYA8gPOBgYAXATOBgYA
-PQTOBgYA7wTOBgYAmQTOBgYAsgTOBgYACQTOBgYAJARcBQYAtwlCBgoAcQfdCQoAUAK0AQ4A8wk7
-BwoAuQfdCQYApgJCBgoADgfdCQYAjQMCCAYA1gBCBgoAOwq0AQYA3AVCBgYAUABCBgYAgwDRAQYA
-YwZCBhIA3QBLBxYAzQSzBRYAIgOzBQYAUgZCBgYAqAPvBwYAkAciCAYALweqBhoAbQP2BRoA2QP2
-BRoAPgOVBgYAjQVCBgoAVwccBwoAqwccBwYAcAJCBg4AoAI7Bx4A0Qi0AR4AaQC0AR4A5Qi0AQ4A
-iAY7BwoA4Aa0AR4AJQm0AQ4AggM7Bw4ALQo7BwYAlABCBg4AoAc7BwYAWwDRAQ4ACAo7BwoAAQLd
-CQoAAQccBwoA9wEcBxIAZQJLBw4ASgI7BwYAyAc3CRYA5AWzBSIAvgivAiIAWgKvAgYA2wJCBgYA
-fAJCBgYAVwrOBgYA/AlCBgAAAABtAQAAAAABAAEAAAAQAB8CmgA1AAEAAQAAABAAiQaaADUAAQAD
-AAEAEABxBpoAdQABAAUAAAEAAGkJmgB5AAEABwAAABAAKQiLCDUABAAHAAABEADICIsIkQAGAAsA
-AyEQAM0BAAA1AAcADgADARAAGQAAADUACQARAAMBEAAuAAAANQALABMAAyEQAM0BAAA1AAwAFgAG
-BqAB4gJWgFkJ5QJWgPIC5QIRAFcG6QIRABID7gIRACsC8wI2AGkB9wIWAAEA+wIGAJoJBQMGAIwJ
-BQMGAKgBCQM2AGkBEgMWAAEAFgMWAL4AHwMWAOwAHwMWAAcBHwMWACwB+wIWAFEB+wJQIAAAAACW
-AGYDKQMBAFwuAAAAAIYY4gcGAAIAZC4AAAAAlgBmAykDAgBcLgAAAACGGOIHBgADAAhEAAAAAIYA
-dwYGAAMANEQAAAAAhhjiBwYAAwBcLgAAAACDGOIHBgADADxEAAAAAJMIjAcuAwMAaEQAAAAAkwj6
-AjQDAwBvRAAAAACTCAYDOgMDAHdEAAAAAJYI0QlBAwQAfkQAAAAAhhjiBwYABACGRAAAAACRGOgH
-RgMEAJJEAAAAAJEY6AdGAwQAXC4AAAAAhhjiBwYABACgRAAAAACDAAoASgMEAFwuAAAAAIYY4gcG
-AAUA5EwAAAAAgwBDAFEDBQBcLgAAAACGGOIHBgAGABlSAAAAAIMAHwFdAwYAGVIAAAAAgwBEAV0D
-BwAzUgAAAACRGOgHRgMIAFwuAAAAAIYY4gcGAAgAP1IAAAAAgwAKAGMDCABMUgAAAACDAMcAaQMJ
-AFlSAAAAAIMA9QBpAwoAZlIAAAAAgwAQAWkDCwB0UgAAAACDADUBSgMMAPhUAAAAAIMAWgFKAw0A
-AAABAOwBAAABAOwBAAABAD0FAAABAKgBAAABAKgBAAABAOkAAAABAAQBAAABAJEAAAABAMABAAAB
-AMABAAABAMABAAABAKwBAAABALABCQDiBwEAEQDiBwYAGQDiBwoAKQDiBxAAMQDiBxAAOQDiBxAA
-QQDiBxAASQDiBxAAUQDiBxAAWQDiBxAAYQDiBxAAoQDiBwYA4QDiBwYA+QDiBwYAGQHiBxUAcQDi
-BwYAcQA7AhAAcQB2ARAAcQASAhAAKQGwCTEAeQDiBwYAMQF2BTgAiQDiBzwAOQE0BkIAQQFWAwYA
-SQHFCUgAUQFjAk8ADADiB2QAYQG+CWoAgQDiB4sAaQHiB5MAeQCnCZoAcQE5BqAAeQHxAaYAkQAz
-CrMAkQCLBbgAgQHiB4sAiQHiBxAAgQDiB70AmQGDCcoAqQHiB9cAKQFJBjgAqQFDBRAAmQDiBxAA
-KQGwCeAAsQHiB+YAsQHyBu0AuQFsBgYAwQFgCvIAaQDiBwYAFADiB2QAyQFDCiQBHADiB2QAyQG+
-CVgBmQF3CcoAyQFeA34BJADUB50BLAASCq0BmQGFCLIB0QFPBb0B0QFIBQYA2QEkCsIBNAAwBcIB
-kQC/BuAB0QBKCekBuQAMAu0BNAAmBa0B6QBhCfUB4QG6CPsB6QE5BgEC8QEmBQgC6QDiBwYA+QGO
-AgwC+QFTChUCAQHiBxsCIQHiBwYAuQBwCjACuQCLBbgAuQB8BjgCKQFwCkECyQEeCk0CEQLPAl8C
-KQGwCWMCkQGLBTgAKQGwCWkCKQGKCnECKQF8CkECPABLCq0BRADiB2QAyQFOBoUCTADiB2QAYQHg
-AqICCAAIANgCCAAMAN0CKQB7AKkDLgALAIEDLgATAIoDLgAbAKkDLgAjALIDLgArANsDLgAzANsD
-LgA7ANsDLgBDALIDLgBLAOEDLgBTANsDLgBbAPgDSQB7AKkDgwBrAN0CwQBjAN0CwwBzAN0CAwFj
-AN0CIwFjAN0CQwFjAN0CYwFjAN0CHAD2ACMCRwK7AgYAAQAHAAMAAACQB3ADAAAaA3YDAADVCXwD
-AgAIAAMAAgAJAAUAAQAKAAUAAgALAAcAWwAcAUoBlQGmAdQBdAJ8ApoCBIAAAAEAAADWHFJoAAAA
-AAAAmgAAAAQAAAAAAAAAAAAAAMYCxAEAAAAABAAAAAAAAAAAAAAAxgK0AQAAAAAEAAAAAAAAAAAA
-AADGAjsHAAAAAAQAAAAAAAAAAAAAAMYC5gIAAAAADQAAAAAAAAAAAAAAzwKUBQAAAAAEAAAAAAAA
-AAAAAADGAkIGAAAAAAQAAAAAAAAAAAAAAMYCBwkAAAAADQAAAAAAAAAAAAAAzwKBAQAAAAAAAAAA
-AQAAADMIAAAIAAIACQADAAoAAwALAAMAOwCEAEUArwBFAMYAaQBEAW0AcgFxAJABRQDGAUUAywFF
-ANsBowBaArUAWgK5AFoCAAAAAAA8PjlfXzBfMAA8Q3JlYXRlPmJfXzBfMAA8PmNfX0Rpc3BsYXlD
-bGFzczBfMAA8PmNfX0Rpc3BsYXlDbGFzczBfMQA8Q3JlYXRlPmJfXzEATnVsbGFibGVgMQBJRW51
-bWVyYWJsZWAxAEVudW1lcmFibGVSb3dDb2xsZWN0aW9uYDEASUVudW1lcmF0b3JgMQBnMQBJbnQz
-MgBTVF8yZGRmMTM2OTk4ZDM0YTA2OWFmMzE2MjY0M2JmMjA2MgA8PjlfXzBfMgA8Q3JlYXRlPmJf
-XzBfMgBGdW5jYDIASUdyb3VwaW5nYDIAZzIAPD45X18wXzMAPENyZWF0ZT5iX18wXzMAZzMAPD45
-X18wXzQAPENyZWF0ZT5iX18wXzQAPENyZWF0ZT5iX181ADw+OV9fMF82ADxDcmVhdGU+Yl9fMF82
-ADxDcmVhdGU+Yl9fNwA8PjlfXzBfOAA8Q3JlYXRlPmJfXzBfOAA8PjkAPE1vZHVsZT4Ac2V0X1Vz
-ZXJJRABNaWNyb3NvZnQuU3FsU2VydmVyLk1hbmFnZWREVFMAdmFsdWVfXwBnMWEAZzJhAGczYQBT
-eXN0ZW0uRGF0YQBnMWIAbXNjb3JsaWIAPD5jAFN5c3RlbS5Db2xsZWN0aW9ucy5HZW5lcmljAGd1
-aWQARmllbGQARGJDb21tYW5kAFNxbENvbW1hbmQAUm91bmQAc2V0X1Bhc3N3b3JkAEFsdGFJbnZv
-aWNlAGRlZmF1bHRJbnN0YW5jZQBzZXRfRGF0YVNvdXJjZQBYTm9kZQBEYXRhVGFibGUAVmFyaWFi
-bGUAQXNFbnVtZXJhYmxlAElEaXNwb3NhYmxlAFJ1bnRpbWVUeXBlSGFuZGxlAEdldFR5cGVGcm9t
-SGFuZGxlAFhOYW1lAERhdGVUaW1lAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlJ1bnRpbWUAZ2V0
-X05ld0xpbmUAVHlwZQBXaGVyZQBTeXN0ZW0uQ29yZQBGYWlsdXJlAGdldF9DdWx0dXJlAHNldF9D
-dWx0dXJlAHJlc291cmNlQ3VsdHVyZQBWU1RBUlRTY3JpcHRPYmplY3RNb2RlbEJhc2UAQXBwbGlj
-YXRpb25TZXR0aW5nc0Jhc2UARGlzcG9zZQBSZXZlcnNlAENyZWF0ZQBFZGl0b3JCcm93c2FibGVT
-dGF0ZQBYQXR0cmlidXRlAENvbXBpbGVyR2VuZXJhdGVkQXR0cmlidXRlAERlYnVnZ2VyTm9uVXNl
-ckNvZGVBdHRyaWJ1dGUARGVidWdnYWJsZUF0dHJpYnV0ZQBFZGl0b3JCcm93c2FibGVBdHRyaWJ1
-dGUAQXNzZW1ibHlUaXRsZUF0dHJpYnV0ZQBBc3NlbWJseVRyYWRlbWFya0F0dHJpYnV0ZQBUYXJn
-ZXRGcmFtZXdvcmtBdHRyaWJ1dGUAQXNzZW1ibHlDb25maWd1cmF0aW9uQXR0cmlidXRlAEFzc2Vt
-Ymx5RGVzY3JpcHRpb25BdHRyaWJ1dGUAQ29tcGlsYXRpb25SZWxheGF0aW9uc0F0dHJpYnV0ZQBB
-c3NlbWJseVByb2R1Y3RBdHRyaWJ1dGUAQXNzZW1ibHlDb3B5cmlnaHRBdHRyaWJ1dGUAU1NJU1Nj
-cmlwdFRhc2tFbnRyeVBvaW50QXR0cmlidXRlAEFzc2VtYmx5Q29tcGFueUF0dHJpYnV0ZQBSdW50
-aW1lQ29tcGF0aWJpbGl0eUF0dHJpYnV0ZQBnZXRfVmFsdWUAZ2V0X0hhc1ZhbHVlAHZhbHVlAFNh
-dmUAUmVtb3ZlAEFkZEFmdGVyU2VsZgBTeXN0ZW0uUnVudGltZS5WZXJzaW9uaW5nAGdldF9Db25u
-ZWN0aW9uU3RyaW5nAFRvU3RyaW5nAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuU2NyaXB0VGFzawBNaWNy
-b3NvZnQuU3FsU2VydmVyLkR0cy5UYXNrcy5TY3JpcHRUYXNrAERlY2ltYWwAU2NyaXB0T2JqZWN0
-TW9kZWwAU3lzdGVtLkNvbXBvbmVudE1vZGVsAFNUXzJkZGYxMzY5OThkMzRhMDY5YWYzMTYyNjQz
-YmYyMDYyLmRsbABGaWxsAGdldF9JdGVtAFN5c3RlbQBUcmltAFN1bQBFbnVtAHJlc291cmNlTWFu
-AFRpbWVTcGFuAE9wZW4AU2NyaXB0TWFpbgBvcF9EaXZpc2lvbgBYRGVjbGFyYXRpb24AU3lzdGVt
-LkNvbmZpZ3VyYXRpb24AU3lzdGVtLkdsb2JhbGl6YXRpb24Ab3BfU3VidHJhY3Rpb24AU3lzdGVt
-LlJlZmxlY3Rpb24ARGF0YVJvd0NvbGxlY3Rpb24AZ2V0X0Nvbm5lY3Rpb24ARGJDb25uZWN0aW9u
-AFNxbENvbm5lY3Rpb24AU3lzdGVtLkRhdGEuQ29tbW9uAEN1bHR1cmVJbmZvAFN5c3RlbS5YbWwu
-TGlucQBTeXN0ZW0uTGlucQBEYkNvbm5lY3Rpb25TdHJpbmdCdWlsZGVyAFNxbENvbm5lY3Rpb25T
-dHJpbmdCdWlsZGVyAGdldF9SZXNvdXJjZU1hbmFnZXIAWENvbnRhaW5lcgBEYkRhdGFBZGFwdGVy
-AFNxbERhdGFBZGFwdGVyAElFbnVtZXJhdG9yAEdldEVudW1lcmF0b3IALmN0b3IALmNjdG9yAFN5
-c3RlbS5EaWFnbm9zdGljcwBTeXN0ZW0uUnVudGltZS5Db21waWxlclNlcnZpY2VzAFN5c3RlbS5S
-ZXNvdXJjZXMAU1RfMmRkZjEzNjk5OGQzNGEwNjlhZjMxNjI2NDNiZjIwNjIuUHJvcGVydGllcy5S
-ZXNvdXJjZXMucmVzb3VyY2VzAERlYnVnZ2luZ01vZGVzAE5vZGVzAFNUXzJkZGYxMzY5OThkMzRh
-MDY5YWYzMTYyNjQzYmYyMDYyLlByb3BlcnRpZXMAZ2V0X1ZhcmlhYmxlcwBTZXR0aW5ncwBEYXRh
-VGFibGVFeHRlbnNpb25zAEVudW1lcmFibGVSb3dDb2xsZWN0aW9uRXh0ZW5zaW9ucwBTeXN0ZW0u
-RGF0YS5EYXRhU2V0RXh0ZW5zaW9ucwBEYXRhUm93RXh0ZW5zaW9ucwBTeXN0ZW0uQ29sbGVjdGlv
-bnMAZ2V0X1RvdGFsSG91cnMAU3VjY2VzcwBnZXRfRHRzAFNjcmlwdFJlc3VsdHMARGVzY2VuZGFu
-dHMARWxlbWVudHMAc3JjX2RvY3VtZW50cwBzcmNfY29udGVudHMAZ2V0X1Jvd3MAQ29uY2F0AE9i
-amVjdABTZWxlY3QAb3BfSW1wbGljaXQAZ2V0X0RlZmF1bHQAU3lzdGVtLkRhdGEuU3FsQ2xpZW50
-AFhFbGVtZW50AEVudmlyb25tZW50AFhEb2N1bWVudABnZXRfQ3VycmVudABGaXJzdABNb3ZlTmV4
-dABYVGV4dABnZXRfTm93AERhdGFSb3cAR3JvdXBCeQBnZXRfS2V5AGdldF9Bc3NlbWJseQBFeGVj
-dXRlTm9uUXVlcnkAb3BfRXF1YWxpdHkAb3BfSW5lcXVhbGl0eQBFbXB0eQAAFTEAMAAuADEAMAAu
-ADAALgAyADgAAA9wAGgAcAB1AHMAZQByAAARZwBuAFEAQwBVAEUAbABVAACAiVMARQBMAEUAQwBU
-ACAAKgAgAEYAUgBPAE0AIABbAGEAdQB0AG8AbQBhAHQAaQBvAG4AXQAuAFsAZABiAG8AXQAuAFsA
-cgBlAHEAdQBlAHMAdABfAGMAbwBuAHQAZQBuAHQAcwBdACAAVwBIAEUAUgBFACAAWwBnAHUAaQBk
-AF0AIAA9ACAAJwABLycAIABPAFIARABFAFIAIABCAFkAIABbAHIAbwB3AF8AaQBkAF0AIABBAFMA
-QwABgIVTAEUATABFAEMAVAAgACoAIABGAFIATwBNACAAWwBhAHUAdABvAG0AYQB0AGkAbwBuAF0A
-LgBbAGQAYgBvAF0ALgBbAHIAZQBxAHUAZQBzAHQAXwBoAGUAYQBkAGUAcgBdACAAVwBIAEUAUgBF
-ACAAWwBnAHUAaQBkAF0AIAA9ACAAJwABAycAARNUAEUATQBQAF8AUgBPAE8AVAAABzEALgAwAAAZ
-dwBpAG4AZABvAHcAcwAtADEAMgA1ADEAAQ9BAGwAdABhAEkATgBWAAAPSQBOAFYAXwBOAFUATQAA
-G24AdQBtAF8AYwBvAHUAbgB0AGUAcgBfAEEAABFJAE4AVgBfAEQAQQBUAEUAABV5AHkAeQB5AC0A
-TQBNAC0AZABkAAEPXwBfAF8AUABSAEkATQAACU4AYQBtAGUAAA0mACYAUABSAEkATQAAEUQAZQBs
-AGkAdgBlAHIAeQAAEUcAXwAyAF8ATgBBAE0ARQAACUcAMAAyADIAABVHAF8AMgBfAEsATwBEAFMA
-VABSAAALRwAwADIAMwAxAAAPRwBfADIAXwBQAE8AUwAAEUcAMAAyADMAUABPAFMAVAAAD0cAXwAy
-AF8AUwBVAEIAABFHADAAMgAzAFMAVQBCAEQAAA9HAF8AMgBfAEMASQBUAAARRwAwADIAMwBDAEkA
-VABZAAAVRwBfADIAXwBTAFQAUgBFAEUAVAAAFUcAMAAyADMAUwBUAFIARQBFAFQAAA9HAF8AMgBf
-AEIATABEAAATRwAwADIAMwBCAFUASQBMAEQAAAtHAF8AOABfADEAAAlHADEANAAwAAAPRwBfADgA
-XwBTAFQAUgAADUcAMQA0ADMAMQBOAAAPRwBfADgAXwBJAE4ATgAACUcAMQA0ADEAAA9HAF8AOABf
-AEsAUABQAAAJRwAxADQANwAAFUcAXwA4AF8ASwBPAEQAUwBUAFIAAAtHADEANAAzADEAABFHAF8A
-OABfAE4AQQBNAEUAAAlHADEANAAyAAAPRwBfADgAXwBQAE8AUwAAEUcAMQA0ADMAUABPAFMAVAAA
-D0cAXwA4AF8AUwBVAEIAABFHADEANAAzAFMAVQBCAEQAAA9HAF8AOABfAEMASQBUAAARRwAxADQA
-MwBDAEkAVABZAAAVRwBfADgAXwBTAFQAUgBFAEUAVAAAFUcAMQA0ADMAUwBUAFIARQBFAFQAAA9H
-AF8AOABfAEIATABEAAATRwAxADQAMwBCAFUASQBMAEQAAAtHAF8AOQBfADEAAA9HAF8AOQBfAFMA
-VABSAAAPRwBfADkAXwBJAE4ATgAAD0cAXwA5AF8ASwBQAFAAABVHAF8AOQBfAEsATwBEAFMAVABS
-AAARRwBfADkAXwBOAEEATQBFAAAPRwBfADkAXwBQAE8AUwAAD0cAXwA5AF8AUwBVAEIAAA9HAF8A
-OQBfAEMASQBUAAAVRwBfADkAXwBTAFQAUgBFAEUAVAAAD0cAXwA5AF8AQgBMAEQAAA1HAF8AMQA0
-AF8AMQAAEUcAXwAxADQAXwBTAFQAUgAAEUcAXwAxADQAXwBJAE4ATgAAEUcAXwAxADQAXwBLAFAA
-UAAAF0cAXwAxADQAXwBLAE8ARABTAFQAUgAAE0cAXwAxADQAXwBOAEEATQBFAAARRwBfADEANABf
-AFAATwBTAAARRwBfADEANABfAFMAVQBCAAARRwBfADEANABfAEMASQBUAAAXRwBfADEANABfAFMA
-VABSAEUARQBUAAARRwBfADEANABfAEIATABEAAARQgBVAFkAXwBPAEcAUgBOAAAPQgBVAFkAXwBT
-AFQAUgAAD0IAVQBZAF8ASQBOAE4AAA9CAFUAWQBfAEsAUABQAAAVQgBVAFkAXwBLAE8ARABTAFQA
-UgAAEUIAVQBZAF8ATgBBAE0ARQAAD0IAVQBZAF8AUABPAFMAAA9CAFUAWQBfAFMAVQBCAAAPQgBV
-AFkAXwBDAEkAVAAAFUIAVQBZAF8AUwBUAFIARQBFAFQAAA9CAFUAWQBfAEIATABEAAANRABFAFAA
-QQBSAFQAAAdHADEANQAAF0QARQBQAEEAUgBUAF8AQQBMAEYAQQAACUcAMQA1AEEAAAtGAEkATgBB
-AEwAAA0gBB4EIQQhBBgELwQBFUYASQBOAEEATABfAEEATABGAEEAAAVSAFUAAA1PAFIASQBHAEkA
-TgAAH2MAbwB1AG4AdAByAHkAXwBuAGEAbQBlAF8AMQA2AAAXTwBSAEkARwBJAE4AXwBBAEwARgBB
-AAAfYwBvAHUAbgB0AHIAeQBfAGMAbwBkAGUAXwAxADYAABdUAFIAQQBEAEUAUgBfAEEATABGAEEA
-AAdHADEAMQAAC0cAXwAxAF8AMQAABRgEHAQBC0cAXwAxAF8AMgAABTQAMAAAC0cAXwAxAF8AMwAA
-FXAAdABkAF8AcwBpAGcAbgBfADcAAA1HAF8AMQBfADMAMQAACXQAcgB1AGUAAA1HAF8AMgAyAF8A
-MQAAG2MAdQByAHIAZQBuAGMAeQBfAGMAbwBkAGUAAA1HAF8AMgAyAF8AMwAAF2MAdQByAHIAZQBu
-AGMAeQBfADIAMgAADUcAXwAyADQAXwAxAAANRwAyADgAMgAxADIAAA1HAF8AMgA0AF8AMgAADUcA
-MgA4ADIAMgAxAAANTQBFAFQASABPAEQAAAMxAAANRwBfADQAMwBfADEAAA1HAF8AMwA3AF8AMQAA
-DzQAMAAwADAAMAAwADAAAA1WAEkARABUAF8AMQAAI3QAcgBhAG4AcwBwAG8AcgB0AF8AYwBvAGQA
-ZQBfADIANgAACU4AVQBNAFQAAC1tAGEAbgBfAFQAcgBhAGkAbgBUAHIAYQBuAHMAcABvAHIAdABE
-AGUAcwBjAAANUQBVAEEATgBUAFQAACVjAG8AdQBuAHQAXwB0AHIAYQBuAHMAcABvAHIAdABfADEA
-OAAAB1UAUwBMAAAJRwAyADAAMgAAD0cAXwAyADAAXwAyADEAAAtHADIAMAAyADEAAAtCAEwATwBD
-AEsAAFFcAFwAMQAwAC4AMQAwAC4AMAAuADIAOABcAGEAbAB0AGEAXABSAG8AYgBvAHQAXABBAGwA
-dABhAF8AaQBtAHAAbwByAHQAXABpAG4AdgBfAAAJLgB4AG0AbAAAgMtJAE4AUwBFAFIAVAAgAFsA
-YQB1AHQAbwBtAGEAdABpAG8AbgBdAC4AWwBkAGIAbwBdAC4AWwBjAHIAZQBhAHQAZQBkAF8AZABv
-AGMAdQBtAGUAbgB0AHMAXQAgACgAWwByAGUAcQB1AGUAcwB0AF8AZwB1AGkAZABdACwAWwBkAG8A
-YwB0AHkAcABlAF0ALABbAGQAbwBjAG4AdQBtAF0ALABbAGQAbwBjAGQAYQB0AGUAXQApACAAVgBB
-AEwAVQBFAFMAIAAoACcAARMnACwAJwBJAE4AVgAnACwAJwABBycALAAnAAEFJwApAAFVJwAgAE8A
-UgBEAEUAUgAgAEIAWQAgAFsAaQB0AGUAbQBfAG4AdQBtAF0AIABBAFMAQwAsACAAWwBnAHIAbwB1
-AHAAXwBuAHUAbQBdACAAQQBTAEMAAYCLUwBFAEwARQBDAFQAIAAqACAARgBSAE8ATQAgAFsAYQB1
-AHQAbwBtAGEAdABpAG8AbgBdAC4AWwBkAGIAbwBdAC4AWwByAGUAcQB1AGUAcwB0AF8AZABvAGMA
-dQBtAGUAbgB0AHMAXQAgAFcASABFAFIARQAgAFsAZwB1AGkAZABdACAAPQAgACcAASsnACAATwBS
-AEQARQBSACAAQgBZACAAWwBHADQANAAxAF0AIABBAFMAQwABE1QARQBNAFAAXwBUAE8AVgBHAAAR
-VABFAE0AUABfAEcANAA0AAAPQQBsAHQAYQBHAFQARAAABS0EFAQBD0cAXwAyAF8ATgBBAE0AAAtH
-AF8AMgBfADcAAA9HAF8AMgBfAFMAVABSAAALRwBfADMAXwAxAAALRwBfADMAXwAyAAAPZgBvAHIA
-bQBzAF8AMwAAC0cAXwA1AF8AMQAAE3QAbwB2AF8AcQB0AHkAXwA1AAALRwBfADYAXwAxAAAVcABh
-AGMAawBfAHEAdAB5AF8ANgAAC0cAXwA3AF8AMQAACVAATwBTAFQAABtuAHUAbQBfAGMAdQBzAHQA
-bwBtAHMAXwBBAAAJRABBAFQARQAACVAAcgBlAGYAAAMvAAAVbgB1AG0AXwBkAGEAdABlAF8AQQAA
-B04AVQBNAAANRwBfADgAXwA1ADAAAAtHAF8AOABfADYAAAtHAF8AOABfADcAAA9HAF8AOABfAE4A
-QQBNAAARRwBfADgAXwBTAE0AMQA0AAANRwBfADkAXwBDAE4AAAtHAF8AOQBfADQAAA1HAF8AOQBf
-AEMAQwAAD0cAXwA5AF8ATgBBAE0AABFHAF8AOQBfAFMATQAxADQAAAtHAF8AOQBfADcAAA1HAF8A
-MQAxAF8AMQAAD0cAXwAxADQAXwBDAE4AAA1HAF8AMQA0AF8ANAAAD0cAXwAxADQAXwBDAEMAABFH
-AF8AMQA0AF8ATgBBAE0AAA1HAF8AMQA1AF8AMQAAD0cAXwAxADUAQQBfADEAAA1HAF8AMQA2AF8A
-MQAADUcAXwAxADYAXwAyAAANRwBfADEANwBfADEAAA9HAF8AMQA3AEEAXwAxAAANRwBfADEAOABf
-ADAAAAlHAF8AMQA4AAANRwBfADEAOQBfADEAAB1jAG8AbgB0AGEAaQBuAGUAcgBfAHMAaQBnAG4A
-AA9HAF8AMgAwAF8AMgAwAAANRwBfADIAMQBfADAAAA1HAF8AMgAyAF8AMgAAGXAAcgBpAGMAZQBf
-AHMAdQBtAF8AMgAyAAANRwBfADIANQBfADEAACN0AHIAYQBuAHMAcABvAHIAdABfAGMAbwBkAGUA
-XwAyADUAAA1HAF8AMgA2AF8AMQAAD0cAXwAyADgAXwAxADIAAA9HAF8AMgA4AF8AMgAxAAANRwBf
-ADIAOQBfADEAACVjAHUAcwB0AG8AbQBzAGMAbwBkAGUAXwBiAG8AcgBkAGUAcgAADUcAXwAyADkA
-XwAyAAAlYwB1AHMAdABvAG0AcwBuAGEAbQBlAF8AYgBvAHIAZABlAHIAAA1HAF8AMwAwAF8AMAAA
-DUcANQA0ADEAMQBEAAAFOQA5AAAFMQAxAAANRwBfADMAMABfADEAAAEAAzIAABN0AGUAcgBtAF8A
-TgBMAEkAQwAAE0cAXwAzADAAXwBEAEEAVABFAAAXdABlAHIAbQBfAEQAQgBFAEcASQBOAAAPRwBf
-ADMAMABfAEMAQwAAE3QAZQByAG0AXwBHADMAMABBAAARRwBfADMAMABfAFMAVQBCAAAZdABlAHIA
-bQBfAEcAMwAwAFMAVQBCAEQAABFHAF8AMwAwAF8AQwBJAFQAABl0AGUAcgBtAF8ARwAzADAAQwBJ
-AFQAWQAAEUcAXwAzADAAXwBTAFQAUgAAHXQAZQByAG0AXwBHADMAMABTAFQAUgBFAEUAVAAAEUcA
-XwAzADAAXwBCAEwARAAAG3QAZQByAG0AXwBHADMAMABCAFUASQBMAEQAAA9HAF8AMwAwAF8AMQAy
-AAAVdABlAHIAbQBfAEcAMwAwADEAMgAAEUcAXwAzADAAXwBEAE8AUAAAC2YAYQBsAHMAZQAAEVYA
-RQBTAF8AQgBSAF8AUwAAG28AdgBlAHIAYQBsAGwAXwBnAHIAbwBzAHMAABFWAEUAUwBfAE4AVABf
-AFMAABdvAHYAZQByAGEAbABsAF8AbgBlAHQAAA1HAF8ANQA0AF8AMQAAExMELgAgAC8EIAQmBBUE
-EgQeBAEPRwBfADUANABfADIAMQAAYzgAKAA5ADAANQApADUAMAAyAC0AMAAwAC0AMQA1ACwAIAA4
-ACgAOQAyADkAKQA2ADgAMQAtADkAMgAtADcANQAsACAAOAAoADkAMgA2ACkANQAzADkALQA4ADkA
-LQAxADgAAQ1HAF8ANQA0AF8AMwAADx8EFQQiBCAEHgQSBBAEARFHAF8ANQA0AF8AMwBOAE0AAAse
-BBsELAQTBBAEARFHAF8ANQA0AF8AMwBNAEQAABsQBBsEFQQaBCEEEAQdBBQEIAQeBBIEHQQQBAEN
-RwBfADUANABfADQAABkUBB4EEgQVBCAEFQQdBB0EHgQhBCIELAQBDUcAXwA1ADQAXwA1AAAFMwAx
-AAAPRwBfADUANABfADYAMAAAFTIAMAAyADAALQAwADIALQAxADEAAQ9HAF8ANQA0AF8ANgAxAAAV
-MgAwADIAMAAtADAANgAtADEANwABDUcAXwA1ADQAXwA3AABbHAQbBBAEFAQoBBgEGQQgACEEHwQV
-BCYEGAQQBBsEGAQhBCIEIAAfBB4EIAAeBCQEHgQgBBwEGwQuACAAIgQQBBwELgAgABQEFQQaBBsE
-EAQgBBAEJgQYBBkEAQ1HAF8ANQA0AF8AOAAAD1IAVQAwADEAMAAwADEAAA1HAF8ANQA0AF8AOQAA
-Dx8EEAQhBB8EHgQgBCIEARFHAF8ANQA0AF8AMQAwADAAAA01ADAANgAzADQANgAAEUcAXwA1ADQA
-XwAxADAAMQAAFTIAMAAwADkALQAxADEALQAyADMAAQ1HAF8ANQA0AF8AMAAAEUcAXwA1ADQAXwAx
-ADEAMAAAC0cANQA0ADEAMQAAEUcAXwA1ADQAXwAxADEAMQAAD0cAXwA1ADQAXwAxADIAAAs2ADYA
-IAAwADkAAA9HAF8ANQA0AF8AMQAzAAB3HgQiBBQEFQQbBB4EHAQgABIEHQQjBCIEIAQVBB0EHQQY
-BCUEIAAUBBUEGwQgAC8EIAQmBBUEEgQhBBoEHgQTBB4EIAAgBBAEGQQeBB0EEAQgACEEHAQeBBsE
-FQQdBCEEGgQeBBkEIAAeBBEEGwQQBCEEIgQYBAERRwBfADUANABfADEANQAwAAAJMAAwADMANQAA
-D0cAXwA1ADQAXwAxADUAACk3ADcAMgA4ADIAMQA5ADMANgA5AC8ANwA3ADIANwAwADEAMAAwADEA
+AApydwgAcCgCAAArcx4AAAqiJR9Bcj8PAHAoGgAAChEEbyAAAAoWbyEAAApyTQ8AcCgHAAArGig/
+AAAKjBcAAAFzHgAACqIlH0Jycw8AcCgaAAAKEQRvIAAAChZvIQAACnJNDwBwKAcAACsaKD8AAAqM
+FwAAAXMeAAAKoiUfQ3KBDwBwKBoAAAoRBG8gAAAKFm8hAAAKco8PAHAoAgAAK3MeAAAKoiUfRHKz
+DwBwKBoAAAoRBG8gAAAKFm8hAAAKchMJAHAoAgAAK3MeAAAKoiUfRXLBDwBwKBoAAAoRBG8gAAAK
+Fm8hAAAKcp0IAHAoAgAAK3MeAAAKoiUfRnLRDwBwKBoAAAoRBG8gAAAKFm8hAAAKcrkIAHAoAgAA
+K3MeAAAKoiUfR3LhDwBwKBoAAAoRBG8gAAAKFm8hAAAKcu8PAHAoAgAAK3MeAAAKoiUfSHIVEABw
+KBoAAAoRBG8gAAAKFm8hAAAKciMQAHAoAgAAK3MeAAAKoiUfSXJJEABwKBoAAAoRBG8gAAAKFm8h
+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
+xwBpAwkA7VMAAAAAgwD1AGkDCgD6UwAAAACDABABaQMLAAhUAAAAAIMANQFKAwwAjFYAAAAAgwBa
+AUoDDQAAAAEA7AEAAAEA7AEAAAEAPQUAAAEAqAEAAAEAqAEAAAEA6QAAAAEABAEAAAEAkQAAAAEA
+wAEAAAEAwAEAAAEAwAEAAAEArAEAAAEAsAEJAOIHAQARAOIHBgAZAOIHCgApAOIHEAAxAOIHEAA5
+AOIHEABBAOIHEABJAOIHEABRAOIHEABZAOIHEABhAOIHEAChAOIHBgDhAOIHBgD5AOIHBgAZAeIH
+FQBxAOIHBgBxADsCEABxAHYBEABxABICEAApAbAJMQB5AOIHBgAxAXYFOACJAOIHPAA5ATQGQgBB
+AVYDBgBJAcUJSABRAWMCTwAMAOIHZABhAb4JagCBAOIHiwBpAeIHkwB5AKcJmgBxATkGoAB5AfEB
+pgCRADMKswCRAIsFuACBAeIHiwCJAeIHEACBAOIHvQCZAYMJygCpAeIH1wApAUkGOACpAUMFEACZ
+AOIHEAApAbAJ4ACxAeIH5gCxAfIG7QC5AWwGBgDBAWAK8gBpAOIHBgAUAOIHZADJAUMKJAEcAOIH
+ZADJAb4JWAGZAXcJygDJAV4DfgEkANQHnQEsABIKrQGZAYUIsgHRAU8FvQHRAUgFBgDZASQKwgG5
+AAwCywE0ADAFwgGRAL8G6AHRAEoJ8QE0ACYFrQHpAGEJ9QHhAboI+wHpATkGAQLxASYFCALpAOIH
+BgD5AY4CDAL5AVMKFQIBAeIHGwIhAeIHBgC5AHAKMAK5AIsFuAC5AHwGOAIpAXAKQQLJAR4KTQIR
+As8CXwIpAbAJYwKRAYsFOAApAbAJaQIpAYoKcQIpAXwKQQI8AEsKrQFEAOIHZADJAU4GhQJMAOIH
+ZABhAeACogIIAAgA2AIIAAwA3QIpAHsAqQMuAAsAgQMuABMAigMuABsAqQMuACMAsgMuACsA2wMu
+ADMA2wMuADsA2wMuAEMAsgMuAEsA4QMuAFMA2wMuAFsA+ANJAHsAqQODAGsA3QLBAGMA3QLDAHMA
+3QIDAWMA3QIjAWMA3QJDAWMA3QJjAWMA3QIcAPYAIwJHArsCBgABAAcAAwAAAJAHcAMAABoDdgMA
+ANUJfAMCAAgAAwACAAkABQABAAoABQACAAsABwBbABwBSgGVAaYB3AF0AnwCmgIEgAAAAQAAAN0c
+eEkAAAAAAACaAAAABAAAAAAAAAAAAAAAxgLEAQAAAAAEAAAAAAAAAAAAAADGArQBAAAAAAQAAAAA
+AAAAAAAAAMYCOwcAAAAABAAAAAAAAAAAAAAAxgLmAgAAAAANAAAAAAAAAAAAAADPApQFAAAAAAQA
+AAAAAAAAAAAAAMYCQgYAAAAABAAAAAAAAAAAAAAAxgIHCQAAAAANAAAAAAAAAAAAAADPAoEBAAAA
+AAAAAAABAAAAMwgAAAgAAgAJAAMACgADAAsAAwA7AIQARQCvAEUAxgBpAEQBbQByAXEAkAFFAMYB
+RQDTAUUA4wGjAFoCtQBaArkAWgIAAAAAADw+OV9fMF8wADxDcmVhdGU+Yl9fMF8wADw+Y19fRGlz
+cGxheUNsYXNzMF8wADw+Y19fRGlzcGxheUNsYXNzMF8xADxDcmVhdGU+Yl9fMQBOdWxsYWJsZWAx
+AElFbnVtZXJhYmxlYDEARW51bWVyYWJsZVJvd0NvbGxlY3Rpb25gMQBJRW51bWVyYXRvcmAxAGcx
+AEludDMyAFNUXzJkZGYxMzY5OThkMzRhMDY5YWYzMTYyNjQzYmYyMDYyADw+OV9fMF8yADxDcmVh
+dGU+Yl9fMF8yAEZ1bmNgMgBJR3JvdXBpbmdgMgBnMgA8PjlfXzBfMwA8Q3JlYXRlPmJfXzBfMwBn
+MwA8PjlfXzBfNAA8Q3JlYXRlPmJfXzBfNAA8Q3JlYXRlPmJfXzUAPD45X18wXzYAPENyZWF0ZT5i
+X18wXzYAPENyZWF0ZT5iX183ADw+OV9fMF84ADxDcmVhdGU+Yl9fMF84ADw+OQA8TW9kdWxlPgBz
+ZXRfVXNlcklEAE1pY3Jvc29mdC5TcWxTZXJ2ZXIuTWFuYWdlZERUUwB2YWx1ZV9fAGcxYQBnMmEA
+ZzNhAFN5c3RlbS5EYXRhAGcxYgBtc2NvcmxpYgA8PmMAU3lzdGVtLkNvbGxlY3Rpb25zLkdlbmVy
+aWMAZ3VpZABGaWVsZABEYkNvbW1hbmQAU3FsQ29tbWFuZABSb3VuZABzZXRfUGFzc3dvcmQAQWx0
+YUludm9pY2UAZGVmYXVsdEluc3RhbmNlAHNldF9EYXRhU291cmNlAFhOb2RlAERhdGFUYWJsZQBW
+YXJpYWJsZQBBc0VudW1lcmFibGUASURpc3Bvc2FibGUAUnVudGltZVR5cGVIYW5kbGUAR2V0VHlw
+ZUZyb21IYW5kbGUAWE5hbWUARGF0ZVRpbWUATWljcm9zb2Z0LlNxbFNlcnZlci5EdHMuUnVudGlt
+ZQBnZXRfTmV3TGluZQBUeXBlAFdoZXJlAFN5c3RlbS5Db3JlAEZhaWx1cmUAZ2V0X0N1bHR1cmUA
+c2V0X0N1bHR1cmUAcmVzb3VyY2VDdWx0dXJlAFZTVEFSVFNjcmlwdE9iamVjdE1vZGVsQmFzZQBB
+cHBsaWNhdGlvblNldHRpbmdzQmFzZQBEaXNwb3NlAFJldmVyc2UAQ3JlYXRlAEVkaXRvckJyb3dz
+YWJsZVN0YXRlAFhBdHRyaWJ1dGUAQ29tcGlsZXJHZW5lcmF0ZWRBdHRyaWJ1dGUARGVidWdnZXJO
+b25Vc2VyQ29kZUF0dHJpYnV0ZQBEZWJ1Z2dhYmxlQXR0cmlidXRlAEVkaXRvckJyb3dzYWJsZUF0
+dHJpYnV0ZQBBc3NlbWJseVRpdGxlQXR0cmlidXRlAEFzc2VtYmx5VHJhZGVtYXJrQXR0cmlidXRl
+AFRhcmdldEZyYW1ld29ya0F0dHJpYnV0ZQBBc3NlbWJseUNvbmZpZ3VyYXRpb25BdHRyaWJ1dGUA
+QXNzZW1ibHlEZXNjcmlwdGlvbkF0dHJpYnV0ZQBDb21waWxhdGlvblJlbGF4YXRpb25zQXR0cmli
+dXRlAEFzc2VtYmx5UHJvZHVjdEF0dHJpYnV0ZQBBc3NlbWJseUNvcHlyaWdodEF0dHJpYnV0ZQBT
+U0lTU2NyaXB0VGFza0VudHJ5UG9pbnRBdHRyaWJ1dGUAQXNzZW1ibHlDb21wYW55QXR0cmlidXRl
+AFJ1bnRpbWVDb21wYXRpYmlsaXR5QXR0cmlidXRlAGdldF9WYWx1ZQBnZXRfSGFzVmFsdWUAdmFs
+dWUAU2F2ZQBSZW1vdmUAQWRkQWZ0ZXJTZWxmAFN5c3RlbS5SdW50aW1lLlZlcnNpb25pbmcAZ2V0
+X0Nvbm5lY3Rpb25TdHJpbmcAVG9TdHJpbmcATWljcm9zb2Z0LlNxbFNlcnZlci5TY3JpcHRUYXNr
+AE1pY3Jvc29mdC5TcWxTZXJ2ZXIuRHRzLlRhc2tzLlNjcmlwdFRhc2sARGVjaW1hbABTY3JpcHRP
+YmplY3RNb2RlbABTeXN0ZW0uQ29tcG9uZW50TW9kZWwAU1RfMmRkZjEzNjk5OGQzNGEwNjlhZjMx
+NjI2NDNiZjIwNjIuZGxsAEZpbGwAZ2V0X0l0ZW0AU3lzdGVtAFRyaW0AU3VtAEVudW0AcmVzb3Vy
+Y2VNYW4AVGltZVNwYW4AT3BlbgBTY3JpcHRNYWluAG9wX0RpdmlzaW9uAFhEZWNsYXJhdGlvbgBT
+eXN0ZW0uQ29uZmlndXJhdGlvbgBTeXN0ZW0uR2xvYmFsaXphdGlvbgBvcF9TdWJ0cmFjdGlvbgBT
+eXN0ZW0uUmVmbGVjdGlvbgBEYXRhUm93Q29sbGVjdGlvbgBnZXRfQ29ubmVjdGlvbgBEYkNvbm5l
+Y3Rpb24AU3FsQ29ubmVjdGlvbgBTeXN0ZW0uRGF0YS5Db21tb24AQ3VsdHVyZUluZm8AU3lzdGVt
+LlhtbC5MaW5xAFN5c3RlbS5MaW5xAERiQ29ubmVjdGlvblN0cmluZ0J1aWxkZXIAU3FsQ29ubmVj
+dGlvblN0cmluZ0J1aWxkZXIAZ2V0X1Jlc291cmNlTWFuYWdlcgBYQ29udGFpbmVyAERiRGF0YUFk
+YXB0ZXIAU3FsRGF0YUFkYXB0ZXIASUVudW1lcmF0b3IAR2V0RW51bWVyYXRvcgAuY3RvcgAuY2N0
+b3IAU3lzdGVtLkRpYWdub3N0aWNzAFN5c3RlbS5SdW50aW1lLkNvbXBpbGVyU2VydmljZXMAU3lz
+dGVtLlJlc291cmNlcwBTVF8yZGRmMTM2OTk4ZDM0YTA2OWFmMzE2MjY0M2JmMjA2Mi5Qcm9wZXJ0
+aWVzLlJlc291cmNlcy5yZXNvdXJjZXMARGVidWdnaW5nTW9kZXMATm9kZXMAU1RfMmRkZjEzNjk5
+OGQzNGEwNjlhZjMxNjI2NDNiZjIwNjIuUHJvcGVydGllcwBnZXRfVmFyaWFibGVzAFNldHRpbmdz
+AERhdGFUYWJsZUV4dGVuc2lvbnMARW51bWVyYWJsZVJvd0NvbGxlY3Rpb25FeHRlbnNpb25zAFN5
+c3RlbS5EYXRhLkRhdGFTZXRFeHRlbnNpb25zAERhdGFSb3dFeHRlbnNpb25zAFN5c3RlbS5Db2xs
+ZWN0aW9ucwBnZXRfVG90YWxIb3VycwBTdWNjZXNzAGdldF9EdHMAU2NyaXB0UmVzdWx0cwBEZXNj
+ZW5kYW50cwBFbGVtZW50cwBzcmNfZG9jdW1lbnRzAHNyY19jb250ZW50cwBnZXRfUm93cwBDb25j
+YXQAT2JqZWN0AFNlbGVjdABvcF9JbXBsaWNpdABnZXRfRGVmYXVsdABTeXN0ZW0uRGF0YS5TcWxD
+bGllbnQAWEVsZW1lbnQARW52aXJvbm1lbnQAWERvY3VtZW50AGdldF9DdXJyZW50AEZpcnN0AE1v
+dmVOZXh0AFhUZXh0AGdldF9Ob3cARGF0YVJvdwBHcm91cEJ5AGdldF9LZXkAZ2V0X0Fzc2VtYmx5
+AEV4ZWN1dGVOb25RdWVyeQBvcF9FcXVhbGl0eQBvcF9JbmVxdWFsaXR5AEVtcHR5AAAVMQAwAC4A
+MQAwAC4AMAAuADIAOAAAD3AAaABwAHUAcwBlAHIAABFnAG4AUQBDAFUARQBsAFUAAICJUwBFAEwA
+RQBDAFQAIAAqACAARgBSAE8ATQAgAFsAYQB1AHQAbwBtAGEAdABpAG8AbgBdAC4AWwBkAGIAbwBd
+AC4AWwByAGUAcQB1AGUAcwB0AF8AYwBvAG4AdABlAG4AdABzAF0AIABXAEgARQBSAEUAIABbAGcA
+dQBpAGQAXQAgAD0AIAAnAAEvJwAgAE8AUgBEAEUAUgAgAEIAWQAgAFsAcgBvAHcAXwBpAGQAXQAg
+AEEAUwBDAAGAhVMARQBMAEUAQwBUACAAKgAgAEYAUgBPAE0AIABbAGEAdQB0AG8AbQBhAHQAaQBv
+AG4AXQAuAFsAZABiAG8AXQAuAFsAcgBlAHEAdQBlAHMAdABfAGgAZQBhAGQAZQByAF0AIABXAEgA
+RQBSAEUAIABbAGcAdQBpAGQAXQAgAD0AIAAnAAEDJwABE1QARQBNAFAAXwBSAE8ATwBUAAAHMQAu
+ADAAABl3AGkAbgBkAG8AdwBzAC0AMQAyADUAMQABD0EAbAB0AGEASQBOAFYAAA9JAE4AVgBfAE4A
+VQBNAAAbbgB1AG0AXwBjAG8AdQBuAHQAZQByAF8AQQAAEUkATgBWAF8ARABBAFQARQAAFXkAeQB5
+AHkALQBNAE0ALQBkAGQAAQ9fAF8AXwBQAFIASQBNAAAJTgBhAG0AZQAADSYAJgBQAFIASQBNAAAR
+RABlAGwAaQB2AGUAcgB5AAARRwBfADIAXwBOAEEATQBFAAAJRwAwADIAMgAAFUcAXwAyAF8ASwBP
+AEQAUwBUAFIAAAtHADAAMgAzADEAAA9HAF8AMgBfAFAATwBTAAARRwAwADIAMwBQAE8AUwBUAAAP
+RwBfADIAXwBTAFUAQgAAEUcAMAAyADMAUwBVAEIARAAAD0cAXwAyAF8AQwBJAFQAABFHADAAMgAz
+AEMASQBUAFkAABVHAF8AMgBfAFMAVABSAEUARQBUAAAVRwAwADIAMwBTAFQAUgBFAEUAVAAAD0cA
+XwAyAF8AQgBMAEQAABNHADAAMgAzAEIAVQBJAEwARAAAC0cAXwA4AF8AMQAACUcAMQA0ADAAAA9H
+AF8AOABfAFMAVABSAAANRwAxADQAMwAxAE4AAA9HAF8AOABfAEkATgBOAAAJRwAxADQAMQAAD0cA
+XwA4AF8ASwBQAFAAAAlHADEANAA3AAAVRwBfADgAXwBLAE8ARABTAFQAUgAAC0cAMQA0ADMAMQAA
+EUcAXwA4AF8ATgBBAE0ARQAACUcAMQA0ADIAAA9HAF8AOABfAFAATwBTAAARRwAxADQAMwBQAE8A
+UwBUAAAPRwBfADgAXwBTAFUAQgAAEUcAMQA0ADMAUwBVAEIARAAAD0cAXwA4AF8AQwBJAFQAABFH
+ADEANAAzAEMASQBUAFkAABVHAF8AOABfAFMAVABSAEUARQBUAAAVRwAxADQAMwBTAFQAUgBFAEUA
+VAAAD0cAXwA4AF8AQgBMAEQAABNHADEANAAzAEIAVQBJAEwARAAAC0cAXwA5AF8AMQAAD0cAXwA5
+AF8AUwBUAFIAAA9HAF8AOQBfAEkATgBOAAAPRwBfADkAXwBLAFAAUAAAFUcAXwA5AF8ASwBPAEQA
+UwBUAFIAABFHAF8AOQBfAE4AQQBNAEUAAA9HAF8AOQBfAFAATwBTAAAPRwBfADkAXwBTAFUAQgAA
+D0cAXwA5AF8AQwBJAFQAABVHAF8AOQBfAFMAVABSAEUARQBUAAAPRwBfADkAXwBCAEwARAAADUcA
+XwAxADQAXwAxAAARRwBfADEANABfAFMAVABSAAARRwBfADEANABfAEkATgBOAAARRwBfADEANABf
+AEsAUABQAAAXRwBfADEANABfAEsATwBEAFMAVABSAAATRwBfADEANABfAE4AQQBNAEUAABFHAF8A
+MQA0AF8AUABPAFMAABFHAF8AMQA0AF8AUwBVAEIAABFHAF8AMQA0AF8AQwBJAFQAABdHAF8AMQA0
+AF8AUwBUAFIARQBFAFQAABFHAF8AMQA0AF8AQgBMAEQAABFCAFUAWQBfAE8ARwBSAE4AAA9CAFUA
+WQBfAFMAVABSAAAPQgBVAFkAXwBJAE4ATgAAD0IAVQBZAF8ASwBQAFAAABVCAFUAWQBfAEsATwBE
+AFMAVABSAAARQgBVAFkAXwBOAEEATQBFAAAPQgBVAFkAXwBQAE8AUwAAD0IAVQBZAF8AUwBVAEIA
+AA9CAFUAWQBfAEMASQBUAAAVQgBVAFkAXwBTAFQAUgBFAEUAVAAAD0IAVQBZAF8AQgBMAEQAAA1E
+AEUAUABBAFIAVAAAB0cAMQA1AAAXRABFAFAAQQBSAFQAXwBBAEwARgBBAAAJRwAxADUAQQAAC0YA
+SQBOAEEATAAADSAEHgQhBCEEGAQvBAEVRgBJAE4AQQBMAF8AQQBMAEYAQQAABVIAVQAADU8AUgBJ
+AEcASQBOAAAfYwBvAHUAbgB0AHIAeQBfAG4AYQBtAGUAXwAxADYAABdPAFIASQBHAEkATgBfAEEA
+TABGAEEAAB9jAG8AdQBuAHQAcgB5AF8AYwBvAGQAZQBfADEANgAAF1QAUgBBAEQARQBSAF8AQQBM
+AEYAQQAAB0cAMQAxAAALRwBfADEAXwAxAAAFGAQcBAELRwBfADEAXwAyAAAFNAAwAAALRwBfADEA
+XwAzAAAVcAB0AGQAXwBzAGkAZwBuAF8ANwAADUcAXwAxAF8AMwAxAAAJdAByAHUAZQAADUcAXwAy
+ADIAXwAxAAAbYwB1AHIAcgBlAG4AYwB5AF8AYwBvAGQAZQAADUcAXwAyADIAXwAzAAAXYwB1AHIA
+cgBlAG4AYwB5AF8AMgAyAAANRwBfADIANABfADEAAA1HADIAOAAyADEAMgAADUcAXwAyADQAXwAy
+AAANRwAyADgAMgAyADEAAA1NAEUAVABIAE8ARAAAAzEAAA1HAF8ANAAzAF8AMQAADUcAXwAzADcA
+XwAxAAAPNAAwADAAMAAwADAAMAAADVYASQBEAFQAXwAxAAAjdAByAGEAbgBzAHAAbwByAHQAXwBj
+AG8AZABlAF8AMgA2AAAJTgBVAE0AVAAALW0AYQBuAF8AVAByAGEAaQBuAFQAcgBhAG4AcwBwAG8A
+cgB0AEQAZQBzAGMAAA1RAFUAQQBOAFQAVAAAJWMAbwB1AG4AdABfAHQAcgBhAG4AcwBwAG8AcgB0
+AF8AMQA4AAAHVQBTAEwAAAlHADIAMAAyAAAPRwBfADIAMABfADIAMQAAC0cAMgAwADIAMQAAC0IA
+TABPAEMASwAAUVwAXAAxADAALgAxADAALgAwAC4AMgA4AFwAYQBsAHQAYQBcAFIAbwBiAG8AdABc
+AEEAbAB0AGEAXwBpAG0AcABvAHIAdABcAGkAbgB2AF8AAAkuAHgAbQBsAACAy0kATgBTAEUAUgBU
+ACAAWwBhAHUAdABvAG0AYQB0AGkAbwBuAF0ALgBbAGQAYgBvAF0ALgBbAGMAcgBlAGEAdABlAGQA
+XwBkAG8AYwB1AG0AZQBuAHQAcwBdACAAKABbAHIAZQBxAHUAZQBzAHQAXwBnAHUAaQBkAF0ALABb
+AGQAbwBjAHQAeQBwAGUAXQAsAFsAZABvAGMAbgB1AG0AXQAsAFsAZABvAGMAZABhAHQAZQBdACkA
+IABWAEEATABVAEUAUwAgACgAJwABEycALAAnAEkATgBWACcALAAnAAEHJwAsACcAAQUnACkAAVUn
+ACAATwBSAEQARQBSACAAQgBZACAAWwBpAHQAZQBtAF8AbgB1AG0AXQAgAEEAUwBDACwAIABbAGcA
+cgBvAHUAcABfAG4AdQBtAF0AIABBAFMAQwABgItTAEUATABFAEMAVAAgACoAIABGAFIATwBNACAA
+WwBhAHUAdABvAG0AYQB0AGkAbwBuAF0ALgBbAGQAYgBvAF0ALgBbAHIAZQBxAHUAZQBzAHQAXwBk
+AG8AYwB1AG0AZQBuAHQAcwBdACAAVwBIAEUAUgBFACAAWwBnAHUAaQBkAF0AIAA9ACAAJwABKycA
+IABPAFIARABFAFIAIABCAFkAIABbAEcANAA0ADEAXQAgAEEAUwBDAAETVABFAE0AUABfAFQATwBW
+AEcAABFUAEUATQBQAF8ARwA0ADQAAA9BAGwAdABhAEcAVABEAAAFLQQUBAEPRwBfADIAXwBOAEEA
+TQAAC0cAXwAyAF8ANwAAD0cAXwAyAF8AUwBUAFIAAAtHAF8AMwBfADEAAAtHAF8AMwBfADIAAA9m
+AG8AcgBtAHMAXwAzAAALRwBfADUAXwAxAAATdABvAHYAXwBxAHQAeQBfADUAAAtHAF8ANgBfADEA
+ABVwAGEAYwBrAF8AcQB0AHkAXwA2AAALRwBfADcAXwAxAAAJUABPAFMAVAAAG24AdQBtAF8AYwB1
+AHMAdABvAG0AcwBfAEEAAAlEAEEAVABFAAAJUAByAGUAZgAAAy8AABVuAHUAbQBfAGQAYQB0AGUA
+XwBBAAAHTgBVAE0AAA1HAF8AOABfADUAMAAAC0cAXwA4AF8ANgAAC0cAXwA4AF8ANwAAD0cAXwA4
+AF8ATgBBAE0AABFHAF8AOABfAFMATQAxADQAAA1HAF8AOQBfAEMATgAAC0cAXwA5AF8ANAAADUcA
+XwA5AF8AQwBDAAAPRwBfADkAXwBOAEEATQAAEUcAXwA5AF8AUwBNADEANAAAC0cAXwA5AF8ANwAA
+DUcAXwAxADEAXwAxAAAPRwBfADEANABfAEMATgAADUcAXwAxADQAXwA0AAAPRwBfADEANABfAEMA
+QwAAEUcAXwAxADQAXwBOAEEATQAADUcAXwAxADUAXwAxAAAPRwBfADEANQBBAF8AMQAADUcAXwAx
+ADYAXwAxAAANRwBfADEANgBfADIAAA1HAF8AMQA3AF8AMQAAD0cAXwAxADcAQQBfADEAAA1HAF8A
+MQA4AF8AMAAACUcAXwAxADgAAA1HAF8AMQA5AF8AMQAAHWMAbwBuAHQAYQBpAG4AZQByAF8AcwBp
+AGcAbgAAD0cAXwAyADAAXwAyADAAAA1HAF8AMgAxAF8AMAAADUcAXwAyADIAXwAyAAAZcAByAGkA
+YwBlAF8AcwB1AG0AXwAyADIAAA1HAF8AMgAzAF8AMQAAJWMAdQByAHIAZQBuAGMAeQBfAHIAYQB0
+AGUAXwB0AGgAaQBzAAANRwBfADIAMwBfADIAAA1HAF8AMgA1AF8AMQAAI3QAcgBhAG4AcwBwAG8A
+cgB0AF8AYwBvAGQAZQBfADIANQAADUcAXwAyADYAXwAxAAAPRwBfADIAOABfADEAMgAAD0cAXwAy
+ADgAXwAyADEAAA1HAF8AMgA5AF8AMQAAJWMAdQBzAHQAbwBtAHMAYwBvAGQAZQBfAGIAbwByAGQA
+ZQByAAANRwBfADIAOQBfADIAACVjAHUAcwB0AG8AbQBzAG4AYQBtAGUAXwBiAG8AcgBkAGUAcgAA
+DUcAXwAzADAAXwAwAAANRwA1ADQAMQAxAEQAAAU5ADkAAAUxADEAAA1HAF8AMwAwAF8AMQAAAQAD
+MgAAE3QAZQByAG0AXwBOAEwASQBDAAATRwBfADMAMABfAEQAQQBUAEUAABd0AGUAcgBtAF8ARABC
+AEUARwBJAE4AAA9HAF8AMwAwAF8AQwBDAAATdABlAHIAbQBfAEcAMwAwAEEAABFHAF8AMwAwAF8A
+UwBVAEIAABl0AGUAcgBtAF8ARwAzADAAUwBVAEIARAAAEUcAXwAzADAAXwBDAEkAVAAAGXQAZQBy
+AG0AXwBHADMAMABDAEkAVABZAAARRwBfADMAMABfAFMAVABSAAAddABlAHIAbQBfAEcAMwAwAFMA
+VABSAEUARQBUAAARRwBfADMAMABfAEIATABEAAAbdABlAHIAbQBfAEcAMwAwAEIAVQBJAEwARAAA
+D0cAXwAzADAAXwAxADIAABV0AGUAcgBtAF8ARwAzADAAMQAyAAARRwBfADMAMABfAEQATwBQAAAL
+ZgBhAGwAcwBlAAARVgBFAFMAXwBCAFIAXwBTAAAbbwB2AGUAcgBhAGwAbABfAGcAcgBvAHMAcwAA
+EVYARQBTAF8ATgBUAF8AUwAAF28AdgBlAHIAYQBsAGwAXwBuAGUAdAAADUcAXwA1ADQAXwAxAAAT
+EwQuACAALwQgBCYEFQQSBB4EAQ9HAF8ANQA0AF8AMgAxAABjOAAoADkAMAA1ACkANQAwADIALQAw
+ADAALQAxADUALAAgADgAKAA5ADIAOQApADYAOAAxAC0AOQAyAC0ANwA1ACwAIAA4ACgAOQAyADYA
+KQA1ADMAOQAtADgAOQAtADEAOAABDUcAXwA1ADQAXwAzAAAPHwQVBCIEIAQeBBIEEAQBEUcAXwA1
+ADQAXwAzAE4ATQAACx4EGwQsBBMEEAQBEUcAXwA1ADQAXwAzAE0ARAAAGxAEGwQVBBoEIQQQBB0E
+FAQgBB4EEgQdBBAEAQ1HAF8ANQA0AF8ANAAAGRQEHgQSBBUEIAQVBB0EHQQeBCEEIgQsBAENRwBf
+ADUANABfADUAAAUzADEAAA9HAF8ANQA0AF8ANgAwAAAVMgAwADIAMAAtADAAMgAtADEAMQABD0cA
+XwA1ADQAXwA2ADEAABUyADAAMgAwAC0AMAA2AC0AMQA3AAENRwBfADUANABfADcAAFscBBsEEAQU
+BCgEGAQZBCAAIQQfBBUEJgQYBBAEGwQYBCEEIgQgAB8EHgQgAB4EJAQeBCAEHAQbBC4AIAAiBBAE
+HAQuACAAFAQVBBoEGwQQBCAEEAQmBBgEGQQBDUcAXwA1ADQAXwA4AAAPUgBVADAAMQAwADAAMQAA
+DUcAXwA1ADQAXwA5AAAPHwQQBCEEHwQeBCAEIgQBEUcAXwA1ADQAXwAxADAAMAAADTUAMAA2ADMA
+NAA2AAARRwBfADUANABfADEAMAAxAAAVMgAwADAAOQAtADEAMQAtADIAMwABDUcAXwA1ADQAXwAw
+AAARRwBfADUANABfADEAMQAwAAALRwA1ADQAMQAxAAARRwBfADUANABfADEAMQAxAAAPRwBfADUA
+NABfADEAMgAACzYANgAgADAAOQAAD0cAXwA1ADQAXwAxADMAAHceBCIEFAQVBBsEHgQcBCAAEgQd
+BCMEIgQgBBUEHQQdBBgEJQQgABQEFQQbBCAALwQgBCYEFQQSBCEEGgQeBBMEHgQgACAEEAQZBB4E
+HQQQBCAAIQQcBB4EGwQVBB0EIQQaBB4EGQQgAB4EEQQbBBAEIQQiBBgEARFHAF8ANQA0AF8AMQA1
+ADAAAAkwADAAMwA1AAAPRwBfADUANABfADEANQAAKTcANwAyADgAMgAxADkAMwA2ADkALwA3ADcA
+MgA3ADAAMQAwADAAMQAAC18AXwBfAEQAUgAACSYAJgBEAFIAACVjAHUAcgByAGUAbgBjAHkAXwBy
+AGEAdABlAF8AZABhAHQAZQAAD18AXwBfAFIAVQBTAEQAAA0mACYAUgBVAFMARAAAI2MAdQByAHIA
+ZQBuAGMAeQBfAHIAYQB0AGUAXwB1AHMAZAAAD18AXwBfAFIARQBVAFIAAA0mACYAUgBFAFUAUgAA
+I2MAdQByAHIAZQBuAGMAeQBfAHIAYQB0AGUAXwBlAHUAcgAAC18AXwBfAFIAUgAACSYAJgBSAFIA
 AFNcAFwAMQAwAC4AMQAwAC4AMAAuADIAOABcAGEAbAB0AGEAXABSAG8AYgBvAHQAXABBAGwAdABh
 AF8AaQBtAHAAbwByAHQAXABkAGUAYwBsAF8AABMnACwAJwBHAFQARAAnACwAJwABG1UAcwBlAHIA
 OgA6AGQAbwBjAGcAdQBpAGQAAHFTAFQAXwAyAGQAZABmADEAMwA2ADkAOQA4AGQAMwA0AGEAMAA2
@@ -10055,7 +10075,7 @@ TgBWAE8ASQBDAEMATwBTAFQAAAdHADQANAAAC0cANAA0ADAAMwAACUcANAA0ADEAAAlHADQANAAy
 AAALRwA0ADQAMgBSAAAJRwA0ADQAMwAAE0cANAA0ADMAXwBGAFIATwBNAAAJRwA0ADQANwAAD0cA
 NAA0ADMAXwBUAE8AAAlHADQANAA0AAAJQgBBAEMASwAAAzAAAA1FAEQAXwBUAFkAUAAAC0UARABf
 AEkARAAAD0UARABfAFMAVABBAFQAAAlGAEEAQwBFAAAPRABPAEMAVABFAFgAVAAACWMAbwBuAGMA
-AADOkPNEL0d6QLiPQFZ7auFXAAQgAQEIAyAAAQUgAQEREQQgAQEOBiABARGAiRQHChI5DhI9Ej0S
+AACp1/3cYAsVSZOLejAzvTxIAAQgAQEIAyAAAQUgAQEREQQgAQEOBiABARGAiRQHChI5DhI9Ej0S
 QQ4SRRJFEUkSTQYAAw4ODg4DIAAOBSACAQ4OBSABCBI9BgABEoClDgsAARUSgK0BElkSPQgVElUC
 ElkdHAUgAgEcGBkQAgIVEoCtAR4BFRKArQEeABUSVQIeAB4BBgoCElkdHAcgAgESgKUcBiADAQ4O
 DgUgABKAuQUgARJZCAgQAQIeABJZDgMKAQ4EAAARSQQgAQ4OCCACARKApR0cAwoBCAwgARUSgNEB
@@ -10063,8 +10083,8 @@ EkESgKUIIAIBEoC1HRwFAAEOHQ4GIAIBDhJNBCAAEk0DIAAIJQcPEiQSOQ4OEj0SQQ4SRRJFEkUV
 EmUBEkEVEWEBEUkRaRFJEk0HFRJVAhJZCB8QAgIVEoDRARUSbQIeAR4AFRKA0QEeABUSVQIeAB4B
 BQoCElkIDRUSVQIVEm0CCBJZHRwZEAICFRKA0QEeARUSgNEBHgAVElUCHgAeAQsKAhUSbQIIElkd
 HBEQAQEVEoDRAR4AFRKA0QEeAAQKARJBBxUSgNEBEkEIIAAVEmUBEwAGFRJlARJBBCAAEwAKIAAV
-EoDRARKA6QQgAQEcAyAAAgQKARFdCAoBFRFhARFJBhURYQERSQQKARFJCAACEWkRSRFJAyAADQcA
-AhFdEV0IBSAAEoDxBSAAEoD1BiABEoD5HAMgABwIAAESgP0RgQEFIAASgQUHIAIBDhKBBQwHAxFd
+EoDRARKA6QQgAQEcAyAAAgQKARFdBwACEV0RXQgICgEVEWEBEUkGFRFhARFJBAoBEUkIAAIRaRFJ
+EUkDIAANBSAAEoDxBSAAEoD1BiABEoD5HAMgABwIAAESgP0RgQEFIAASgQUHIAIBDhKBBQwHAxFd
 FRFhARFJEUkHAAICEV0RXQgAAhFdEV0RXQUAAgIODgUHAhIoCAwQAQEeABUSgNEBHgAECgESWQMA
 AA4FAAIODg4HAAQODg4ODgIGDgcVEm0CCBJZCBUSVQISWRFdFBABAhFdFRKA0QEeABUSVQIeABFd
 BxUSVQISWQIYEAECFRKArQEeABUSgK0BHgAVElUCHgACCgcCFRFhARFJEUkIt3pcVhk04IkIiYRd
@@ -10077,38 +10097,44 @@ ICAyMDIwAABJAQAaLk5FVEZyYW1ld29yayxWZXJzaW9uPXY0LjUBAFQOFEZyYW1ld29ya0Rpc3Bs
 YXlOYW1lEi5ORVQgRnJhbWV3b3JrIDQuNQAAtAAAAM7K774BAAAAkQAAAGxTeXN0ZW0uUmVzb3Vy
 Y2VzLlJlc291cmNlUmVhZGVyLCBtc2NvcmxpYiwgVmVyc2lvbj00LjAuMC4wLCBDdWx0dXJlPW5l
 dXRyYWwsIFB1YmxpY0tleVRva2VuPWI3N2E1YzU2MTkzNGUwODkjU3lzdGVtLlJlc291cmNlcy5S
-dW50aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAAGyPAAAAAAAAAAAAAIaPAAAA
-IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAB4jwAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUu
+dW50aW1lUmVzb3VyY2VTZXQCAAAAAAAAAAAAAABQQURQQURQtAAAABiSAAAAAAAAAAAAADKSAAAA
+IAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAkkgAAAAAAAAAAAAAAAF9Db3JEbGxNYWluAG1zY29yZWUu
 ZGxsAAAAAAD/JQAgABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAABABAAAAAYAACAAAAAAAAAAAAAAAAAAAABAAEAAAAwAACAAAAAAAAAAAAA
-AAAAAAABAAAAAABIAAAAWKAAABoEAAAAAAAAAAAAABoENAAAAFYAUwBfAFYARQBSAFMASQBPAE4A
-XwBJAE4ARgBPAAAAAAC9BO/+AAABAAAAAQBSaNYcAAABAFJo1hw/AAAAAAAAAAQAAAACAAAAAAAA
-AAAAAAAAAAAARAAAAAEAVgBhAHIARgBpAGwAZQBJAG4AZgBvAAAAAAAkAAQAAABUAHIAYQBuAHMA
-bABhAHQAaQBvAG4AAAAAAAAAsAR6AwAAAQBTAHQAcgBpAG4AZwBGAGkAbABlAEkAbgBmAG8AAABW
-AwAAAQAwADAAMAAwADAANABiADAAAAAaAAEAAQBDAG8AbQBtAGUAbgB0AHMAAAAAAAAAIgABAAEA
-QwBvAG0AcABhAG4AeQBOAGEAbQBlAAAAAAAAAAAAcAAkAAEARgBpAGwAZQBEAGUAcwBjAHIAaQBw
-AHQAaQBvAG4AAAAAAFMAVABfADIAZABkAGYAMQAzADYAOQA5ADgAZAAzADQAYQAwADYAOQBhAGYA
-MwAxADYAMgA2ADQAMwBiAGYAMgAwADYAMgAAAD4ADwABAEYAaQBsAGUAVgBlAHIAcwBpAG8AbgAA
-AAAAMQAuADAALgA3ADMAOAAyAC4AMgA2ADcAMAA2AAAAAABwACgAAQBJAG4AdABlAHIAbgBhAGwA
-TgBhAG0AZQAAAFMAVABfADIAZABkAGYAMQAzADYAOQA5ADgAZAAzADQAYQAwADYAOQBhAGYAMwAx
-ADYAMgA2ADQAMwBiAGYAMgAwADYAMgAuAGQAbABsAAAASAASAAEATABlAGcAYQBsAEMAbwBwAHkA
-cgBpAGcAaAB0AAAAQwBvAHAAeQByAGkAZwBoAHQAIABAACAAIAAyADAAMgAwAAAAKgABAAEATABl
-AGcAYQBsAFQAcgBhAGQAZQBtAGEAcgBrAHMAAAAAAAAAAAB4ACgAAQBPAHIAaQBnAGkAbgBhAGwA
-RgBpAGwAZQBuAGEAbQBlAAAAUwBUAF8AMgBkAGQAZgAxADMANgA5ADkAOABkADMANABhADAANgA5
-AGEAZgAzADEANgAyADYANAAzAGIAZgAyADAANgAyAC4AZABsAGwAAABoACQAAQBQAHIAbwBkAHUA
-YwB0AE4AYQBtAGUAAAAAAFMAVABfADIAZABkAGYAMQAzADYAOQA5ADgAZAAzADQAYQAwADYAOQBh
-AGYAMwAxADYAMgA2ADQAMwBiAGYAMgAwADYAMgAAAEIADwABAFAAcgBvAGQAdQBjAHQAVgBlAHIA
-cwBpAG8AbgAAADEALgAwAC4ANwAzADgAMgAuADIANgA3ADAANgAAAAAARgAPAAEAQQBzAHMAZQBt
-AGIAbAB5ACAAVgBlAHIAcwBpAG8AbgAAADEALgAwAC4ANwAzADgAMgAuADIANgA3ADAANgAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA
-AAwAAACYPwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAQAQAAAAGAAAgAAAAAAAAAAAAAAAAAAAAQABAAAAMAAAgAAAAAAAAAAAAAAA
+AAAAAQAAAAAASAAAAFigAAAaBAAAAAAAAAAAAAAaBDQAAABWAFMAXwBWAEUAUgBTAEkATwBOAF8A
+SQBOAEYATwAAAAAAvQTv/gAAAQAAAAEAeEndHAAAAQB4Sd0cPwAAAAAAAAAEAAAAAgAAAAAAAAAA
+AAAAAAAAAEQAAAABAFYAYQByAEYAaQBsAGUASQBuAGYAbwAAAAAAJAAEAAAAVAByAGEAbgBzAGwA
+YQB0AGkAbwBuAAAAAAAAALAEegMAAAEAUwB0AHIAaQBuAGcARgBpAGwAZQBJAG4AZgBvAAAAVgMA
+AAEAMAAwADAAMAAwADQAYgAwAAAAGgABAAEAQwBvAG0AbQBlAG4AdABzAAAAAAAAACIAAQABAEMA
+bwBtAHAAYQBuAHkATgBhAG0AZQAAAAAAAAAAAHAAJAABAEYAaQBsAGUARABlAHMAYwByAGkAcAB0
+AGkAbwBuAAAAAABTAFQAXwAyAGQAZABmADEAMwA2ADkAOQA4AGQAMwA0AGEAMAA2ADkAYQBmADMA
+MQA2ADIANgA0ADMAYgBmADIAMAA2ADIAAAA+AA8AAQBGAGkAbABlAFYAZQByAHMAaQBvAG4AAAAA
+ADEALgAwAC4ANwAzADgAOQAuADEAOAA4ADAAOAAAAAAAcAAoAAEASQBuAHQAZQByAG4AYQBsAE4A
+YQBtAGUAAABTAFQAXwAyAGQAZABmADEAMwA2ADkAOQA4AGQAMwA0AGEAMAA2ADkAYQBmADMAMQA2
+ADIANgA0ADMAYgBmADIAMAA2ADIALgBkAGwAbAAAAEgAEgABAEwAZQBnAGEAbABDAG8AcAB5AHIA
+aQBnAGgAdAAAAEMAbwBwAHkAcgBpAGcAaAB0ACAAQAAgACAAMgAwADIAMAAAACoAAQABAEwAZQBn
+AGEAbABUAHIAYQBkAGUAbQBhAHIAawBzAAAAAAAAAAAAeAAoAAEATwByAGkAZwBpAG4AYQBsAEYA
+aQBsAGUAbgBhAG0AZQAAAFMAVABfADIAZABkAGYAMQAzADYAOQA5ADgAZAAzADQAYQAwADYAOQBh
+AGYAMwAxADYAMgA2ADQAMwBiAGYAMgAwADYAMgAuAGQAbABsAAAAaAAkAAEAUAByAG8AZAB1AGMA
+dABOAGEAbQBlAAAAAABTAFQAXwAyAGQAZABmADEAMwA2ADkAOQA4AGQAMwA0AGEAMAA2ADkAYQBm
+ADMAMQA2ADIANgA0ADMAYgBmADIAMAA2ADIAAABCAA8AAQBQAHIAbwBkAHUAYwB0AFYAZQByAHMA
+aQBvAG4AAAAxAC4AMAAuADcAMwA4ADkALgAxADgAOAAwADgAAAAAAEYADwABAEEAcwBzAGUAbQBi
+AGwAeQAgAFYAZQByAHMAaQBvAG4AAAAxAC4AMAAuADcAMwA4ADkALgAxADgAOAAwADgAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACQAAAM
+AAAARDIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
@@ -10116,7 +10142,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
+AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA</BinaryItem>
             </ScriptProject>
           </DTS:ObjectData>
         </DTS:Executable>
@@ -10137,36 +10163,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</Binary
               VSTAMinorVersion="0"
               Language="CSharp"
               ReadOnlyVariables="User::excelpath">
-              <ProjectItem
-                Name="Properties\AssemblyInfo.cs"
-                Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_20d805f1ea644a19a60abfc518354d5c")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_20d805f1ea644a19a60abfc518354d5c")]
-[assembly: AssemblyCopyright("Copyright @  2020")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -10286,6 +10282,35 @@ using System.Runtime.CompilerServices;
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_20d805f1ea644a19a60abfc518354d5c.Properties.Settings.get_Default():ST_20d805f1ea644a19a60abfc518354d5c.Properties.Sett" +
+    "ings")]
+
+namespace ST_20d805f1ea644a19a60abfc518354d5c.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -10526,34 +10551,35 @@ namespace ST_20d805f1ea644a19a60abfc518354d5c
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
 //
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_20d805f1ea644a19a60abfc518354d5c")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_20d805f1ea644a19a60abfc518354d5c")]
+[assembly: AssemblyCopyright("Copyright @  2020")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
 
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_20d805f1ea644a19a60abfc518354d5c.Properties.Settings.get_Default():ST_20d805f1ea644a19a60abfc518354d5c.Properties.Sett" +
-    "ings")]
-
-namespace ST_20d805f1ea644a19a60abfc518354d5c.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Settings.settings"
                 Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
@@ -17716,14 +17742,35 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=]]></arrayElement>
               Language="CSharp"
               ReadWriteVariables="User::excelpath">
               <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
+//
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_20d805f1ea644a19a60abfc518354d5c")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_20d805f1ea644a19a60abfc518354d5c")]
+[assembly: AssemblyCopyright("Copyright @  2020")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
+
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -18016,35 +18063,14 @@ namespace ST_20d805f1ea644a19a60abfc518354d5c.Properties {
     }
 }]]></ProjectItem>
               <ProjectItem
-                Name="Properties\AssemblyInfo.cs"
-                Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_20d805f1ea644a19a60abfc518354d5c")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_20d805f1ea644a19a60abfc518354d5c")]
-[assembly: AssemblyCopyright("Copyright @  2020")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -18578,7 +18604,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <NodeLayout
           Size="143,42"
           Id="Package\Process files\Add data Alta"
-          TopLeft="182.5,311.5" />
+          TopLeft="181.5,311.5" />
         <NodeLayout
           Size="135,42"
           Id="Package\Process files\Add data BI"
@@ -18590,7 +18616,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <NodeLayout
           Size="226,42"
           Id="Package\Process files\Compose additional documents"
-          TopLeft="299,908.5" />
+          TopLeft="274,908.5" />
         <NodeLayout
           Size="158,44"
           Id="Package\Process files\Compose header"
@@ -18602,7 +18628,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <NodeLayout
           Size="155,42"
           Id="Package\Process files\Create XML files"
-          TopLeft="397.5,1021.5" />
+          TopLeft="379.5,1021.5" />
         <NodeLayout
           Size="165,42"
           Id="Package\Process files\Delete request file"
@@ -18767,30 +18793,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Process files.PrecedenceConstraints[Ограничение 12]"
-          TopLeft="499.5,1063.5">
+          TopLeft="478.25,1063.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-24.5,66"
+              EndConnector="0,66"
               Start="0,0"
-              End="-24.5,58.5">
+              End="0,58.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,22.8045977011494" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,22.8045977011494"
-                    Point2="0,26.8045977011494"
-                    Point3="-4,26.8045977011494" />
-                  <mssgle:LineSegment
-                    End="-20.5,26.8045977011494" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-20.5,26.8045977011494"
-                    Point2="-24.5,26.8045977011494"
-                    Point3="-24.5,30.8045977011494" />
-                  <mssgle:LineSegment
-                    End="-24.5,58.5" />
+                    End="0,58.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -18801,13 +18815,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Process files.PrecedenceConstraints[Ограничение 13]"
-          TopLeft="448.333333333333,950.5">
+          TopLeft="423.333333333333,950.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="26.6666666666667,71"
+              EndConnector="33.6666666666667,71"
               Start="0,0"
-              End="26.6666666666667,63.5">
+              End="33.6666666666667,63.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -18818,13 +18832,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
                     Point2="0,28.6994727592267"
                     Point3="4,28.6994727592267" />
                   <mssgle:LineSegment
-                    End="22.6666666666667,28.6994727592267" />
+                    End="29.6666666666667,28.6994727592267" />
                   <mssgle:CubicBezierSegment
-                    Point1="22.6666666666667,28.6994727592267"
-                    Point2="26.6666666666667,28.6994727592267"
-                    Point3="26.6666666666667,32.6994727592267" />
+                    Point1="29.6666666666667,28.6994727592267"
+                    Point2="33.6666666666667,28.6994727592267"
+                    Point3="33.6666666666667,32.6994727592267" />
                   <mssgle:LineSegment
-                    End="26.6666666666667,63.5" />
+                    End="33.6666666666667,63.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -18955,13 +18969,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Process files.PrecedenceConstraints[Ограничение 18]"
-          TopLeft="375.666666666667,950.5">
+          TopLeft="350.666666666667,950.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-113.866666666667,179"
+              EndConnector="-88.8666666666666,179"
               Start="0,0"
-              End="-113.866666666667,171.5">
+              End="-88.8666666666666,171.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -18972,32 +18986,32 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
                     Point2="0,81.610812308339"
                     Point3="-4,81.610812308339" />
                   <mssgle:LineSegment
-                    End="-109.866666666667,81.610812308339" />
+                    End="-84.8666666666666,81.610812308339" />
                   <mssgle:CubicBezierSegment
-                    Point1="-109.866666666667,81.610812308339"
-                    Point2="-113.866666666667,81.610812308339"
-                    Point3="-113.866666666667,85.610812308339" />
+                    Point1="-84.8666666666666,81.610812308339"
+                    Point2="-88.8666666666666,81.610812308339"
+                    Point3="-88.8666666666666,85.610812308339" />
                   <mssgle:LineSegment
-                    End="-113.866666666667,171.5" />
+                    End="-88.8666666666666,171.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-68.7275520833335,86.610812308339,23.5884375,10.1396484375"
+              BoundingBox="-56.2275520833333,86.610812308339,23.5884375,10.1396484375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Process files.PrecedenceConstraints[Ограничение 19]"
-          TopLeft="450.5,1063.5">
+          TopLeft="432.5,1063.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-157.1,66"
+              EndConnector="-139.1,66"
               Start="0,0"
-              End="-157.1,58.5">
+              End="-139.1,58.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -19008,20 +19022,20 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
                     Point2="0,40.5607711651299"
                     Point3="-4,40.5607711651299" />
                   <mssgle:LineSegment
-                    End="-153.1,40.5607711651299" />
+                    End="-135.1,40.5607711651299" />
                   <mssgle:CubicBezierSegment
-                    Point1="-153.1,40.5607711651299"
-                    Point2="-157.1,40.5607711651299"
-                    Point3="-157.1,44.5607711651299" />
+                    Point1="-135.1,40.5607711651299"
+                    Point2="-139.1,40.5607711651299"
+                    Point3="-139.1,44.5607711651299" />
                   <mssgle:LineSegment
-                    End="-157.1,58.5" />
+                    End="-139.1,58.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-90.34421875,45.5607711651299,23.5884375,10.1396484375"
+              BoundingBox="-81.34421875,45.5607711651299,23.5884375,10.1396484375"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
@@ -19061,7 +19075,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Process files.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="254,251.5">
+          TopLeft="253.5,251.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19141,7 +19155,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Process files.PrecedenceConstraints[Ограничение 6]"
-          TopLeft="256.5,353.5">
+          TopLeft="256,353.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -19225,9 +19239,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="134,45"
+              EndConnector="109,45"
               Start="0,0"
-              End="134,37.5">
+              End="109,37.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
@@ -19238,13 +19252,13 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
                     Point2="0,18.2706766917293"
                     Point3="4,18.2706766917293" />
                   <mssgle:LineSegment
-                    End="130,18.2706766917293" />
+                    End="105,18.2706766917293" />
                   <mssgle:CubicBezierSegment
-                    Point1="130,18.2706766917293"
-                    Point2="134,18.2706766917293"
-                    Point3="134,22.2706766917293" />
+                    Point1="105,18.2706766917293"
+                    Point2="109,18.2706766917293"
+                    Point3="109,22.2706766917293" />
                   <mssgle:LineSegment
-                    End="134,37.5" />
+                    End="109,37.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -19256,8 +19270,8 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="823,1299"
-          Size="823,1342"
+          PanelSize="823,1329"
+          Size="823,1372"
           Id="Package\Process files"
           TopLeft="25,209" />
         <NodeLayout
@@ -19290,25 +19304,25 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="433.988095238095,1551">
+          TopLeft="433.988095238095,1581">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,53.6507936507892"
+              EndConnector="0,23.6507936507901"
               Start="0,0"
-              End="0,46.1507936507892">
+              End="0,16.1507936507901">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,46.1507936507892" />
+                    End="0,16.1507936507901" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
             <mssgm:EdgeLabel
-              BoundingBox="-28.87931640625,17.3683655753946,57.7586328125,11.4140625"
+              BoundingBox="-28.87931640625,2.36836557539505,57.7586328125,11.4140625"
               RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>

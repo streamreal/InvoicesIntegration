@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="109"
-  DTS:VersionGUID="{568A185F-D05E-4886-B223-046F1450F7C6}">
+  DTS:VersionBuild="117"
+  DTS:VersionGUID="{087878EF-E638-45B1-A4EF-AEB7E28702DE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACqf+kdQUQ4ser6QVGGW2ysAAAAAASAAACgAAAAEAAAAD0pBzDX9zjTeB4mUykqUZEYAAAA/LjD5jQ99S8EnB/8mgwh/1oh3Dp4+FhHFAAAAHOQU83ELnZxfa8a9SxR2Tc/H1WI</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACv1eFjfdQ6E0AqUuLN3ni1AAAAAASAAACgAAAAEAAAACXxD1ti3AKYRyzeA+uO8+QYAAAAwQMTLANpJKLmaR+7nNzCGTvF5eb8sG+ZFAAAAOniG7Ug5YqEipcP94+nTI1tdpdf</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -138,7 +138,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Base tables"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -154,7 +154,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Border"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -170,7 +170,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Common docs"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -186,7 +186,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Contract additions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -202,7 +202,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Contracts"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -218,7 +218,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Descriptions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -234,12 +234,606 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Terminals"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
               SQLTask:SqlStatementSource="TRUNCATE TABLE [automation].[dbo].[TERMINALS]&#xA;GO&#xA;INSERT INTO [automation].[dbo].[TERMINALS]&#xA;           ([NAV_CODE]&#xA;           ,[NLIC]&#xA;           ,[DBEGIN]&#xA;           ,[G30A]&#xA;           ,[G30AN]&#xA;           ,[G30SUBD]&#xA;           ,[G30CITY]&#xA;           ,[G30STREET]&#xA;           ,[G30BUILD]&#xA;           ,[G30LNAME]&#xA;           ,[G3012]&#xA;           ,[VAT])&#xA;SELECT &#xA;x.code,&#xA;ca1.NLIC,&#xA;ca1.DBEGIN,&#xA;x.G30A,&#xA;x.G30AN,&#xA;x.G30SUBD,&#xA;x.G30CITY,&#xA;x.G30STREET,&#xA;x.G30BUILD,&#xA;x.G30LNAME,&#xA;x.G3012,&#xA;ca1.INN&#xA;FROM (&#xA;SELECT *&#xA;  FROM [BI].[dwh].[Warehouses] w&#xA;  CROSS APPLY&#xA;  (SELECT TOP (1)&#xA;  h.[G30_ITN]&#xA; ,h.[G300]&#xA; ,h.[G3010]&#xA; ,h.[G30AEOOWN]&#xA; ,h.[G30AEOCNTR]&#xA; ,h.[G301]&#xA; ,h.[G30AEOKIND]&#xA; ,h.[G30AEORCOD]&#xA; ,h.[G3011]&#xA; ,h.[G30]&#xA; ,h.[G30D]&#xA; ,h.[G30DD]&#xA; ,h.[G30POST]&#xA; ,h.[G30A]&#xA; ,h.[G30AN]&#xA; ,h.[G30SUBD]&#xA; ,h.[G30CITY]&#xA; ,h.[G30STREET]&#xA; ,h.[G30BUILD]&#xA; ,h.[G30LNAME]&#xA; ,h.[G3012]&#xA; ,h.[G30121]&#xA; ,h.[G30122]&#xA;FROM [BI].[dwh].[MonitorsDatamart] md JOIN [automation].[dbo].[DBRHEAD] h&#xA;ON md.RegNumDT = h.DocNum&#xA;WHERE md.Terminal_Code = w.Code &#xA;AND h.G300 = 11&#xA;AND w.[Customs Code] = h.G3012&#xA;ORDER BY h.GD1 DESC, h.GD11 DESC) AS ca&#xA;) x&#xA;CROSS APPLY (&#xA;SELECT TOP (1) [INN], [NLIC], [DBEGIN] &#xA;FROM [automation].[dbo].[ref_warehouses_fts_full] ff &#xA;WHERE &#xA;x.[Customs Code] = ff.KODT &#xA;AND LTRIM(RTRIM(x.G301)) = LTRIM(RTRIM(ff.NLIC))&#xA;ORDER BY CONVERT(date, DBEGIN, 104) DESC&#xA;) AS ca1&#xA;GO&#xA;&#xA;&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Truncate"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{079A56A3-CD94-4BB8-88DF-56222C507C80}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [automation].[dbo].[old_ref]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\UPDATE отсутствует"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:Disabled="True"
+          DTS:DTSID="{E7802EC7-6437-4827-8955-2DE80F0548AA}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="UPDATE отсутствует"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="UPDATE [automation].[dbo].[old_ref]&#xA;SET articul = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(articul))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(articul)))&#xA;END),&#xA;model = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(model))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(model)))&#xA;END)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Старый справочник"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:Disabled="True"
+          DTS:DTSID="{89146C32-C7B9-4E0E-B24B-26A0B3D73548}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Старый справочник"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+                  name="ADO NET Destination"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="The Destination database table name."
+                      expressionType="Notify"
+                      name="TableOrViewName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"dbo"."old_ref"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                      expressionType="Notify"
+                      name="BatchSize">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                      expressionType="Notify"
+                      name="CommandTimeout">30</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                      expressionType="Notify"
+                      name="UseBulkInsertWhenPossible">true</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Connections[IDbConnection]"
+                      connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                      description="Managed connection manager"
+                      name="IDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input]"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="ADO NET Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[id]"
+                          cachedDataType="i4"
+                          cachedName="id"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[id]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[id]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[inn]"
+                          cachedDataType="wstr"
+                          cachedLength="12"
+                          cachedName="inn"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[inn]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[inn]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[articul]"
+                          cachedDataType="wstr"
+                          cachedLength="500"
+                          cachedName="articul"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[articul]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[articul]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[model]"
+                          cachedDataType="wstr"
+                          cachedLength="3000"
+                          cachedName="model"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[model]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[model]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[hs_code]"
+                          cachedDataType="wstr"
+                          cachedLength="100"
+                          cachedName="hs_code"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[hs_code]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[hs_code]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[common_des]"
+                          cachedDataType="nText"
+                          cachedName="common_des"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[common_des]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[common_des]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[tovg_des]"
+                          cachedDataType="nText"
+                          cachedName="tovg_des"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[tovg_des]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[tovg_des]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[DS]"
+                          cachedDataType="nText"
+                          cachedName="DS"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[DS]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[DS_begin_date]"
+                          cachedDataType="dbDate"
+                          cachedName="DS_begin_date"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[DS_begin_date]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS_begin_date]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[DS_end_date]"
+                          cachedDataType="dbDate"
+                          cachedName="DS_end_date"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[DS_end_date]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS_end_date]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[SGR]"
+                          cachedDataType="nText"
+                          cachedName="SGR"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[SGR]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[SGR]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[SGR_date]"
+                          cachedDataType="dbDate"
+                          cachedName="SGR_date"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[SGR_date]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[SGR_date]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[id]"
+                          dataType="i4"
+                          name="id" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[inn]"
+                          dataType="wstr"
+                          length="12"
+                          name="inn" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[articul]"
+                          dataType="wstr"
+                          length="500"
+                          name="articul" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[model]"
+                          dataType="wstr"
+                          length="3000"
+                          name="model" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[hs_code]"
+                          dataType="wstr"
+                          length="100"
+                          name="hs_code" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[common_des]"
+                          dataType="wstr"
+                          length="2147483647"
+                          name="common_des" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[tovg_des]"
+                          dataType="wstr"
+                          length="2147483647"
+                          name="tovg_des" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[DS]"
+                          dataType="wstr"
+                          length="2147483647"
+                          name="DS" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[DS_begin_date]"
+                          dataType="dbTimeStamp"
+                          name="DS_begin_date" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[DS_end_date]"
+                          dataType="dbTimeStamp"
+                          name="DS_end_date" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[SGR]"
+                          dataType="wstr"
+                          length="2147483647"
+                          name="SGR" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[SGR_date]"
+                          dataType="dbTimeStamp"
+                          name="SGR_date" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Outputs[ADO NET Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="ADO NET Destination Error Output"
+                      synchronousInputId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+                  name="ADO NET Source"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement used by the component to extract data."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT 
+a.id
+,c.inn
+	  ,a.[articul] articul
+	  ,m.[name] model
+      ,a.[code_tnved] hs_code   
+	  ,a.[descr] common_des
+	  ,a.[name] tovg_des 
+      ,i.DS
+	  ,i.DS_begin_date
+	  ,i.DS_end_date
+	  ,i.SGR
+	  ,i.SGR_date
+  FROM [webproject].[dbo].[articuls] a 
+  JOIN [webproject].[dbo].[customers] c ON a.customer_id = c.id
+  LEFT JOIN [webproject].[dbo].[invoices] i ON a.invoice_id = i.id
+  LEFT JOIN [webproject].[dbo].[models] m ON a.model_id = m.id</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">30</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                      name="AllowImplicitStringConversion">true</property>
+                    <property
+                      dataType="System.String"
+                      description="The Source database table name."
+                      expressionType="Notify"
+                      name="TableOrViewName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specify the mode to retrieve external column information"
+                      name="AccessMode"
+                      typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Connections[IDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[10.0.0.33.phpuser]"
+                      connectionManagerRefId="Package.ConnectionManagers[10.0.0.33.phpuser]"
+                      description="Managed connection manager"
+                      name="IDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output]"
+                      name="ADO NET Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[id]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[id]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[id]"
+                          name="id"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[inn]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[inn]"
+                          length="12"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[inn]"
+                          name="inn"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[articul]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[articul]"
+                          length="500"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[articul]"
+                          name="articul"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[model]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[model]"
+                          length="3000"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[model]"
+                          name="model"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[hs_code]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[hs_code]"
+                          length="100"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[hs_code]"
+                          name="hs_code"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[common_des]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[common_des]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[common_des]"
+                          name="common_des"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[tovg_des]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[tovg_des]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[tovg_des]"
+                          name="tovg_des"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DS]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS]"
+                          name="DS"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS_begin_date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DS_begin_date]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS_begin_date]"
+                          name="DS_begin_date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS_end_date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DS_end_date]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[DS_end_date]"
+                          name="DS_end_date"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[SGR]"
+                          dataType="nText"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[SGR]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[SGR]"
+                          name="SGR"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[SGR_date]"
+                          dataType="dbDate"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[SGR_date]"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].Columns[SGR_date]"
+                          name="SGR_date"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[id]"
+                          dataType="i4"
+                          name="id" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[inn]"
+                          dataType="wstr"
+                          length="12"
+                          name="inn" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[articul]"
+                          dataType="wstr"
+                          length="500"
+                          name="articul" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[model]"
+                          dataType="wstr"
+                          length="3000"
+                          name="model" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[hs_code]"
+                          dataType="wstr"
+                          length="100"
+                          name="hs_code" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[common_des]"
+                          dataType="nText"
+                          name="common_des" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[tovg_des]"
+                          dataType="nText"
+                          name="tovg_des" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DS]"
+                          dataType="nText"
+                          name="DS" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DS_begin_date]"
+                          dataType="dbDate"
+                          name="DS_begin_date" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DS_end_date]"
+                          dataType="dbDate"
+                          name="DS_end_date" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[SGR]"
+                          dataType="nText"
+                          name="SGR" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[SGR_date]"
+                          dataType="dbDate"
+                          name="SGR_date" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output]"
+                      isErrorOut="true"
+                      name="ADO NET Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[id]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[id]"
+                          name="id" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[inn]"
+                          dataType="wstr"
+                          length="12"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[inn]"
+                          name="inn" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[articul]"
+                          dataType="wstr"
+                          length="500"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[articul]"
+                          name="articul" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[model]"
+                          dataType="wstr"
+                          length="3000"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[model]"
+                          name="model" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[hs_code]"
+                          dataType="wstr"
+                          length="100"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[hs_code]"
+                          name="hs_code" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[common_des]"
+                          dataType="nText"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[common_des]"
+                          name="common_des" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[tovg_des]"
+                          dataType="nText"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[tovg_des]"
+                          name="tovg_des" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DS]"
+                          dataType="nText"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DS]"
+                          name="DS" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DS_begin_date]"
+                          dataType="dbDate"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DS_begin_date]"
+                          name="DS_begin_date" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DS_end_date]"
+                          dataType="dbDate"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DS_end_date]"
+                          name="DS_end_date" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[SGR]"
+                          dataType="nText"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[SGR]"
+                          name="SGR" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[SGR_date]"
+                          dataType="dbDate"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[SGR_date]"
+                          name="SGR_date" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Docs2SQL transformation\Старый справочник.Paths[ADO NET Source Output]"
+                  endId="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination.Inputs[ADO NET Destination Input]"
+                  name="ADO NET Source Output"
+                  startId="Package\Docs2SQL transformation\Старый справочник\ADO NET Source.Outputs[ADO NET Source Output]" />
+              </paths>
+            </pipeline>
           </DTS:ObjectData>
         </DTS:Executable>
       </DTS:Executables>
@@ -292,6 +886,22 @@
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 5"
           DTS:To="Package\Docs2SQL transformation\Border" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 6]"
+          DTS:CreationName=""
+          DTS:DTSID="{B843FE85-8614-401E-B6F1-084A4DD8C0D9}"
+          DTS:From="Package\Docs2SQL transformation\Truncate"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 6"
+          DTS:To="Package\Docs2SQL transformation\Старый справочник" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 7]"
+          DTS:CreationName=""
+          DTS:DTSID="{E1048272-88DB-4426-BD2E-09C694A655CD}"
+          DTS:From="Package\Docs2SQL transformation\Старый справочник"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 7"
+          DTS:To="Package\Docs2SQL transformation\UPDATE отсутствует" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -312,7 +922,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Delete duplicates"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -328,7 +938,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Insert cross apply"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -344,7 +954,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -360,7 +970,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate 2"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -377,7 +987,7 @@
           DTS:ExecutableType="Microsoft.ScriptTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Загрузка и разбор CSV"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <ScriptProject
@@ -385,36 +995,6 @@
               VSTAMajorVersion="14"
               VSTAMinorVersion="0"
               Language="CSharp">
-              <ProjectItem
-                Name="Properties\AssemblyInfo.cs"
-                Encoding="UTF8"><![CDATA[using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_44d249f0184644d2bd335f8ecd444190")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_44d249f0184644d2bd335f8ecd444190")]
-[assembly: AssemblyCopyright("Copyright @  2020")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -534,6 +1114,35 @@ using System.Runtime.CompilerServices;
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_44d249f0184644d2bd335f8ecd444190.Properties.Settings.get_Default():ST_44d249f0184644d2bd335f8ecd444190.Properties.Sett" +
+    "ings")]
+
+namespace ST_44d249f0184644d2bd335f8ecd444190.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -901,34 +1510,35 @@ namespace ST_0685d9c218c54522b3f46cd49c3fadd6
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Reflection;
+using System.Runtime.CompilerServices;
+
 //
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_44d249f0184644d2bd335f8ecd444190")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_44d249f0184644d2bd335f8ecd444190")]
+[assembly: AssemblyCopyright("Copyright @  2020")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
 
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_44d249f0184644d2bd335f8ecd444190.Properties.Settings.get_Default():ST_44d249f0184644d2bd335f8ecd444190.Properties.Sett" +
-    "ings")]
-
-namespace ST_44d249f0184644d2bd335f8ecd444190.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
+[assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Settings.settings"
                 Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
@@ -7598,7 +8208,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="132,42"
           Id="Package\Docs2SQL transformation\Base tables"
@@ -7627,6 +8237,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
           Size="125,42"
           Id="Package\Docs2SQL transformation\Terminals"
           TopLeft="53,76.5" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Docs2SQL transformation\Truncate"
+          TopLeft="240,60" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Docs2SQL transformation\UPDATE отсутствует"
+          TopLeft="211,199" />
+        <NodeLayout
+          Size="176,42"
+          Id="Package\Docs2SQL transformation\Старый справочник"
+          TopLeft="209,128" />
         <EdgeLayout
           Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение]"
           TopLeft="114.25,50.5">
@@ -7759,11 +8381,55 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 6]"
+          TopLeft="298.75,102">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 7]"
+          TopLeft="298.5,170">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="263,523"
-          Size="263,566"
+          PanelSize="441,523"
+          Size="441,566"
           Id="Package\Docs2SQL transformation"
           TopLeft="434,229" />
         <NodeLayout
@@ -7926,6 +8592,60 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Docs2SQL transformation\Старый справочник">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="158,42"
+          Id="Package\Docs2SQL transformation\Старый справочник\ADO NET Source"
+          TopLeft="293,64" />
+        <NodeLayout
+          Size="179,42"
+          Id="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination"
+          TopLeft="275,135" />
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation\Старый справочник.Paths[ADO NET Source Output]"
+          TopLeft="368.25,106">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,29"
+              Start="0,0"
+              End="0,21.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Docs2SQL transformation\Старый справочник\ADO NET Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Docs2SQL transformation\Старый справочник\ADO NET Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Контейнер\Перенос из NAV">
     <LayoutInfo>

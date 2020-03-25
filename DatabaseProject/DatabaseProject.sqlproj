@@ -57,7 +57,7 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
-    <Folder Include="ПОСЛЕ ОПУБЛИКОВАНИЯ КОРРЕКТИРОВАТЬ ПАРАМЕТРЫ - varchar_max" />
+    <Folder Include="!PUBLICATION varchar_max" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

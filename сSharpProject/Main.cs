@@ -11,8 +11,13 @@ namespace сSharpProject
     {
         public static void Main()
         {
-            Web_api w = new Web_api();
-            w.ProcessXml();
+            //CurrencyRate.GetRates();
+            
+            DeclarationParser d = new DeclarationParser();
+            d.Go();
+
+            //Web_api w = new Web_api();
+            //w.ProcessXml();
 
             //Linq l = new Linq();
             //l.Go_inv();

@@ -32,13 +32,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeclarationParser.cs" />
     <Compile Include="Linq.cs" />
     <Compile Include="MailGetAttachments.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="CurrencyRates.cs" />
     <Compile Include="WebApi.cs" />
   </ItemGroup>
   <ItemGroup>
