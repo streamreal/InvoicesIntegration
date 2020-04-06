@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="117"
-  DTS:VersionGUID="{087878EF-E638-45B1-A4EF-AEB7E28702DE}">
+  DTS:VersionBuild="118"
+  DTS:VersionGUID="{D01D15BC-DEF3-4F21-B81E-BDB101AEEDEE}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACv1eFjfdQ6E0AqUuLN3ni1AAAAAASAAACgAAAAEAAAACXxD1ti3AKYRyzeA+uO8+QYAAAAwQMTLANpJKLmaR+7nNzCGTvF5eb8sG+ZFAAAAOniG7Ug5YqEipcP94+nTI1tdpdf</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAA+1nWpYw73znOiTC0w5Ld/AAAAAASAAACgAAAAEAAAAH7Kw0jvNv1pBKqEgwiJ1+0YAAAA+0julB+69WIT27XKXvL7o6b5qpnZ8pnDFAAAAG8XBRDcR/kOJFngjxsDfKJAiYND</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -138,12 +138,12 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Base tables"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.DBRHEAD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRHEAD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVAR', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVAR;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_TOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_TOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_DES', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_DES;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD_PARSE', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD_PARSE;  &#xA;GO&#xA;SELECT * INTO automation.dbo.DBRHEAD&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTECHD&#xA;FROM [Docs2SQL].[dbo].[DBRTECHD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTOVAR&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;GO&#xA;&#xA;SELECT * INTO automation.dbo.DBRTOVG&#xA;FROM [Docs2SQL].[dbo].[DBRTOVG]&#xA;GO&#xA;UPDATE automation.dbo.DBRTOVG&#xA;SET G31_15 = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15)))&#xA;END),&#xA;G31_15_MOD = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15_MOD))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15_MOD)))&#xA;END)&#xA;GO&#xA;SELECT DocNum, G32, automation.dbo.RowsConcat(TEXT1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_DES&#xA;FROM (&#xA;SELECT TOP (100) PERCENT * FROM (&#xA;SELECT NUMREC = 0, [G31_1] TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;UNION&#xA;SELECT NUMREC, TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO]&#xA;WHERE NGR = '31' AND TYP_NGR = '01') x&#xA;ORDER BY DocNum ASC, G32 ASC, NUMREC ASC&#xA;) y&#xA;GROUP BY DocNum, G32&#xA;GO&#xA;SELECT DocNum, G32, G32G, automation.dbo.RowsConcat(text1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_TOVG&#xA;FROM (&#xA;SELECT TOP (100) PERCENT DocNum, G32, G32G, NUMREC, TEXT1&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO] d &#xA;WHERE d.NGR = '31' AND d.TYP_NGR = 'G1'&#xA;ORDER BY DocNum ASC, G32 ASC, G32G ASC, NUMREC ASC&#xA;) x&#xA;GROUP BY DocNum, G32, G32G&#xA;GO&#xA;SET ANSI_PADDING ON&#xA;GO&#xA;CREATE NONCLUSTERED INDEX [G442] ON [automation].[dbo].[DBRTECHD]&#xA;(&#xA;&#x9;[G442] ASC&#xA;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]&#xA;GO&#xA;SELECT DocNum, g32, G441, num, G443, G447, G4403, G442R, ED_ID&#xA;INTO automation.dbo.DBRTECHD_PARSE&#xA;FROM (&#xA;SELECT DocNum, g32, G441,&#xA;automation.dbo.RowsConcat(COALESCE(G442, ''), ' ИЛИ ') num&#xA;FROM [automation].[dbo].[DBRTECHD]&#xA;WHERE (G441 = '01191' AND G447 IS NOT NULL AND G447 &gt;= GETDATE())&#xA;OR (G441 = '01206' AND (G447 IS NULL OR G447 &gt;= GETDATE()))&#xA;GROUP BY DocNum, g32, G441) x&#xA;OUTER APPLY (SELECT TOP (1) G443, G447, G4403, G442R, ED_ID FROM [automation].[dbo].[DBRTECHD] t&#xA;WHERE t.G442 = x.num) AS oa&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovar&#xA;ON [dbo].[DBRTOVAR] ([G32],[DocNum])&#xA;INCLUDE ([G33],[G333])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX descr&#xA;ON [dbo].[DBRDINFO_DES] ([DocNum],[G32])&#xA;INCLUDE ([text1])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovg&#xA;ON [dbo].[DBRDINFO_TOVG] ([DocNum],[G32],[G32G])&#xA;INCLUDE ([text1])&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="IF OBJECT_ID (N'automation.dbo.DBRHEAD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRHEAD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVAR', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVAR;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_TOVG', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_TOVG;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRDINFO_DES', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRDINFO_DES;  &#xA;GO&#xA;IF OBJECT_ID (N'automation.dbo.DBRTECHD_PARSE', N'U') IS NOT NULL  &#xA;DROP TABLE automation.dbo.DBRTECHD_PARSE;  &#xA;GO&#xA;SELECT * INTO automation.dbo.DBRHEAD&#xA;FROM [Docs2SQL].[dbo].[DBRHEAD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTECHD&#xA;FROM [Docs2SQL].[dbo].[DBRTECHD]&#xA;GO&#xA;SELECT * INTO automation.dbo.DBRTOVAR&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;GO&#xA;&#xA;SELECT * INTO automation.dbo.DBRTOVG&#xA;FROM [Docs2SQL].[dbo].[DBRTOVG]&#xA;GO&#xA;UPDATE automation.dbo.DBRTOVG&#xA;SET G31_15 = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15)))&#xA;END),&#xA;G31_15_MOD = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(G31_15_MOD))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(G31_15_MOD)))&#xA;END)&#xA;GO&#xA;SELECT DocNum, G32, automation.dbo.RowsConcat(TEXT1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_DES&#xA;FROM (&#xA;SELECT TOP (100) PERCENT * FROM (&#xA;SELECT NUMREC = 0, [G31_1] TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRTOVAR]&#xA;UNION&#xA;SELECT NUMREC, TEXT1, G32, DocNum&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO]&#xA;WHERE NGR = '31' AND TYP_NGR = '01') x&#xA;ORDER BY DocNum ASC, G32 ASC, NUMREC ASC&#xA;) y&#xA;GROUP BY DocNum, G32&#xA;GO&#xA;SELECT DocNum, G32, G32G, automation.dbo.RowsConcat(text1, ' ') text1&#xA;INTO automation.dbo.DBRDINFO_TOVG&#xA;FROM (&#xA;SELECT TOP (100) PERCENT DocNum, G32, G32G, NUMREC, TEXT1&#xA;FROM [Docs2SQL].[dbo].[DBRDINFO] d &#xA;WHERE d.NGR = '31' AND d.TYP_NGR = 'G1'&#xA;ORDER BY DocNum ASC, G32 ASC, G32G ASC, NUMREC ASC&#xA;) x&#xA;GROUP BY DocNum, G32, G32G&#xA;GO&#xA;SET ANSI_PADDING ON&#xA;GO&#xA;CREATE NONCLUSTERED INDEX [G442] ON [automation].[dbo].[DBRTECHD]&#xA;(&#xA;&#x9;[G442] ASC&#xA;)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]&#xA;GO&#xA;SELECT DocNum, g32, G441, num, G443, G447, G4403, G442R, ED_ID&#xA;INTO automation.dbo.DBRTECHD_PARSE&#xA;FROM (&#xA;SELECT DocNum, g32, G441,&#xA;automation.dbo.RowsConcat(COALESCE(G442, ''), ' ИЛИ ') num&#xA;FROM [automation].[dbo].[DBRTECHD]&#xA;WHERE G441 = '01191' OR G441 = '01206'&#xA;GROUP BY DocNum, g32, G441) x&#xA;OUTER APPLY (SELECT TOP (1) G443, G447, G4403, G442R, ED_ID FROM [automation].[dbo].[DBRTECHD] t&#xA;WHERE t.G442 = x.num) AS oa&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovar&#xA;ON [dbo].[DBRTOVAR] ([G32],[DocNum])&#xA;INCLUDE ([G33],[G333])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX descr&#xA;ON [dbo].[DBRDINFO_DES] ([DocNum],[G32])&#xA;INCLUDE ([text1])&#xA;GO&#xA;USE [automation]&#xA;GO&#xA;CREATE NONCLUSTERED INDEX tovg&#xA;ON [dbo].[DBRDINFO_TOVG] ([DocNum],[G32],[G32G])&#xA;INCLUDE ([text1])&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -154,7 +154,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Border"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -170,7 +170,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Common docs"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -186,7 +186,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Contract additions"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -202,7 +202,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Contracts"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -218,7 +218,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Descriptions"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -234,7 +234,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Terminals"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -251,7 +251,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -268,7 +268,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="UPDATE отсутствует"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -996,6 +996,15 @@ a.id
               VSTAMinorVersion="0"
               Language="CSharp">
               <ProjectItem
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+              <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <root>
@@ -1114,35 +1123,6 @@ a.id
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
-              <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_44d249f0184644d2bd335f8ecd444190.Properties.Settings.get_Default():ST_44d249f0184644d2bd335f8ecd444190.Properties.Sett" +
-    "ings")]
-
-namespace ST_44d249f0184644d2bd335f8ecd444190.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -1510,6 +1490,35 @@ namespace ST_0685d9c218c54522b3f46cd49c3fadd6
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_44d249f0184644d2bd335f8ecd444190.Properties.Settings.get_Default():ST_44d249f0184644d2bd335f8ecd444190.Properties.Sett" +
+    "ings")]
+
+namespace ST_44d249f0184644d2bd335f8ecd444190.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+              <ProjectItem
                 Name="Properties\AssemblyInfo.cs"
                 Encoding="UTF8"><![CDATA[using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -1539,15 +1548,6 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
-              <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------

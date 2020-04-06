@@ -69,4 +69,7 @@
     <Compile Include="RowsConcat.cs" />
     <Compile Include="ParseContainers.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Script1.sql" />
+  </ItemGroup>
 </Project>

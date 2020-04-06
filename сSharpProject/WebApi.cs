@@ -33,7 +33,14 @@ namespace сSharpProject
             byte[] xml = File.ReadAllBytes(fullPath);
             string secret = GetMd5Hash(xml.Length.ToString() + ":" + login + ":" + GetMd5Hash(password));
             string url = @"https://www.alta.ru/xml-preview/api/?login=" + login + "&secret=" + secret;
-            string result;            
+            string result;
+
+            Encoding enc1;
+            Stream st1;
+            StreamReader sr1;
+            string json1;
+            string id1;
+            JsonResponse jr1;
 
             HttpWebRequest req = (HttpWebRequest)WebRequest.Create(url);
             req.ContentType = "application/xml";
@@ -49,8 +56,7 @@ namespace сSharpProject
             }
 
             //запрос на конвертацию
-            //в случае некорректного запроса - 401 ошибка
-            
+            //в случае некорректного запроса - 401 ошибка            
 
                 using (HttpWebResponse resp = (HttpWebResponse)req.GetResponse())
                 {
@@ -102,15 +108,39 @@ namespace сSharpProject
                             HttpWebResponse jResp;
 
                             //10 циклов по 6 секунд - ждем возврата файла в течение минуты
-                        for (int i = 0; i < 10; i++)
+                            for (int i = 0; i < 10; i++)
                             {
                                 System.Threading.Thread.Sleep(6000);
 
-                                    jResp = (HttpWebResponse)jReq.GetResponse();
-                                                                       
-                                    if (jResp.ContentType.StartsWith("application/pdf"))                                       
-                                        {
-                                        Console.WriteLine("js");
+                                jResp = (HttpWebResponse)jReq.GetResponse();
+                                    
+                            if (jResp.ContentType.StartsWith("application/json"))
+                            {
+                                json1 = string.Empty;
+                                id1 = string.Empty;
+                                enc1 = Encoding.UTF8;                               
+
+                                st1 = jResp.GetResponseStream();
+                                sr1 = new StreamReader(st1, enc1);
+                                
+                                json1 = sr1.ReadToEnd();
+                                
+                                st1.Close();
+                                sr1.Close();
+
+                                try
+                                {
+                                    jr1 = (JsonResponse)JsonConvert.DeserializeObject(json, typeof(JsonResponse));
+                                }
+                                catch
+                                {
+                                    throw new JsonException();
+                                }
+
+                                Console.WriteLine(jr1.id + " " + jr1.status + " " + jr1.text);
+                            }
+                            else if (jResp.ContentType.StartsWith("application/pdf"))                                       
+                                        {                                        
                                             MemoryStream ms = new MemoryStream();
                                             jResp.GetResponseStream().CopyTo(ms);
                                             byte[] pdf = ms.ToArray();
@@ -135,16 +165,17 @@ namespace сSharpProject
                         throw new BadResponseException();
                     }
                 }
-            
-        /*
-        }
-            catch (Exception e)
-            {
-                //возвращаем xml в случае любых ошибок  
-                Console.WriteLine(e.Message);
-                return fullPath;
+
+            /*
             }
-            */
+                catch (Exception e)
+                {
+                    //возвращаем xml в случае любых ошибок  
+                    Console.WriteLine(e.Message);
+                    return fullPath;
+                }
+                */
+            Console.ReadLine();
         }
 
         private string GetMd5Hash(string input)
