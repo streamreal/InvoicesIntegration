@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ordesignerObjectsDiagram dslVersion="1.0.0.0" absoluteBounds="0, 0, 11, 8.5" name="DataClasses1">
+  <DataContextMoniker Name="/DataClasses1DataContext" />
+  <nestedChildShapes>
+    <classShape Id="ab83ca56-bd58-4500-8762-9d17a1acfc51" absoluteBounds="2.75, 2, 2, 1.7472693796952563">
+      <DataClassMoniker Name="/DataClasses1DataContext/insurance_peregon_deviation" />
+      <nestedChildShapes>
+        <elementListCompartment Id="f65c7507-328c-43af-87a3-1e26deac7792" absoluteBounds="2.765, 2.46, 1.9700000000000002, 1.1872693796952565" name="DataPropertiesCompartment" titleTextColor="Black" itemTextColor="Black" />
+      </nestedChildShapes>
+    </classShape>
+  </nestedChildShapes>
+</ordesignerObjectsDiagram>

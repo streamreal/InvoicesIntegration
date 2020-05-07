@@ -9,9 +9,9 @@ namespace сSharpProject
     {
         public static void Download()
         {
-            using (ImapClient Client = new ImapClient("10.10.0.50", 143, "andreydruzhinin@eltransplus.ru", "mfSxX2fbVD"))
+            using (ImapClient Client = new ImapClient("10.10.0.50", 143, "declaration@eltransplus.ru", "JnKvbEgs"))
             {
-                uint[] uids = Client.Search(SearchCondition.SentSince(new DateTime(2020, 2, 20)));
+                uint[] uids = Client.Search(SearchCondition.SentSince(new DateTime(2020, 3, 20)));
                 MailMessage[] messages = Client.GetMessages(uids);
                 
                 foreach (MailMessage msg in messages)

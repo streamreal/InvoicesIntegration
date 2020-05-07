@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="118"
-  DTS:VersionGUID="{D01D15BC-DEF3-4F21-B81E-BDB101AEEDEE}">
+  DTS:VersionBuild="123"
+  DTS:VersionGUID="{4260D8DA-03A0-4529-BE35-7C373BDD55C9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAA+1nWpYw73znOiTC0w5Ld/AAAAAASAAACgAAAAEAAAAH7Kw0jvNv1pBKqEgwiJ1+0YAAAA+0julB+69WIT27XKXvL7o6b5qpnZ8pnDFAAAAG8XBRDcR/kOJFngjxsDfKJAiYND</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAoIVwaEVm2E6gHAmG2U5aTgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAABf/DlhZcuHOFRIStERBZxGAAAAAASAAACgAAAAEAAAAAaVTtEexBh8wMin9MSrTkIYAAAAXxe5svZZqVByHlAv9YUzbg9wsTo3NzQCFAAAAKdSjsaXHoblQWonFRSphaqS89TI</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -87,6 +87,16 @@
           AuthType="WindowsAuthentication" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[\\10.10.0.28\alta\Robot\Data]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{F7BCE820-98D6-458C-8ECE-BA52159162FD}"
+      DTS:ObjectName="\\10.10.0.28\alta\Robot\Data">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=\\10.10.0.28\alta\Robot\Data;Provider=Microsoft.Jet.OLEDB.4.0;Extended Properties=dbase IV;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
   <DTS:Variables>
     <DTS:Variable
@@ -138,7 +148,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Base tables"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -154,7 +164,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Border"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -170,7 +180,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Common docs"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -186,7 +196,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Contract additions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -202,7 +212,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Contracts"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -218,7 +228,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Descriptions"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -234,7 +244,7 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Terminals"
-          DTS:ThreadHint="0">
+          DTS:ThreadHint="1">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -251,12 +261,28 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
               SQLTask:SqlStatementSource="TRUNCATE TABLE [automation].[dbo].[old_ref]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Truncate tariff"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{e227cfcd-2f84-4554-92ae-c08b202dd9a8}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate tariff"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [automation].[dbo].[import_tariff]&#xA;TRUNCATE TABLE [automation].[dbo].[import_tariff_raw]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -268,12 +294,782 @@
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="UPDATE отсутствует"
-          DTS:ThreadHint="1">
+          DTS:ThreadHint="2">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
               SQLTask:SqlStatementSource="UPDATE [automation].[dbo].[old_ref]&#xA;SET articul = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(articul))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(articul)))&#xA;END),&#xA;model = &#xA;(&#xA;CASE&#xA;WHEN UPPER(LTRIM(RTRIM(model))) IN &#xA;('',&#xA;'ОТСУТСТВУЕТ',&#xA;'ОТСУТСВУЕТ',&#xA;'ОТСУТСТВЕТ',&#xA;'ОТСУТСТВУЕ',&#xA;'ОТСТУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТМ',&#xA;'ОТСУТСТВУЕТ.',&#xA;'ОТСУТСТВУУЕТ',&#xA;'ОСУТСТВУЕТ',&#xA;'ОТСУУТСТВУЕТ',&#xA;'ОТСУТВТУЕТ',&#xA;'ОТСУТСТСУЕТ',&#xA;'ОТСУТСТВУЮТ',&#xA;'ОТСУСТВУЕТ',&#xA;'ОТСТУСТВУЕТ',&#xA;'ОТСУСТСВУЕТ',&#xA;'ОТСУТСТВУЕУТ',&#xA;'ОТУТСТВУЕТ',&#xA;'ОТСУТСТУЕТ',&#xA;'ОТСУТСВТУЕТ',&#xA;'ОТСВУТСТВУЕТ',&#xA;'ОТСУТСТВУВЕТ',&#xA;'ОТСУТСТВУЕТОТСУТСТВУЕТ',&#xA;'ОТСУТСТВУЕТС',&#xA;'ОТСТУТСТУЕТ') THEN NULL&#xA;ELSE UPPER(LTRIM(RTRIM(model)))&#xA;END)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Загрузка DBF в базе"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{d379231b-17ba-45ee-a48c-1b495d2e70fe}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Загрузка DBF в базе"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF"
+                  componentClassID="Microsoft.OLEDBSource"
+                  contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+                  description="Источник &quot;OLE DB&quot;"
+                  name="DBF"
+                  usesDispositions="true"
+                  version="7">
+                  <properties>
+                    <property
+                      dataType="System.Int32"
+                      description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                      name="CommandTimeout">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowset">ST_IMP</property>
+                    <property
+                      dataType="System.String"
+                      description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                      name="OpenRowsetVariable"></property>
+                    <property
+                      dataType="System.String"
+                      description="Команда SQL для выполнения."
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                    <property
+                      dataType="System.String"
+                      description="Переменная, содержащая команду SQL для выполнения."
+                      name="SqlCommandVariable"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                      name="DefaultCodePage">1251</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                      name="AlwaysUseDefaultCodePage">false</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Указывает используемый режим доступа к базе данных."
+                      name="AccessMode"
+                      typeConverter="AccessMode">0</property>
+                    <property
+                      dataType="System.String"
+                      description="Сопоставления между параметрами в команде SQL и переменными."
+                      name="ParameterMapping"></property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Connections[OleDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[\\10.10.0.28\alta\Robot\Data]"
+                      connectionManagerRefId="Package.ConnectionManagers[\\10.10.0.28\alta\Robot\Data]"
+                      description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                      name="OleDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;]"
+                      name="Выход источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MINCODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MINCODE]"
+                          length="10"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MINCODE]"
+                          name="MINCODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MAXCODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MAXCODE]"
+                          length="10"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MAXCODE]"
+                          name="MAXCODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CODE]"
+                          length="22"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CODE]"
+                          name="CODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NAME]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NAME]"
+                          length="80"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NAME]"
+                          name="NAME"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STAVKA2]"
+                          length="20"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA2]"
+                          name="STAVKA2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA3]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STAVKA3]"
+                          length="5"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA3]"
+                          name="STAVKA3"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA4]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STAVKA4]"
+                          length="20"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA4]"
+                          name="STAVKA4"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[PRIM]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[PRIM]"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[PRIM]"
+                          name="PRIM"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[BASE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[BASE]"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[BASE]"
+                          name="BASE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[PREF]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[PREF]"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[PREF]"
+                          name="PREF"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ORDER]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ORDER]"
+                          length="8"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ORDER]"
+                          name="ORDER"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ORDER2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ORDER2]"
+                          length="18"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ORDER2]"
+                          name="ORDER2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[_DATE1]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[_DATE1]"
+                          length="8"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[_DATE1]"
+                          name="_DATE1"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[_DATE2]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[_DATE2]"
+                          length="8"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[_DATE2]"
+                          name="_DATE2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NEWCODE]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NEWCODE]"
+                          length="10"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NEWCODE]"
+                          name="NEWCODE"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REF]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REF]"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REF]"
+                          name="REF"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CONDITION]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Преобразование"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CONDITION]"
+                          length="31"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CONDITION]"
+                          name="CONDITION"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MINCODE]"
+                          dataType="wstr"
+                          length="10"
+                          name="MINCODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[MAXCODE]"
+                          dataType="wstr"
+                          length="10"
+                          name="MAXCODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CODE]"
+                          dataType="wstr"
+                          length="22"
+                          name="CODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NAME]"
+                          dataType="wstr"
+                          length="80"
+                          name="NAME" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STAVKA2]"
+                          dataType="wstr"
+                          length="20"
+                          name="STAVKA2" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STAVKA3]"
+                          dataType="wstr"
+                          length="5"
+                          name="STAVKA3" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[STAVKA4]"
+                          dataType="wstr"
+                          length="20"
+                          name="STAVKA4" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[PRIM]"
+                          dataType="wstr"
+                          length="1"
+                          name="PRIM" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[BASE]"
+                          dataType="wstr"
+                          length="1"
+                          name="BASE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[PREF]"
+                          dataType="wstr"
+                          length="1"
+                          name="PREF" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ORDER]"
+                          dataType="wstr"
+                          length="8"
+                          name="ORDER" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ORDER2]"
+                          dataType="wstr"
+                          length="18"
+                          name="ORDER2" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[_DATE1]"
+                          dataType="wstr"
+                          length="8"
+                          name="_DATE1" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[_DATE2]"
+                          dataType="wstr"
+                          length="8"
+                          name="_DATE2" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NEWCODE]"
+                          dataType="wstr"
+                          length="10"
+                          name="NEWCODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REF]"
+                          dataType="wstr"
+                          length="1"
+                          name="REF" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[CONDITION]"
+                          dataType="wstr"
+                          length="31"
+                          name="CONDITION" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                      isErrorOut="true"
+                      name="Вывод ошибок источника &quot;OLE DB&quot;">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[MINCODE]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[MINCODE]"
+                          name="MINCODE" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[MAXCODE]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[MAXCODE]"
+                          name="MAXCODE" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CODE]"
+                          dataType="wstr"
+                          length="22"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CODE]"
+                          name="CODE" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NAME]"
+                          dataType="wstr"
+                          length="80"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NAME]"
+                          name="NAME" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STAVKA2]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STAVKA2]"
+                          name="STAVKA2" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STAVKA3]"
+                          dataType="wstr"
+                          length="5"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STAVKA3]"
+                          name="STAVKA3" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STAVKA4]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[STAVKA4]"
+                          name="STAVKA4" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[PRIM]"
+                          dataType="wstr"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[PRIM]"
+                          name="PRIM" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[BASE]"
+                          dataType="wstr"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[BASE]"
+                          name="BASE" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[PREF]"
+                          dataType="wstr"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[PREF]"
+                          name="PREF" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ORDER]"
+                          dataType="wstr"
+                          length="8"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ORDER]"
+                          name="ORDER" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ORDER2]"
+                          dataType="wstr"
+                          length="18"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ORDER2]"
+                          name="ORDER2" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[_DATE1]"
+                          dataType="wstr"
+                          length="8"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[_DATE1]"
+                          name="_DATE1" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[_DATE2]"
+                          dataType="wstr"
+                          length="8"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[_DATE2]"
+                          name="_DATE2" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NEWCODE]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NEWCODE]"
+                          name="NEWCODE" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REF]"
+                          dataType="wstr"
+                          length="1"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REF]"
+                          name="REF" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CONDITION]"
+                          dataType="wstr"
+                          length="31"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[CONDITION]"
+                          name="CONDITION" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+                  name="SQL"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="The Destination database table name."
+                      expressionType="Notify"
+                      name="TableOrViewName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"dbo"."import_tariff_raw"</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                      expressionType="Notify"
+                      name="BatchSize">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                      expressionType="Notify"
+                      name="CommandTimeout">30</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                      expressionType="Notify"
+                      name="UseBulkInsertWhenPossible">true</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Connections[IDbConnection]"
+                      connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                      description="Managed connection manager"
+                      name="IDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input]"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="ADO NET Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[MINCODE]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="MINCODE"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[MINCODE]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MINCODE]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[MAXCODE]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="MAXCODE"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[MAXCODE]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[MAXCODE]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[CODE]"
+                          cachedDataType="wstr"
+                          cachedLength="22"
+                          cachedName="CODE"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[CODE]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CODE]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[NAME]"
+                          cachedDataType="wstr"
+                          cachedLength="80"
+                          cachedName="NAME"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[NAME]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NAME]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[STAVKA2]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="STAVKA2"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[STAVKA2]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA2]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[STAVKA3]"
+                          cachedDataType="wstr"
+                          cachedLength="5"
+                          cachedName="STAVKA3"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[STAVKA3]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA3]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[STAVKA4]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="STAVKA4"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[STAVKA4]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[STAVKA4]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[PRIM]"
+                          cachedDataType="wstr"
+                          cachedLength="1"
+                          cachedName="PRIM"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[PRIM]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[PRIM]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[BASE]"
+                          cachedDataType="wstr"
+                          cachedLength="1"
+                          cachedName="BASE"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[BASE]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[BASE]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[PREF]"
+                          cachedDataType="wstr"
+                          cachedLength="1"
+                          cachedName="PREF"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[PREF]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[PREF]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[ORDER]"
+                          cachedDataType="wstr"
+                          cachedLength="8"
+                          cachedName="ORDER"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[ORDER]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ORDER]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[ORDER2]"
+                          cachedDataType="wstr"
+                          cachedLength="18"
+                          cachedName="ORDER2"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[ORDER2]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ORDER2]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[_DATE1]"
+                          cachedDataType="wstr"
+                          cachedLength="8"
+                          cachedName="_DATE1"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[_DATE1]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[_DATE1]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[_DATE2]"
+                          cachedDataType="wstr"
+                          cachedLength="8"
+                          cachedName="_DATE2"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[_DATE2]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[_DATE2]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[NEWCODE]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="NEWCODE"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[NEWCODE]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NEWCODE]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[REF]"
+                          cachedDataType="wstr"
+                          cachedLength="1"
+                          cachedName="REF"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[REF]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REF]" />
+                        <inputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].Columns[CONDITION]"
+                          cachedDataType="wstr"
+                          cachedLength="31"
+                          cachedName="CONDITION"
+                          externalMetadataColumnId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[CONDITION]"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;].Columns[CONDITION]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[MINCODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="MINCODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[MAXCODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="MAXCODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[CODE]"
+                          dataType="wstr"
+                          length="220"
+                          name="CODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[NAME]"
+                          dataType="wstr"
+                          length="800"
+                          name="NAME" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[STAVKA2]"
+                          dataType="wstr"
+                          length="200"
+                          name="STAVKA2" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[STAVKA3]"
+                          dataType="wstr"
+                          length="50"
+                          name="STAVKA3" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[STAVKA4]"
+                          dataType="wstr"
+                          length="200"
+                          name="STAVKA4" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[PRIM]"
+                          dataType="wstr"
+                          length="10"
+                          name="PRIM" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[BASE]"
+                          dataType="wstr"
+                          length="10"
+                          name="BASE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[PREF]"
+                          dataType="wstr"
+                          length="10"
+                          name="PREF" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[ORDER]"
+                          dataType="wstr"
+                          length="80"
+                          name="ORDER" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[ORDER2]"
+                          dataType="wstr"
+                          length="180"
+                          name="ORDER2" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[_DATE1]"
+                          dataType="wstr"
+                          length="80"
+                          name="_DATE1" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[_DATE2]"
+                          dataType="wstr"
+                          length="80"
+                          name="_DATE2" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[NEWCODE]"
+                          dataType="wstr"
+                          length="100"
+                          name="NEWCODE" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[REF]"
+                          dataType="wstr"
+                          length="10"
+                          name="REF" />
+                        <externalMetadataColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input].ExternalColumns[CONDITION]"
+                          dataType="wstr"
+                          length="310"
+                          name="CONDITION" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Outputs[ADO NET Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="ADO NET Destination Error Output"
+                      synchronousInputId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\Docs2SQL transformation\Загрузка DBF в базе.Paths[Выход источника &quot;OLE DB&quot;]"
+                  endId="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL.Inputs[ADO NET Destination Input]"
+                  name="Выход источника &quot;OLE DB&quot;"
+                  startId="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF.Outputs[Выход источника &quot;OLE DB&quot;]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Docs2SQL transformation\Обработка и загрузка в новую таблицу"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{bb40ba4f-1ee8-4fb4-9c4d-f06d02833db1}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Обработка и загрузка в новую таблицу"
+          DTS:ThreadHint="3">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="INSERT INTO [automation].[dbo].[import_tariff]&#xA;           ([code]&#xA;           ,[base_percent_value]&#xA;           ,[base_spec_value]&#xA;           ,[base_spec_currency]&#xA;           ,[base_spec_unit]&#xA;           ,[min_spec_value]&#xA;           ,[min_spec_currency]&#xA;           ,[min_spec_unit])&#xA;SELECT &#xA;CODE code,&#xA;&#xA;CASE &#xA;WHEN CHARINDEX('%', STAVKA2) &gt; 0&#xA;THEN CONVERT(money, SUBSTRING(STAVKA2, 1, CHARINDEX('%', STAVKA2) - 1))&#xA;ELSE NULL&#xA;END base_percent_value,&#xA;&#xA;CASE&#xA;WHEN CHARINDEX('/', STAVKA2) &gt; 0&#xA;THEN &#xA; CASE&#xA; WHEN CHARINDEX('+', STAVKA2) &gt; 0&#xA; THEN CONVERT(money, SUBSTRING(STAVKA2, CHARINDEX('+', STAVKA2) + 1, PATINDEX('%[^0-9.]%', SUBSTRING(STAVKA2, CHARINDEX('+', STAVKA2) + 1, LEN(STAVKA2))) - 1))&#xA; ELSE CONVERT(money, SUBSTRING(STAVKA2, 1, PATINDEX('%[^0-9.]%', STAVKA2) - 1))&#xA; END&#xA;ELSE NULL&#xA;END base_spec_value,&#xA;&#xA;CASE&#xA;WHEN CHARINDEX('ДОЛ', STAVKA2) &gt; 0 THEN 'USD'&#xA;WHEN CHARINDEX('ЕВР', STAVKA2) &gt; 0 THEN 'EUR'&#xA;ELSE NULL&#xA;END base_spec_currency,&#xA;&#xA;CASE&#xA;WHEN CHARINDEX('/ПАРУ', STAVKA2) &gt; 0 THEN '715'&#xA;WHEN CHARINDEX('/КВТ', STAVKA2) &gt; 0 THEN '214'&#xA;WHEN CHARINDEX('/ТШТ', STAVKA2) &gt; 0 THEN '798'&#xA;WHEN CHARINDEX('/ШТ', STAVKA2) &gt; 0 THEN '796'&#xA;WHEN CHARINDEX('/КГ', STAVKA2) &gt; 0 THEN '166'&#xA;WHEN CHARINDEX('/СМ3', STAVKA2) &gt; 0 THEN '111'&#xA;WHEN CHARINDEX('/Л', STAVKA2) &gt; 0 THEN '112'&#xA;WHEN CHARINDEX('/М', STAVKA2) &gt; 0 THEN '006'&#xA;WHEN CHARINDEX('/Т', STAVKA2) &gt; 0 THEN '168'&#xA;ELSE NULL&#xA;END base_spec_unit,&#xA;&#xA;CASE&#xA;WHEN CHARINDEX('/', STAVKA4) &gt; 0&#xA;THEN CONVERT(money, SUBSTRING(STAVKA4, 1, PATINDEX('%[^0-9.]%', STAVKA4) - 1))&#xA;ELSE NULL&#xA;END min_spec_value,&#xA;&#xA;CASE&#xA;WHEN CHARINDEX('ДОЛ', STAVKA4) &gt; 0 THEN 'USD'&#xA;WHEN CHARINDEX('ЕВР', STAVKA4) &gt; 0 THEN 'EUR'&#xA;ELSE NULL&#xA;END min_spec_currency,&#xA;&#xA;CASE&#xA;WHEN CHARINDEX('/ПАРУ', STAVKA4) &gt; 0 THEN '715'&#xA;WHEN CHARINDEX('/КВТ', STAVKA4) &gt; 0 THEN '214'&#xA;WHEN CHARINDEX('/ТШТ', STAVKA4) &gt; 0 THEN '798'&#xA;WHEN CHARINDEX('/ШТ', STAVKA4) &gt; 0 THEN '796'&#xA;WHEN CHARINDEX('/КГ', STAVKA4) &gt; 0 THEN '166'&#xA;WHEN CHARINDEX('/СМ3', STAVKA4) &gt; 0 THEN '111'&#xA;WHEN CHARINDEX('/Л', STAVKA4) &gt; 0 THEN '112'&#xA;WHEN CHARINDEX('/М', STAVKA4) &gt; 0 THEN '006'&#xA;WHEN CHARINDEX('/Т', STAVKA4) &gt; 0 THEN '168'&#xA;ELSE NULL&#xA;END min_spec_unit&#xA;&#xA;FROM (&#xA;SELECT [CODE], [STAVKA2], [STAVKA4] FROM &#xA;(SELECT REPLACE([CODE], ' ', '') [CODE]&#xA;      ,IIF([STAVKA2] = '0', '0%', UPPER(REPLACE([STAVKA2], ' ', ''))) [STAVKA2]     &#xA;      ,UPPER(REPLACE([STAVKA4], ' ', '')) [STAVKA4]  &#xA;   ,ROW_NUMBER() OVER (PARTITION BY CODE ORDER BY CONVERT(datetime, _DATE1, 4) DESC) rn&#xA;FROM [automation].[dbo].[import_tariff_raw]&#xA;WHERE LEN(code) = 10 AND [STAVKA2]  &lt;&gt; 'Б/ПОШЛ') x&#xA;WHERE x.rn = 1) y" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -855,6 +1651,14 @@ a.id
           DTS:ObjectName="Ограничение 1"
           DTS:To="Package\Docs2SQL transformation\Contracts" />
         <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 1 1]"
+          DTS:CreationName=""
+          DTS:DTSID="{509df55c-b03a-44e3-b5fa-32445658121e}"
+          DTS:From="Package\Docs2SQL transformation\Загрузка DBF в базе"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 1 1"
+          DTS:To="Package\Docs2SQL transformation\Обработка и загрузка в новую таблицу" />
+        <DTS:PrecedenceConstraint
           DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 2]"
           DTS:CreationName=""
           DTS:DTSID="{50EA6107-C580-4FB8-9ACC-4ADF58E6F800}"
@@ -902,6 +1706,14 @@ a.id
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 7"
           DTS:To="Package\Docs2SQL transformation\UPDATE отсутствует" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 8]"
+          DTS:CreationName=""
+          DTS:DTSID="{075ab7ed-0144-4298-8bf0-d8b728a62547}"
+          DTS:From="Package\Docs2SQL transformation\Truncate tariff"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 8"
+          DTS:To="Package\Docs2SQL transformation\Загрузка DBF в базе" />
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
@@ -922,7 +1734,7 @@ a.id
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Delete duplicates"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -938,7 +1750,7 @@ a.id
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Insert cross apply"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -954,7 +1766,7 @@ a.id
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -970,7 +1782,7 @@ a.id
           DTS:ExecutableType="Microsoft.ExecuteSQLTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Truncate 2"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
@@ -987,7 +1799,7 @@ a.id
           DTS:ExecutableType="Microsoft.ScriptTask"
           DTS:LocaleID="-1"
           DTS:ObjectName="Загрузка и разбор CSV"
-          DTS:ThreadHint="2">
+          DTS:ThreadHint="0">
           <DTS:Variables />
           <DTS:ObjectData>
             <ScriptProject
@@ -995,15 +1807,6 @@ a.id
               VSTAMajorVersion="14"
               VSTAMinorVersion="0"
               Language="CSharp">
-              <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -1123,6 +1926,35 @@ a.id
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_44d249f0184644d2bd335f8ecd444190.Properties.Settings.get_Default():ST_44d249f0184644d2bd335f8ecd444190.Properties.Sett" +
+    "ings")]
+
+namespace ST_44d249f0184644d2bd335f8ecd444190.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -1490,35 +2322,6 @@ namespace ST_0685d9c218c54522b3f46cd49c3fadd6
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_44d249f0184644d2bd335f8ecd444190.Properties.Settings.get_Default():ST_44d249f0184644d2bd335f8ecd444190.Properties.Sett" +
-    "ings")]
-
-namespace ST_44d249f0184644d2bd335f8ecd444190.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
-              <ProjectItem
                 Name="Properties\AssemblyInfo.cs"
                 Encoding="UTF8"><![CDATA[using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -1548,6 +2351,15 @@ using System.Runtime.CompilerServices;
 // by using the '*' as shown below:
 
 [assembly: AssemblyVersion("1.0.*")]]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -8240,15 +9052,27 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         <NodeLayout
           Size="121,42"
           Id="Package\Docs2SQL transformation\Truncate"
-          TopLeft="240,60" />
+          TopLeft="249,34" />
+        <NodeLayout
+          Size="146,42"
+          Id="Package\Docs2SQL transformation\Truncate tariff"
+          TopLeft="328,251" />
         <NodeLayout
           Size="178,42"
           Id="Package\Docs2SQL transformation\UPDATE отсутствует"
-          TopLeft="211,199" />
+          TopLeft="220,173" />
+        <NodeLayout
+          Size="178,42"
+          Id="Package\Docs2SQL transformation\Загрузка DBF в базе"
+          TopLeft="305,338" />
+        <NodeLayout
+          Size="272,42"
+          Id="Package\Docs2SQL transformation\Обработка и загрузка в новую таблицу"
+          TopLeft="255,426" />
         <NodeLayout
           Size="176,42"
           Id="Package\Docs2SQL transformation\Старый справочник"
-          TopLeft="209,128" />
+          TopLeft="218,102" />
         <EdgeLayout
           Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение]"
           TopLeft="114.25,50.5">
@@ -8285,6 +9109,28 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,21.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 1 1]"
+          TopLeft="392.5,380">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,46"
+              Start="0,0"
+              End="0,38.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,38.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -8383,7 +9229,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 6]"
-          TopLeft="298.75,102">
+          TopLeft="307.75,76">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8405,7 +9251,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 7]"
-          TopLeft="298.5,170">
+          TopLeft="307.5,144">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -8425,13 +9271,35 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation.PrecedenceConstraints[Ограничение 8]"
+          TopLeft="397.5,293">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,45"
+              Start="0,0"
+              End="0,37.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,37.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
         <ContainerLayout
           HeaderHeight="43"
           IsExpanded="True"
-          PanelSize="441,523"
-          Size="441,566"
+          PanelSize="681,559"
+          Size="681,602"
           Id="Package\Docs2SQL transformation"
-          TopLeft="434,229" />
+          TopLeft="328,271" />
         <NodeLayout
           Size="159,42"
           Id="Package\Контейнер\Delete duplicates"
@@ -8593,10 +9461,63 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
     </LayoutInfo>
   </Package>
   <TaskHost
+    design-time-name="Package\Docs2SQL transformation\Загрузка DBF в базе">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="98,42"
+          Id="Package\Docs2SQL transformation\Загрузка DBF в базе\SQL"
+          TopLeft="343,216" />
+        <NodeLayout
+          Size="98,42"
+          Id="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF"
+          TopLeft="349,139" />
+        <EdgeLayout
+          Id="Package\Docs2SQL transformation\Загрузка DBF в базе.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="395,181">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Docs2SQL transformation\Загрузка DBF в базе\DBF">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
     design-time-name="Package\Docs2SQL transformation\Старый справочник">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="158,42"
           Id="Package\Docs2SQL transformation\Старый справочник\ADO NET Source"
@@ -8624,7 +9545,9 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

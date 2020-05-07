@@ -4,6 +4,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace сSharpProject
@@ -81,10 +82,16 @@ namespace сSharpProject
                 //Получаем из заголовков ответа Куки и параметры адреса переадресации (из поля "Location"), параметр Code
                 Uri locationURI = new Uri(responseLogonBitrix24.Headers["Location"]);
 
-                //Получаем параметры из строки ответа (нужен System.Web)
-                var locationParams = HttpUtility.ParseQueryString(locationURI.Query);
+                //Получаем параметры из строки ответа (нужен System.Web) 
+                Regex regex = new Regex("code=.*?&", RegexOptions.IgnoreCase);
+                Match match = regex.Match(locationURI.Query);
+
+                if (match.Success)
+                {
+                    Code = match.Value.Remove(match.Value.Length - 1).Remove(0, 5);
+                }
+
                 Cookie = responseLogonBitrix24.Headers["Set-Cookie"];
-                Code = locationParams["Code"];
 
                 //Вызываем исключение, если Код мы не смогли получить, без него далее никак.
                 if (String.IsNullOrEmpty(Code))

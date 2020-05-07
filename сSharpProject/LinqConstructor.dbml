@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?><Database Name="aberration" Class="DataClasses1DataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
+  <Connection Mode="AppSettings" ConnectionString="Data Source=10.10.0.28;Initial Catalog=aberration;Integrated Security=True" SettingsObjectName="сSharpProject.Properties.Settings" SettingsPropertyName="aberrationConnectionString" Provider="System.Data.SqlClient" />
+  <Table Name="dbo.insurance_peregon_deviation" Member="insurance_peregon_deviation">
+    <Type Name="insurance_peregon_deviation">
+      <Column Name="DELIVERY_ID" Type="System.String" DbType="VarChar(50) NOT NULL" CanBeNull="false" />
+      <Column Name="CUSTOMER_NAME" Type="System.String" DbType="VarChar(50)" CanBeNull="true" />
+      <Column Name="MESSAGE_SEND" Type="System.Int32" DbType="Int NOT NULL" CanBeNull="false" />
+      <Column Name="LOAD_DATE" Type="System.DateTime" DbType="DateTime NOT NULL" CanBeNull="false" />
+      <Column Name="id" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
+    </Type>
+  </Table>
+</Database>
