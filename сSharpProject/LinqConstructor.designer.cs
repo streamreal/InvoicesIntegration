@@ -30,9 +30,9 @@ namespace сSharpProject
 		
     #region Определения метода расширяемости
     partial void OnCreated();
-    partial void Insertinsurance_peregon_deviation(insurance_peregon_deviation instance);
-    partial void Updateinsurance_peregon_deviation(insurance_peregon_deviation instance);
-    partial void Deleteinsurance_peregon_deviation(insurance_peregon_deviation instance);
+    partial void Insertlist_330(list_330 instance);
+    partial void Updatelist_330(list_330 instance);
+    partial void Deletelist_330(list_330 instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
@@ -65,130 +65,58 @@ namespace сSharpProject
 			OnCreated();
 		}
 		
-		public System.Data.Linq.Table<insurance_peregon_deviation> insurance_peregon_deviation
+		public System.Data.Linq.Table<list_330> list_330
 		{
 			get
 			{
-				return this.GetTable<insurance_peregon_deviation>();
+				return this.GetTable<list_330>();
 			}
 		}
 	}
 	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.insurance_peregon_deviation")]
-	public partial class insurance_peregon_deviation : INotifyPropertyChanging, INotifyPropertyChanged
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.list_330")]
+	public partial class list_330 : INotifyPropertyChanging, INotifyPropertyChanged
 	{
 		
 		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
 		
-		private string _DELIVERY_ID;
-		
-		private string _CUSTOMER_NAME;
-		
-		private int _MESSAGE_SEND;
-		
-		private System.DateTime _LOAD_DATE;
-		
 		private int _id;
+		
+		private int _element_id;
+		
+		private string _delivery_id;
+		
+		private string _date_create;
+		
+		private string _message;
+		
+		private string _author;
+		
+		private string _message_url;
 		
     #region Определения метода расширяемости
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
-    partial void OnDELIVERY_IDChanging(string value);
-    partial void OnDELIVERY_IDChanged();
-    partial void OnCUSTOMER_NAMEChanging(string value);
-    partial void OnCUSTOMER_NAMEChanged();
-    partial void OnMESSAGE_SENDChanging(int value);
-    partial void OnMESSAGE_SENDChanged();
-    partial void OnLOAD_DATEChanging(System.DateTime value);
-    partial void OnLOAD_DATEChanged();
     partial void OnidChanging(int value);
     partial void OnidChanged();
+    partial void Onelement_idChanging(int value);
+    partial void Onelement_idChanged();
+    partial void Ondelivery_idChanging(string value);
+    partial void Ondelivery_idChanged();
+    partial void Ondate_createChanging(string value);
+    partial void Ondate_createChanged();
+    partial void OnmessageChanging(string value);
+    partial void OnmessageChanged();
+    partial void OnauthorChanging(string value);
+    partial void OnauthorChanged();
+    partial void Onmessage_urlChanging(string value);
+    partial void Onmessage_urlChanged();
     #endregion
 		
-		public insurance_peregon_deviation()
+		public list_330()
 		{
 			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_DELIVERY_ID", DbType="VarChar(50) NOT NULL", CanBeNull=false)]
-		public string DELIVERY_ID
-		{
-			get
-			{
-				return this._DELIVERY_ID;
-			}
-			set
-			{
-				if ((this._DELIVERY_ID != value))
-				{
-					this.OnDELIVERY_IDChanging(value);
-					this.SendPropertyChanging();
-					this._DELIVERY_ID = value;
-					this.SendPropertyChanged("DELIVERY_ID");
-					this.OnDELIVERY_IDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_CUSTOMER_NAME", DbType="VarChar(50)")]
-		public string CUSTOMER_NAME
-		{
-			get
-			{
-				return this._CUSTOMER_NAME;
-			}
-			set
-			{
-				if ((this._CUSTOMER_NAME != value))
-				{
-					this.OnCUSTOMER_NAMEChanging(value);
-					this.SendPropertyChanging();
-					this._CUSTOMER_NAME = value;
-					this.SendPropertyChanged("CUSTOMER_NAME");
-					this.OnCUSTOMER_NAMEChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_MESSAGE_SEND", DbType="Int NOT NULL")]
-		public int MESSAGE_SEND
-		{
-			get
-			{
-				return this._MESSAGE_SEND;
-			}
-			set
-			{
-				if ((this._MESSAGE_SEND != value))
-				{
-					this.OnMESSAGE_SENDChanging(value);
-					this.SendPropertyChanging();
-					this._MESSAGE_SEND = value;
-					this.SendPropertyChanged("MESSAGE_SEND");
-					this.OnMESSAGE_SENDChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_LOAD_DATE", DbType="DateTime NOT NULL")]
-		public System.DateTime LOAD_DATE
-		{
-			get
-			{
-				return this._LOAD_DATE;
-			}
-			set
-			{
-				if ((this._LOAD_DATE != value))
-				{
-					this.OnLOAD_DATEChanging(value);
-					this.SendPropertyChanging();
-					this._LOAD_DATE = value;
-					this.SendPropertyChanged("LOAD_DATE");
-					this.OnLOAD_DATEChanged();
-				}
-			}
 		}
 		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
@@ -207,6 +135,126 @@ namespace сSharpProject
 					this._id = value;
 					this.SendPropertyChanged("id");
 					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_element_id", DbType="Int NOT NULL")]
+		public int element_id
+		{
+			get
+			{
+				return this._element_id;
+			}
+			set
+			{
+				if ((this._element_id != value))
+				{
+					this.Onelement_idChanging(value);
+					this.SendPropertyChanging();
+					this._element_id = value;
+					this.SendPropertyChanged("element_id");
+					this.Onelement_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_delivery_id", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string delivery_id
+		{
+			get
+			{
+				return this._delivery_id;
+			}
+			set
+			{
+				if ((this._delivery_id != value))
+				{
+					this.Ondelivery_idChanging(value);
+					this.SendPropertyChanging();
+					this._delivery_id = value;
+					this.SendPropertyChanged("delivery_id");
+					this.Ondelivery_idChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date_create", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string date_create
+		{
+			get
+			{
+				return this._date_create;
+			}
+			set
+			{
+				if ((this._date_create != value))
+				{
+					this.Ondate_createChanging(value);
+					this.SendPropertyChanging();
+					this._date_create = value;
+					this.SendPropertyChanged("date_create");
+					this.Ondate_createChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_message", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
+		public string message
+		{
+			get
+			{
+				return this._message;
+			}
+			set
+			{
+				if ((this._message != value))
+				{
+					this.OnmessageChanging(value);
+					this.SendPropertyChanging();
+					this._message = value;
+					this.SendPropertyChanged("message");
+					this.OnmessageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_author", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
+		public string author
+		{
+			get
+			{
+				return this._author;
+			}
+			set
+			{
+				if ((this._author != value))
+				{
+					this.OnauthorChanging(value);
+					this.SendPropertyChanging();
+					this._author = value;
+					this.SendPropertyChanged("author");
+					this.OnauthorChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_message_url", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
+		public string message_url
+		{
+			get
+			{
+				return this._message_url;
+			}
+			set
+			{
+				if ((this._message_url != value))
+				{
+					this.Onmessage_urlChanging(value);
+					this.SendPropertyChanging();
+					this._message_url = value;
+					this.SendPropertyChanged("message_url");
+					this.Onmessage_urlChanged();
 				}
 			}
 		}

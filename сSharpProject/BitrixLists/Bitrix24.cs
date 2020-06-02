@@ -4,56 +4,18 @@ using System.Net;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Json;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Web;
 
-namespace сSharpProject
-{
-    class In
-    {
-        public void Intro()
-        {
-            Bitrix24 bx_logon = new Bitrix24();
-
-            string jsonResponse = bx_logon.SendCommand("lists.element.get", "",
-            "IBLOCK_TYPE_ID=lists_socnet" +
-            "&SOCNET_GROUP_ID=330" +
-            "&IBLOCK_ID=184"           
-            );       
-
-
-       // https://bitrix.eltransplus.ru/workgroups/group/330/lists/184/view/0/?list_section_id=
-
-            Console.WriteLine(jsonResponse);
-            Console.ReadLine();
-
-            //https://dev.1c-bitrix.ru/rest_help/
-            //bx_logon.SendCommand("task.item.list", "ORDER[]=&FILTER[GROUP_ID]=44&PARAMS[]=&SELECT[]=");
-            //string TaskListByJSON = bx_logon.SendCommand("task.commentitem.get", "TASKID=57337&ITEMID=379512");
-            //string jsonResponse = bx_logon.SendCommand("disk.storage.uploadfile", "id=2233&data[NAME]=test.jpg", "fileContent[0]=test.jpg&fileContent[1]=" + file);
-
-            //string filename = @"C:\Users\andreydruzhinin\Desktop\1.xlsx";
-            //string contents = Convert.ToBase64String(File.ReadAllBytes(filename), Base64FormattingOptions.None);
-
-            //string jsonResponse = bx_logon.SendCommand("log.blogpost.add", "",
-            //"USER_ID=1827" +
-            //"&POST_TITLE=заголовок" +
-            //"&POST_MESSAGE=текст сообщения" +
-            //"&DEST[0]=SG402" +
-            //"&FILES[0][0]=test.xlsx&FILES[0][1]=" + HttpUtility.UrlEncode(contents)  //+
-            //"&FILES[1][0]=2.xlsx&FILES[1][1]=" + file +
-            //"&FILES[2][0]=3.xlsx&FILES[2][1]=" + file     
-            //);
-
-
-        }
-    }
+namespace BitrixLists
+{   
     class Bitrix24
     {
-        private const string BX_ClientID = "local.5e8255b199d0e7.70800677"; //боевой
-        private const string BX_ClientSecret = "730hvSv5yrgmVv0gcwkxUz2ATaGGIx0fZmuOXMQjSkehKaFzMz"; //боевой
-        private const string BX_Portal = "https://bitrix.eltransplus.ru"; //боевой
+        //боевой
+        private const string BX_ClientID = "local.5e8255b199d0e7.70800677";
+        private const string BX_ClientSecret = "730hvSv5yrgmVv0gcwkxUz2ATaGGIx0fZmuOXMQjSkehKaFzMz";
+        private const string BX_Portal = "https://bitrix.eltransplus.ru";
 
+        //битест
         //private const string BX_ClientID = "local.5e834c45530933.17923150"; 
         //private const string BX_ClientSecret = "lBA05N9gi8dw3sVX4A7V7R7oSqY5EU0L779BZNi0TGutrIzVFh";
         //private const string BX_Portal = "https://bitest.eltransplus.ru"; 
@@ -81,7 +43,6 @@ namespace сSharpProject
             string username = "andreydruzhinin@eltransplus.ru";
             string password = "J4e3Yv";
 
-
             //Настройка запроса
             string svcCredentials = Convert.ToBase64String(ASCIIEncoding.ASCII.GetBytes(username + ":" + password));
             requestLogonBitrix24.Headers.Add("Authorization", "Basic " + svcCredentials);
@@ -96,16 +57,10 @@ namespace сSharpProject
                 //Получаем из заголовков ответа Куки и параметры адреса переадресации (из поля "Location"), параметр Code
                 Uri locationURI = new Uri(responseLogonBitrix24.Headers["Location"]);
 
-                //Получаем параметры из строки ответа (нужен System.Web) 
-                Regex regex = new Regex("code=.*?&", RegexOptions.IgnoreCase);
-                Match match = regex.Match(locationURI.Query);
-
-                if (match.Success)
-                {
-                    Code = match.Value.Remove(match.Value.Length - 1).Remove(0, 5);
-                }
-
+                //Получаем параметры из строки ответа (нужен System.Web)
+                var locationParams = HttpUtility.ParseQueryString(locationURI.Query);
                 Cookie = responseLogonBitrix24.Headers["Set-Cookie"];
+                Code = locationParams["Code"];
 
                 //Вызываем исключение, если Код мы не смогли получить, без него далее никак.
                 if (String.IsNullOrEmpty(Code))

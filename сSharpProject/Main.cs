@@ -7,54 +7,12 @@ namespace сSharpProject
 {
     class MainIntro
     {
-        public static string GetJsonResponse(int start)
-        {
-            Bitrix24 bx_logon = new Bitrix24();
-            string jsonResponse = bx_logon.SendCommand("log.blogpost.get", "LOG_RIGHTS[0]=SG330&start=" + start.ToString());
-
-            Regex regex = new Regex(@"\\[U][0-9A-Z]{4}", RegexOptions.IgnoreCase);
-            MatchCollection m = regex.Matches(jsonResponse);
-            IFormatProvider prov = new CultureInfo("ru-RU");
-
-            foreach (Match match in m)
-            {
-                if (int.TryParse(match.Value.Substring(2), NumberStyles.HexNumber, prov, out int output) == true)
-                {
-                    char c = (char)output;
-                    jsonResponse = jsonResponse.Replace(match.Value, c.ToString());
-                }
-            }
-
-            Regex reg = new Regex("[T][I][T][L][E][\"][:][\"].*?[\"][,][\"][A][U][T][H][O][R][_][I][D]", RegexOptions.IgnoreCase);
-
-            m = reg.Matches(jsonResponse);
-            string temp;
-
-            foreach (Match match in m)
-            {
-                temp = match.Value.Replace("\"", "'");
-                temp = temp.Replace("TITLE':'", "TITLE\":\"");
-                temp = temp.Replace("','AUTHOR_ID", "\",\"AUTHOR_ID");
-                jsonResponse = jsonResponse.Replace(match.Value, temp);
-            }
-
-            reg = new Regex("[D][E][T][A][I][L][_][T][E][X][T][\"][:][\"].*?[\"][,][\"][D][A][T][E]", RegexOptions.IgnoreCase);
-
-            m = reg.Matches(jsonResponse);
-
-            foreach (Match match in m)
-            {
-                temp = match.Value.Replace("\"", "'");
-                temp = temp.Replace("DETAIL_TEXT':'", "DETAIL_TEXT\":\"");
-                temp = temp.Replace("','DATE", "\",\"DATE");
-                jsonResponse = jsonResponse.Replace(match.Value, temp);
-            }
-
-            return jsonResponse;
-        }
         public static void Main()
         {
-            ExcelCharts.Process();
+            BitrixLists.In i = new BitrixLists.In();
+            i.Intro();
+            
+            //ExcelCharts.Process();
 
             //RefDeclarationParser.Run();
             //RefInvoiceParser r = new RefInvoiceParser();

@@ -1,0 +1,1517 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="6/2/2020 12:37:59 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ETP025"
+  DTS:CreatorName="ELTRANSPLUS\andreydruzhinin"
+  DTS:DTSID="{E14A3D99-EA6A-47F8-9ED9-9C14C35A6597}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.71"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package2"
+  DTS:PackageType="5"
+  DTS:VersionBuild="3"
+  DTS:VersionGUID="{6E7D6554-4AAE-4187-89F7-784C277D779B}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Load new data"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:DTSID="{3E9D5D59-D246-469C-B996-D13C8DFEBAB1}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load new data"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load new data\Query"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="Query"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">WITH cte_zero AS (
+	SELECT 
+	dc.*, 
+	workers.* 
+	,0 [Кол-во доставок]
+	,0 [Кол-во грузов]
+	,0 [Кол-во плеч по перевозке (подрядчиков)]
+	,0 [Кол-во контейнеров]
+	,0 [Кол-во ТС]
+	,0 [Кол-во грузов с ГО]
+	,0 [Кол-во доставок с ДТ с условиями группы Е]	
+	,0 [Кол-во доставок с ДТ с условиями группы F]	
+	,0 [Кол-во доставок с ДТ с условиями группы C]	
+	,0 [Кол-во доставок с ДТ с условиями группы D]	
+	,0 [Кол-во доставок с новыми заказчиками/видами перевозки]	
+	FROM 
+	(SELECT DISTINCT id_month, id_year 
+	FROM [BI].[dbo].[DimCalendar]
+	WHERE id_year &gt;= 2020
+	AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))
+	) dc
+	CROSS JOIN 
+	(SELECT DISTINCT [department], [name], [code] 
+	FROM [motivation].[dbo].[stl_workers]) workers
+	),
+	
+	cte_datamart AS (
+	SELECT	
+		MONTH(DRLLastFactDate) month_id
+		,YEAR(DRLLastFactDate) year_id
+		,[Exec_ Department Code] Отдел
+		,SalespersonName Специалист
+		,[Executive Code] Код
+		,COUNT(DISTINCT dd.[No_]) [Кол-во доставок]
+		,SUM(COALESCE(CargoQty, 0)) [Кол-во грузов]
+		,SUM(COALESCE(VendorQty, 0)) [Кол-во плеч по перевозке (подрядчиков)]
+		,SUM(COALESCE(ContainerQty, 0)) [Кол-во контейнеров]
+		,SUM(COALESCE(Transport_Qty, 0)) [Кол-во ТС]
+		,SUM(COALESCE(CargoID_Ins_Qty, 0)) [Кол-во грузов с ГО]			
+		
+		,SUM(CASE LEFT(gtd.terms, 1) WHEN 'E' THEN 1 ELSE 0 END) [Кол-во доставок с ДТ с условиями группы Е]	
+		,SUM(CASE LEFT(gtd.terms, 1) WHEN 'F' THEN 1 ELSE 0 END) [Кол-во доставок с ДТ с условиями группы F]	
+		,SUM(CASE LEFT(gtd.terms, 1) WHEN 'C' THEN 1 ELSE 0 END) [Кол-во доставок с ДТ с условиями группы C]	
+		,SUM(CASE LEFT(gtd.terms, 1) WHEN 'D' THEN 1 ELSE 0 END) [Кол-во доставок с ДТ с условиями группы D]	
+			
+		,SUM(CASE COALESCE(esd.rn, 0) WHEN 1 THEN 1 ELSE 0 END) [Кол-во доставок с новыми заказчиками/видами перевозки]	
+	
+	FROM [BI].[dwh].[DeliveryDatamart] dd
+	JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] sp ON sp.SalespersonCode = dd.[Executive Code]
+	
+	LEFT JOIN (SELECT UPPER(LTRIM([20_20])) terms, UPPER(LTRIM(RTRIM([&amp;&amp;PRIM]))) delivery, 
+		ROW_NUMBER() OVER (PARTITION BY [&amp;&amp;PRIM] ORDER BY (SELECT NULL)) rn
+		FROM [gtd].[dbo].[GTDList]
+		WHERE [RegNum] IS NOT NULL AND [RegNum] &lt;&gt; '') gtd
+	ON gtd.delivery = dd.No_ AND gtd.rn = 1	
+	
+	LEFT JOIN (SELECT [No_], ROW_NUMBER() 
+							OVER (PARTITION BY [Customer No_], [Transport Method] 
+							ORDER BY [Document Date] ASC) rn
+				FROM [BI].[dwh].[ETP$SQL_Delivery]) esd
+	ON esd.No_ = dd.No_ AND esd.rn = 1
+
+	WHERE DRLLastFactDate &gt;= '20200101'
+	GROUP BY 
+	MONTH(DRLLastFactDate), 
+	YEAR(DRLLastFactDate), 
+	[Exec_ Department Code], 
+	SalespersonName,
+	[Executive Code]
+	),
+
+	cte_datamart_plus_zero AS (
+	SELECT * FROM cte_datamart 
+	UNION ALL
+	SELECT * FROM cte_zero AS z
+	WHERE NOT EXISTS (SELECT 0 FROM cte_datamart AS d 
+						WHERE d.[Код] = z.code AND d.month_id = z.id_month AND d.year_id = z.id_year)	
+	),
+
+	cte AS (
+	SELECT 
+	c.*
+	,CASE
+		WHEN EXISTS (SELECT 0 FROM [motivation].[dbo].[stl_workers] w
+					 WHERE w.code = [Код]
+					 AND w.is_archive = 0
+					 AND w.estimate_participant = 1
+					 AND w.date_begin IS NULL
+					 AND w.date_end IS NULL) 
+		THEN 1
+		WHEN EXISTS (SELECT 0 FROM [motivation].[dbo].[stl_workers] w
+					 WHERE w.code = [Код]
+					 AND w.is_archive = 1
+					 AND w.estimate_participant = 1
+					 AND CAST(DATEFROMPARTS(year_id, month_id, 15) AS date) 
+						 BETWEEN w.date_begin AND w.date_end) 
+		THEN 1
+		ELSE 0
+		END [Участвует в расчете (1)]
+	
+	FROM cte_datamart_plus_zero AS c
+	),
+
+	cte2 AS (
+	SELECT 
+	c.*
+
+	,(SELECT COUNT(0)
+		FROM [BI].[etl].[timesheet] ts 
+		WHERE 
+		MONTH(ts.[Date]) = c.month_id
+		AND YEAR(ts.[Date]) = c.year_id
+		AND ts.[Date] &lt;= GETDATE()
+		AND ts.Letter_code = 'Я'
+		AND ts.Person = c.[Специалист]) [Количество отработанных дней]	
+
+	,(SELECT COUNT(0) FROM [BI].[dbo].[DimCalendar] dc
+	WHERE dc.id_year = c.year_id
+	AND dc.id_month = c.month_id
+	AND dc.WorkDay = 1) [Количество рабочих дней в месяце]		   
+	
+	,COUNT(CASE WHEN [Участвует в расчете (1)] = 1 THEN 1 END) OVER (PARTITION BY [Отдел], year_id, month_id) [Количество сотрудников участвующих в расчете по отделу]
+
+	,f.stl_delivery [За доставку]
+	,f.stl_cargo [За груз]
+	,f.stl_contractor [За плечо]
+	,f.stl_container [За контейнер]
+	,f.stl_vehicle [За ТС]
+	,f.stl_go [За груз с ГО]
+
+	FROM cte c
+	JOIN [motivation].[dbo].[stl_factors] f ON f.id = 1
+	),
+
+	cte3 AS (
+	SELECT 	
+	c.* 
+	
+	,COALESCE(
+		CAST((1.00  * c.[Количество отработанных дней] / 	
+		NULLIF(c.[Количество рабочих дней в месяце], 0)) 
+	AS decimal(18,2))
+	, 0) [Коэффициент рабочих дней]
+	
+	,CAST(
+	(c.[За доставку]       * c.[Кол-во доставок]  
+	+ c.[За груз]       * c.[Кол-во грузов]  
+	+ c.[За плечо]		* c.[Кол-во плеч по перевозке (подрядчиков)]
+	+ c.[За контейнер]	* c.[Кол-во контейнеров]
+	+ c.[За ТС]			* c.[Кол-во ТС]
+	+ c.[За груз с ГО]	* c.[Кол-во грузов с ГО]) AS decimal(18,2)) [Оценка сотрудника]
+
+	FROM cte2 c
+	),
+
+	cte4 AS (
+	SELECT c.* 
+
+	,COALESCE(
+		CAST(
+		(1.00 * c.[Оценка сотрудника] / NULLIF(c.[Коэффициент рабочих дней], 0))
+		AS decimal(18,2))
+	, 0) [Оценка сотрудника с поправкой на количество отработанных дней]
+	
+	FROM cte3 c
+	),
+
+	cte5 AS(	
+	SELECT 	
+	c.* 
+	
+	,
+	CAST(
+	AVG(c.[Оценка сотрудника с поправкой на количество отработанных дней])
+	OVER (PARTITION BY c.Отдел) 
+	AS decimal(18, 2))
+	[Средняя оценка по группе]
+	
+	,
+	CAST(
+		c.[Оценка сотрудника с поправкой на количество отработанных дней]
+		/
+		COALESCE(
+			NULLIF(
+				AVG(c.[Оценка сотрудника с поправкой на количество отработанных дней])
+				OVER (PARTITION BY c.Отдел)  
+			, 0)
+		, 0)
+	AS decimal(18, 2))
+	[Коэффициент Сотрудника]	
+
+	FROM cte4 c
+	)
+	
+	SELECT * FROM cte5</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="The Source database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the mode to retrieve external column information"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load new data\Query.Connections[IDbConnection]"
+                  connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load new data\Query.Outputs[ADO NET Source Output]"
+                  name="ADO NET Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[month_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[month_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[month_id]"
+                      name="month_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[year_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[year_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[year_id]"
+                      name="year_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Отдел]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Отдел]"
+                      length="20"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Отдел]"
+                      name="Отдел"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Специалист]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Специалист]"
+                      length="200"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Специалист]"
+                      name="Специалист"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Код]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Код]"
+                      length="10"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Код]"
+                      name="Код"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок]"
+                      name="Кол-во доставок"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во грузов]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во грузов]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во грузов]"
+                      name="Кол-во грузов"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во плеч по перевозке (подрядчиков)]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во плеч по перевозке (подрядчиков)]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во плеч по перевозке (подрядчиков)]"
+                      name="Кол-во плеч по перевозке (подрядчиков)"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во контейнеров]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во контейнеров]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во контейнеров]"
+                      name="Кол-во контейнеров"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во ТС]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во ТС]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во ТС]"
+                      name="Кол-во ТС"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во грузов с ГО]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во грузов с ГО]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во грузов с ГО]"
+                      name="Кол-во грузов с ГО"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы Е]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы Е]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы Е]"
+                      name="Кол-во доставок с ДТ с условиями группы Е"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы F]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы F]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы F]"
+                      name="Кол-во доставок с ДТ с условиями группы F"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы C]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы C]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы C]"
+                      name="Кол-во доставок с ДТ с условиями группы C"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы D]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы D]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы D]"
+                      name="Кол-во доставок с ДТ с условиями группы D"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с новыми заказчиками/видами перевозки]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]"
+                      name="Кол-во доставок с новыми заказчиками/видами перевозки"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Участвует в расчете (1)]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Участвует в расчете (1)]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Участвует в расчете (1)]"
+                      name="Участвует в расчете (1)"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество отработанных дней]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Количество отработанных дней]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество отработанных дней]"
+                      name="Количество отработанных дней"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество рабочих дней в месяце]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Количество рабочих дней в месяце]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество рабочих дней в месяце]"
+                      name="Количество рабочих дней в месяце"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество сотрудников участвующих в расчете по отделу]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Количество сотрудников участвующих в расчете по отделу]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество сотрудников участвующих в расчете по отделу]"
+                      name="Количество сотрудников участвующих в расчете по отделу"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За доставку]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За доставку]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За доставку]"
+                      name="За доставку"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За груз]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За груз]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За груз]"
+                      name="За груз"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За плечо]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За плечо]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За плечо]"
+                      name="За плечо"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За контейнер]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За контейнер]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За контейнер]"
+                      name="За контейнер"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За ТС]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За ТС]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За ТС]"
+                      name="За ТС"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За груз с ГО]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За груз с ГО]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За груз с ГО]"
+                      name="За груз с ГО"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Коэффициент рабочих дней]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Коэффициент рабочих дней]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Коэффициент рабочих дней]"
+                      name="Коэффициент рабочих дней"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Оценка сотрудника]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Оценка сотрудника]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Оценка сотрудника]"
+                      name="Оценка сотрудника"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Оценка сотрудника с поправкой на количество отработанных дней]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Оценка сотрудника с поправкой на количество отработанных дней]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Оценка сотрудника с поправкой на количество отработанных дней]"
+                      name="Оценка сотрудника с поправкой на количество отработанных дней"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Средняя оценка по группе]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Средняя оценка по группе]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Средняя оценка по группе]"
+                      name="Средняя оценка по группе"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Коэффициент Сотрудника]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Коэффициент Сотрудника]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Коэффициент Сотрудника]"
+                      name="Коэффициент Сотрудника"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[month_id]"
+                      dataType="i4"
+                      name="month_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[year_id]"
+                      dataType="i4"
+                      name="year_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Отдел]"
+                      dataType="wstr"
+                      length="20"
+                      name="Отдел" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Специалист]"
+                      dataType="wstr"
+                      length="200"
+                      name="Специалист" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Код]"
+                      dataType="wstr"
+                      length="10"
+                      name="Код" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок]"
+                      dataType="i4"
+                      name="Кол-во доставок" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во грузов]"
+                      dataType="i4"
+                      name="Кол-во грузов" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во плеч по перевозке (подрядчиков)]"
+                      dataType="i4"
+                      name="Кол-во плеч по перевозке (подрядчиков)" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во контейнеров]"
+                      dataType="i4"
+                      name="Кол-во контейнеров" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во ТС]"
+                      dataType="i4"
+                      name="Кол-во ТС" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во грузов с ГО]"
+                      dataType="i4"
+                      name="Кол-во грузов с ГО" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы Е]"
+                      dataType="i4"
+                      name="Кол-во доставок с ДТ с условиями группы Е" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы F]"
+                      dataType="i4"
+                      name="Кол-во доставок с ДТ с условиями группы F" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы C]"
+                      dataType="i4"
+                      name="Кол-во доставок с ДТ с условиями группы C" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с ДТ с условиями группы D]"
+                      dataType="i4"
+                      name="Кол-во доставок с ДТ с условиями группы D" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с новыми заказчиками/видами перевозки]"
+                      dataType="i4"
+                      name="Кол-во доставок с новыми заказчиками/видами перевозки" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Участвует в расчете (1)]"
+                      dataType="i4"
+                      name="Участвует в расчете (1)" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Количество отработанных дней]"
+                      dataType="i4"
+                      name="Количество отработанных дней" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Количество рабочих дней в месяце]"
+                      dataType="i4"
+                      name="Количество рабочих дней в месяце" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Количество сотрудников участвующих в расчете по отделу]"
+                      dataType="i4"
+                      name="Количество сотрудников участвующих в расчете по отделу" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За доставку]"
+                      dataType="numeric"
+                      name="За доставку"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За груз]"
+                      dataType="numeric"
+                      name="За груз"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За плечо]"
+                      dataType="numeric"
+                      name="За плечо"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За контейнер]"
+                      dataType="numeric"
+                      name="За контейнер"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За ТС]"
+                      dataType="numeric"
+                      name="За ТС"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За груз с ГО]"
+                      dataType="numeric"
+                      name="За груз с ГО"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Коэффициент рабочих дней]"
+                      dataType="numeric"
+                      name="Коэффициент рабочих дней"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Оценка сотрудника]"
+                      dataType="numeric"
+                      name="Оценка сотрудника"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Оценка сотрудника с поправкой на количество отработанных дней]"
+                      dataType="numeric"
+                      name="Оценка сотрудника с поправкой на количество отработанных дней"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Средняя оценка по группе]"
+                      dataType="numeric"
+                      name="Средняя оценка по группе"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Коэффициент Сотрудника]"
+                      dataType="numeric"
+                      name="Коэффициент Сотрудника"
+                      precision="18"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output]"
+                  isErrorOut="true"
+                  name="ADO NET Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[month_id]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[month_id]"
+                      name="month_id" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[year_id]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[year_id]"
+                      name="year_id" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Отдел]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Отдел]"
+                      name="Отдел" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Специалист]"
+                      dataType="wstr"
+                      length="200"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Специалист]"
+                      name="Специалист" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Код]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Код]"
+                      name="Код" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок]"
+                      name="Кол-во доставок" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во грузов]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во грузов]"
+                      name="Кол-во грузов" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во плеч по перевозке (подрядчиков)]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во плеч по перевозке (подрядчиков)]"
+                      name="Кол-во плеч по перевозке (подрядчиков)" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во контейнеров]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во контейнеров]"
+                      name="Кол-во контейнеров" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во ТС]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во ТС]"
+                      name="Кол-во ТС" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во грузов с ГО]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во грузов с ГО]"
+                      name="Кол-во грузов с ГО" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы Е]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы Е]"
+                      name="Кол-во доставок с ДТ с условиями группы Е" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы F]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы F]"
+                      name="Кол-во доставок с ДТ с условиями группы F" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы C]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы C]"
+                      name="Кол-во доставок с ДТ с условиями группы C" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы D]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с ДТ с условиями группы D]"
+                      name="Кол-во доставок с ДТ с условиями группы D" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]"
+                      name="Кол-во доставок с новыми заказчиками/видами перевозки" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Участвует в расчете (1)]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Участвует в расчете (1)]"
+                      name="Участвует в расчете (1)" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Количество отработанных дней]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Количество отработанных дней]"
+                      name="Количество отработанных дней" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Количество рабочих дней в месяце]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Количество рабочих дней в месяце]"
+                      name="Количество рабочих дней в месяце" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Количество сотрудников участвующих в расчете по отделу]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Количество сотрудников участвующих в расчете по отделу]"
+                      name="Количество сотрудников участвующих в расчете по отделу" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За доставку]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За доставку]"
+                      name="За доставку"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За груз]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За груз]"
+                      name="За груз"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За плечо]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За плечо]"
+                      name="За плечо"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За контейнер]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За контейнер]"
+                      name="За контейнер"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За ТС]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За ТС]"
+                      name="За ТС"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За груз с ГО]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За груз с ГО]"
+                      name="За груз с ГО"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Коэффициент рабочих дней]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Коэффициент рабочих дней]"
+                      name="Коэффициент рабочих дней"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Оценка сотрудника]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Оценка сотрудника]"
+                      name="Оценка сотрудника"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Оценка сотрудника с поправкой на количество отработанных дней]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Оценка сотрудника с поправкой на количество отработанных дней]"
+                      name="Оценка сотрудника с поправкой на количество отработанных дней"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Средняя оценка по группе]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Средняя оценка по группе]"
+                      name="Средняя оценка по группе"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Коэффициент Сотрудника]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Коэффициент Сотрудника]"
+                      name="Коэффициент Сотрудника"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load new data\Table"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="Table"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">motivation.dbo.stl_main</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load new data\Table.Connections[IDbConnection]"
+                  connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load new data\Table.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[month_id]"
+                      cachedDataType="i4"
+                      cachedName="month_id"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[month_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[month_id]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[year_id]"
+                      cachedDataType="i4"
+                      cachedName="year_id"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[year_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[year_id]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Отдел]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="Отдел"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[department]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Отдел]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Специалист]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="Специалист"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_name]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Специалист]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Код]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="Код"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_code]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Код]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во доставок]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во доставок"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во грузов]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во грузов"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[cargo_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во грузов]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во плеч по перевозке (подрядчиков)]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во плеч по перевозке (подрядчиков)"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[contractor_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во плеч по перевозке (подрядчиков)]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во контейнеров]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во контейнеров"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[container_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во контейнеров]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во ТС]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во ТС"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[vehicle_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во ТС]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во грузов с ГО]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во грузов с ГО"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[cargo_go_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во грузов с ГО]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во доставок с ДТ с условиями группы Е]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во доставок с ДТ с условиями группы Е"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_e_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы Е]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во доставок с ДТ с условиями группы F]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во доставок с ДТ с условиями группы F"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_f_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы F]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во доставок с ДТ с условиями группы C]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во доставок с ДТ с условиями группы C"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_c_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы C]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во доставок с ДТ с условиями группы D]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во доставок с ДТ с условиями группы D"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_d_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с ДТ с условиями группы D]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во доставок с новыми заказчиками/видами перевозки"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_new_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Участвует в расчете (1)]"
+                      cachedDataType="i4"
+                      cachedName="Участвует в расчете (1)"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_participant]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Участвует в расчете (1)]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Количество отработанных дней]"
+                      cachedDataType="i4"
+                      cachedName="Количество отработанных дней"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_fact]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество отработанных дней]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Количество рабочих дней в месяце]"
+                      cachedDataType="i4"
+                      cachedName="Количество рабочих дней в месяце"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_in_month]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество рабочих дней в месяце]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Количество сотрудников участвующих в расчете по отделу]"
+                      cachedDataType="i4"
+                      cachedName="Количество сотрудников участвующих в расчете по отделу"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Количество сотрудников участвующих в расчете по отделу]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[За доставку]"
+                      cachedDataType="numeric"
+                      cachedName="За доставку"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_delivery]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За доставку]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[За груз]"
+                      cachedDataType="numeric"
+                      cachedName="За груз"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_cargo]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За груз]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[За плечо]"
+                      cachedDataType="numeric"
+                      cachedName="За плечо"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_contractor]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За плечо]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[За контейнер]"
+                      cachedDataType="numeric"
+                      cachedName="За контейнер"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_container]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За контейнер]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[За ТС]"
+                      cachedDataType="numeric"
+                      cachedName="За ТС"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_vehicle]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За ТС]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[За груз с ГО]"
+                      cachedDataType="numeric"
+                      cachedName="За груз с ГО"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_go]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За груз с ГО]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Коэффициент рабочих дней]"
+                      cachedDataType="numeric"
+                      cachedName="Коэффициент рабочих дней"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_factor]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Коэффициент рабочих дней]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Оценка сотрудника]"
+                      cachedDataType="numeric"
+                      cachedName="Оценка сотрудника"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_raw]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Оценка сотрудника]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Оценка сотрудника с поправкой на количество отработанных дней]"
+                      cachedDataType="numeric"
+                      cachedName="Оценка сотрудника с поправкой на количество отработанных дней"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_work_days]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Оценка сотрудника с поправкой на количество отработанных дней]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Средняя оценка по группе]"
+                      cachedDataType="numeric"
+                      cachedName="Средняя оценка по группе"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[avg_estimate]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Средняя оценка по группе]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Коэффициент Сотрудника]"
+                      cachedDataType="numeric"
+                      cachedName="Коэффициент Сотрудника"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[worker_factor]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Коэффициент Сотрудника]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[month_id]"
+                      dataType="i4"
+                      name="month_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[year_id]"
+                      dataType="i4"
+                      name="year_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[department]"
+                      dataType="wstr"
+                      length="20"
+                      name="department" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_name]"
+                      dataType="wstr"
+                      length="200"
+                      name="specialist_name" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_code]"
+                      dataType="wstr"
+                      length="10"
+                      name="specialist_code" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_qty]"
+                      dataType="i4"
+                      name="delivery_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[cargo_qty]"
+                      dataType="i4"
+                      name="cargo_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[contractor_qty]"
+                      dataType="i4"
+                      name="contractor_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[container_qty]"
+                      dataType="i4"
+                      name="container_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[vehicle_qty]"
+                      dataType="i4"
+                      name="vehicle_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[cargo_go_qty]"
+                      dataType="i4"
+                      name="cargo_go_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_e_qty]"
+                      dataType="i4"
+                      name="incoterms_e_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_f_qty]"
+                      dataType="i4"
+                      name="incoterms_f_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_c_qty]"
+                      dataType="i4"
+                      name="incoterms_c_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[incoterms_d_qty]"
+                      dataType="i4"
+                      name="incoterms_d_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_new_qty]"
+                      dataType="i4"
+                      name="delivery_new_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_participant]"
+                      dataType="i4"
+                      name="estimate_participant" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_fact]"
+                      dataType="i4"
+                      name="work_days_fact" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_in_month]"
+                      dataType="i4"
+                      name="work_days_in_month" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_qty]"
+                      dataType="i4"
+                      name="workers_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_delivery]"
+                      dataType="numeric"
+                      name="stl_delivery"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_cargo]"
+                      dataType="numeric"
+                      name="stl_cargo"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_contractor]"
+                      dataType="numeric"
+                      name="stl_contractor"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_container]"
+                      dataType="numeric"
+                      name="stl_container"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_vehicle]"
+                      dataType="numeric"
+                      name="stl_vehicle"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_go]"
+                      dataType="numeric"
+                      name="stl_go"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_factor]"
+                      dataType="numeric"
+                      name="work_days_factor"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_raw]"
+                      dataType="numeric"
+                      name="estimate_raw"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_work_days]"
+                      dataType="numeric"
+                      name="estimate_work_days"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[avg_estimate]"
+                      dataType="numeric"
+                      name="avg_estimate"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[worker_factor]"
+                      dataType="numeric"
+                      name="worker_factor"
+                      precision="18"
+                      scale="2" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load new data\Table.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\Load new data\Table.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load new data\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load new data\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load new data.Paths[ADO NET Source Output]"
+              endId="Package\Load new data\Table.Inputs[ADO NET Destination Input]"
+              name="ADO NET Source Output"
+              startId="Package\Load new data\Query.Outputs[ADO NET Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{0D618DB2-DA70-4CF7-BD1B-7CE51F21450F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate table"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [motivation].[dbo].[stl_main]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение]"
+      DTS:CreationName=""
+      DTS:DTSID="{F500DA6D-9190-4EDD-9C96-71B7ADF97F1A}"
+      DTS:From="Package\Truncate table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение"
+      DTS:To="Package\Load new data" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Truncate table"
+          TopLeft="292,100" />
+        <NodeLayout
+          Size="148,42"
+          Id="Package\Load new data"
+          TopLeft="286,181" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение]"
+          TopLeft="362.75,142">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load new data">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Load new data\Query"
+          TopLeft="204,54" />
+        <NodeLayout
+          Size="105,42"
+          Id="Package\Load new data\Table"
+          TopLeft="201,135" />
+        <EdgeLayout
+          Id="Package\Load new data.Paths[ADO NET Source Output]"
+          TopLeft="255.5,96">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,39"
+              Start="0,0"
+              End="0,31.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load new data\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load new data\Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
