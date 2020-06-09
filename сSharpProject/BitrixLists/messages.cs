@@ -14,7 +14,7 @@ using System.Data.Linq.Mapping;
 
 namespace BitrixLists
 {
-    [Table(Name = "aberration.dbo.list_330")]
+    [Table(Name = "aberration.dbo.list_330_new")]
     public class messages
     {
         [Column(IsDbGenerated = true, IsPrimaryKey = true)]
@@ -31,5 +31,7 @@ namespace BitrixLists
         public string message_url { get; set; }       
         [Column]
         public string author { get; set; }
+        [Column]
+        public string task_url { get; set; }
     }    
 }

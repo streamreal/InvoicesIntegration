@@ -11,10 +11,27 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package2"
   DTS:PackageType="5"
-  DTS:VersionBuild="3"
-  DTS:VersionGUID="{6E7D6554-4AAE-4187-89F7-784C277D779B}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{69B18D89-7C1A-451F-84E1-7494DA434536}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[10.0.0.33.phpuser]"
+      DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089"
+      DTS:DTSID="{A56273F1-5421-44A4-B7D2-A416845DDF75}"
+      DTS:ObjectName="10.0.0.33.phpuser">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=10.0.0.33;User ID=phpuser;Persist Security Info=True;Application Name=SSIS-Package2-{A56273F1-5421-44A4-B7D2-A416845DDF75}10.0.0.33.phpuser;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAA6Nvoc4FQkWGOfHRoBJSJwAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACK466Fwq0d3Cy/NP09OzA2AAAAAASAAACgAAAAEAAAAMjqC4LkLN+zc+jzqFGHe2YYAAAApzanx+R5Ry06mjih7xUaKhZaSr61uE/gFAAAAFURx7uxw86rbZv3oYySTLQUKnMN</DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
@@ -60,6 +77,7 @@
 	,0 [Кол-во доставок с ДТ с условиями группы C]	
 	,0 [Кол-во доставок с ДТ с условиями группы D]	
 	,0 [Кол-во доставок с новыми заказчиками/видами перевозки]	
+	,0 [Кол-во доставок с внутренней перевозкой]
 	FROM 
 	(SELECT DISTINCT id_month, id_year 
 	FROM [BI].[dbo].[DimCalendar]
@@ -73,11 +91,11 @@
 	
 	cte_datamart AS (
 	SELECT	
-		MONTH(DRLLastFactDate) month_id
-		,YEAR(DRLLastFactDate) year_id
-		,[Exec_ Department Code] Отдел
+		MONTH(dd.DRLLastFactDate) month_id
+		,YEAR(dd.DRLLastFactDate) year_id
+		,dd.[Exec_ Department Code] Отдел
 		,SalespersonName Специалист
-		,[Executive Code] Код
+		,dd.[Executive Code] Код
 		,COUNT(DISTINCT dd.[No_]) [Кол-во доставок]
 		,SUM(COALESCE(CargoQty, 0)) [Кол-во грузов]
 		,SUM(COALESCE(VendorQty, 0)) [Кол-во плеч по перевозке (подрядчиков)]
@@ -91,6 +109,11 @@
 		,SUM(CASE LEFT(gtd.terms, 1) WHEN 'D' THEN 1 ELSE 0 END) [Кол-во доставок с ДТ с условиями группы D]	
 			
 		,SUM(CASE COALESCE(esd.rn, 0) WHEN 1 THEN 1 ELSE 0 END) [Кол-во доставок с новыми заказчиками/видами перевозки]	
+	
+		,SUM(CASE WHEN dr.departure = 'RUS'
+				  AND dr.destination = 'RUS'
+				  AND dr.has_dt = 0
+				  THEN 1 ELSE 0 END)  [Кол-во доставок с внутренней перевозкой]
 	
 	FROM [BI].[dwh].[DeliveryDatamart] dd
 	JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] sp ON sp.SalespersonCode = dd.[Executive Code]
@@ -107,13 +130,21 @@
 				FROM [BI].[dwh].[ETP$SQL_Delivery]) esd
 	ON esd.No_ = dd.No_ AND esd.rn = 1
 
-	WHERE DRLLastFactDate &gt;= '20200101'
+	JOIN [BI].[dwh].[ETP$SQL_Delivery] esd1 ON esd1.No_ = dd.No_
+
+	LEFT JOIN [motivation].[dbo].[stl_delivery_route] dr ON dr.document = dd.No_
+
+	WHERE 
+	dd.DRLLastFactDate &gt;= '20200101' 
+	AND COALESCE(esd1.TransitDir, '') &lt;&gt; 'ПЕРЕГОН'
+	AND EXISTS(SELECT 0 FROM [motivation].[dbo].[stl_workers] w
+				WHERE w.code = dd.[Executive Code])	
 	GROUP BY 
-	MONTH(DRLLastFactDate), 
-	YEAR(DRLLastFactDate), 
-	[Exec_ Department Code], 
+	MONTH(dd.DRLLastFactDate), 
+	YEAR(dd.DRLLastFactDate), 
+	dd.[Exec_ Department Code], 
 	SalespersonName,
-	[Executive Code]
+	dd.[Executive Code]
 	),
 
 	cte_datamart_plus_zero AS (
@@ -166,7 +197,7 @@
 	AND dc.id_month = c.month_id
 	AND dc.WorkDay = 1) [Количество рабочих дней в месяце]		   
 	
-	,COUNT(CASE WHEN [Участвует в расчете (1)] = 1 THEN 1 END) OVER (PARTITION BY [Отдел], year_id, month_id) [Количество сотрудников участвующих в расчете по отделу]
+	,COUNT(CASE WHEN [Участвует в расчете (1)] = 1 THEN 1 END) OVER (PARTITION BY year_id, month_id) [Количество сотрудников участвующих в расчете по отделу]
 
 	,f.stl_delivery [За доставку]
 	,f.stl_cargo [За груз]
@@ -174,6 +205,12 @@
 	,f.stl_container [За контейнер]
 	,f.stl_vehicle [За ТС]
 	,f.stl_go [За груз с ГО]
+	,f.[stl_incoterms_e]
+    ,f.[stl_incoterms_f]
+    ,f.[stl_incoterms_c]
+    ,f.[stl_incoterms_d]
+    ,f.[stl_inner]
+	,f.[stl_new_customer]	
 
 	FROM cte c
 	JOIN [motivation].[dbo].[stl_factors] f ON f.id = 1
@@ -190,12 +227,15 @@
 	, 0) [Коэффициент рабочих дней]
 	
 	,CAST(
-	(c.[За доставку]       * c.[Кол-во доставок]  
-	+ c.[За груз]       * c.[Кол-во грузов]  
+	(c.[За груз]        * c.[Кол-во грузов]  
 	+ c.[За плечо]		* c.[Кол-во плеч по перевозке (подрядчиков)]
-	+ c.[За контейнер]	* c.[Кол-во контейнеров]
-	+ c.[За ТС]			* c.[Кол-во ТС]
-	+ c.[За груз с ГО]	* c.[Кол-во грузов с ГО]) AS decimal(18,2)) [Оценка сотрудника]
+	+ c.[stl_incoterms_e]		* c.[Кол-во доставок с ДТ с условиями группы Е]	
+    + c.[stl_incoterms_f]		* c.[Кол-во доставок с ДТ с условиями группы F]	
+    + c.[stl_incoterms_c]		* c.[Кол-во доставок с ДТ с условиями группы C]	
+    + c.[stl_incoterms_d]		* c.[Кол-во доставок с ДТ с условиями группы D]	
+    + c.[stl_new_customer]		* c.[Кол-во доставок с новыми заказчиками/видами перевозки]	
+	+ c.[stl_inner]             * c.[Кол-во доставок с внутренней перевозкой]  
+	) AS decimal(18,2)) [Оценка сотрудника]
 
 	FROM cte2 c
 	),
@@ -218,8 +258,10 @@
 	
 	,
 	CAST(
-	AVG(c.[Оценка сотрудника с поправкой на количество отработанных дней])
-	OVER (PARTITION BY c.Отдел) 
+	AVG(CASE WHEN c.[Участвует в расчете (1)] = 1
+	THEN c.[Оценка сотрудника с поправкой на количество отработанных дней]
+	ELSE NULL END)	
+	OVER (PARTITION BY year_id, month_id) 
 	AS decimal(18, 2))
 	[Средняя оценка по группе]
 	
@@ -229,8 +271,10 @@
 		/
 		COALESCE(
 			NULLIF(
-				AVG(c.[Оценка сотрудника с поправкой на количество отработанных дней])
-				OVER (PARTITION BY c.Отдел)  
+				AVG(CASE WHEN c.[Участвует в расчете (1)] = 1
+				THEN c.[Оценка сотрудника с поправкой на количество отработанных дней]
+				ELSE NULL END)	
+				OVER (PARTITION BY year_id, month_id)  
 			, 0)
 		, 0)
 	AS decimal(18, 2))
@@ -424,6 +468,15 @@
                       name="Кол-во доставок с новыми заказчиками/видами перевозки"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с внутренней перевозкой]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с внутренней перевозкой]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с внутренней перевозкой]"
+                      name="Кол-во доставок с внутренней перевозкой"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Участвует в расчете (1)]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
@@ -522,6 +575,72 @@
                       externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За груз с ГО]"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[За груз с ГО]"
                       name="За груз с ГО"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_e]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_e]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_e]"
+                      name="stl_incoterms_e"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_f]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_f]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_f]"
+                      name="stl_incoterms_f"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_c]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_c]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_c]"
+                      name="stl_incoterms_c"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_d]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_d]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_incoterms_d]"
+                      name="stl_incoterms_d"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_inner]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_inner]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_inner]"
+                      name="stl_inner"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_new_customer]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_new_customer]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_new_customer]"
+                      name="stl_new_customer"
                       precision="18"
                       scale="2"
                       truncationRowDisposition="FailComponent" />
@@ -651,6 +770,10 @@
                       dataType="i4"
                       name="Кол-во доставок с новыми заказчиками/видами перевозки" />
                     <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Кол-во доставок с внутренней перевозкой]"
+                      dataType="i4"
+                      name="Кол-во доставок с внутренней перевозкой" />
+                    <externalMetadataColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[Участвует в расчете (1)]"
                       dataType="i4"
                       name="Участвует в расчете (1)" />
@@ -700,6 +823,42 @@
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[За груз с ГО]"
                       dataType="numeric"
                       name="За груз с ГО"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_e]"
+                      dataType="numeric"
+                      name="stl_incoterms_e"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_f]"
+                      dataType="numeric"
+                      name="stl_incoterms_f"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_c]"
+                      dataType="numeric"
+                      name="stl_incoterms_c"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_incoterms_d]"
+                      dataType="numeric"
+                      name="stl_incoterms_d"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_inner]"
+                      dataType="numeric"
+                      name="stl_inner"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_new_customer]"
+                      dataType="numeric"
+                      name="stl_new_customer"
                       precision="18"
                       scale="2" />
                     <externalMetadataColumn
@@ -823,6 +982,11 @@
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]"
                       name="Кол-во доставок с новыми заказчиками/видами перевозки" />
                     <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с внутренней перевозкой]"
+                      dataType="i4"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Кол-во доставок с внутренней перевозкой]"
+                      name="Кол-во доставок с внутренней перевозкой" />
+                    <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Участвует в расчете (1)]"
                       dataType="i4"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[Участвует в расчете (1)]"
@@ -882,6 +1046,48 @@
                       dataType="numeric"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[За груз с ГО]"
                       name="За груз с ГО"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_e]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_e]"
+                      name="stl_incoterms_e"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_f]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_f]"
+                      name="stl_incoterms_f"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_c]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_c]"
+                      name="stl_incoterms_c"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_d]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_incoterms_d]"
+                      name="stl_incoterms_d"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_inner]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_inner]"
+                      name="stl_inner"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_new_customer]"
+                      dataType="numeric"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_new_customer]"
+                      name="stl_new_customer"
                       precision="18"
                       scale="2" />
                     <outputColumn
@@ -1084,6 +1290,12 @@
                       cachedName="Кол-во доставок с новыми заказчиками/видами перевозки"
                       externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_new_qty]"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с новыми заказчиками/видами перевозки]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Кол-во доставок с внутренней перевозкой]"
+                      cachedDataType="i4"
+                      cachedName="Кол-во доставок с внутренней перевозкой"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_inner_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[Кол-во доставок с внутренней перевозкой]" />
                     <inputColumn
                       refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[Участвует в расчете (1)]"
                       cachedDataType="i4"
@@ -1348,6 +1560,10 @@
                       name="worker_factor"
                       precision="18"
                       scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_inner_qty]"
+                      dataType="i4"
+                      name="delivery_inner_qty" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1388,6 +1604,374 @@
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\NAV"
+      DTS:CreationName="STOCK:SEQUENCE"
+      DTS:Description="Контейнер последовательности"
+      DTS:DTSID="{67F9F9AA-F5CC-4C4D-A386-10A421B365DF}"
+      DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="NAV">
+      <DTS:Variables />
+      <DTS:Executables>
+        <DTS:Executable
+          DTS:refId="Package\NAV\Reload from 33"
+          DTS:CreationName="Microsoft.Pipeline"
+          DTS:Description="Задача потока данных"
+          DTS:DTSID="{D5B22ED3-5494-478A-B52E-A0B69EE6A961}"
+          DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Reload from 33"
+          DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <pipeline
+              version="1">
+              <components>
+                <component
+                  refId="Package\NAV\Reload from 33\Query"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+                  description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+                  name="Query"
+                  usesDispositions="true"
+                  version="4">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="Specifies the SQL statement used by the component to extract data."
+                      expressionType="Notify"
+                      name="SqlCommand"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT 
+r1.[Document No_] document
+,r1.departure
+,r2.destination
+,CASE
+WHEN EXISTS(SELECT 0 FROM [ETP].[dbo].[ETP$SQL_Delivery_Long] dl
+			WHERE dl.[Custom Declaration No_] IS NOT NULL 
+			AND dl.[Custom Declaration No_] &lt;&gt; ''
+			AND dl.No_ = r1.[Document No_])
+THEN 1 ELSE 0 END has_dt
+
+FROM
+
+(SELECT [Document No_], [PointCountryCode] departure
+FROM [ETP].[dbo].[ETP$Delivery Route Line] r1
+WHERE [Document Type] = 0 AND [FirstRouteLine] = 1) r1
+JOIN
+(SELECT [Document No_], [PointCountryCode] destination
+FROM [ETP].[dbo].[ETP$Delivery Route Line] r1
+WHERE [Document Type] = 0 AND [LastRouteLine] = 1) r2
+ON r1.[Document No_] = r2.[Document No_]</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                      name="CommandTimeout">30</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                      name="AllowImplicitStringConversion">true</property>
+                    <property
+                      dataType="System.String"
+                      description="The Source database table name."
+                      expressionType="Notify"
+                      name="TableOrViewName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specify the mode to retrieve external column information"
+                      name="AccessMode"
+                      typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\NAV\Reload from 33\Query.Connections[IDbConnection]"
+                      connectionManagerID="Package.ConnectionManagers[10.0.0.33.phpuser]"
+                      connectionManagerRefId="Package.ConnectionManagers[10.0.0.33.phpuser]"
+                      description="Managed connection manager"
+                      name="IDbConnection" />
+                  </connections>
+                  <outputs>
+                    <output
+                      refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output]"
+                      name="ADO NET Source Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[document]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[document]"
+                          length="20"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[document]"
+                          name="document"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[departure]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[departure]"
+                          length="10"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[departure]"
+                          name="departure"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[destination]"
+                          dataType="wstr"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[destination]"
+                          length="10"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[destination]"
+                          name="destination"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[has_dt]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[has_dt]"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[has_dt]"
+                          name="has_dt"
+                          truncationRowDisposition="FailComponent" />
+                      </outputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[document]"
+                          dataType="wstr"
+                          length="20"
+                          name="document" />
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[departure]"
+                          dataType="wstr"
+                          length="10"
+                          name="departure" />
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[destination]"
+                          dataType="wstr"
+                          length="10"
+                          name="destination" />
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].ExternalColumns[has_dt]"
+                          dataType="i4"
+                          name="has_dt" />
+                      </externalMetadataColumns>
+                    </output>
+                    <output
+                      refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output]"
+                      isErrorOut="true"
+                      name="ADO NET Source Error Output">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[document]"
+                          dataType="wstr"
+                          length="20"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[document]"
+                          name="document" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[departure]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[departure]"
+                          name="departure" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[destination]"
+                          dataType="wstr"
+                          length="10"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[destination]"
+                          name="destination" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[has_dt]"
+                          dataType="i4"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[has_dt]"
+                          name="has_dt" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+                <component
+                  refId="Package\NAV\Reload from 33\Table"
+                  componentClassID="Microsoft.ManagedComponentHost"
+                  contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+                  description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+                  name="Table"
+                  usesDispositions="true"
+                  version="2">
+                  <properties>
+                    <property
+                      dataType="System.String"
+                      description="The Destination database table name."
+                      expressionType="Notify"
+                      name="TableOrViewName"
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">motivation.dbo.stl_delivery_route</property>
+                    <property
+                      dataType="System.Int32"
+                      description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                      expressionType="Notify"
+                      name="BatchSize">0</property>
+                    <property
+                      dataType="System.Int32"
+                      description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                      expressionType="Notify"
+                      name="CommandTimeout">30</property>
+                    <property
+                      dataType="System.Boolean"
+                      description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                      expressionType="Notify"
+                      name="UseBulkInsertWhenPossible">true</property>
+                    <property
+                      dataType="System.String"
+                      name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+                  </properties>
+                  <connections>
+                    <connection
+                      refId="Package\NAV\Reload from 33\Table.Connections[IDbConnection]"
+                      connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                      connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                      description="Managed connection manager"
+                      name="IDbConnection" />
+                  </connections>
+                  <inputs>
+                    <input
+                      refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input]"
+                      errorRowDisposition="FailComponent"
+                      hasSideEffects="true"
+                      name="ADO NET Destination Input">
+                      <inputColumns>
+                        <inputColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].Columns[document]"
+                          cachedDataType="wstr"
+                          cachedLength="20"
+                          cachedName="document"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[document]"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[document]" />
+                        <inputColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].Columns[departure]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="departure"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[departure]"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[departure]" />
+                        <inputColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].Columns[destination]"
+                          cachedDataType="wstr"
+                          cachedLength="10"
+                          cachedName="destination"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[destination]"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[destination]" />
+                        <inputColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].Columns[has_dt]"
+                          cachedDataType="i4"
+                          cachedName="has_dt"
+                          externalMetadataColumnId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[has_dt]"
+                          lineageId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output].Columns[has_dt]" />
+                      </inputColumns>
+                      <externalMetadataColumns
+                        isUsed="True">
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[document]"
+                          dataType="wstr"
+                          length="20"
+                          name="document" />
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[departure]"
+                          dataType="wstr"
+                          length="20"
+                          name="departure" />
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[destination]"
+                          dataType="wstr"
+                          length="20"
+                          name="destination" />
+                        <externalMetadataColumn
+                          refId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input].ExternalColumns[has_dt]"
+                          dataType="i4"
+                          name="has_dt" />
+                      </externalMetadataColumns>
+                    </input>
+                  </inputs>
+                  <outputs>
+                    <output
+                      refId="Package\NAV\Reload from 33\Table.Outputs[ADO NET Destination Error Output]"
+                      exclusionGroup="1"
+                      isErrorOut="true"
+                      name="ADO NET Destination Error Output"
+                      synchronousInputId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input]">
+                      <outputColumns>
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                          dataType="i4"
+                          lineageId="Package\NAV\Reload from 33\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                          name="ErrorCode"
+                          specialFlags="1" />
+                        <outputColumn
+                          refId="Package\NAV\Reload from 33\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                          dataType="i4"
+                          lineageId="Package\NAV\Reload from 33\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                          name="ErrorColumn"
+                          specialFlags="2" />
+                      </outputColumns>
+                      <externalMetadataColumns />
+                    </output>
+                  </outputs>
+                </component>
+              </components>
+              <paths>
+                <path
+                  refId="Package\NAV\Reload from 33.Paths[ADO NET Source Output]"
+                  endId="Package\NAV\Reload from 33\Table.Inputs[ADO NET Destination Input]"
+                  name="ADO NET Source Output"
+                  startId="Package\NAV\Reload from 33\Query.Outputs[ADO NET Source Output]" />
+              </paths>
+            </pipeline>
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\NAV\Truncate table (28)"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{4C5C8EBC-0D9F-4D82-AA81-F1AB9A524BDC}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="Truncate table (28)"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="TRUNCATE TABLE [motivation].[dbo].[stl_delivery_route]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+      </DTS:Executables>
+      <DTS:PrecedenceConstraints>
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\NAV.PrecedenceConstraints[Ограничение]"
+          DTS:CreationName=""
+          DTS:DTSID="{6F04F1C0-B50E-48DF-A139-8CD142C1E7AC}"
+          DTS:From="Package\NAV\Truncate table (28)"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение"
+          DTS:To="Package\NAV\Reload from 33" />
+      </DTS:PrecedenceConstraints>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Truncate table"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
@@ -1413,6 +1997,14 @@
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение"
       DTS:To="Package\Load new data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{DB6B8D33-0C16-470B-B8C9-DB1AC2B655C6}"
+      DTS:From="Package\NAV"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 1"
+      DTS:To="Package\Truncate table" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -1425,29 +2017,88 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="147,42"
-          Id="Package\Truncate table"
-          TopLeft="292,100" />
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="148,42"
           Id="Package\Load new data"
-          TopLeft="286,181" />
+          TopLeft="318,493" />
+        <NodeLayout
+          Size="147,42"
+          Id="Package\Truncate table"
+          TopLeft="323,414" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="362.75,142">
+          TopLeft="394.25,456">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,39"
+              EndConnector="0,37"
               Start="0,0"
-              End="0,31.5">
+              End="0,29.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,31.5" />
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="170,42"
+          Id="Package\NAV\Truncate table (28)"
+          TopLeft="44,43" />
+        <NodeLayout
+          Size="151,42"
+          Id="Package\NAV\Reload from 33"
+          TopLeft="51,123" />
+        <EdgeLayout
+          Id="Package\NAV.PrecedenceConstraints[Ограничение]"
+          TopLeft="127.75,85">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <ContainerLayout
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="263,220"
+          Size="263,263"
+          Id="Package\NAV"
+          TopLeft="266,123" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 1]"
+          TopLeft="397,386">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,28"
+              Start="0,0"
+              End="0,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -1465,13 +2116,13 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="107,42"
-          Id="Package\Load new data\Query"
-          TopLeft="204,54" />
-        <NodeLayout
           Size="105,42"
           Id="Package\Load new data\Table"
           TopLeft="201,135" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Load new data\Query"
+          TopLeft="204,54" />
         <EdgeLayout
           Id="Package\Load new data.Paths[ADO NET Source Output]"
           TopLeft="255.5,96">
@@ -1507,6 +2158,60 @@
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Load new data\Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\NAV\Reload from 33">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="107,42"
+          Id="Package\NAV\Reload from 33\Query"
+          TopLeft="232,103" />
+        <NodeLayout
+          Size="105,42"
+          Id="Package\NAV\Reload from 33\Table"
+          TopLeft="229,182" />
+        <EdgeLayout
+          Id="Package\NAV\Reload from 33.Paths[ADO NET Source Output]"
+          TopLeft="283.5,145">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,37"
+              Start="0,0"
+              End="0,29.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,29.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\NAV\Reload from 33\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\NAV\Reload from 33\Table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

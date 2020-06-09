@@ -21,5 +21,6 @@ namespace BitrixLists
         public BitrixMessage[] result { get; set; }
         [DataMember]
         public string next { get; set; }
+
     }
 }

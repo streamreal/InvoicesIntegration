@@ -99,7 +99,10 @@ namespace BitrixLists
             DataContext db = new DataContext(connection);
             Table<messages> msg = db.GetTable<messages>();
 
-            DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(RootObject));
+            DataContractJsonSerializer deserializer = new DataContractJsonSerializer(typeof(RootObject), new DataContractJsonSerializerSettings
+            {
+                UseSimpleDictionaryFormat = true
+            });
 
             using (MemoryStream ms = new MemoryStream(Encoding.Unicode.GetBytes(json)))
             {
@@ -114,7 +117,7 @@ namespace BitrixLists
                     if (match.Count > 0 && count == 0)
                     {
                         foreach (Match m in match)
-                        {
+                        {                         
                             msg.InsertOnSubmit(new messages
                             {
                                 element_id = Convert.ToInt32(item.ID),
@@ -122,7 +125,8 @@ namespace BitrixLists
                                 delivery_id = m.Value,
                                 message = item.DETAIL_TEXT,
                                 message_url = @"https://bitrix.eltransplus.ru/workgroups/group/330/lists/184/element/0/" + item.ID.ToString() + @"/?list_section_id=",
-                                author = item.CREATED_USER_NAME
+                                author = item.CREATED_USER_NAME,
+                                task_url = @"https://bitrix.eltransplus.ru/workgroups/group/330/tasks/task/view/" + item.PROPERTY_1292.First().Value.ToString() + @"/"
                             });  
                         }                     
                     }

@@ -8,6 +8,7 @@
 
 
 #region Namespaces
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 #endregion
 
@@ -26,5 +27,8 @@ namespace BitrixLists
         public string DETAIL_TEXT { get; set; }
         [DataMember]
         public string CREATED_USER_NAME { get; set; }
+        [DataMember]
+        public Dictionary<string, string> PROPERTY_1292 { get; set; }
+
     }
 }
