@@ -9,9 +9,9 @@ namespace сSharpProject
     {
         public static void Main()
         {
-            BitrixLists.In i = new BitrixLists.In();
-            i.Intro();
-            
+            //BitrixLists.In i = new BitrixLists.In();
+            //i.Intro();
+            CheckDtFiles.LoadNewDeclarations();
             //ExcelCharts.Process();
 
             //RefDeclarationParser.Run();
@@ -66,7 +66,7 @@ namespace сSharpProject
             //"&POST_TITLE=заголовок" +
             //"&POST_MESSAGE=текст сообщения" +
             //"&DEST[0]=SG521") ;
-           
+
             /*
             +
            ""&FILES[0][0]=test.xlsx&FILES[0][1]="" + HttpUtility.UrlEncode(contents)  //+

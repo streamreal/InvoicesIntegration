@@ -22,7 +22,7 @@ namespace сSharpProject
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="aberration")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="webproject")]
 	public partial class DataClasses1DataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,13 +30,10 @@ namespace сSharpProject
 		
     #region Определения метода расширяемости
     partial void OnCreated();
-    partial void Insertlist_330(list_330 instance);
-    partial void Updatelist_330(list_330 instance);
-    partial void Deletelist_330(list_330 instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
-				base(global::сSharpProject.Properties.Settings.Default.aberrationConnectionString, mappingSource)
+				base(global::сSharpProject.Properties.Settings.Default.webprojectConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -63,220 +60,6 @@ namespace сSharpProject
 				base(connection, mappingSource)
 		{
 			OnCreated();
-		}
-		
-		public System.Data.Linq.Table<list_330> list_330
-		{
-			get
-			{
-				return this.GetTable<list_330>();
-			}
-		}
-	}
-	
-	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.list_330")]
-	public partial class list_330 : INotifyPropertyChanging, INotifyPropertyChanged
-	{
-		
-		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
-		
-		private int _id;
-		
-		private int _element_id;
-		
-		private string _delivery_id;
-		
-		private string _date_create;
-		
-		private string _message;
-		
-		private string _author;
-		
-		private string _message_url;
-		
-    #region Определения метода расширяемости
-    partial void OnLoaded();
-    partial void OnValidate(System.Data.Linq.ChangeAction action);
-    partial void OnCreated();
-    partial void OnidChanging(int value);
-    partial void OnidChanged();
-    partial void Onelement_idChanging(int value);
-    partial void Onelement_idChanged();
-    partial void Ondelivery_idChanging(string value);
-    partial void Ondelivery_idChanged();
-    partial void Ondate_createChanging(string value);
-    partial void Ondate_createChanged();
-    partial void OnmessageChanging(string value);
-    partial void OnmessageChanged();
-    partial void OnauthorChanging(string value);
-    partial void OnauthorChanged();
-    partial void Onmessage_urlChanging(string value);
-    partial void Onmessage_urlChanged();
-    #endregion
-		
-		public list_330()
-		{
-			OnCreated();
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
-		public int id
-		{
-			get
-			{
-				return this._id;
-			}
-			set
-			{
-				if ((this._id != value))
-				{
-					this.OnidChanging(value);
-					this.SendPropertyChanging();
-					this._id = value;
-					this.SendPropertyChanged("id");
-					this.OnidChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_element_id", DbType="Int NOT NULL")]
-		public int element_id
-		{
-			get
-			{
-				return this._element_id;
-			}
-			set
-			{
-				if ((this._element_id != value))
-				{
-					this.Onelement_idChanging(value);
-					this.SendPropertyChanging();
-					this._element_id = value;
-					this.SendPropertyChanged("element_id");
-					this.Onelement_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_delivery_id", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string delivery_id
-		{
-			get
-			{
-				return this._delivery_id;
-			}
-			set
-			{
-				if ((this._delivery_id != value))
-				{
-					this.Ondelivery_idChanging(value);
-					this.SendPropertyChanging();
-					this._delivery_id = value;
-					this.SendPropertyChanged("delivery_id");
-					this.Ondelivery_idChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_date_create", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string date_create
-		{
-			get
-			{
-				return this._date_create;
-			}
-			set
-			{
-				if ((this._date_create != value))
-				{
-					this.Ondate_createChanging(value);
-					this.SendPropertyChanging();
-					this._date_create = value;
-					this.SendPropertyChanged("date_create");
-					this.Ondate_createChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_message", DbType="NVarChar(MAX) NOT NULL", CanBeNull=false)]
-		public string message
-		{
-			get
-			{
-				return this._message;
-			}
-			set
-			{
-				if ((this._message != value))
-				{
-					this.OnmessageChanging(value);
-					this.SendPropertyChanging();
-					this._message = value;
-					this.SendPropertyChanged("message");
-					this.OnmessageChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_author", DbType="NVarChar(500) NOT NULL", CanBeNull=false)]
-		public string author
-		{
-			get
-			{
-				return this._author;
-			}
-			set
-			{
-				if ((this._author != value))
-				{
-					this.OnauthorChanging(value);
-					this.SendPropertyChanging();
-					this._author = value;
-					this.SendPropertyChanged("author");
-					this.OnauthorChanged();
-				}
-			}
-		}
-		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_message_url", DbType="NVarChar(255) NOT NULL", CanBeNull=false)]
-		public string message_url
-		{
-			get
-			{
-				return this._message_url;
-			}
-			set
-			{
-				if ((this._message_url != value))
-				{
-					this.Onmessage_urlChanging(value);
-					this.SendPropertyChanging();
-					this._message_url = value;
-					this.SendPropertyChanged("message_url");
-					this.Onmessage_urlChanged();
-				}
-			}
-		}
-		
-		public event PropertyChangingEventHandler PropertyChanging;
-		
-		public event PropertyChangedEventHandler PropertyChanged;
-		
-		protected virtual void SendPropertyChanging()
-		{
-			if ((this.PropertyChanging != null))
-			{
-				this.PropertyChanging(this, emptyChangingEventArgs);
-			}
-		}
-		
-		protected virtual void SendPropertyChanged(String propertyName)
-		{
-			if ((this.PropertyChanged != null))
-			{
-				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-			}
 		}
 	}
 }

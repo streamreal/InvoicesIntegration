@@ -32,5 +32,15 @@ namespace сSharpProject.Properties {
                 return ((string)(this["aberrationConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.10.0.28;Initial Catalog=webproject;Integrated Security=True")]
+        public string webprojectConnectionString {
+            get {
+                return ((string)(this["webprojectConnectionString"]));
+            }
+        }
     }
 }

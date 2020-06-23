@@ -73,6 +73,7 @@
     <Compile Include="BitrixLists\messages.cs" />
     <Compile Include="BitrixLists\ResponseProcessor.cs" />
     <Compile Include="BitrixLists\RootObject.cs" />
+    <Compile Include="CheckDtFiles.cs" />
     <Compile Include="ExcelCharts.cs" />
     <Compile Include="LinqConstructor.cs">
       <DependentUpon>LinqConstructor.dbml</DependentUpon>

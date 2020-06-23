@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package2"
   DTS:PackageType="5"
-  DTS:VersionBuild="17"
-  DTS:VersionGUID="{A0853276-5DFA-4BC4-A809-A5E7784AE06B}">
+  DTS:VersionBuild="24"
+  DTS:VersionGUID="{6EFE7C6D-3737-4136-B827-06E40FCC8A4B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -79,8 +79,7 @@
                       description="Specifies the SQL statement used by the component to extract data."
                       expressionType="Notify"
                       name="SqlCommand"
-                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">/****** Script for SelectTopNRows command from SSMS ******/
-SELECT
+                      UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT
 [No_] as 'Номер доставки'
 ,[isCompilation] as 'Признак сборной доставки'
 ,[CargoID] as 'Номер груза'
@@ -88,15 +87,15 @@ SELECT
 ,[CustomerName] as 'Название Заказчика'
 ,[CustomerCategory] as 'Категория Заказчика'
 ,[TrainTransportDesc] as'Информация о транспорте'
-,[DRLFirstExpDate] as 'Ожид.Дата Начала Перевозки'
-,[DRLFirstActDate] as 'Факт.Дата Начала Перевозки'
-,[DRLLastExpDate] as 'Ожид.Дата Завершения Перевозки'
-,[DRLLastFactDate] as 'Факт.Дата Завершения Перевозки'
+,FORMAT([DRLFirstExpDate], 'dd.MM.yyyy') as 'Ожид.Дата Начала Перевозки'
+,FORMAT([DRLFirstActDate], 'dd.MM.yyyy') as 'Факт.Дата Начала Перевозки'
+,FORMAT([DRLLastExpDate], 'dd.MM.yyyy') as 'Ожид.Дата Завершения Перевозки'
+,FORMAT([DRLLastFactDate], 'dd.MM.yyyy') as 'Факт.Дата Завершения Перевозки'
 
 ,[Terminal_Code] as 'Терминал доставки (СВХ)'
 ,[FinPerson_Code_Location] as 'Экономист Места Прибытия'
-,[DRLTermExpInDate] as 'Ожид.Дата прихода на Терминал'
-,[TerminalActualArrivalDate] as 'Факт.Дата прихода на Терминал'
+,FORMAT([DRLTermExpInDate], 'dd.MM.yyyy') as 'Ожид.Дата прихода на Терминал'
+,FORMAT([TerminalActualArrivalDate], 'dd.MM.yyyy') as 'Факт.Дата прихода на Терминал'
 ,CAST([DTCreateDate] AS varchar(400)) as 'Дата регистрации ДТ'
 ,CAST([FINISH_DATETIME] AS varchar(400)) as 'Дата выпуска ДТ'
 ,CAST([RegNumDT] AS varchar(400)) as 'Номер ДТ'
@@ -130,15 +129,15 @@ SELECT
 ,[SignDocumentReceived] as 'Прошло 20 дн.после заверш.ГТ, но документов нет'
 ,[DocumentReceived] as 'Пакет документов собран'
 ,[Entry_Author] as 'Автор отметки'
-,[Entry_Date] as 'Дата отметки'
+,FORMAT([Entry_Date], 'dd.MM.yyyy') as 'Дата отметки'
 ,[WorkFlowComment] as 'Комментарий отметки'
-,[Block_DT_Action_0] as 'Блокировка СТО'
-,[Block_DT_Action_2] as 'Блокировка СТЛ'
-,[Block_DT_Action_4] as 'Блокировка ФЭС'
+,FORMAT([Block_DT_Action_0], 'dd.MM.yyyy') as 'Блокировка СТО'
+,FORMAT([Block_DT_Action_2], 'dd.MM.yyyy') as 'Блокировка СТЛ'
+,FORMAT([Block_DT_Action_4], 'dd.MM.yyyy') as 'Блокировка ФЭС'
 ,[Ins_ServiceListDesc] as 'Инф.по страхованию'
 
 FROM [BI].[dwh].[FinMonitor]
-where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
+where  [DRLLastFactDate] &gt;'2020-04-01 00:00:00.000'  and [MonitorCategory]=2</property>
                     <property
                       dataType="System.Int32"
                       description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -246,37 +245,41 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата Начала Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Ожид.Дата Начала Перевозки]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата Начала Перевозки]"
                           name="Ожид.Дата Начала Перевозки"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата Начала Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Факт.Дата Начала Перевозки]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата Начала Перевозки]"
                           name="Факт.Дата Начала Перевозки"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата Завершения Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Ожид.Дата Завершения Перевозки]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата Завершения Перевозки]"
                           name="Ожид.Дата Завершения Перевозки"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата Завершения Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Факт.Дата Завершения Перевозки]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата Завершения Перевозки]"
                           name="Факт.Дата Завершения Перевозки"
                           truncationRowDisposition="FailComponent" />
@@ -302,19 +305,21 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата прихода на Терминал]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Ожид.Дата прихода на Терминал]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата прихода на Терминал]"
                           name="Ожид.Дата прихода на Терминал"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата прихода на Терминал]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Факт.Дата прихода на Терминал]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата прихода на Терминал]"
                           name="Факт.Дата прихода на Терминал"
                           truncationRowDisposition="FailComponent" />
@@ -625,10 +630,11 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Дата отметки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Дата отметки]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Дата отметки]"
                           name="Дата отметки"
                           truncationRowDisposition="FailComponent" />
@@ -644,28 +650,31 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка СТО]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Блокировка СТО]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка СТО]"
                           name="Блокировка СТО"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка СТЛ]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Блокировка СТЛ]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка СТЛ]"
                           name="Блокировка СТЛ"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка ФЭС]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
                           errorOrTruncationOperation="Conversion"
                           errorRowDisposition="FailComponent"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Блокировка ФЭС]"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка ФЭС]"
                           name="Блокировка ФЭС"
                           truncationRowDisposition="FailComponent" />
@@ -718,19 +727,23 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Информация о транспорте" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Ожид.Дата Начала Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Ожид.Дата Начала Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Факт.Дата Начала Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Факт.Дата Начала Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Ожид.Дата Завершения Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Ожид.Дата Завершения Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Факт.Дата Завершения Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Факт.Дата Завершения Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Терминал доставки (СВХ)]"
@@ -744,11 +757,13 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Экономист Места Прибытия" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Ожид.Дата прихода на Терминал]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Ожид.Дата прихода на Терминал" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Факт.Дата прихода на Терминал]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Факт.Дата прихода на Терминал" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Дата регистрации ДТ]"
@@ -902,7 +917,8 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Автор отметки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Дата отметки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Дата отметки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Комментарий отметки]"
@@ -911,15 +927,18 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Комментарий отметки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Блокировка СТО]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Блокировка СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Блокировка СТЛ]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Блокировка СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Блокировка ФЭС]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           name="Блокировка ФЭС" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].ExternalColumns[Инф.по страхованию]"
@@ -976,22 +995,26 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Информация о транспорте" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Ожид.Дата Начала Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Ожид.Дата Начала Перевозки]"
                           name="Ожид.Дата Начала Перевозки" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Факт.Дата Начала Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Факт.Дата Начала Перевозки]"
                           name="Факт.Дата Начала Перевозки" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Ожид.Дата Завершения Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Ожид.Дата Завершения Перевозки]"
                           name="Ожид.Дата Завершения Перевозки" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Факт.Дата Завершения Перевозки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Факт.Дата Завершения Перевозки]"
                           name="Факт.Дата Завершения Перевозки" />
                         <outputColumn
@@ -1008,12 +1031,14 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Экономист Места Прибытия" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Ожид.Дата прихода на Терминал]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Ожид.Дата прихода на Терминал]"
                           name="Ожид.Дата прихода на Терминал" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Факт.Дата прихода на Терминал]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Факт.Дата прихода на Терминал]"
                           name="Факт.Дата прихода на Терминал" />
                         <outputColumn
@@ -1199,7 +1224,8 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Автор отметки" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Дата отметки]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Дата отметки]"
                           name="Дата отметки" />
                         <outputColumn
@@ -1210,17 +1236,20 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           name="Комментарий отметки" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Блокировка СТО]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Блокировка СТО]"
                           name="Блокировка СТО" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Блокировка СТЛ]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Блокировка СТЛ]"
                           name="Блокировка СТЛ" />
                         <outputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Блокировка ФЭС]"
-                          dataType="dbTimeStamp"
+                          dataType="wstr"
+                          length="4000"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Error Output].Columns[Блокировка ФЭС]"
                           name="Блокировка ФЭС" />
                         <outputColumn
@@ -1546,7 +1575,8 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Автор отметки]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Дата отметки]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Дата отметки"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Дата отметки]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Дата отметки]" />
@@ -1559,55 +1589,64 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Комментарий отметки]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Блокировка СТО]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Блокировка СТО"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Блокировка СТО]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка СТО]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Блокировка СТЛ]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Блокировка СТЛ"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Блокировка СТЛ]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка СТЛ]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Блокировка ФЭС]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Блокировка ФЭС"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Блокировка ФЭС]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Блокировка ФЭС]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Ожид.Дата Начала Перевозки]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Ожид.Дата Начала Перевозки"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Ожид#Дата Начала Перевозки]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата Начала Перевозки]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Факт.Дата Начала Перевозки]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Факт.Дата Начала Перевозки"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Факт#Дата Начала Перевозки]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата Начала Перевозки]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Ожид.Дата Завершения Перевозки]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Ожид.Дата Завершения Перевозки"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Ожид#Дата Завершения Перевозки]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата Завершения Перевозки]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Факт.Дата Завершения Перевозки]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Факт.Дата Завершения Перевозки"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Факт#Дата Завершения Перевозки]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата Завершения Перевозки]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Ожид.Дата прихода на Терминал]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Ожид.Дата прихода на Терминал"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Ожид#Дата прихода на Терминал]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Ожид.Дата прихода на Терминал]" />
                         <inputColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].Columns[Факт.Дата прихода на Терминал]"
-                          cachedDataType="dbTimeStamp"
+                          cachedDataType="wstr"
+                          cachedLength="4000"
                           cachedName="Факт.Дата прихода на Терминал"
                           externalMetadataColumnId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Факт#Дата прихода на Терминал]"
                           lineageId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Запрос.Outputs[ADO NET Source Output].Columns[Факт.Дата прихода на Терминал]" />
@@ -1662,263 +1701,211 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
                         isUsed="True">
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Номер доставки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Номер доставки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Признак сборной доставки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Признак сборной доставки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Номер груза]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Номер груза" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Номер Заказчика в NAV]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Номер Заказчика в NAV" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Название Заказчика]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Название Заказчика" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Категория Заказчика]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Категория Заказчика" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Информация о транспорте]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Информация о транспорте" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Ожид#Дата Начала Перевозки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Ожид#Дата Начала Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Факт#Дата Начала Перевозки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Факт#Дата Начала Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Ожид#Дата Завершения Перевозки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Ожид#Дата Завершения Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Факт#Дата Завершения Перевозки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Факт#Дата Завершения Перевозки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Терминал доставки (СВХ)]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Терминал доставки (СВХ)" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Экономист Места Прибытия]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Экономист Места Прибытия" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Ожид#Дата прихода на Терминал]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Ожид#Дата прихода на Терминал" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Факт#Дата прихода на Терминал]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Факт#Дата прихода на Терминал" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Дата регистрации ДТ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Дата регистрации ДТ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Дата выпуска ДТ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Дата выпуска ДТ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Номер ДТ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Номер ДТ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Отдел Заявителя]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Отдел Заявителя" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Экономист СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Экономист СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Невозмещаемый ТП]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Невозмещаемый ТП" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Себестоимость СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Себестоимость СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Выставлено СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Выставлено СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Сумма счетов-проформ СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Сумма счетов-проформ СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Выставлено в 1C СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Выставлено в 1C СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Сумма агентского вознаграждения СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Сумма агентского вознаграждения СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Прибыль СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Прибыль СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Проформы СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Проформы СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Пройден ГТ, но есть разница в сумме выст#счетов СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Пройден ГТ, но есть разница в сумме выст#счетов СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Код Отдела Исполнителя]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Код Отдела Исполнителя" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Экономист СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Экономист СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[План#расходы СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="План#расходы СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[План#доходы СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="План#доходы СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[План#Прибыль СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="План#Прибыль СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Себестоимость СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Себестоимость СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Выставлено СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Выставлено СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Сумма счетов-проформ СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Сумма счетов-проформ СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Выставлено в 1С и GmbH СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Выставлено в 1С и GmbH СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Сумма агентского вознаграждения СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Сумма агентского вознаграждения СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Прибыль СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Прибыль СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Проформы СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Проформы СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Сравнение счетов NAV и 1С СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Сравнение счетов NAV и 1С СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Пройден ГТ, но есть разница в сумме выст#счетов СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Пройден ГТ, но есть разница в сумме выст#счетов СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Прошло 20 дн#после заверш#ГТ, но документов нет]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Прошло 20 дн#после заверш#ГТ, но документов нет" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Пакет документов собран]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="r8"
                           name="Пакет документов собран" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Автор отметки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Автор отметки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Дата отметки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Дата отметки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Комментарий отметки]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Комментарий отметки" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Блокировка СТО]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Блокировка СТО" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Блокировка СТЛ]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Блокировка СТЛ" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Блокировка ФЭС]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Блокировка ФЭС" />
                         <externalMetadataColumn
                           refId="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл.Inputs[Вход назначения &quot;Excel&quot;].ExternalColumns[Инф#по страхованию]"
-                          dataType="wstr"
-                          length="255"
+                          dataType="nText"
                           name="Инф#по страхованию" />
                       </externalMetadataColumns>
                     </input>
@@ -1976,38 +1963,6 @@ where [DRLLastFactDate] &gt;'2020-01-01 00:00:00.000'</property>
               VSTAMinorVersion="0"
               Language="CSharp"
               ReadWriteVariables="User::fin_path">
-              <ProjectItem
-                Name="Properties\AssemblyInfo.cs"
-                Encoding="UTF8"><![CDATA[using System.Resources;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-
-//
-// General Information about an assembly is controlled through the following 
-// set of attributes. Change these attribute values to modify the information
-// associated with an assembly.
-//
-[assembly: AssemblyTitle("ST_a12b368990d542bab08d6685c328a1ab")]
-[assembly: AssemblyDescription("")]
-[assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("ST_a12b368990d542bab08d6685c328a1ab")]
-[assembly: AssemblyCopyright("Copyright @  2020")]
-[assembly: AssemblyTrademark("")]
-[assembly: AssemblyCulture("")]
-//
-// Version information for an assembly consists of the following four values:
-//
-//      Major Version
-//      Minor Version 
-//      Build Number
-//      Revision
-//
-// You can specify all the values or you can default the Revision and Build Numbers 
-// by using the '*' as shown below:
-
-[assembly: AssemblyVersion("1.0.*")]
-[assembly: NeutralResourcesLanguage("ru")]]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -2127,6 +2082,35 @@ using System.Runtime.CompilerServices;
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
 </root>]]></ProjectItem>
+              <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_a12b368990d542bab08d6685c328a1ab.Properties.Settings.get_Default():ST_a12b368990d542bab08d6685c328a1ab.Properties.Sett" +
+    "ings")]
+
+namespace ST_a12b368990d542bab08d6685c328a1ab.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -2283,34 +2267,37 @@ namespace ST_a12b368990d542bab08d6685c328a1ab
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
+                Name="Properties\AssemblyInfo.cs"
+                Encoding="UTF8"><![CDATA[using System.Resources;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+
 //
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
+// General Information about an assembly is controlled through the following 
+// set of attributes. Change these attribute values to modify the information
+// associated with an assembly.
+//
+[assembly: AssemblyTitle("ST_a12b368990d542bab08d6685c328a1ab")]
+[assembly: AssemblyDescription("")]
+[assembly: AssemblyConfiguration("")]
+[assembly: AssemblyCompany("")]
+[assembly: AssemblyProduct("ST_a12b368990d542bab08d6685c328a1ab")]
+[assembly: AssemblyCopyright("Copyright @  2020")]
+[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCulture("")]
+//
+// Version information for an assembly consists of the following four values:
+//
+//      Major Version
+//      Minor Version 
+//      Build Number
+//      Revision
+//
+// You can specify all the values or you can default the Revision and Build Numbers 
+// by using the '*' as shown below:
 
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_a12b368990d542bab08d6685c328a1ab.Properties.Settings.get_Default():ST_a12b368990d542bab08d6685c328a1ab.Properties.Sett" +
-    "ings")]
-
-namespace ST_a12b368990d542bab08d6685c328a1ab.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
+[assembly: AssemblyVersion("1.0.*")]
+[assembly: NeutralResourcesLanguage("ru")]]]></ProjectItem>
               <ProjectItem
                 Name="ST_a12b368990d542bab08d6685c328a1ab.csproj"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
@@ -2621,6 +2608,15 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
               Language="CSharp"
               ReadOnlyVariables="User::fin_path">
               <ProjectItem
+                Name="Properties\Settings.settings"
+                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
+<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
+  <Profiles>
+    <Profile Name="(Default)" />
+  </Profiles>
+  <Settings />
+</SettingsFile>]]></ProjectItem>
+              <ProjectItem
                 Name="Properties\Resources.resx"
                 Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?>
 <root>
@@ -2828,35 +2824,6 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
     </VisualStudio>
   </ProjectExtensions>
 </Project>]]></ProjectItem>
-              <ProjectItem
-                Name="Properties\Settings.Designer.cs"
-                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
-// <auto-generated>
-//     This code was generated by a tool.
-//
-//     Changes to this file may cause incorrect behavior and will be lost if
-//     the code is regenerated.
-// </auto-generated>
-//------------------------------------------------------------------------------
-
-[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_14b24aa27948430cb97815c95f00d9e8.Properties.Settings.get_Default():ST_14b24aa27948430cb97815c95f00d9e8.Properties.Sett" +
-    "ings")]
-
-namespace ST_14b24aa27948430cb97815c95f00d9e8.Properties {
-    
-    
-    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
-        
-        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-        private static Settings defaultInstance = new Settings();
-        
-        public static Settings Default {
-            get {
-                return defaultInstance;
-            }
-        }
-    }
-}]]></ProjectItem>
               <ProjectItem
                 Name="ScriptMain.cs"
                 Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
@@ -3214,6 +3181,63 @@ partial class Bitrix24
 	</msb:ItemGroup>
 </c:Project>]]></ProjectItem>
               <ProjectItem
+                Name="Properties\Settings.Designer.cs"
+                Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
+// <auto-generated>
+//     This code was generated by a tool.
+//
+//     Changes to this file may cause incorrect behavior and will be lost if
+//     the code is regenerated.
+// </auto-generated>
+//------------------------------------------------------------------------------
+
+[assembly: global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Scope="member", Target="ST_14b24aa27948430cb97815c95f00d9e8.Properties.Settings.get_Default():ST_14b24aa27948430cb97815c95f00d9e8.Properties.Sett" +
+    "ings")]
+
+namespace ST_14b24aa27948430cb97815c95f00d9e8.Properties {
+    
+    
+    internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
+        
+        [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
+        private static Settings defaultInstance = new Settings();
+        
+        public static Settings Default {
+            get {
+                return defaultInstance;
+            }
+        }
+    }
+}]]></ProjectItem>
+              <ProjectItem
+                Name="objLogonBitrixOAuth.cs"
+                Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
+/* The Script Task allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services control flow. 
+ * 
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script task. */
+#endregion
+
+
+#region Namespaces
+#endregion
+using System.Runtime.Serialization;
+
+partial class Bitrix24
+    {
+    [DataContract]
+        public class objLogonBitrixOAuth
+        {
+            [DataMember]
+            public string expires_in { get; set; }
+            [DataMember]
+            public string refresh_token { get; set; }
+            [DataMember]
+            public string access_token { get; set; }
+        }
+    }]]></ProjectItem>
+              <ProjectItem
                 Name="Properties\AssemblyInfo.cs"
                 Encoding="UTF8"><![CDATA[using System.Resources;
 using System.Reflection;
@@ -3245,43 +3269,6 @@ using System.Runtime.CompilerServices;
 
 [assembly: AssemblyVersion("1.0.*")]
 [assembly: NeutralResourcesLanguage("ru")]]]></ProjectItem>
-              <ProjectItem
-                Name="objLogonBitrixOAuth.cs"
-                Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
-/* The Script Task allows you to perform virtually any operation that can be accomplished in
- * a .Net application within the context of an Integration Services control flow. 
- * 
- * Expand the other regions which have "Help" prefixes for examples of specific ways to use
- * Integration Services features within this script task. */
-#endregion
-
-
-#region Namespaces
-#endregion
-using System.Runtime.Serialization;
-
-partial class Bitrix24
-    {
-    [DataContract]
-        public class objLogonBitrixOAuth
-        {
-            [DataMember]
-            public string expires_in { get; set; }
-            [DataMember]
-            public string refresh_token { get; set; }
-            [DataMember]
-            public string access_token { get; set; }
-        }
-    }]]></ProjectItem>
-              <ProjectItem
-                Name="Properties\Settings.settings"
-                Encoding="UTF8"><![CDATA[<?xml version='1.0' encoding='iso-8859-1'?>
-<SettingsFile xmlns="uri:settings" CurrentProfile="(Default)">
-  <Profiles>
-    <Profile Name="(Default)" />
-  </Profiles>
-  <Settings />
-</SettingsFile>]]></ProjectItem>
               <ProjectItem
                 Name="Properties\Resources.Designer.cs"
                 Encoding="UTF8"><![CDATA[//------------------------------------------------------------------------------
@@ -3664,7 +3651,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
     design-time-name="Package\Выгрузка финмонитора\Заполнение листа с отчетом">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="105,42"
           Id="Package\Выгрузка финмонитора\Заполнение листа с отчетом\Файл"
@@ -3692,9 +3679,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==</BinaryItem>
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
