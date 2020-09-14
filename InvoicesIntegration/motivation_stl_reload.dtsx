@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package2"
   DTS:PackageType="5"
-  DTS:VersionBuild="27"
-  DTS:VersionGUID="{526FFA18-61A3-49E7-AD0B-01E7CA4D57CD}">
+  DTS:VersionBuild="45"
+  DTS:VersionGUID="{705DD630-4274-484F-8A73-1D8E9F677C2B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAA6Nvoc4FQkWGOfHRoBJSJwAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAAIiN/R5S+q4Ll7KX6d6ekgAAAAAASAAACgAAAAEAAAAG9mKyzeK/WAs2NrU7CW4gQYAAAA0XMcBY1wMRDJzevr5AGJhLjka9Lbz9+BFAAAANcE5z2Ulp25hdL8xHF3ylApw2yj</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAA6Nvoc4FQkWGOfHRoBJSJwAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADQpPRSkSk9w8izlsDetDhkAAAAAASAAACgAAAAEAAAAJYG5JtxjOjcJoZmwHEP6/wYAAAAkBcA3fRjgg2hd7E0K5KJiZ0JSkbahZ+AFAAAADvJYaVhPBxCIG29mZv6w2knGfgZ</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -264,14 +264,50 @@ AND dc.id_month = c.id_month
 AND dc.WorkDay = 1) AS calendar_now
 )
 
-SELECT c.*,
+SELECT 
+id_year AS year_id,
+id_month AS month_id,
+work_days_in_month,
+name AS specialist_name,
+code AS specialist_code,
+department,
+estimate_participant,
+work_days AS work_days_fact,
+delivery_qty,
+cargo_qty,
+contractor_qty,
+container_qty,
+vehicle_qty,
+cargo_go_qty,
+incoterms_e_qty,
+incoterms_f_qty,
+incoterms_c_qty,
+incoterms_d_qty,
+delivery_new_qty,
+delivery_inner_qty,
+delivery_project_qty,
+workers_count AS workers_qty,
+stl_delivery,
+stl_cargo,
+stl_contractor,
+stl_container,
+stl_vehicle,
+stl_go,
+stl_incoterms_e,
+stl_incoterms_f,
+stl_incoterms_c,
+stl_incoterms_d,
+stl_inner,
+stl_new_customer,
+estimate AS estimate_raw,
+overall_estimate AS estimate_work_days,
 
 CONVERT(decimal(18,2), 
 COALESCE(
 AVG(CASE WHEN estimate_participant = 1 THEN overall_estimate ELSE NULL END) 
 OVER (PARTITION BY id_year, id_month)
 , 0)
-) average_group_estimate,
+) avg_estimate,
 
 CONVERT(decimal(18,2), 
 COALESCE(
@@ -283,7 +319,8 @@ OVER (PARTITION BY id_year, id_month)
 , 0)
 ) worker_factor
 
-FROM cte_calc_done c</property>
+FROM cte_calc_done c
+WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year, id_month, 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -321,22 +358,22 @@ FROM cte_calc_done c</property>
                   name="ADO NET Source Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[id_year]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[year_id]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[id_year]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[id_year]"
-                      name="id_year"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[year_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[year_id]"
+                      name="year_id"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[id_month]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[month_id]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[id_month]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[id_month]"
-                      name="id_month"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[month_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[month_id]"
+                      name="month_id"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days_in_month]"
@@ -348,24 +385,24 @@ FROM cte_calc_done c</property>
                       name="work_days_in_month"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[name]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[specialist_name]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[name]"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[specialist_name]"
                       length="200"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[name]"
-                      name="name"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[specialist_name]"
+                      name="specialist_name"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[code]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[specialist_code]"
                       dataType="wstr"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[code]"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[specialist_code]"
                       length="10"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[code]"
-                      name="code"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[specialist_code]"
+                      name="specialist_code"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[department]"
@@ -387,13 +424,13 @@ FROM cte_calc_done c</property>
                       name="estimate_participant"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days_fact]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days]"
-                      name="work_days"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days_fact]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days_fact]"
+                      name="work_days_fact"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[delivery_qty]"
@@ -513,13 +550,13 @@ FROM cte_calc_done c</property>
                       name="delivery_project_qty"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[workers_qty]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
-                      name="workers_count"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[workers_qty]"
+                      name="workers_qty"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_delivery]"
@@ -654,35 +691,35 @@ FROM cte_calc_done c</property>
                       scale="2"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate_raw]"
                       dataType="numeric"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate]"
-                      name="estimate"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_raw]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate_raw]"
+                      name="estimate_raw"
                       precision="36"
                       scale="2"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[overall_estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate_work_days]"
                       dataType="numeric"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[overall_estimate]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[overall_estimate]"
-                      name="overall_estimate"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_work_days]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate_work_days]"
+                      name="estimate_work_days"
                       precision="18"
                       scale="2"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[average_group_estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[avg_estimate]"
                       dataType="numeric"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[average_group_estimate]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[average_group_estimate]"
-                      name="average_group_estimate"
+                      externalMetadataColumnId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[avg_estimate]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[avg_estimate]"
+                      name="avg_estimate"
                       precision="18"
                       scale="2"
                       truncationRowDisposition="FailComponent" />
@@ -701,27 +738,27 @@ FROM cte_calc_done c</property>
                   <externalMetadataColumns
                     isUsed="True">
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[id_year]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[year_id]"
                       dataType="i4"
-                      name="id_year" />
+                      name="year_id" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[id_month]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[month_id]"
                       dataType="i4"
-                      name="id_month" />
+                      name="month_id" />
                     <externalMetadataColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days_in_month]"
                       dataType="i4"
                       name="work_days_in_month" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[name]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[specialist_name]"
                       dataType="wstr"
                       length="200"
-                      name="name" />
+                      name="specialist_name" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[code]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[specialist_code]"
                       dataType="wstr"
                       length="10"
-                      name="code" />
+                      name="specialist_code" />
                     <externalMetadataColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[department]"
                       dataType="wstr"
@@ -732,9 +769,9 @@ FROM cte_calc_done c</property>
                       dataType="i4"
                       name="estimate_participant" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days_fact]"
                       dataType="i4"
-                      name="work_days" />
+                      name="work_days_fact" />
                     <externalMetadataColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[delivery_qty]"
                       dataType="i4"
@@ -788,9 +825,9 @@ FROM cte_calc_done c</property>
                       dataType="i4"
                       name="delivery_project_qty" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_qty]"
                       dataType="i4"
-                      name="workers_count" />
+                      name="workers_qty" />
                     <externalMetadataColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[stl_delivery]"
                       dataType="numeric"
@@ -864,21 +901,21 @@ FROM cte_calc_done c</property>
                       precision="18"
                       scale="2" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_raw]"
                       dataType="numeric"
-                      name="estimate"
+                      name="estimate_raw"
                       precision="36"
                       scale="2" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[overall_estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_work_days]"
                       dataType="numeric"
-                      name="overall_estimate"
+                      name="estimate_work_days"
                       precision="18"
                       scale="2" />
                     <externalMetadataColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[average_group_estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Output].ExternalColumns[avg_estimate]"
                       dataType="numeric"
-                      name="average_group_estimate"
+                      name="avg_estimate"
                       precision="18"
                       scale="2" />
                     <externalMetadataColumn
@@ -895,32 +932,32 @@ FROM cte_calc_done c</property>
                   name="ADO NET Source Error Output">
                   <outputColumns>
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[id_year]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[year_id]"
                       dataType="i4"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[id_year]"
-                      name="id_year" />
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[year_id]"
+                      name="year_id" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[id_month]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[month_id]"
                       dataType="i4"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[id_month]"
-                      name="id_month" />
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[month_id]"
+                      name="month_id" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[work_days_in_month]"
                       dataType="i4"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[work_days_in_month]"
                       name="work_days_in_month" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[name]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[specialist_name]"
                       dataType="wstr"
                       length="200"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[name]"
-                      name="name" />
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[specialist_name]"
+                      name="specialist_name" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[code]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[specialist_code]"
                       dataType="wstr"
                       length="10"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[code]"
-                      name="code" />
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[specialist_code]"
+                      name="specialist_code" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[department]"
                       dataType="wstr"
@@ -933,10 +970,10 @@ FROM cte_calc_done c</property>
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
                       name="estimate_participant" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[work_days]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[work_days_fact]"
                       dataType="i4"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[work_days]"
-                      name="work_days" />
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[work_days_fact]"
+                      name="work_days_fact" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[delivery_qty]"
                       dataType="i4"
@@ -1003,10 +1040,10 @@ FROM cte_calc_done c</property>
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[delivery_project_qty]"
                       name="delivery_project_qty" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[workers_qty]"
                       dataType="i4"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
-                      name="workers_count" />
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[workers_qty]"
+                      name="workers_qty" />
                     <outputColumn
                       refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[stl_delivery]"
                       dataType="numeric"
@@ -1092,24 +1129,24 @@ FROM cte_calc_done c</property>
                       precision="18"
                       scale="2" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[estimate_raw]"
                       dataType="numeric"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[estimate]"
-                      name="estimate"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[estimate_raw]"
+                      name="estimate_raw"
                       precision="36"
                       scale="2" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[overall_estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[estimate_work_days]"
                       dataType="numeric"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[overall_estimate]"
-                      name="overall_estimate"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[estimate_work_days]"
+                      name="estimate_work_days"
                       precision="18"
                       scale="2" />
                     <outputColumn
-                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[average_group_estimate]"
+                      refId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[avg_estimate]"
                       dataType="numeric"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[average_group_estimate]"
-                      name="average_group_estimate"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Error Output].Columns[avg_estimate]"
+                      name="avg_estimate"
                       precision="18"
                       scale="2" />
                     <outputColumn
@@ -1186,11 +1223,37 @@ FROM cte_calc_done c</property>
                   name="ADO NET Destination Input">
                   <inputColumns>
                     <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[year_id]"
+                      cachedDataType="i4"
+                      cachedName="year_id"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[year_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[year_id]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[month_id]"
+                      cachedDataType="i4"
+                      cachedName="month_id"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[month_id]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[month_id]" />
+                    <inputColumn
                       refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[work_days_in_month]"
                       cachedDataType="i4"
                       cachedName="work_days_in_month"
                       externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_in_month]"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days_in_month]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[specialist_name]"
+                      cachedDataType="wstr"
+                      cachedLength="200"
+                      cachedName="specialist_name"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_name]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[specialist_name]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[specialist_code]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="specialist_code"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_code]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[specialist_code]" />
                     <inputColumn
                       refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[department]"
                       cachedDataType="wstr"
@@ -1204,6 +1267,12 @@ FROM cte_calc_done c</property>
                       cachedName="estimate_participant"
                       externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_participant]"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[work_days_fact]"
+                      cachedDataType="i4"
+                      cachedName="work_days_fact"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_fact]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days_fact]" />
                     <inputColumn
                       refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[delivery_qty]"
                       cachedDataType="i4"
@@ -1283,6 +1352,12 @@ FROM cte_calc_done c</property>
                       externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_project_qty]"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[delivery_project_qty]" />
                     <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[workers_qty]"
+                      cachedDataType="i4"
+                      cachedName="workers_qty"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_qty]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[workers_qty]" />
+                    <inputColumn
                       refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[stl_delivery]"
                       cachedDataType="numeric"
                       cachedName="stl_delivery"
@@ -1331,6 +1406,30 @@ FROM cte_calc_done c</property>
                       externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[stl_go]"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[stl_go]" />
                     <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[estimate_raw]"
+                      cachedDataType="numeric"
+                      cachedName="estimate_raw"
+                      cachedPrecision="36"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_raw]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate_raw]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[estimate_work_days]"
+                      cachedDataType="numeric"
+                      cachedName="estimate_work_days"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_work_days]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate_work_days]" />
+                    <inputColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[avg_estimate]"
+                      cachedDataType="numeric"
+                      cachedName="avg_estimate"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[avg_estimate]"
+                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[avg_estimate]" />
+                    <inputColumn
                       refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[worker_factor]"
                       cachedDataType="numeric"
                       cachedName="worker_factor"
@@ -1338,68 +1437,6 @@ FROM cte_calc_done c</property>
                       cachedScale="2"
                       externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[worker_factor]"
                       lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[worker_factor]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[id_month]"
-                      cachedDataType="i4"
-                      cachedName="id_month"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[month_id]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[id_month]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[id_year]"
-                      cachedDataType="i4"
-                      cachedName="id_year"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[year_id]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[id_year]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[name]"
-                      cachedDataType="wstr"
-                      cachedLength="200"
-                      cachedName="name"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_name]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[name]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[code]"
-                      cachedDataType="wstr"
-                      cachedLength="10"
-                      cachedName="code"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[specialist_code]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[code]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[work_days]"
-                      cachedDataType="i4"
-                      cachedName="work_days"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[work_days_fact]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[work_days]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[workers_count]"
-                      cachedDataType="i4"
-                      cachedName="workers_count"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_qty]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[workers_count]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[average_group_estimate]"
-                      cachedDataType="numeric"
-                      cachedName="average_group_estimate"
-                      cachedPrecision="18"
-                      cachedScale="2"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[avg_estimate]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[average_group_estimate]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[estimate]"
-                      cachedDataType="numeric"
-                      cachedName="estimate"
-                      cachedPrecision="36"
-                      cachedScale="2"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_raw]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[estimate]" />
-                    <inputColumn
-                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].Columns[overall_estimate]"
-                      cachedDataType="numeric"
-                      cachedName="overall_estimate"
-                      cachedPrecision="18"
-                      cachedScale="2"
-                      externalMetadataColumnId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_work_days]"
-                      lineageId="Package\Load new data\Query.Outputs[ADO NET Source Output].Columns[overall_estimate]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1560,6 +1597,11 @@ FROM cte_calc_done c</property>
                       refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_project_qty]"
                       dataType="i4"
                       name="delivery_project_qty" />
+                    <externalMetadataColumn
+                      refId="Package\Load new data\Table.Inputs[ADO NET Destination Input].ExternalColumns[role_type]"
+                      dataType="wstr"
+                      length="50"
+                      name="role_type" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -1984,6 +2026,22 @@ WHERE document IS NOT NULL</property>
       </DTS:Executables>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Reload add roles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{20376428-6050-4373-9744-039E9E6B0C45}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Reload add roles"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="DELETE&#xA;FROM [motivation].[dbo].[stl_workers]&#xA;WHERE role_type = 2&#xA;GO&#xA;DECLARE @start [date] = CAST(DATEFROMPARTS(YEAR(DATEADD(MONTH, -2, GETDATE())), MONTH(DATEADD(MONTH, -2, GETDATE())), 1) AS date);&#xA;&#xA;WITH cte_search AS (&#xA;SELECT DISTINCT YEAR([DRLLastFactDate]) AS [dt_year], MONTH([DRLLastFactDate]) AS [dt_month], [Executive Code] AS [specialist_code]&#xA;FROM [BI].[dwh].[DeliveryDatamart]&#xA;WHERE CAST([DRLLastFactDate] AS date) &gt;= @start&#xA;),&#xA;&#xA;cte_insert AS (&#xA;&#xA;SELECT &#xA;sp.SalespersonName AS [name],&#xA;sp.[Dept_ Code] AS [department],&#xA;'logist' AS [type],&#xA;c.specialist_code AS [code],&#xA;'5_2' AS [schedule],&#xA;CAST(DATEFROMPARTS([dt_year], [dt_month], 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS([dt_year], [dt_month], 1)) AS date) AS [date_end],&#xA;'0' AS [is_archive],&#xA;'0' AS [estimate_participant],&#xA;'2' AS [role_type]&#xA;&#xA;FROM cte_search AS c&#xA;JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] AS sp ON c.specialist_code = sp.SalespersonCode&#xA;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ' AND [Dept_ Code] &lt;&gt; 'СТЛ,ПЕРЕГОН'&#xA;AND NOT EXISTS (&#xA;SELECT 0 FROM [motivation].[dbo].[stl_workers] AS w&#xA;WHERE w.code = c.specialist_code AND w.[role_type] = 1&#xA;AND CAST(DATEFROMPARTS([dt_year], [dt_month], 15) AS date) &#xA;BETWEEN w.[date_begin] AND COALESCE(w.[date_end], CAST(EOMONTH(GETDATE()) AS date))&#xA;)&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[stl_workers]&#xA;([name]&#xA;      ,[department]&#xA;      ,[type]&#xA;      ,[code]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type])&#xA;SELECT [name]&#xA;      ,[department]&#xA;      ,[type]&#xA;      ,[code]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type]&#xA;&#x9;  FROM cte_insert&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Reload details"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
@@ -2066,7 +2124,8 @@ SELECT
 	dd.DRLLastFactDate &gt;= '20200101' 
 	AND COALESCE(esd.TransitDir, '') &lt;&gt; 'ПЕРЕГОН'
 	AND EXISTS(SELECT 0 FROM [motivation].[dbo].[stl_workers] w
-				WHERE w.code = dd.[Executive Code])</property>
+				WHERE w.code = dd.[Executive Code])
+	AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(dd.DRLLastFactDate), MONTH(dd.DRLLastFactDate), 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -2532,7 +2591,39 @@ SELECT
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="TRUNCATE TABLE [motivation].[dbo].[stl_delivery_route]&#xA;TRUNCATE TABLE [motivation].[dbo].[stl_main]&#xA;TRUNCATE TABLE [motivation].[dbo].[stl_cargo_details]&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="TRUNCATE TABLE [motivation].[dbo].[stl_delivery_route]&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[stl_main]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(year_id, month_id, 10)) AS date)&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[stl_cargo_details]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(year_id, month_id, 10)) AS date)&#xA;GO&#xA;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update main roles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{4D21D304-50BA-4979-B450-622F0DDFE4D8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update main roles"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[stl_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_declarant AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 1 AND &#xA;&#x9;([Dept_ Code] IN ('ЯРЦЕВО','С-З ФИЛИАЛ','ДЕКЛАРАНТЫ','ВЛАДИВОСТОК1')&#xA;&#x9;OR [Dept_ Code] LIKE 'ЦОТО,%')  &#xA;),&#xA;&#xA;cte_sto_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 0 AND [Dept_ Code] LIKE 'ЦОТО,%'&#xA;&#x9;AND EXISTS (&#xA;&#x9;SELECT 0 FROM [BI].[olap].[FactReleaseRateSTO] AS f &#xA;&#x9;WHERE f.SalespersonKey = s.SalespersonKey&#xA;&#x9;AND f.[Release Date] &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_stl_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [BI].[dwh].[DeliveryDatamart] dd&#xA;&#x9;WHERE dd.[Executive Code] = s.SalespersonCode&#xA;&#x9;AND dd.DRLLastFactDate &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_sto_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] LIKE 'ЦОТО,%' AND [Act_ Declarant] = 0&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТО')&#xA;),&#xA;&#xA;cte_stl_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТЭО')&#xA;),&#xA;&#xA;cte_ks AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] = 'ПРОДАЖИ-РАЗВИТИЕ'&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;((s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '')&#xA;&#x9;OR &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '')&#xA;&#x9;)&#xA;&#x9;AND d.request_date &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT s.SalespersonCode, s.SalespersonName, s.[Dept_ Code], oa.bitrix_name&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_declarant AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_declarant&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_ks AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_ks&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;OUTER APPLY &#xA;&#x9;(SELECT TOP (1) &#xA;&#x9;COALESCE(&#xA;&#x9;IIF(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '', d.responsible_ks, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '', d.assigned, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '', d.assigned_ttr, NULL),&#xA;&#x9;'')&#xA;&#x9;AS [bitrix_name] &#xA;&#x9;FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '')&#xA;&#x9;) AS oa&#xA;&#xA;&#x9;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[stl_workers] ([department]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;c.[Dept_ Code] AS [department],&#xA;c.SalespersonName AS [name],&#xA;c.SalespersonCode AS [code],&#xA;'logist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_stl_spec = 1 AND is_stl_ttr = 0&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[stl_workers] AS sw &#xA;WHERE cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update role_type"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{2450D091-EAE9-4A99-8756-81DA186008A4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update role_type"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE main&#xA;SET role_type = CASE oa.role_type WHEN 1 THEN 'Основная' ELSE 'Дополнительная' END&#xA;FROM [motivation].[dbo].[stl_main] AS main&#xA;OUTER APPLY (SELECT TOP (1) role_type&#xA;FROM [motivation].[dbo].[stl_workers] AS w&#xA;WHERE main.specialist_code = w.code&#xA;AND DATEFROMPARTS(main.year_id, main.month_id, 15) BETWEEN w.date_begin AND w.date_end) AS oa" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -2540,19 +2631,19 @@ SELECT
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение]"
       DTS:CreationName=""
-      DTS:DTSID="{01D7531A-3609-449C-BC66-79895F8186F5}"
+      DTS:DTSID="{BCA32803-CFF1-4DE3-A7BF-C11007C2EA5A}"
       DTS:From="Package\NAV"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение"
-      DTS:To="Package\Load new data" />
+      DTS:To="Package\Reload details" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
       DTS:CreationName=""
-      DTS:DTSID="{FA2B81B4-39A4-4A25-A4E0-BC8FC19EFFBB}"
-      DTS:From="Package\Load new data"
+      DTS:DTSID="{7BE063A5-DCC1-47C7-8503-3F26220A888C}"
+      DTS:From="Package\Reload details"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 1"
-      DTS:To="Package\Reload details" />
+      DTS:To="Package\Reload add roles" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
       DTS:CreationName=""
@@ -2564,11 +2655,35 @@ SELECT
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
       DTS:CreationName=""
-      DTS:DTSID="{5FB687FF-870D-475E-B275-7F54DD4CFF81}"
-      DTS:From="Package\Reload details"
+      DTS:DTSID="{4AC10221-6A57-459B-AF11-0490BCB5519D}"
+      DTS:From="Package\Reload add roles"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 3"
+      DTS:To="Package\Load new data" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 4]"
+      DTS:CreationName=""
+      DTS:DTSID="{FA44CE17-90F1-488A-99E0-661566E025AD}"
+      DTS:From="Package\Load new data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 4"
       DTS:To="Package\Set updated_at datetime" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 5]"
+      DTS:CreationName=""
+      DTS:DTSID="{FDE9B6D1-D045-4918-97A8-B6B47D70932B}"
+      DTS:From="Package\Update main roles"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 5"
+      DTS:To="Package\Truncate" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{493FC84E-E02C-4A2F-9EE2-B9C0F8A1C5C0}"
+      DTS:From="Package\Load new data"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 6"
+      DTS:To="Package\Update role_type" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -2585,7 +2700,7 @@ SELECT
         <NodeLayout
           Size="148,42"
           Id="Package\Load new data"
-          TopLeft="327,303" />
+          TopLeft="322,436" />
         <NodeLayout
           Size="151,42"
           Id="Package\NAV\Reload from 33"
@@ -2598,31 +2713,43 @@ SELECT
           Id="Package\NAV"
           TopLeft="266,123" />
         <NodeLayout
+          Size="157,42"
+          Id="Package\Reload add roles"
+          TopLeft="321,363" />
+        <NodeLayout
           Size="145,42"
           Id="Package\Reload details"
-          TopLeft="329,373" />
+          TopLeft="329,297" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set updated_at datetime"
-          TopLeft="306,440" />
+          TopLeft="293,504" />
         <NodeLayout
           Size="121,42"
           Id="Package\Truncate"
           TopLeft="334,56" />
+        <NodeLayout
+          Size="165,42"
+          Id="Package\Update main roles"
+          TopLeft="128,56" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Update role_type"
+          TopLeft="500,436" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="399.25,267">
+          TopLeft="399.5,267">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,36"
+              EndConnector="0,30"
               Start="0,0"
-              End="0,28.5">
+              End="0,22.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28.5" />
+                    End="0,22.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2633,18 +2760,18 @@ SELECT
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="401.25,345">
+          TopLeft="400.5,339">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,28"
+              EndConnector="0,24"
               Start="0,0"
-              End="0,20.5">
+              End="0,16.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.5" />
+                    End="0,16.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2677,18 +2804,84 @@ SELECT
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="402.5,415">
+          TopLeft="397.75,405">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,25"
+              EndConnector="0,31"
               Start="0,0"
-              End="0,17.5">
+              End="0,23.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,17.5" />
+                    End="0,23.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 4]"
+          TopLeft="393.25,478">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,26"
+              Start="0,0"
+              End="0,18.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,18.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 5]"
+          TopLeft="293,77">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41,0"
+              Start="0,0"
+              End="33.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="33.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 6]"
+          TopLeft="470,457">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="30,0"
+              Start="0,0"
+              End="22.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="22.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2758,15 +2951,15 @@ SELECT
     design-time-name="Package\NAV\Reload from 33">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="105,42"
-          Id="Package\NAV\Reload from 33\Table"
-          TopLeft="229,182" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="107,42"
           Id="Package\NAV\Reload from 33\Query"
           TopLeft="232,103" />
+        <NodeLayout
+          Size="105,42"
+          Id="Package\NAV\Reload from 33\Table"
+          TopLeft="229,182" />
         <EdgeLayout
           Id="Package\NAV\Reload from 33.Paths[ADO NET Source Output]"
           TopLeft="283.5,145">
@@ -2786,7 +2979,9 @@ SELECT
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -2812,7 +3007,7 @@ SELECT
     design-time-name="Package\Reload details">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload details\Table"
@@ -2840,7 +3035,9 @@ SELECT
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

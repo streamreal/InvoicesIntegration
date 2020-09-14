@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+﻿<?xml version="1.0"?>
 <DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
   DTS:refId="Package"
   DTS:CreationDate="1/23/2020 5:16:41 PM"
@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="8"
-  DTS:VersionGUID="{FDB3157B-D15A-4831-8A96-5DE29B5979B0}">
+  DTS:VersionBuild="10"
+  DTS:VersionGUID="{36C4773F-CE56-4AFB-A34C-64D8D83D710A}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -107,8 +107,8 @@
               <connections>
                 <connection
                   refId="Package\Загрузка данных\Загрузка в webproject.Connections[OleDbConnection]"
-                  connectionManagerID="{269005C9-151E-46DF-9269-93184C45A32A}:invalid"
-                  connectionManagerRefId="{269005C9-151E-46DF-9269-93184C45A32A}:invalid"
+                  connectionManagerID="{269005C9-151E-46DF-9269-93184C45A32A}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.0.0.33.webproject.phpuser]"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                   name="OleDbConnection" />
               </connections>
@@ -3553,8 +3553,8 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
               <connections>
                 <connection
                   refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Connections[OleDbConnection]"
-                  connectionManagerID="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}:invalid"
-                  connectionManagerRefId="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}:invalid"
+                  connectionManagerID="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.Invoices2SQL.phpuser]"
                   description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
                   name="OleDbConnection" />
               </connections>
@@ -9377,6 +9377,22 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
           SQLTask:SqlStatementSource="EXECUTE [webproject].[dbo].[ToInvoices] " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Связка invoice_id"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{C86FF7A3-9C73-4FEF-9D61-32C6DAF8901F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Связка invoice_id"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{269005C9-151E-46DF-9269-93184C45A32A}"
+          SQLTask:SqlStatementSource="WITH cte_art AS (&#xA;  SELECT a.[id] AS art_id&#xA;&#x9;  ,CASE &#xA;&#x9;  WHEN COALESCE(a.articul, '') &lt;&gt; '' THEN d.reg_num + a.articul&#xA;&#x9;  WHEN COALESCE(m.[name], '') &lt;&gt; '' THEN d.reg_num + m.[name]&#xA;&#x9;  ELSE NULL END AS key_column&#xA;  FROM [webproject].[dbo].[articuls] AS a &#xA;  LEFT JOIN webproject.dbo.declarations AS d ON a.declaration_id = d.id&#xA;  LEFT JOIN [webproject].[dbo].[models] AS m ON a.model_id = m.id&#xA;  WHERE invoice_id IS NULL AND COALESCE(d.reg_num, '') &lt;&gt; ''&#xA;  AND (COALESCE(a.articul, '') &lt;&gt; '' OR COALESCE(m.[name], '') &lt;&gt; '')&#xA;),&#xA;&#xA;cte_inv AS (&#xA; SELECT i.id AS inv_id&#x9; &#x9;&#xA;&#x9;  ,CASE WHEN COALESCE(i.articul, '') &lt;&gt; '' THEN DT_number + i.articul&#xA;&#x9;  WHEN COALESCE(m.[name], '') &lt;&gt; '' THEN DT_number + m.[name]&#xA;&#x9;  ELSE NULL END AS key_column&#xA;  FROM [webproject].[dbo].[invoices] AS i  &#xA;  LEFT JOIN [webproject].[dbo].[models] AS m ON i.model_id = m.id&#xA;  WHERE COALESCE(DT_number, '') &lt;&gt; ''&#xA;  AND (COALESCE(i.articul, '') &lt;&gt; '' OR COALESCE(m.[name], '') &lt;&gt; '')&#xA;),&#xA;&#xA;cte_ids AS (&#xA;SELECT art_id, inv_id, ROW_NUMBER() OVER (PARTITION BY art_id ORDER BY inv_id DESC) AS rownum&#xA;FROM cte_art JOIN cte_inv ON cte_inv.key_column = cte_art.key_column&#xA;)&#xA;&#xA;UPDATE a&#xA;SET a.invoice_id = ids.inv_id&#xA;FROM [webproject].[dbo].[articuls] AS a&#xA;JOIN cte_ids AS ids ON a.id = ids.art_id AND ids.rownum = 1" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
   </DTS:Executables>
   <DTS:PrecedenceConstraints>
     <DTS:PrecedenceConstraint
@@ -9403,6 +9419,14 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 2"
       DTS:To="Package\Перенос в таблицу" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{52E7D25D-4FE6-49ED-9329-1ADB2B40D188}"
+      DTS:From="Package\Перенос в таблицу"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 3"
+      DTS:To="Package\Связка invoice_id" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -9415,7 +9439,11 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Truncate"
+          TopLeft="150,45" />
         <NodeLayout
           Size="161,42"
           Id="Package\Загрузка данных"
@@ -9424,6 +9452,10 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
           Size="208,42"
           Id="Package\Задача &quot;Выполнение SQL&quot;"
           TopLeft="109,205" />
+        <NodeLayout
+          Size="172,42"
+          Id="Package\Перенос в таблицу"
+          TopLeft="127,277" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
           TopLeft="210.75,162">
@@ -9446,10 +9478,6 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="121,42"
-          Id="Package\Truncate"
-          TopLeft="150,45" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
           TopLeft="209.5,87">
@@ -9472,10 +9500,6 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="172,42"
-          Id="Package\Перенос в таблицу"
-          TopLeft="127,277" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
           TopLeft="213,247">
@@ -9490,6 +9514,32 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,22.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Связка invoice_id"
+          TopLeft="129,357" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 3]"
+          TopLeft="211.5,319">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,38"
+              Start="0,0"
+              End="0,30.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,30.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>

@@ -22,7 +22,7 @@ namespace сSharpProject
 	using System;
 	
 	
-	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="webproject")]
+	[global::System.Data.Linq.Mapping.DatabaseAttribute(Name="BI")]
 	public partial class DataClasses1DataContext : System.Data.Linq.DataContext
 	{
 		
@@ -30,10 +30,13 @@ namespace сSharpProject
 		
     #region Определения метода расширяемости
     partial void OnCreated();
+    partial void Insertobligations_messages(obligations_messages instance);
+    partial void Updateobligations_messages(obligations_messages instance);
+    partial void Deleteobligations_messages(obligations_messages instance);
     #endregion
 		
 		public DataClasses1DataContext() : 
-				base(global::сSharpProject.Properties.Settings.Default.webprojectConnectionString, mappingSource)
+				base(global::сSharpProject.Properties.Settings.Default.BIConnectionString, mappingSource)
 		{
 			OnCreated();
 		}
@@ -60,6 +63,244 @@ namespace сSharpProject
 				base(connection, mappingSource)
 		{
 			OnCreated();
+		}
+		
+		public System.Data.Linq.Table<obligations_messages> obligations_messages
+		{
+			get
+			{
+				return this.GetTable<obligations_messages>();
+			}
+		}
+	}
+	
+	[global::System.Data.Linq.Mapping.TableAttribute(Name="dwh.obligations_messages")]
+	public partial class obligations_messages : INotifyPropertyChanging, INotifyPropertyChanged
+	{
+		
+		private static PropertyChangingEventArgs emptyChangingEventArgs = new PropertyChangingEventArgs(String.Empty);
+		
+		private int _id;
+		
+		private System.DateTime _load_datetime;
+		
+		private string _username;
+		
+		private int _userid;
+		
+		private string _title;
+		
+		private string _message;
+		
+		private int _was_sent;
+		
+		private System.Nullable<System.DateTime> _sent_datetime;
+		
+    #region Определения метода расширяемости
+    partial void OnLoaded();
+    partial void OnValidate(System.Data.Linq.ChangeAction action);
+    partial void OnCreated();
+    partial void OnidChanging(int value);
+    partial void OnidChanged();
+    partial void Onload_datetimeChanging(System.DateTime value);
+    partial void Onload_datetimeChanged();
+    partial void OnusernameChanging(string value);
+    partial void OnusernameChanged();
+    partial void OnuseridChanging(int value);
+    partial void OnuseridChanged();
+    partial void OntitleChanging(string value);
+    partial void OntitleChanged();
+    partial void OnmessageChanging(string value);
+    partial void OnmessageChanged();
+    partial void Onwas_sentChanging(int value);
+    partial void Onwas_sentChanged();
+    partial void Onsent_datetimeChanging(System.Nullable<System.DateTime> value);
+    partial void Onsent_datetimeChanged();
+    #endregion
+		
+		public obligations_messages()
+		{
+			OnCreated();
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
+		public int id
+		{
+			get
+			{
+				return this._id;
+			}
+			set
+			{
+				if ((this._id != value))
+				{
+					this.OnidChanging(value);
+					this.SendPropertyChanging();
+					this._id = value;
+					this.SendPropertyChanged("id");
+					this.OnidChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_load_datetime", DbType="DateTime NOT NULL")]
+		public System.DateTime load_datetime
+		{
+			get
+			{
+				return this._load_datetime;
+			}
+			set
+			{
+				if ((this._load_datetime != value))
+				{
+					this.Onload_datetimeChanging(value);
+					this.SendPropertyChanging();
+					this._load_datetime = value;
+					this.SendPropertyChanged("load_datetime");
+					this.Onload_datetimeChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_username", DbType="VarChar(100)")]
+		public string username
+		{
+			get
+			{
+				return this._username;
+			}
+			set
+			{
+				if ((this._username != value))
+				{
+					this.OnusernameChanging(value);
+					this.SendPropertyChanging();
+					this._username = value;
+					this.SendPropertyChanged("username");
+					this.OnusernameChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_userid", DbType="Int NOT NULL")]
+		public int userid
+		{
+			get
+			{
+				return this._userid;
+			}
+			set
+			{
+				if ((this._userid != value))
+				{
+					this.OnuseridChanging(value);
+					this.SendPropertyChanging();
+					this._userid = value;
+					this.SendPropertyChanged("userid");
+					this.OnuseridChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_title", DbType="VarChar(200)")]
+		public string title
+		{
+			get
+			{
+				return this._title;
+			}
+			set
+			{
+				if ((this._title != value))
+				{
+					this.OntitleChanging(value);
+					this.SendPropertyChanging();
+					this._title = value;
+					this.SendPropertyChanged("title");
+					this.OntitleChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_message", DbType="VarChar(1000)")]
+		public string message
+		{
+			get
+			{
+				return this._message;
+			}
+			set
+			{
+				if ((this._message != value))
+				{
+					this.OnmessageChanging(value);
+					this.SendPropertyChanging();
+					this._message = value;
+					this.SendPropertyChanged("message");
+					this.OnmessageChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_was_sent", DbType="Int NOT NULL")]
+		public int was_sent
+		{
+			get
+			{
+				return this._was_sent;
+			}
+			set
+			{
+				if ((this._was_sent != value))
+				{
+					this.Onwas_sentChanging(value);
+					this.SendPropertyChanging();
+					this._was_sent = value;
+					this.SendPropertyChanged("was_sent");
+					this.Onwas_sentChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_sent_datetime", DbType="DateTime")]
+		public System.Nullable<System.DateTime> sent_datetime
+		{
+			get
+			{
+				return this._sent_datetime;
+			}
+			set
+			{
+				if ((this._sent_datetime != value))
+				{
+					this.Onsent_datetimeChanging(value);
+					this.SendPropertyChanging();
+					this._sent_datetime = value;
+					this.SendPropertyChanged("sent_datetime");
+					this.Onsent_datetimeChanged();
+				}
+			}
+		}
+		
+		public event PropertyChangingEventHandler PropertyChanging;
+		
+		public event PropertyChangedEventHandler PropertyChanged;
+		
+		protected virtual void SendPropertyChanging()
+		{
+			if ((this.PropertyChanging != null))
+			{
+				this.PropertyChanging(this, emptyChangingEventArgs);
+			}
+		}
+		
+		protected virtual void SendPropertyChanged(String propertyName)
+		{
+			if ((this.PropertyChanged != null))
+			{
+				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 	}
 }

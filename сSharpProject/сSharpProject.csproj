@@ -66,6 +66,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\..\..\Desktop\ObligationContext.cs" />
     <Compile Include="Bitrix24.cs" />
     <Compile Include="BitrixLists\Bitrix24.cs" />
     <Compile Include="BitrixLists\BitrixList.cs" />
@@ -78,15 +79,15 @@
     <Compile Include="LinqConstructor.cs">
       <DependentUpon>LinqConstructor.dbml</DependentUpon>
     </Compile>
-    <Compile Include="LinqConstructor.designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>LinqConstructor.dbml</DependentUpon>
-    </Compile>
     <Compile Include="DeclarationParser.cs" />
     <Compile Include="Deviation.cs" />
     <Compile Include="Http.cs" />
     <Compile Include="Linq.cs" />
+    <Compile Include="LinqConstructor.designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>LinqConstructor.dbml</DependentUpon>
+    </Compile>
     <Compile Include="MailGetAttachments.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="CurrencyRates.cs" />

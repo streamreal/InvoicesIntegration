@@ -1,0 +1,14 @@
+﻿<?xml version="1.0"?>
+<DTS:ConnectionManager xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:ObjectName="10.0.0.33.phpuser"
+  DTS:DTSID="{D0F12EF9-606D-48B9-8156-106830717504}"
+  DTS:CreationName="ADO.NET:System.Data.SqlClient.SqlConnection, System.Data, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <DTS:ObjectData>
+    <DTS:ConnectionManager
+      DTS:ConnectionString="Data Source=10.0.0.33;User ID=phpuser;Persist Security Info=True;Application Name=SSIS-Package3-{D0F12EF9-606D-48B9-8156-106830717504}10.0.0.33.phpuser;">
+      <DTS:Password
+        DTS:Name="Password"
+        Sensitive="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAA6Nvoc4FQkWGOfHRoBJSJwAAAAACAAAAAAADZgAAwAAAABAAAADsmI8NsrrfEYTsvW5sJryFAAAAAASAAACgAAAAEAAAAJkwEQbkQjhvoSUQhXN88fp4AAAAYTIRh0FXkNrv/3FluZDVScH+kGsCwoW2q5mAJRA510YpmxHfgqILRr9ks7/uHznyOFG3EOxKKafh/sptQSd+1rdU4y5Oxk07ryBE8Qj0nT2LJaQE9HQgLKQk9eEsMFuNyrySRPUDH7LbUPLXhkXhIIqsWtn/fWDBFAAAADWRyqNb8r0bENBStzBwRRxUE7wr</DTS:Password>
+    </DTS:ConnectionManager>
+  </DTS:ObjectData>
+</DTS:ConnectionManager>

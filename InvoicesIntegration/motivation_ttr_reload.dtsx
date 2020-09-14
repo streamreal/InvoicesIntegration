@@ -11,12 +11,597 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package3"
   DTS:PackageType="5"
-  DTS:VersionBuild="13"
-  DTS:VersionGUID="{8C7CFDD1-5445-4DC1-A0A8-27266A1AFEE1}">
+  DTS:VersionBuild="59"
+  DTS:VersionGUID="{5C11A51B-F72E-4094-9BB9-AA7633C9AF10}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
   <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Reload add roles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8874660C-BE88-46A6-9497-45C1F42E83B4}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Reload add roles"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="DELETE&#xA;FROM [motivation].[dbo].[ttr_workers]&#xA;WHERE role_type = 2&#xA;GO&#xA;DECLARE @start [date] = CAST(DATEFROMPARTS(YEAR(DATEADD(MONTH, -2, GETDATE())), MONTH(DATEADD(MONTH, -2, GETDATE())), 1) AS datetime);&#xA;&#xA;WITH cte_search AS (&#xA;&#x9;SELECT &#xA;&#x9;DATEPART(YEAR, decision_date) AS ttr_id_year,&#xA;&#x9;DATEPART(MONTH, decision_date) AS ttr_id_month,&#xA;&#x9;[service_type_row] AS ttr_service,&#xA;&#x9;[assigned_ttr] AS ttr_assigned&#xA;&#x9;FROM [webproject].[dbo].[deals] d&#xA;&#x9;WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= @start&#xA;&#x9;UNION&#xA;&#x9;SELECT &#xA;&#x9;DATEPART(YEAR, req_calc_finish) AS ttr_id_year,&#xA;&#x9;DATEPART(MONTH, req_calc_finish) AS ttr_id_month,&#xA;&#x9;[service_type_row] AS ttr_service,&#xA;&#x9;[assigned_ttr] AS ttr_assigned&#xA;&#x9;FROM [webproject].[dbo].[deals] d&#xA;&#x9;WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= @start AND req_calc_finish &lt;= GETDATE()&#xA;),&#xA;&#xA;cte_insert AS (&#xA;&#xA;SELECT &#xA;ttr_service AS [service],&#xA;ca.SalespersonName AS [name],&#xA;ttr_assigned AS [bitrix_name],&#xA;ca.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#xA;CAST(DATEFROMPARTS(ttr_id_year, ttr_id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(ttr_id_year, ttr_id_month, 1)) AS date) AS [date_end],&#xA;'0' AS [is_archive],&#xA;'0' AS [estimate_participant],&#xA;'2' AS [role_type]&#xA;&#xA;FROM cte_search AS c&#xA;CROSS APPLY (SELECT TOP (1) * FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS sp WHERE sp.SalespersonName LIKE ttr_assigned + '%') AS ca&#xA;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;AND NOT EXISTS (&#xA;SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS w&#xA;WHERE w.code = ca.SalespersonCode AND w.[role_type] = 1&#xA;AND CAST(DATEFROMPARTS(ttr_id_year, ttr_id_month, 15) AS date) &#xA;BETWEEN w.[date_begin] AND COALESCE(w.[date_end], CAST(EOMONTH(GETDATE()) AS date))&#xA;)&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers]&#xA;([service]&#xA;      ,[name]&#xA;      ,[bitrix_name]&#xA;      ,[code]&#xA;      ,[type]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type])&#xA;SELECT [service]&#xA;      ,[name]&#xA;      ,[bitrix_name]&#xA;      ,[code]&#xA;      ,[type]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type]&#xA;&#x9;  FROM cte_insert&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Reload commissions"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:DTSID="{17A25BAF-BF08-461E-8558-61D2203989DE}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Reload commissions"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Reload commissions\Query"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="Query"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">WITH cte_deals AS (
+SELECT d.*
+,ROW_NUMBER() OVER (PARTITION BY deal_id, service_type_row ORDER BY (SELECT NULL)) AS deals_rownum
+,ROW_NUMBER() OVER (PARTITION BY deal_id ORDER BY (SELECT NULL)) AS distinct_deals_rownum
+FROM [webproject].[dbo].[deals] AS d
+),
+
+cte_commission_data AS (
+SELECT cd.* , d.*
+,ROW_NUMBER() OVER (PARTITION BY cd_parent_deal_id, cd_service_type ORDER BY (SELECT NULL)) AS commission_rownum
+FROM [webproject].[dbo].[commission_data] AS cd
+JOIN cte_deals AS d
+ON cd.cd_parent_deal_id = d.deal_id
+AND cd.cd_service_type = d.service_type_row
+AND d.deals_rownum = 1
+),
+
+cte_main AS (
+SELECT
+COALESCE(c1.[deal_id], c2.[deal_id]) AS [deal_id]
+,COALESCE(c1.[service_type], c2.[service_type]) AS [service_type]
+,COALESCE(c1.[client], c2.[client]) AS [client]
+,COALESCE(c1.[client_type], c2.[client_type]) AS [client_type]
+,COALESCE(c1.[service_type_row], c2.[service_type_row]) AS [service_type_row]
+
+,c1.margin_fact AS old_margin_fact
+,c1.[comission_date] AS old_commission_date
+,c1.[delivery_number] AS old_delivery_number
+
+,[cd_margin_fact] AS new_margin_fact
+,[cd_delivery_number] AS new_delivery_number
+,[cd_comission_date] AS new_commission_date
+
+,c1.deals_rownum
+,c1.distinct_deals_rownum
+,c2.commission_rownum
+
+,COUNT(commission_rownum) OVER (PARTITION BY COALESCE(c1.[deal_id], c2.[deal_id]), COALESCE(c1.[service_type_row], c2.[service_type_row])) AS prefiltered_commission_row_count
+
+FROM
+cte_deals AS c1 FULL JOIN cte_commission_data AS c2
+ON c1.deal_id = c2.cd_parent_deal_id
+AND c1.service_type_row = c2.cd_service_type
+AND c1.deals_rownum = c2.commission_rownum
+),
+
+cte_merged AS (
+SELECT
+c.*
+,CASE WHEN prefiltered_commission_row_count = 0 THEN [old_margin_fact] ELSE new_margin_fact END AS [margin_fact]
+,CASE WHEN prefiltered_commission_row_count = 0 THEN [old_commission_date] ELSE new_commission_date END AS [commission_date]
+,CASE WHEN prefiltered_commission_row_count = 0 THEN [old_delivery_number] ELSE new_delivery_number END AS [delivery_number]
+FROM cte_main AS c
+),
+
+cte_partition AS (
+SELECT
+ROW_NUMBER() OVER (PARTITION BY deal_id ORDER BY (SELECT NULL)) AS deal_level_pointer
+,ROW_NUMBER() OVER (PARTITION BY deal_id, service_type_row ORDER BY (SELECT NULL)) AS service_level_pointer
+,COUNT(deals_rownum) OVER (PARTITION BY deal_id, service_type_row) AS deal_row_count
+,COUNT(commission_rownum) OVER (PARTITION BY deal_id, service_type_row) AS commission_row_count
+, c.*
+, ca_delivery.close_date
+FROM cte_merged AS c
+OUTER APPLY (SELECT TOP (1) CASE WHEN [DRLLastFactDate] &gt;= '20200101' THEN [DRLLastFactDate] END AS close_date FROM [BI].[dwh].[ETP$SQL_Delivery] sd WHERE sd.No_ = c.delivery_number) AS ca_delivery
+),
+
+cte_sum AS (
+	SELECT 	
+	[deal_id]
+    ,[service_type_row]  
+    ,[client]
+	,SUM(margin_fact) AS sum_margin_fact
+	,close_date
+	,MONTH(close_date) AS [close_month]
+	,YEAR(close_date) AS [close_year]
+	FROM cte_partition AS d	
+	WHERE close_date IS NOT NULL AND [commission_date] &gt;= '20200101'
+	AND 	
+	(([commission_row_count] = 0 AND [service_level_pointer] = 1)
+    OR
+	([commission_row_count] &gt; 0 AND [commission_rownum] IS NOT NULL))
+	GROUP BY
+	[deal_id]
+    ,[service_type_row]  
+    ,[client]	
+	,close_date
+	,MONTH(close_date)
+	,YEAR(close_date)
+)
+
+	SELECT 
+	c.*, 
+	ca.code,
+	(sum_margin_fact / COUNT(*) OVER (PARTITION BY c.deal_id, c.service_type_row)) AS personal_margin
+	FROM [webproject].[dbo].[deals] AS d
+	JOIN cte_sum AS c ON d.deal_id = c.deal_id AND d.service_type_row = c.service_type_row
+	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] AS t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+	WHERE d.accept_cs = 'Y'
+	AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(close_date), MONTH(close_date), 10)) AS date)</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="The Source database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the mode to retrieve external column information"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Reload commissions\Query.Connections[IDbConnection]"
+                  connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output]"
+                  name="ADO NET Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[deal_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[deal_id]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[deal_id]"
+                      name="deal_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[service_type_row]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
+                      length="3"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[service_type_row]"
+                      name="service_type_row"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[client]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[client]"
+                      length="1000"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[client]"
+                      name="client"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[sum_margin_fact]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[sum_margin_fact]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[sum_margin_fact]"
+                      name="sum_margin_fact"
+                      precision="38"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_date]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[close_date]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_date]"
+                      name="close_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_month]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[close_month]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_month]"
+                      name="close_month"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_year]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[close_year]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_year]"
+                      name="close_year"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[code]"
+                      length="10"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[code]"
+                      name="code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[personal_margin]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[personal_margin]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[personal_margin]"
+                      name="personal_margin"
+                      precision="38"
+                      scale="6"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[deal_id]"
+                      dataType="i4"
+                      name="deal_id" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
+                      dataType="wstr"
+                      length="3"
+                      name="service_type_row" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[client]"
+                      dataType="wstr"
+                      length="1000"
+                      name="client" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[sum_margin_fact]"
+                      dataType="numeric"
+                      name="sum_margin_fact"
+                      precision="38"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[close_date]"
+                      dataType="dbTimeStamp"
+                      name="close_date" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[close_month]"
+                      dataType="i4"
+                      name="close_month" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[close_year]"
+                      dataType="i4"
+                      name="close_year" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[code]"
+                      dataType="wstr"
+                      length="10"
+                      name="code" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].ExternalColumns[personal_margin]"
+                      dataType="numeric"
+                      name="personal_margin"
+                      precision="38"
+                      scale="6" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output]"
+                  isErrorOut="true"
+                  name="ADO NET Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[deal_id]"
+                      dataType="i4"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[deal_id]"
+                      name="deal_id" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
+                      dataType="wstr"
+                      length="3"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
+                      name="service_type_row" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[client]"
+                      dataType="wstr"
+                      length="1000"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[client]"
+                      name="client" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[sum_margin_fact]"
+                      dataType="numeric"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[sum_margin_fact]"
+                      name="sum_margin_fact"
+                      precision="38"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[close_date]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[close_date]"
+                      name="close_date" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[close_month]"
+                      dataType="i4"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[close_month]"
+                      name="close_month" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[close_year]"
+                      dataType="i4"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[close_year]"
+                      name="close_year" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[code]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[code]"
+                      name="code" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[personal_margin]"
+                      dataType="numeric"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[personal_margin]"
+                      name="personal_margin"
+                      precision="38"
+                      scale="6" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Reload commissions\Table"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="Table"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">motivation.dbo.ttr_marginality</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Reload commissions\Table.Connections[IDbConnection]"
+                  connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[deal_id]"
+                      cachedDataType="i4"
+                      cachedName="deal_id"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[deal_id]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[deal_id]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[service_type_row]"
+                      cachedDataType="wstr"
+                      cachedLength="3"
+                      cachedName="service_type_row"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[service_type_row]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[service_type_row]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[client]"
+                      cachedDataType="wstr"
+                      cachedLength="1000"
+                      cachedName="client"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[client]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[client]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[sum_margin_fact]"
+                      cachedDataType="numeric"
+                      cachedName="sum_margin_fact"
+                      cachedPrecision="38"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[sum_margin_fact]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[sum_margin_fact]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[close_date]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="close_date"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[close_date]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_date]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[close_month]"
+                      cachedDataType="i4"
+                      cachedName="close_month"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[close_month]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_month]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[close_year]"
+                      cachedDataType="i4"
+                      cachedName="close_year"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[close_year]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[close_year]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[code]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="code"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[code]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[code]" />
+                    <inputColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].Columns[personal_margin]"
+                      cachedDataType="numeric"
+                      cachedName="personal_margin"
+                      cachedPrecision="38"
+                      cachedScale="6"
+                      externalMetadataColumnId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[personal_margin]"
+                      lineageId="Package\Reload commissions\Query.Outputs[ADO NET Source Output].Columns[personal_margin]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[deal_id]"
+                      dataType="i4"
+                      name="deal_id" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[service_type_row]"
+                      dataType="wstr"
+                      length="3"
+                      name="service_type_row" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[client]"
+                      dataType="wstr"
+                      length="1000"
+                      name="client" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[sum_margin_fact]"
+                      dataType="numeric"
+                      name="sum_margin_fact"
+                      precision="38"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[close_date]"
+                      dataType="dbTimeStamp"
+                      name="close_date" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[close_month]"
+                      dataType="i4"
+                      name="close_month" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[close_year]"
+                      dataType="i4"
+                      name="close_year" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[code]"
+                      dataType="wstr"
+                      length="10"
+                      name="code" />
+                    <externalMetadataColumn
+                      refId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input].ExternalColumns[personal_margin]"
+                      dataType="numeric"
+                      name="personal_margin"
+                      precision="38"
+                      scale="6" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Reload commissions\Table.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Reload commissions\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Reload commissions\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Reload commissions\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Reload commissions\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Reload commissions.Paths[ADO NET Source Output]"
+              endId="Package\Reload commissions\Table.Inputs[ADO NET Destination Input]"
+              name="ADO NET Source Output"
+              startId="Package\Reload commissions\Query.Outputs[ADO NET Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Reload main"
       DTS:CreationName="Microsoft.Pipeline"
@@ -113,22 +698,23 @@ cte_finished AS (
 	COUNT(ALL CASE WHEN request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_qty_typical,
 	COUNT(ALL CASE WHEN request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_qty_indicative,
 
-	COUNT(ALL CASE WHEN req_calc_duration &lt; 24 THEN 0 ELSE NULL END) AS ttr_req_fast_qty_all,
-	COUNT(ALL CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_tender,
-	COUNT(ALL CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_project,
-	COUNT(ALL CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_complex,
-	COUNT(ALL CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_typical,
-	COUNT(ALL CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_indicative,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 THEN 0 ELSE NULL END) AS ttr_req_fast_qty_all,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_tender,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_project,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_complex,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_typical,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_indicative,
 
-	COUNT(ALL CASE WHEN req_calc_duration &gt;= 24 THEN 0 ELSE NULL END) AS ttr_req_slow_qty_all,
-	COUNT(ALL CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_tender,
-	COUNT(ALL CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_project,
-	COUNT(ALL CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_complex,
-	COUNT(ALL CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_typical,
-	COUNT(ALL CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_indicative,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 THEN 0 ELSE NULL END) AS ttr_req_slow_qty_all,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_tender,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_project,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_complex,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_typical,
+	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_indicative,
 	
-	SUM(COALESCE(calc_rework_num, 0)) AS ttr_rework_qty
-	
+	SUM(COALESCE(calc_rework_num, 0)) AS ttr_rework_qty,
+	SUM(COALESCE(calc_classified_qty, 0)) AS ttr_classified_qty
+
 	FROM [webproject].[dbo].[deals]
 	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= '20200101'
 	GROUP BY 
@@ -163,6 +749,27 @@ cte_result AS (
 	DATEPART(MONTH, decision_date)
 ),
 
+cte_marginality AS (
+
+SELECT	
+	[code]
+	,close_month
+	,close_year
+	,CAST((COALESCE(SUM(personal_margin), 0) * 0.4) AS decimal(18,2)) AS personal_margin
+	FROM motivation.dbo.ttr_marginality
+	GROUP BY 
+	[code]
+	,close_month
+	,close_year
+),
+
+cte_marginality_overall AS (
+	SELECT [close_month], [close_year], CAST((COALESCE(SUM(margin_fact), 0) * 0.4) AS decimal(18,2)) AS ttr_sum_margin
+	FROM [motivation].[dbo].[ks_commissions]
+	GROUP BY
+	[close_month], [close_year]	
+),
+
 cte_extended AS (
 
 SELECT 
@@ -186,12 +793,15 @@ cte_base.*
 ,COALESCE(ttr_req_slow_qty_typical, 0) AS ttr_req_slow_qty_typical
 ,COALESCE(ttr_req_slow_qty_indicative, 0) AS ttr_req_slow_qty_indicative
 ,COALESCE(ttr_rework_qty, 0) AS ttr_rework_qty
+,COALESCE(ttr_classified_qty, 0) AS ttr_classified_qty
 ,COALESCE(ttr_des_qty_all, 0) AS ttr_des_qty_all
 ,COALESCE(ttr_des_qty_accepted, 0) AS ttr_des_qty_accepted
 ,COALESCE(ttr_des_qty_commission, 0) AS ttr_des_qty_commission
 ,COALESCE(ttr_des_qty_indicative, 0) AS ttr_des_qty_indicative
 ,COALESCE(ttr_des_qty_rejected_expensive, 0) AS ttr_des_qty_rejected_expensive
 ,COALESCE(ttr_des_qty_rejected_other, 0) AS ttr_des_qty_rejected_other
+,COALESCE(CAST(personal_margin AS decimal(18,2)), 0) AS ttr_personal_marginality
+,COALESCE(CAST(ttr_sum_margin AS decimal(18,2)), 0) AS ttr_sum_margin
 FROM cte_base
 LEFT JOIN cte_finished 
 	ON cte_finished.ttr_id_year = cte_base.id_year 
@@ -201,11 +811,18 @@ LEFT JOIN cte_result
 	ON cte_result.ttr_id_year = cte_base.id_year 
 	AND cte_result.ttr_id_month = cte_base.id_month
 	AND cte_result.ttr_assigned = cte_base.bitrix_name
+LEFT JOIN cte_marginality
+	ON cte_marginality.close_year = cte_base.id_year 
+	AND cte_marginality.close_month = cte_base.id_month
+	AND cte_marginality.code = cte_base.code
+LEFT JOIN cte_marginality_overall
+	ON cte_marginality_overall.close_year = cte_base.id_year 
+	AND cte_marginality_overall.close_month = cte_base.id_month
 ),
 
 cte_pre_calc AS (
 	SELECT c.* 
-	,COUNT(CASE WHEN estimate_participant = 1 THEN 1 END) OVER (PARTITION BY id_year, id_month, [service]) [workers_count]
+	,COUNT(CASE WHEN estimate_participant = 1 THEN 1 END) OVER (PARTITION BY id_year, id_month, c.[service]) [workers_count]
 
 	,f.[req_qty_tender]
     ,f.[req_qty_project]
@@ -235,26 +852,28 @@ cte_pre_calc AS (
 	+ f.req_qty_complex * ttr_req_qty_complex
 	+ f.req_qty_typical * ttr_req_qty_typical
 	+ f.req_qty_indicative * ttr_req_qty_indicative
-	+ f.req_fast_qty_tender * ttr_req_fast_qty_tender
-	+ f.req_fast_qty_project * ttr_req_fast_qty_project
-	+ f.req_fast_qty_complex * ttr_req_fast_qty_complex
-	+ f.req_fast_qty_typical * ttr_req_fast_qty_typical
-	+ f.req_fast_qty_indicative * ttr_req_fast_qty_indicative
-	+ f.req_slow_qty_tender * ttr_req_slow_qty_tender
-	+ f.req_slow_qty_project * ttr_req_slow_qty_project
-	+ f.req_slow_qty_complex * ttr_req_slow_qty_complex
-	+ f.req_slow_qty_typical * ttr_req_slow_qty_typical
-	+ f.req_slow_qty_indicative * ttr_req_slow_qty_indicative
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_tender) * ttr_req_fast_qty_tender
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_project) * ttr_req_fast_qty_project
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_complex) * ttr_req_fast_qty_complex
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_typical) * ttr_req_fast_qty_typical
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_indicative) * ttr_req_fast_qty_indicative
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_tender) * ttr_req_slow_qty_tender
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_project) * ttr_req_slow_qty_project
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_complex) * ttr_req_slow_qty_complex
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_typical) * ttr_req_slow_qty_typical
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_indicative) * ttr_req_slow_qty_indicative
 	+ f.rework_qty * ttr_rework_qty
 	+ f.des_qty_accepted * ttr_des_qty_accepted
 	+ f.des_qty_commission * ttr_des_qty_commission
 	+ f.des_qty_indicative * ttr_des_qty_indicative
 	+ f.des_qty_rejected_expensive * ttr_des_qty_rejected_expensive
 	+ f.des_qty_rejected_other * ttr_des_qty_rejected_other
+	+ COALESCE(f.req_art_classify, 0) * ttr_classified_qty
 	)
-							   
+
 	FROM cte_extended c
-	JOIN [motivation].[dbo].[ttr_factors] f ON f.[id] = 1
+	JOIN [motivation].[dbo].[ttr_factors] f ON f.[service] = c.[service]
+	CROSS APPLY (SELECT TOP (1) [f_profit_fact] FROM [motivation].[dbo].[ks_factors]) AS ca
 ),
 
 cte_calc_done AS (
@@ -299,7 +918,8 @@ OVER (PARTITION BY id_year, id_month, [service])
 , 0)
 ) worker_factor
 
-FROM cte_calc_done c</property>
+FROM cte_calc_done c
+WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year, id_month, 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -593,6 +1213,17 @@ FROM cte_calc_done c</property>
                       name="ttr_rework_qty"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_classified_qty]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]"
+                      name="ttr_classified_qty"
+                      precision="38"
+                      scale="4"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_des_qty_all]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
@@ -645,6 +1276,28 @@ FROM cte_calc_done c</property>
                       externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_des_qty_rejected_other]"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_des_qty_rejected_other]"
                       name="ttr_des_qty_rejected_other"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_personal_marginality]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_personal_marginality]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_personal_marginality]"
+                      name="ttr_personal_marginality"
+                      precision="18"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_sum_margin]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_sum_margin]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_sum_margin]"
+                      name="ttr_sum_margin"
+                      precision="18"
+                      scale="2"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
@@ -1050,6 +1703,12 @@ FROM cte_calc_done c</property>
                       dataType="i4"
                       name="ttr_rework_qty" />
                     <externalMetadataColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_classified_qty]"
+                      dataType="numeric"
+                      name="ttr_classified_qty"
+                      precision="38"
+                      scale="4" />
+                    <externalMetadataColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_des_qty_all]"
                       dataType="i4"
                       name="ttr_des_qty_all" />
@@ -1073,6 +1732,18 @@ FROM cte_calc_done c</property>
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_des_qty_rejected_other]"
                       dataType="i4"
                       name="ttr_des_qty_rejected_other" />
+                    <externalMetadataColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_personal_marginality]"
+                      dataType="numeric"
+                      name="ttr_personal_marginality"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_sum_margin]"
+                      dataType="numeric"
+                      name="ttr_sum_margin"
+                      precision="18"
+                      scale="2" />
                     <externalMetadataColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
                       dataType="i4"
@@ -1379,6 +2050,13 @@ FROM cte_calc_done c</property>
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_rework_qty]"
                       name="ttr_rework_qty" />
                     <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_classified_qty]"
+                      dataType="numeric"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_classified_qty]"
+                      name="ttr_classified_qty"
+                      precision="38"
+                      scale="4" />
+                    <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_des_qty_all]"
                       dataType="i4"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_des_qty_all]"
@@ -1408,6 +2086,20 @@ FROM cte_calc_done c</property>
                       dataType="i4"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_des_qty_rejected_other]"
                       name="ttr_des_qty_rejected_other" />
+                    <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_personal_marginality]"
+                      dataType="numeric"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_personal_marginality]"
+                      name="ttr_personal_marginality"
+                      precision="18"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_sum_margin]"
+                      dataType="numeric"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_sum_margin]"
+                      name="ttr_sum_margin"
+                      precision="18"
+                      scale="2" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
                       dataType="i4"
@@ -1827,6 +2519,14 @@ FROM cte_calc_done c</property>
                       externalMetadataColumnId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_rework_qty]"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_rework_qty]" />
                     <inputColumn
+                      refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].Columns[ttr_classified_qty]"
+                      cachedDataType="numeric"
+                      cachedName="ttr_classified_qty"
+                      cachedPrecision="38"
+                      cachedScale="4"
+                      externalMetadataColumnId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_classified_qty]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]" />
+                    <inputColumn
                       refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].Columns[ttr_des_qty_all]"
                       cachedDataType="i4"
                       cachedName="ttr_des_qty_all"
@@ -1862,6 +2562,22 @@ FROM cte_calc_done c</property>
                       cachedName="ttr_des_qty_rejected_other"
                       externalMetadataColumnId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_des_qty_rejected_other]"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_des_qty_rejected_other]" />
+                    <inputColumn
+                      refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].Columns[ttr_personal_marginality]"
+                      cachedDataType="numeric"
+                      cachedName="ttr_personal_marginality"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_personal_marginality]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_personal_marginality]" />
+                    <inputColumn
+                      refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].Columns[ttr_sum_margin]"
+                      cachedDataType="numeric"
+                      cachedName="ttr_sum_margin"
+                      cachedPrecision="18"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_sum_margin]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_sum_margin]" />
                     <inputColumn
                       refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].Columns[workers_count]"
                       cachedDataType="i4"
@@ -2212,6 +2928,18 @@ FROM cte_calc_done c</property>
                       dataType="i4"
                       name="ttr_des_qty_rejected_other" />
                     <externalMetadataColumn
+                      refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_personal_marginality]"
+                      dataType="numeric"
+                      name="ttr_personal_marginality"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_sum_margin]"
+                      dataType="numeric"
+                      name="ttr_sum_margin"
+                      precision="18"
+                      scale="2" />
+                    <externalMetadataColumn
                       refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_count]"
                       dataType="i4"
                       name="workers_count" />
@@ -2365,6 +3093,15 @@ FROM cte_calc_done c</property>
                       name="worker_factor"
                       precision="18"
                       scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[role_type]"
+                      dataType="wstr"
+                      length="50"
+                      name="role_type" />
+                    <externalMetadataColumn
+                      refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_classified_qty]"
+                      dataType="i4"
+                      name="ttr_classified_qty" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -2441,7 +3178,7 @@ FROM cte_calc_done c</property>
 	ca.code,
 	deal_id,
 	client,
-	COALESCE(req_calc_duration, 0) req_calc_duration,
+	COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) req_calc_duration,
 	FORMAT(req_calc_finish, 'dd.MM.yyyy') req_calc_finish,
 
 	CASE WHEN request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_qty_tender,
@@ -2450,21 +3187,25 @@ FROM cte_calc_done c</property>
 	CASE WHEN request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_qty_typical,
 	CASE WHEN request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_qty_indicative,
 
-	CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_fast_qty_tender,
-	CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_fast_qty_project,
-	CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_complex,
-	CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_fast_qty_typical,
-	CASE WHEN req_calc_duration &lt; 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_indicative,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_fast_qty_tender,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_fast_qty_project,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_complex,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_fast_qty_typical,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_indicative,
 
-	CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_slow_qty_tender,
-	CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_slow_qty_project,
-	CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_complex,
-	CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_slow_qty_typical,
-	CASE WHEN req_calc_duration &gt;= 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_indicative
-		
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_slow_qty_tender,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_slow_qty_project,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_complex,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_slow_qty_typical,
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_indicative,
+
+	CAST(ROUND((COALESCE([calc_fact_duration], 0) / 3600), 0) AS int) AS ttr_calc_fact_duration,
+	CAST(COALESCE(calc_classified_qty, 0) AS int) AS ttr_classified_qty
+	
 	FROM [webproject].[dbo].[deals] d 
 	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
-	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= '20200101'</property>
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= '20200101'
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, req_calc_finish), DATEPART(MONTH, req_calc_finish), 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -2722,6 +3463,24 @@ FROM cte_calc_done c</property>
                       lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_req_slow_qty_indicative]"
                       name="ttr_req_slow_qty_indicative"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_calc_fact_duration]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload request details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_calc_fact_duration]"
+                      lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_calc_fact_duration]"
+                      name="ttr_calc_fact_duration"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload request details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_classified_qty]"
+                      lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]"
+                      name="ttr_classified_qty"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2826,6 +3585,14 @@ FROM cte_calc_done c</property>
                       refId="Package\Reload request details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_req_slow_qty_indicative]"
                       dataType="i4"
                       name="ttr_req_slow_qty_indicative" />
+                    <externalMetadataColumn
+                      refId="Package\Reload request details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_calc_fact_duration]"
+                      dataType="i4"
+                      name="ttr_calc_fact_duration" />
+                    <externalMetadataColumn
+                      refId="Package\Reload request details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_classified_qty]"
+                      dataType="i4"
+                      name="ttr_classified_qty" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -2958,6 +3725,16 @@ FROM cte_calc_done c</property>
                       dataType="i4"
                       lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_req_slow_qty_indicative]"
                       name="ttr_req_slow_qty_indicative" />
+                    <outputColumn
+                      refId="Package\Reload request details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_calc_fact_duration]"
+                      dataType="i4"
+                      lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_calc_fact_duration]"
+                      name="ttr_calc_fact_duration" />
+                    <outputColumn
+                      refId="Package\Reload request details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_classified_qty]"
+                      dataType="i4"
+                      lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_classified_qty]"
+                      name="ttr_classified_qty" />
                     <outputColumn
                       refId="Package\Reload request details\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
@@ -3173,6 +3950,18 @@ FROM cte_calc_done c</property>
                       cachedName="ttr_req_slow_qty_indicative"
                       externalMetadataColumnId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_req_slow_qty_indicative]"
                       lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_req_slow_qty_indicative]" />
+                    <inputColumn
+                      refId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].Columns[ttr_calc_fact_duration]"
+                      cachedDataType="i4"
+                      cachedName="ttr_calc_fact_duration"
+                      externalMetadataColumnId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_calc_fact_duration]"
+                      lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_calc_fact_duration]" />
+                    <inputColumn
+                      refId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].Columns[ttr_classified_qty]"
+                      cachedDataType="i4"
+                      cachedName="ttr_classified_qty"
+                      externalMetadataColumnId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_classified_qty]"
+                      lineageId="Package\Reload request details\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -3277,6 +4066,14 @@ FROM cte_calc_done c</property>
                       refId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_req_slow_qty_indicative]"
                       dataType="i4"
                       name="ttr_req_slow_qty_indicative" />
+                    <externalMetadataColumn
+                      refId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_calc_fact_duration]"
+                      dataType="i4"
+                      name="ttr_calc_fact_duration" />
+                    <externalMetadataColumn
+                      refId="Package\Reload request details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_classified_qty]"
+                      dataType="i4"
+                      name="ttr_classified_qty" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -3367,7 +4164,8 @@ FROM cte_calc_done c</property>
 
 	FROM [webproject].[dbo].[deals] d
 	CROSS APPLY (SELECT TOP (1) [code] FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
-	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= '20200101'</property>
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= '20200101'
+	AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, decision_date), DATEPART(MONTH, decision_date), 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -3957,7 +4755,55 @@ FROM cte_calc_done c</property>
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="TRUNCATE TABLE [motivation].[dbo].[ttr_main]&#xA;TRUNCATE TABLE [motivation].[dbo].[ttr_result_details]&#xA;TRUNCATE TABLE [motivation].[dbo].[ttr_request_details]" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DELETE FROM [motivation].[dbo].[ttr_main]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year, id_month, 10)) AS date)&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[ttr_result_details]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(ttr_id_year, ttr_id_month, 10)) AS date)&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[ttr_marginality]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(close_year, close_month, 10)) AS date)&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[ttr_request_details]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(ttr_id_year, ttr_id_month, 10)) AS date)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update main TEO roles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B23EC01A-0AF7-4F58-B871-CA856D929822}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update main TEO roles"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ttr_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND [service] = 'ТЭО' AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_declarant AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 1 AND &#xA;&#x9;([Dept_ Code] IN ('ЯРЦЕВО','С-З ФИЛИАЛ','ДЕКЛАРАНТЫ','ВЛАДИВОСТОК1')&#xA;&#x9;OR [Dept_ Code] LIKE 'ЦОТО,%')  &#xA;),&#xA;&#xA;cte_sto_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 0 AND [Dept_ Code] LIKE 'ЦОТО,%'&#xA;&#x9;AND EXISTS (&#xA;&#x9;SELECT 0 FROM [BI].[olap].[FactReleaseRateSTO] AS f &#xA;&#x9;WHERE f.SalespersonKey = s.SalespersonKey&#xA;&#x9;AND f.[Release Date] &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_stl_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [BI].[dwh].[DeliveryDatamart] dd&#xA;&#x9;WHERE dd.[Executive Code] = s.SalespersonCode&#xA;&#x9;AND dd.DRLLastFactDate &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_sto_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] LIKE 'ЦОТО,%' AND [Act_ Declarant] = 0&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТО')&#xA;),&#xA;&#xA;cte_stl_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТЭО')&#xA;),&#xA;&#xA;cte_ks AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] = 'ПРОДАЖИ-РАЗВИТИЕ'&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;((s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '')&#xA;&#x9;OR &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '')&#xA;&#x9;)&#xA;&#x9;AND d.request_date &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT s.SalespersonCode, s.SalespersonName, s.[Dept_ Code], oa.bitrix_name&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_declarant AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_declarant&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_ks AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_ks&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;OUTER APPLY &#xA;&#x9;(SELECT TOP (1) &#xA;&#x9;COALESCE(&#xA;&#x9;IIF(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '', d.responsible_ks, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '', d.assigned, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '', d.assigned_ttr, NULL),&#xA;&#x9;'')&#xA;&#x9;AS [bitrix_name] &#xA;&#x9;FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '')&#xA;&#x9;) AS oa&#xA;&#xA;&#x9;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers] ([service]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;'ТЭО' AS [service],&#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_stl_ttr = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS sw &#xA;WHERE sw.[service] = 'ТЭО' AND cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update main TO roles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F08F58E2-AE1F-4C73-9C1E-FA622FF1C8DE}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update main TO roles"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ttr_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND [service] = 'ТО' AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_declarant AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 1 AND &#xA;&#x9;([Dept_ Code] IN ('ЯРЦЕВО','С-З ФИЛИАЛ','ДЕКЛАРАНТЫ','ВЛАДИВОСТОК1')&#xA;&#x9;OR [Dept_ Code] LIKE 'ЦОТО,%')  &#xA;),&#xA;&#xA;cte_sto_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 0 AND [Dept_ Code] LIKE 'ЦОТО,%'&#xA;&#x9;AND EXISTS (&#xA;&#x9;SELECT 0 FROM [BI].[olap].[FactReleaseRateSTO] AS f &#xA;&#x9;WHERE f.SalespersonKey = s.SalespersonKey&#xA;&#x9;AND f.[Release Date] &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_stl_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [BI].[dwh].[DeliveryDatamart] dd&#xA;&#x9;WHERE dd.[Executive Code] = s.SalespersonCode&#xA;&#x9;AND dd.DRLLastFactDate &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_sto_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] LIKE 'ЦОТО,%' AND [Act_ Declarant] = 0&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТО')&#xA;),&#xA;&#xA;cte_stl_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТЭО')&#xA;),&#xA;&#xA;cte_ks AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] = 'ПРОДАЖИ-РАЗВИТИЕ'&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;((s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '')&#xA;&#x9;OR &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '')&#xA;&#x9;)&#xA;&#x9;AND d.request_date &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT s.SalespersonCode, s.SalespersonName, s.[Dept_ Code], oa.bitrix_name&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_declarant AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_declarant&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_ks AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_ks&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;OUTER APPLY &#xA;&#x9;(SELECT TOP (1) &#xA;&#x9;COALESCE(&#xA;&#x9;IIF(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '', d.responsible_ks, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '', d.assigned, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '', d.assigned_ttr, NULL),&#xA;&#x9;'')&#xA;&#x9;AS [bitrix_name] &#xA;&#x9;FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '')&#xA;&#x9;) AS oa&#xA;&#xA;&#x9;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers] ([service]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;'ТО' AS [service],&#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_sto_ttr = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS sw &#xA;WHERE sw.[service] = 'ТО' AND cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update role_type"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{35B5FE0E-CB8C-43BC-94DD-BFC0B85E4AA6}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update role_type"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="UPDATE main&#xA;SET role_type = CASE oa.role_type WHEN 1 THEN 'Основная' ELSE 'Дополнительная' END&#xA;FROM [motivation].[dbo].[ttr_main] AS main&#xA;OUTER APPLY (SELECT TOP (1) role_type&#xA;FROM [motivation].[dbo].[ttr_workers] AS w&#xA;WHERE main.code = w.code&#xA;AND DATEFROMPARTS(main.id_year, main.id_month, 15) BETWEEN w.date_begin AND w.date_end) AS oa" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -3968,7 +4814,7 @@ FROM cte_calc_done c</property>
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Updated at"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -3981,11 +4827,11 @@ FROM cte_calc_done c</property>
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение]"
       DTS:CreationName=""
-      DTS:DTSID="{22CB7491-4489-4B8A-89A9-3187E8CBBBDC}"
+      DTS:DTSID="{A92E242A-100E-417E-8C15-88F964BA2409}"
       DTS:From="Package\Truncate"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение"
-      DTS:To="Package\Reload main" />
+      DTS:To="Package\Reload add roles" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 1]"
       DTS:CreationName=""
@@ -3995,37 +4841,77 @@ FROM cte_calc_done c</property>
       DTS:ObjectName="Ограничение 1"
       DTS:To="Package\Updated at" />
     <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 10]"
+      DTS:CreationName=""
+      DTS:DTSID="{49C67913-1586-4D2D-823B-3CA4D88E811A}"
+      DTS:From="Package\Reload main"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 10"
+      DTS:To="Package\Update role_type" />
+    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
       DTS:CreationName=""
-      DTS:DTSID="{A319EBA2-2C61-4F85-9E31-0674F8A648B8}"
-      DTS:From="Package\Truncate"
+      DTS:DTSID="{6012FE42-066E-4422-87A9-1E298C308971}"
+      DTS:From="Package\Reload add roles"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 2"
-      DTS:To="Package\Reload result details" />
+      DTS:To="Package\Reload commissions" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
       DTS:CreationName=""
-      DTS:DTSID="{B6E2E683-CCDF-4756-99B2-30E8E5625151}"
-      DTS:From="Package\Reload result details"
+      DTS:DTSID="{D62A580B-07D6-49FA-82F7-A72463CA5614}"
+      DTS:From="Package\Reload add roles"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 3"
-      DTS:To="Package\Updated at" />
+      DTS:To="Package\Reload request details" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 4]"
       DTS:CreationName=""
-      DTS:DTSID="{56BC9AFA-9B89-4793-BDF3-CF24FACF9E35}"
-      DTS:From="Package\Truncate"
+      DTS:DTSID="{AF4E3F16-6355-45F0-9525-AEF77968A0B9}"
+      DTS:From="Package\Reload add roles"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 4"
-      DTS:To="Package\Reload request details" />
+      DTS:To="Package\Reload result details" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 5]"
       DTS:CreationName=""
-      DTS:DTSID="{1652E150-F9C3-4A16-92FE-57F02935B460}"
-      DTS:From="Package\Reload request details"
+      DTS:DTSID="{25360B76-543F-4216-B7FE-0D48166585B9}"
+      DTS:From="Package\Reload result details"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 5"
-      DTS:To="Package\Updated at" />
+      DTS:To="Package\Reload main" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{818B5CD2-2857-4196-A494-F825988C3DF8}"
+      DTS:From="Package\Reload commissions"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 6"
+      DTS:To="Package\Reload main" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 7]"
+      DTS:CreationName=""
+      DTS:DTSID="{ECB62B67-37DC-44D1-8389-A8F1050EFAA8}"
+      DTS:From="Package\Reload request details"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 7"
+      DTS:To="Package\Reload main" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{05C5D94A-B957-4D93-BAB0-5540B793721D}"
+      DTS:From="Package\Update main TO roles"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 8"
+      DTS:To="Package\Update main TEO roles" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{98B1CB98-991A-485F-A978-303E536EFC5F}"
+      DTS:From="Package\Update main TEO roles"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 9"
+      DTS:To="Package\Truncate" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -4038,33 +4924,61 @@ FROM cte_calc_done c</property>
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Reload add roles"
+          TopLeft="201,291" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Reload commissions"
+          TopLeft="193,369" />
         <NodeLayout
           Size="137,42"
           Id="Package\Reload main"
-          TopLeft="200,98" />
+          TopLeft="205,501" />
+        <NodeLayout
+          Size="183,42"
+          Id="Package\Reload request details"
+          TopLeft="385,368" />
+        <NodeLayout
+          Size="174,42"
+          Id="Package\Reload result details"
+          TopLeft="4,365" />
         <NodeLayout
           Size="121,42"
           Id="Package\Truncate"
-          TopLeft="204,28" />
+          TopLeft="213,217" />
+        <NodeLayout
+          Size="188,42"
+          Id="Package\Update main TEO roles"
+          TopLeft="174,141" />
+        <NodeLayout
+          Size="182,42"
+          Id="Package\Update main TO roles"
+          TopLeft="176,75" />
+        <NodeLayout
+          Size="160,42"
+          Id="Package\Update role_type"
+          TopLeft="376,501" />
         <NodeLayout
           Size="131,42"
           Id="Package\Updated at"
-          TopLeft="198,173" />
+          TopLeft="206,586" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="266.5,70">
+          TopLeft="276.5,259">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,28"
+              EndConnector="0,32"
               Start="0,0"
-              End="0,20.5">
+              End="0,24.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,20.5" />
+                    End="0,24.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4075,18 +4989,18 @@ FROM cte_calc_done c</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="266,140">
+          TopLeft="272.5,543">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,33"
+              EndConnector="0,43"
               Start="0,0"
-              End="0,25.5">
+              End="0,35.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.5" />
+                    End="0,35.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4095,36 +5009,42 @@ FROM cte_calc_done c</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="174,42"
-          Id="Package\Reload result details"
-          TopLeft="1,97" />
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="245.666666666667,70">
+          Id="Package.PrecedenceConstraints[Ограничение 10]"
+          TopLeft="342,522">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-157.666666666667,27"
+              EndConnector="34,0"
               Start="0,0"
-              End="-157.666666666667,19.5">
+              End="26.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,7.01141924959217" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,7.01141924959217"
-                    Point2="0,11.0114192495922"
-                    Point3="-4,11.0114192495922" />
+                    End="26.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="279.75,333">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
                   <mssgle:LineSegment
-                    End="-153.666666666667,11.0114192495922" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-153.666666666667,11.0114192495922"
-                    Point2="-157.666666666667,11.0114192495922"
-                    Point3="-157.666666666667,15.0114192495922" />
-                  <mssgle:LineSegment
-                    End="-157.666666666667,19.5" />
+                    End="0,28.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4135,30 +5055,30 @@ FROM cte_calc_done c</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="88,139">
+          TopLeft="316.75,333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="155,34"
+              EndConnector="159.75,35"
               Start="0,0"
-              End="155,26.5">
+              End="159.75,27.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,16.1538461538462" />
+                    End="0,8.0563674321503" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,16.1538461538462"
-                    Point2="0,20.1538461538462"
-                    Point3="4,20.1538461538462" />
+                    Point1="0,8.0563674321503"
+                    Point2="0,12.0563674321503"
+                    Point3="4,12.0563674321503" />
                   <mssgle:LineSegment
-                    End="151,20.1538461538462" />
+                    End="155.75,12.0563674321503" />
                   <mssgle:CubicBezierSegment
-                    Point1="151,20.1538461538462"
-                    Point2="155,20.1538461538462"
-                    Point3="155,24.1538461538462" />
+                    Point1="155.75,12.0563674321503"
+                    Point2="159.75,12.0563674321503"
+                    Point3="159.75,16.0563674321503" />
                   <mssgle:LineSegment
-                    End="155,26.5" />
+                    End="159.75,27.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4167,36 +5087,32 @@ FROM cte_calc_done c</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="183,42"
-          Id="Package\Reload request details"
-          TopLeft="386,101" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 4]"
-          TopLeft="292.75,70">
+          TopLeft="242.25,333">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="184.75,31"
+              EndConnector="-151.25,32"
               Start="0,0"
-              End="184.75,23.5">
+              End="-151.25,24.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,6.77897574123989" />
+                    End="0,7.02296450939457" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,6.77897574123989"
-                    Point2="0,10.7789757412399"
-                    Point3="4,10.7789757412399" />
+                    Point1="0,7.02296450939457"
+                    Point2="0,11.0229645093946"
+                    Point3="-4,11.0229645093946" />
                   <mssgle:LineSegment
-                    End="180.75,10.7789757412399" />
+                    End="-147.25,11.0229645093946" />
                   <mssgle:CubicBezierSegment
-                    Point1="180.75,10.7789757412399"
-                    Point2="184.75,10.7789757412399"
-                    Point3="184.75,14.7789757412399" />
+                    Point1="-147.25,11.0229645093946"
+                    Point2="-151.25,11.0229645093946"
+                    Point3="-151.25,15.0229645093946" />
                   <mssgle:LineSegment
-                    End="184.75,23.5" />
+                    End="-151.25,24.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4207,30 +5123,30 @@ FROM cte_calc_done c</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 5]"
-          TopLeft="477.5,143">
+          TopLeft="91,407">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-183.25,30"
+              EndConnector="182.5,94"
               Start="0,0"
-              End="-183.25,22.5">
+              End="182.5,86.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,15.6009975062344" />
+                    End="0,43" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,15.6009975062344"
-                    Point2="0,19.6009975062344"
-                    Point3="-4,19.6009975062344" />
+                    Point1="0,43"
+                    Point2="0,47"
+                    Point3="4,47" />
                   <mssgle:LineSegment
-                    End="-179.25,19.6009975062344" />
+                    End="178.5,47" />
                   <mssgle:CubicBezierSegment
-                    Point1="-179.25,19.6009975062344"
-                    Point2="-183.25,19.6009975062344"
-                    Point3="-183.25,23.6009975062344" />
+                    Point1="178.5,47"
+                    Point2="182.5,47"
+                    Point3="182.5,51" />
                   <mssgle:LineSegment
-                    End="-183.25,22.5" />
+                    End="182.5,86.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4239,25 +5155,99 @@ FROM cte_calc_done c</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </Package>
-  <TaskHost
-    design-time-name="Package\Reload main">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="105,42"
-          Id="Package\Reload main\Table"
-          TopLeft="186,137" />
-        <NodeLayout
-          Size="107,42"
-          Id="Package\Reload main\Query"
-          TopLeft="192,61" />
         <EdgeLayout
-          Id="Package\Reload main.Paths[ADO NET Source Output]"
-          TopLeft="242,103">
+          Id="Package.PrecedenceConstraints[Ограничение 6]"
+          TopLeft="280,411">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="15,90"
+              Start="0,0"
+              End="15,82.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,49.3766233766234" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,49.3766233766234"
+                    Point2="0,53.3766233766234"
+                    Point3="4,53.3766233766234" />
+                  <mssgle:LineSegment
+                    End="11,53.3766233766234" />
+                  <mssgle:CubicBezierSegment
+                    Point1="11,53.3766233766234"
+                    Point2="15,53.3766233766234"
+                    Point3="15,57.3766233766234" />
+                  <mssgle:LineSegment
+                    End="15,82.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 7]"
+          TopLeft="476.5,410">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-170.75,91"
+              Start="0,0"
+              End="-170.75,83.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,55.508353221957" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,55.508353221957"
+                    Point2="0,59.508353221957"
+                    Point3="-4,59.508353221957" />
+                  <mssgle:LineSegment
+                    End="-166.75,59.508353221957" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-166.75,59.508353221957"
+                    Point2="-170.75,59.508353221957"
+                    Point3="-170.75,63.508353221957" />
+                  <mssgle:LineSegment
+                    End="-170.75,83.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 8]"
+          TopLeft="267.5,117">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24"
+              Start="0,0"
+              End="0,16.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 9]"
+          TopLeft="270.75,183">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -4279,6 +5269,100 @@ FROM cte_calc_done c</property>
         </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Reload commissions">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="105,42"
+          Id="Package\Reload commissions\Table"
+          TopLeft="112,105" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Reload commissions\Query"
+          TopLeft="115,40" />
+        <EdgeLayout
+          Id="Package\Reload commissions.Paths[ADO NET Source Output]"
+          TopLeft="166.5,82">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,23"
+              Start="0,0"
+              End="0,15.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,15.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Reload commissions\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Reload commissions\Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Reload main">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Reload main\Query"
+          TopLeft="192,61" />
+        <NodeLayout
+          Size="105,42"
+          Id="Package\Reload main\Table"
+          TopLeft="195,136" />
+        <EdgeLayout
+          Id="Package\Reload main.Paths[ADO NET Source Output]"
+          TopLeft="246.5,103">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\Reload main\Query">
@@ -4288,8 +5372,46 @@ FROM cte_calc_done c</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Reload request details">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Reload request details\Query"
+          TopLeft="107,54" />
+        <NodeLayout
+          Size="105,42"
+          Id="Package\Reload request details\Table"
+          TopLeft="109,129" />
+        <EdgeLayout
+          Id="Package\Reload request details.Paths[ADO NET Source Output]"
+          TopLeft="161,96">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,33"
+              Start="0,0"
+              End="0,25.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Reload main\Table">
+    design-time-name="Package\Reload request details\Query">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -4350,46 +5472,8 @@ FROM cte_calc_done c</property>
       </Property>
     </Properties>
   </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Reload request details">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="107,42"
-          Id="Package\Reload request details\Query"
-          TopLeft="107,54" />
-        <NodeLayout
-          Size="105,42"
-          Id="Package\Reload request details\Table"
-          TopLeft="108,130" />
-        <EdgeLayout
-          Id="Package\Reload request details.Paths[ADO NET Source Output]"
-          TopLeft="160.5,96">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,34"
-              Start="0,0"
-              End="0,26.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Reload request details\Query">
+    design-time-name="Package\Reload request details\Table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -4397,7 +5481,7 @@ FROM cte_calc_done c</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Reload request details\Table">
+    design-time-name="Package\Reload main\Table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

@@ -23,9 +23,9 @@ public struct RowsConcat : IBinarySerialize
         this.IsNull = true;
     }
 
-    public void Accumulate(SqlString Value, SqlString Delimiter)
+    public void Accumulate(SqlString Value, SqlString Delimiter, SqlInt32 SkipDuplicates)
     {
-        if (Value.IsNull)
+        if (Value.IsNull || (SkipDuplicates.Value == 1 && _accumulator.ToString().Contains(Value.ToString())))
         {
             return;
         }

@@ -1,0 +1,2490 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="7/20/2020 3:44:47 PM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ETP025"
+  DTS:CreatorName="ELTRANSPLUS\andreydruzhinin"
+  DTS:DTSID="{286530E5-113B-492B-B71C-2DD6664F7D73}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.71"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package3"
+  DTS:PackageType="5"
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{FF1085FC-30C5-4C41-A1E0-0B335BC36F4D}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Main"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:DTSID="{97EBE1E2-8E47-4376-82DB-5D6556AEE457}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Main"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Main\Query"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="Query"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT
+ articuls.id
+ ,articuls.brand_id
+ ,articuls.mark_id
+ ,articuls.model_id
+ ,articuls.declaration_id
+ ,articuls.customer_id
+ ,articuls.producer_id
+
+,LEFT(articuls.articul, 512) AS articuls_articul
+,LEFT(articuls.name, 2048) AS articuls_name
+,LEFT(articuls.code_tnved, 10) AS articuls_code_tnved
+,LEFT(articuls.product, 10) AS product
+,LEFT(articuls.descr, 2048) AS descr
+
+,LEFT(brands.name, 512) AS brands_name
+,LEFT(declarations.reg_num, 100) AS reg_num
+,declarations.reg_num_date
+,LEFT(customers_art.name, 300) AS customers_art_name
+,LEFT(customers_art.inn, 12) AS customers_art_inn
+,LEFT(customers_inv.name, 300) AS customers_inv_name
+,LEFT(customers_inv.inn, 12) AS customers_inv_inn
+,LEFT(models_art.name, 512) AS models_art_name
+,LEFT(models_inv.name, 512) AS models_inv_name
+,LEFT(marks_art.name, 512) AS marks_art_name
+,LEFT(marks_inv.name, 512) AS marks_inv_name
+,LEFT(producers_art.name, 512) AS producers_art_name
+,LEFT(producers_inv.name, 512) AS producers_inv_name
+
+,LEFT(invoices.articul, 512) AS invoices_articul
+,LEFT(invoices.name, 2048) AS invoices_name
+,LEFT(invoices.other_1, 2048) AS other_1
+,LEFT(invoices.code_tnved, 10) AS invoices_code_tnved
+,LEFT(invoices.code_classificate, 10) AS code_classificate
+,invoices.price_unit
+,LEFT(invoices.brutto_unit, 100) AS brutto_unit
+,LEFT(invoices.netto_unit, 100) AS netto_unit
+,LEFT(invoices.other_5, 2048) AS other_5
+,LEFT(invoices.country, 100) AS country
+,LEFT(invoices.country_code, 100) AS country_code
+,LEFT(invoices.code_okp, 100) AS code_okp
+,LEFT(invoices.contract, 100) AS [contract]
+,invoices.contract_date
+,LEFT(invoices.DS, 100) AS DS
+,invoices.DS_begin_date
+,invoices.DS_end_date
+,LEFT(invoices.ozonka, 100) AS ozonka
+,invoices.ozonka_date
+,LEFT(invoices.SGR, 100) AS SGR
+,invoices.SGR_date
+,LEFT(invoices.spirt, 100) AS spirt
+,invoices.spirt_date
+,LEFT(invoices.notification, 100) AS [notification]
+,invoices.notification_date
+,LEFT(invoices.reg_udost, 100) AS reg_udost
+,invoices.reg_udost_begin_date
+,invoices.reg_udost_end_date
+,LEFT(invoices.nds, 100) AS nds
+,LEFT(invoices.confirmation, 100) AS confirmation
+,LEFT(invoices.agreement, 100) AS agreement
+,LEFT(invoices.other_docs, 100) AS other_docs
+,invoices.doc_begin_date
+,invoices.doc_end_date
+,LEFT(invoices.color, 100) AS color
+,LEFT(invoices.size, 100) AS size
+,LEFT(invoices.DT_number, 100) AS DT_number
+,LEFT(invoices.invoice, 100) AS invoice
+,invoices.invoice_date
+,invoices.doc_date
+,invoices.is_old
+
+,LEFT(CONCAT(articuls.descr, articuls.name), 1024) AS fulltext_field
+,dd.[Delivery No_] AS delivery_number
+
+FROM webproject.dbo.articuls AS articuls
+LEFT JOIN webproject.dbo.invoices AS invoices ON invoices.id = articuls.invoice_id
+LEFT JOIN webproject.dbo.declarations AS declarations ON declarations.id = articuls.declaration_id
+LEFT JOIN webproject.dbo.brands AS brands ON brands.id = articuls.brand_id
+LEFT JOIN webproject.dbo.models AS models_art ON models_art.id = articuls.model_id
+LEFT JOIN webproject.dbo.models AS models_inv ON models_inv.id = invoices.model_id
+LEFT JOIN webproject.dbo.customers AS customers_art ON customers_art.id = articuls.customer_id
+LEFT JOIN webproject.dbo.customers AS customers_inv ON customers_inv.id = invoices.customer_id
+LEFT JOIN webproject.dbo.marks AS marks_art ON marks_art.id = articuls.mark_id
+LEFT JOIN webproject.dbo.marks AS marks_inv ON marks_inv.id = invoices.mark_id
+LEFT JOIN webproject.dbo.producers AS producers_art ON producers_art.id = articuls.producer_id
+LEFT JOIN webproject.dbo.producers AS producers_inv ON producers_inv.id = invoices.producer_id
+LEFT JOIN 
+(SELECT 
+	   ROW_NUMBER() OVER (PARTITION BY [Custom Declaration No_] ORDER BY (SELECT NULL)) AS rownum
+      ,[Custom Declaration No_]    
+      ,[Delivery No_]     
+FROM [ETP].[dbo].[ETP$Custom Declaration to Object]
+WHERE [Log_ Object Type] = 2 AND [Custom Declaration Date] &gt;= '20180101') AS dd ON dd.rownum = 1 AND dd.[Custom Declaration No_] = declarations.reg_num COLLATE Cyrillic_General_CI_AS
+WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.id = articuls.id)</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="The Source database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the mode to retrieve external column information"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Main\Query.Connections[IDbConnection]"
+                  connectionManagerID="{D0F12EF9-606D-48B9-8156-106830717504}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.0.0.33.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Main\Query.Outputs[ADO NET Source Output]"
+                  name="ADO NET Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[id]"
+                      name="id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brand_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[brand_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brand_id]"
+                      name="brand_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[mark_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[mark_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[mark_id]"
+                      name="mark_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[model_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[model_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[model_id]"
+                      name="model_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[declaration_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[declaration_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[declaration_id]"
+                      name="declaration_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customer_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customer_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customer_id]"
+                      name="customer_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producer_id]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producer_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producer_id]"
+                      name="producer_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_articul]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[articuls_articul]"
+                      length="500"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_articul]"
+                      name="articuls_articul"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_name]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[articuls_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_name]"
+                      name="articuls_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_code_tnved]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[articuls_code_tnved]"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_code_tnved]"
+                      name="articuls_code_tnved"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[product]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[product]"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[product]"
+                      name="product"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[descr]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[descr]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[descr]"
+                      name="descr"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brands_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[brands_name]"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brands_name]"
+                      name="brands_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_num]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_num]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_num]"
+                      name="reg_num"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_num_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_num_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_num_date]"
+                      name="reg_num_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_art_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_art_name]"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_art_name]"
+                      name="customers_art_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_art_inn]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_art_inn]"
+                      length="12"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_art_inn]"
+                      name="customers_art_inn"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_inv_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_inv_name]"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_inv_name]"
+                      name="customers_inv_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_inv_inn]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_inv_inn]"
+                      length="12"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_inv_inn]"
+                      name="customers_inv_inn"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[models_art_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[models_art_name]"
+                      length="512"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[models_art_name]"
+                      name="models_art_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[models_inv_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[models_inv_name]"
+                      length="512"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[models_inv_name]"
+                      name="models_inv_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[marks_art_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[marks_art_name]"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[marks_art_name]"
+                      name="marks_art_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[marks_inv_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[marks_inv_name]"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[marks_inv_name]"
+                      name="marks_inv_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_art_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_art_name]"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_art_name]"
+                      name="producers_art_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_inv_name]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_inv_name]"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_inv_name]"
+                      name="producers_inv_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_articul]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoices_articul]"
+                      length="512"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_articul]"
+                      name="invoices_articul"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_name]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoices_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_name]"
+                      name="invoices_name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_1]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[other_1]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_1]"
+                      name="other_1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_code_tnved]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoices_code_tnved]"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_code_tnved]"
+                      name="invoices_code_tnved"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[code_classificate]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[code_classificate]"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[code_classificate]"
+                      name="code_classificate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[price_unit]"
+                      dataType="numeric"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[price_unit]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[price_unit]"
+                      name="price_unit"
+                      precision="20"
+                      scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brutto_unit]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[brutto_unit]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brutto_unit]"
+                      name="brutto_unit"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[netto_unit]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[netto_unit]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[netto_unit]"
+                      name="netto_unit"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_5]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[other_5]"
+                      length="2048"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_5]"
+                      name="other_5"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[country]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[country]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[country]"
+                      name="country"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[country_code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[country_code]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[country_code]"
+                      name="country_code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[code_okp]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[code_okp]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[code_okp]"
+                      name="code_okp"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[contract]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[contract]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[contract]"
+                      name="contract"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[contract_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[contract_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[contract_date]"
+                      name="contract_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DS]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS]"
+                      name="DS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS_begin_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DS_begin_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS_begin_date]"
+                      name="DS_begin_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS_end_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DS_end_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS_end_date]"
+                      name="DS_end_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[ozonka]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[ozonka]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[ozonka]"
+                      name="ozonka"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[ozonka_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[ozonka_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[ozonka_date]"
+                      name="ozonka_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[SGR]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[SGR]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[SGR]"
+                      name="SGR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[SGR_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[SGR_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[SGR_date]"
+                      name="SGR_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[spirt]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[spirt]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[spirt]"
+                      name="spirt"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[spirt_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[spirt_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[spirt_date]"
+                      name="spirt_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[notification]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[notification]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[notification]"
+                      name="notification"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[notification_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[notification_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[notification_date]"
+                      name="notification_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_udost]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost]"
+                      name="reg_udost"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost_begin_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_udost_begin_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost_begin_date]"
+                      name="reg_udost_begin_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost_end_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_udost_end_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost_end_date]"
+                      name="reg_udost_end_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[nds]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[nds]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[nds]"
+                      name="nds"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[confirmation]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[confirmation]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[confirmation]"
+                      name="confirmation"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[agreement]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[agreement]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[agreement]"
+                      name="agreement"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_docs]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[other_docs]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_docs]"
+                      name="other_docs"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_begin_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[doc_begin_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_begin_date]"
+                      name="doc_begin_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_end_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[doc_end_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_end_date]"
+                      name="doc_end_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[color]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[color]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[color]"
+                      name="color"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[size]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[size]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[size]"
+                      name="size"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DT_number]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DT_number]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DT_number]"
+                      name="DT_number"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoice]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoice]"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoice]"
+                      name="invoice"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoice_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoice_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoice_date]"
+                      name="invoice_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_date]"
+                      dataType="dbDate"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[doc_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_date]"
+                      name="doc_date"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[is_old]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[is_old]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[is_old]"
+                      name="is_old"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[fulltext_field]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[fulltext_field]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[fulltext_field]"
+                      name="fulltext_field"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[delivery_number]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[delivery_number]"
+                      length="20"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[delivery_number]"
+                      name="delivery_number"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[brand_id]"
+                      dataType="i4"
+                      name="brand_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[mark_id]"
+                      dataType="i4"
+                      name="mark_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[model_id]"
+                      dataType="i4"
+                      name="model_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[declaration_id]"
+                      dataType="i4"
+                      name="declaration_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customer_id]"
+                      dataType="i4"
+                      name="customer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producer_id]"
+                      dataType="i4"
+                      name="producer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[articuls_articul]"
+                      dataType="wstr"
+                      length="500"
+                      name="articuls_articul" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[articuls_name]"
+                      dataType="nText"
+                      name="articuls_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[articuls_code_tnved]"
+                      dataType="wstr"
+                      length="10"
+                      name="articuls_code_tnved" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[product]"
+                      dataType="wstr"
+                      length="10"
+                      name="product" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[descr]"
+                      dataType="nText"
+                      name="descr" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[brands_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="brands_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_num]"
+                      dataType="wstr"
+                      length="100"
+                      name="reg_num" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_num_date]"
+                      dataType="dbDate"
+                      name="reg_num_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_art_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="customers_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_art_inn]"
+                      dataType="wstr"
+                      length="12"
+                      name="customers_art_inn" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_inv_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="customers_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[customers_inv_inn]"
+                      dataType="wstr"
+                      length="12"
+                      name="customers_inv_inn" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[models_art_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="models_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[models_inv_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="models_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[marks_art_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="marks_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[marks_inv_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="marks_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_art_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="producers_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_inv_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="producers_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoices_articul]"
+                      dataType="wstr"
+                      length="512"
+                      name="invoices_articul" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoices_name]"
+                      dataType="nText"
+                      name="invoices_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[other_1]"
+                      dataType="nText"
+                      name="other_1" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoices_code_tnved]"
+                      dataType="wstr"
+                      length="10"
+                      name="invoices_code_tnved" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[code_classificate]"
+                      dataType="wstr"
+                      length="10"
+                      name="code_classificate" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[price_unit]"
+                      dataType="numeric"
+                      name="price_unit"
+                      precision="20"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[brutto_unit]"
+                      dataType="wstr"
+                      length="100"
+                      name="brutto_unit" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[netto_unit]"
+                      dataType="wstr"
+                      length="100"
+                      name="netto_unit" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[other_5]"
+                      dataType="wstr"
+                      length="2048"
+                      name="other_5" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[country]"
+                      dataType="wstr"
+                      length="100"
+                      name="country" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[country_code]"
+                      dataType="wstr"
+                      length="100"
+                      name="country_code" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[code_okp]"
+                      dataType="wstr"
+                      length="100"
+                      name="code_okp" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[contract]"
+                      dataType="wstr"
+                      length="100"
+                      name="contract" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[contract_date]"
+                      dataType="dbDate"
+                      name="contract_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DS]"
+                      dataType="wstr"
+                      length="100"
+                      name="DS" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DS_begin_date]"
+                      dataType="dbDate"
+                      name="DS_begin_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DS_end_date]"
+                      dataType="dbDate"
+                      name="DS_end_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[ozonka]"
+                      dataType="wstr"
+                      length="100"
+                      name="ozonka" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[ozonka_date]"
+                      dataType="dbDate"
+                      name="ozonka_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[SGR]"
+                      dataType="wstr"
+                      length="100"
+                      name="SGR" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[SGR_date]"
+                      dataType="dbDate"
+                      name="SGR_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[spirt]"
+                      dataType="wstr"
+                      length="100"
+                      name="spirt" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[spirt_date]"
+                      dataType="dbDate"
+                      name="spirt_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[notification]"
+                      dataType="wstr"
+                      length="100"
+                      name="notification" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[notification_date]"
+                      dataType="dbDate"
+                      name="notification_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_udost]"
+                      dataType="wstr"
+                      length="100"
+                      name="reg_udost" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_udost_begin_date]"
+                      dataType="dbDate"
+                      name="reg_udost_begin_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[reg_udost_end_date]"
+                      dataType="dbDate"
+                      name="reg_udost_end_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[nds]"
+                      dataType="wstr"
+                      length="100"
+                      name="nds" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[confirmation]"
+                      dataType="wstr"
+                      length="100"
+                      name="confirmation" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[agreement]"
+                      dataType="wstr"
+                      length="100"
+                      name="agreement" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[other_docs]"
+                      dataType="wstr"
+                      length="100"
+                      name="other_docs" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[doc_begin_date]"
+                      dataType="dbDate"
+                      name="doc_begin_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[doc_end_date]"
+                      dataType="dbDate"
+                      name="doc_end_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[color]"
+                      dataType="wstr"
+                      length="100"
+                      name="color" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[size]"
+                      dataType="wstr"
+                      length="100"
+                      name="size" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[DT_number]"
+                      dataType="wstr"
+                      length="100"
+                      name="DT_number" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoice]"
+                      dataType="wstr"
+                      length="100"
+                      name="invoice" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoice_date]"
+                      dataType="dbDate"
+                      name="invoice_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[doc_date]"
+                      dataType="dbDate"
+                      name="doc_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[is_old]"
+                      dataType="i4"
+                      name="is_old" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[fulltext_field]"
+                      dataType="nText"
+                      name="fulltext_field" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[delivery_number]"
+                      dataType="wstr"
+                      length="20"
+                      name="delivery_number" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Main\Query.Outputs[ADO NET Source Error Output]"
+                  isErrorOut="true"
+                  name="ADO NET Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[id]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[id]"
+                      name="id" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[brand_id]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[brand_id]"
+                      name="brand_id" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[mark_id]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[mark_id]"
+                      name="mark_id" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[model_id]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[model_id]"
+                      name="model_id" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[declaration_id]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[declaration_id]"
+                      name="declaration_id" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customer_id]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customer_id]"
+                      name="customer_id" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producer_id]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producer_id]"
+                      name="producer_id" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[articuls_articul]"
+                      dataType="wstr"
+                      length="500"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[articuls_articul]"
+                      name="articuls_articul" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[articuls_name]"
+                      dataType="nText"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[articuls_name]"
+                      name="articuls_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[articuls_code_tnved]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[articuls_code_tnved]"
+                      name="articuls_code_tnved" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[product]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[product]"
+                      name="product" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[descr]"
+                      dataType="nText"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[descr]"
+                      name="descr" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[brands_name]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[brands_name]"
+                      name="brands_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_num]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_num]"
+                      name="reg_num" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_num_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_num_date]"
+                      name="reg_num_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_art_name]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_art_name]"
+                      name="customers_art_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_art_inn]"
+                      dataType="wstr"
+                      length="12"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_art_inn]"
+                      name="customers_art_inn" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_inv_name]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_inv_name]"
+                      name="customers_inv_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_inv_inn]"
+                      dataType="wstr"
+                      length="12"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[customers_inv_inn]"
+                      name="customers_inv_inn" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[models_art_name]"
+                      dataType="wstr"
+                      length="512"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[models_art_name]"
+                      name="models_art_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[models_inv_name]"
+                      dataType="wstr"
+                      length="512"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[models_inv_name]"
+                      name="models_inv_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[marks_art_name]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[marks_art_name]"
+                      name="marks_art_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[marks_inv_name]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[marks_inv_name]"
+                      name="marks_inv_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_art_name]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_art_name]"
+                      name="producers_art_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_inv_name]"
+                      dataType="wstr"
+                      length="300"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_inv_name]"
+                      name="producers_inv_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoices_articul]"
+                      dataType="wstr"
+                      length="512"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoices_articul]"
+                      name="invoices_articul" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoices_name]"
+                      dataType="nText"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoices_name]"
+                      name="invoices_name" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[other_1]"
+                      dataType="nText"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[other_1]"
+                      name="other_1" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoices_code_tnved]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoices_code_tnved]"
+                      name="invoices_code_tnved" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[code_classificate]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[code_classificate]"
+                      name="code_classificate" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[price_unit]"
+                      dataType="numeric"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[price_unit]"
+                      name="price_unit"
+                      precision="20"
+                      scale="2" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[brutto_unit]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[brutto_unit]"
+                      name="brutto_unit" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[netto_unit]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[netto_unit]"
+                      name="netto_unit" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[other_5]"
+                      dataType="wstr"
+                      length="2048"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[other_5]"
+                      name="other_5" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[country]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[country]"
+                      name="country" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[country_code]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[country_code]"
+                      name="country_code" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[code_okp]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[code_okp]"
+                      name="code_okp" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[contract]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[contract]"
+                      name="contract" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[contract_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[contract_date]"
+                      name="contract_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DS]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DS]"
+                      name="DS" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DS_begin_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DS_begin_date]"
+                      name="DS_begin_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DS_end_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DS_end_date]"
+                      name="DS_end_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ozonka]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ozonka]"
+                      name="ozonka" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ozonka_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ozonka_date]"
+                      name="ozonka_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[SGR]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[SGR]"
+                      name="SGR" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[SGR_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[SGR_date]"
+                      name="SGR_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[spirt]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[spirt]"
+                      name="spirt" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[spirt_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[spirt_date]"
+                      name="spirt_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[notification]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[notification]"
+                      name="notification" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[notification_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[notification_date]"
+                      name="notification_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_udost]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_udost]"
+                      name="reg_udost" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_udost_begin_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_udost_begin_date]"
+                      name="reg_udost_begin_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_udost_end_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[reg_udost_end_date]"
+                      name="reg_udost_end_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[nds]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[nds]"
+                      name="nds" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[confirmation]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[confirmation]"
+                      name="confirmation" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[agreement]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[agreement]"
+                      name="agreement" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[other_docs]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[other_docs]"
+                      name="other_docs" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[doc_begin_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[doc_begin_date]"
+                      name="doc_begin_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[doc_end_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[doc_end_date]"
+                      name="doc_end_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[color]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[color]"
+                      name="color" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[size]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[size]"
+                      name="size" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DT_number]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[DT_number]"
+                      name="DT_number" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoice]"
+                      dataType="wstr"
+                      length="100"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoice]"
+                      name="invoice" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoice_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[invoice_date]"
+                      name="invoice_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[doc_date]"
+                      dataType="dbDate"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[doc_date]"
+                      name="doc_date" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[is_old]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[is_old]"
+                      name="is_old" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[fulltext_field]"
+                      dataType="nText"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[fulltext_field]"
+                      name="fulltext_field" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[delivery_number]"
+                      dataType="wstr"
+                      length="20"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[delivery_number]"
+                      name="delivery_number" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Main\Table"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="Table"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">webproject.dbo.articuls_front</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Main\Table.Connections[IDbConnection]"
+                  connectionManagerID="{D0F12EF9-606D-48B9-8156-106830717504}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.0.0.33.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Main\Table.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[id]"
+                      cachedDataType="i4"
+                      cachedName="id"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[id]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[brand_id]"
+                      cachedDataType="i4"
+                      cachedName="brand_id"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[brand_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brand_id]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[mark_id]"
+                      cachedDataType="i4"
+                      cachedName="mark_id"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[mark_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[mark_id]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[model_id]"
+                      cachedDataType="i4"
+                      cachedName="model_id"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[model_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[model_id]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[declaration_id]"
+                      cachedDataType="i4"
+                      cachedName="declaration_id"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[declaration_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[declaration_id]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[customer_id]"
+                      cachedDataType="i4"
+                      cachedName="customer_id"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customer_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customer_id]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[producer_id]"
+                      cachedDataType="i4"
+                      cachedName="producer_id"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producer_id]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producer_id]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[articuls_articul]"
+                      cachedDataType="wstr"
+                      cachedLength="500"
+                      cachedName="articuls_articul"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[articuls_articul]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_articul]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[articuls_name]"
+                      cachedDataType="nText"
+                      cachedName="articuls_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[articuls_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[articuls_code_tnved]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="articuls_code_tnved"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[articuls_code_tnved]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[articuls_code_tnved]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[product]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="product"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[product]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[product]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[descr]"
+                      cachedDataType="nText"
+                      cachedName="descr"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[descr]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[descr]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[brands_name]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="brands_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[brands_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brands_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[reg_num]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="reg_num"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_num]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_num]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[reg_num_date]"
+                      cachedDataType="dbDate"
+                      cachedName="reg_num_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_num_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_num_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[customers_art_name]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="customers_art_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_art_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_art_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[customers_art_inn]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="customers_art_inn"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_art_inn]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_art_inn]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[customers_inv_name]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="customers_inv_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_inv_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_inv_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[customers_inv_inn]"
+                      cachedDataType="wstr"
+                      cachedLength="12"
+                      cachedName="customers_inv_inn"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_inv_inn]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[customers_inv_inn]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[models_art_name]"
+                      cachedDataType="wstr"
+                      cachedLength="512"
+                      cachedName="models_art_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[models_art_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[models_art_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[models_inv_name]"
+                      cachedDataType="wstr"
+                      cachedLength="512"
+                      cachedName="models_inv_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[models_inv_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[models_inv_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[marks_art_name]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="marks_art_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[marks_art_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[marks_art_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[marks_inv_name]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="marks_inv_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[marks_inv_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[marks_inv_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[producers_art_name]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="producers_art_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producers_art_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_art_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[producers_inv_name]"
+                      cachedDataType="wstr"
+                      cachedLength="300"
+                      cachedName="producers_inv_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producers_inv_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_inv_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[invoices_articul]"
+                      cachedDataType="wstr"
+                      cachedLength="512"
+                      cachedName="invoices_articul"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoices_articul]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_articul]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[invoices_name]"
+                      cachedDataType="nText"
+                      cachedName="invoices_name"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoices_name]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_name]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[other_1]"
+                      cachedDataType="nText"
+                      cachedName="other_1"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[other_1]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_1]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[invoices_code_tnved]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="invoices_code_tnved"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoices_code_tnved]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoices_code_tnved]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[code_classificate]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="code_classificate"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[code_classificate]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[code_classificate]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[price_unit]"
+                      cachedDataType="numeric"
+                      cachedName="price_unit"
+                      cachedPrecision="20"
+                      cachedScale="2"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[price_unit]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[price_unit]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[brutto_unit]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="brutto_unit"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[brutto_unit]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[brutto_unit]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[netto_unit]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="netto_unit"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[netto_unit]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[netto_unit]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[other_5]"
+                      cachedDataType="wstr"
+                      cachedLength="2048"
+                      cachedName="other_5"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[other_5]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_5]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[country]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="country"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[country]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[country]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[country_code]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="country_code"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[country_code]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[country_code]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[code_okp]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="code_okp"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[code_okp]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[code_okp]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[contract]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="contract"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[contract]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[contract]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[contract_date]"
+                      cachedDataType="dbDate"
+                      cachedName="contract_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[contract_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[contract_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[DS]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DS"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DS]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[DS_begin_date]"
+                      cachedDataType="dbDate"
+                      cachedName="DS_begin_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DS_begin_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS_begin_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[DS_end_date]"
+                      cachedDataType="dbDate"
+                      cachedName="DS_end_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DS_end_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DS_end_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[ozonka]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="ozonka"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ozonka]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[ozonka]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[ozonka_date]"
+                      cachedDataType="dbDate"
+                      cachedName="ozonka_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ozonka_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[ozonka_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[SGR]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="SGR"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[SGR]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[SGR]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[SGR_date]"
+                      cachedDataType="dbDate"
+                      cachedName="SGR_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[SGR_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[SGR_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[spirt]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="spirt"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[spirt]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[spirt]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[spirt_date]"
+                      cachedDataType="dbDate"
+                      cachedName="spirt_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[spirt_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[spirt_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[notification]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="notification"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[notification]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[notification]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[notification_date]"
+                      cachedDataType="dbDate"
+                      cachedName="notification_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[notification_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[notification_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[reg_udost]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="reg_udost"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_udost]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[reg_udost_begin_date]"
+                      cachedDataType="dbDate"
+                      cachedName="reg_udost_begin_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_udost_begin_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost_begin_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[reg_udost_end_date]"
+                      cachedDataType="dbDate"
+                      cachedName="reg_udost_end_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_udost_end_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[reg_udost_end_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[nds]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="nds"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[nds]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[nds]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[confirmation]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="confirmation"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[confirmation]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[confirmation]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[agreement]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="agreement"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[agreement]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[agreement]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[other_docs]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="other_docs"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[other_docs]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[other_docs]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[doc_begin_date]"
+                      cachedDataType="dbDate"
+                      cachedName="doc_begin_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[doc_begin_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_begin_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[doc_end_date]"
+                      cachedDataType="dbDate"
+                      cachedName="doc_end_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[doc_end_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_end_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[color]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="color"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[color]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[color]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[size]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="size"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[size]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[size]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[DT_number]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="DT_number"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DT_number]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[DT_number]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[invoice]"
+                      cachedDataType="wstr"
+                      cachedLength="100"
+                      cachedName="invoice"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoice]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoice]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[invoice_date]"
+                      cachedDataType="dbDate"
+                      cachedName="invoice_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoice_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[invoice_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[doc_date]"
+                      cachedDataType="dbDate"
+                      cachedName="doc_date"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[doc_date]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[doc_date]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[is_old]"
+                      cachedDataType="i4"
+                      cachedName="is_old"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[is_old]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[is_old]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[fulltext_field]"
+                      cachedDataType="nText"
+                      cachedName="fulltext_field"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[fulltext_field]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[fulltext_field]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[delivery_number]"
+                      cachedDataType="wstr"
+                      cachedLength="20"
+                      cachedName="delivery_number"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_number]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[delivery_number]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[id]"
+                      dataType="i4"
+                      name="id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[brand_id]"
+                      dataType="i4"
+                      name="brand_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[mark_id]"
+                      dataType="i4"
+                      name="mark_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[model_id]"
+                      dataType="i4"
+                      name="model_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[declaration_id]"
+                      dataType="i4"
+                      name="declaration_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customer_id]"
+                      dataType="i4"
+                      name="customer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producer_id]"
+                      dataType="i4"
+                      name="producer_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[articuls_articul]"
+                      dataType="wstr"
+                      length="512"
+                      name="articuls_articul" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[articuls_name]"
+                      dataType="wstr"
+                      length="2048"
+                      name="articuls_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[articuls_code_tnved]"
+                      dataType="wstr"
+                      length="10"
+                      name="articuls_code_tnved" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[product]"
+                      dataType="wstr"
+                      length="10"
+                      name="product" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[descr]"
+                      dataType="wstr"
+                      length="2048"
+                      name="descr" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[brands_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="brands_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_num]"
+                      dataType="wstr"
+                      length="100"
+                      name="reg_num" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_num_date]"
+                      dataType="dbTimeStamp"
+                      name="reg_num_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_art_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="customers_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_art_inn]"
+                      dataType="wstr"
+                      length="12"
+                      name="customers_art_inn" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_inv_name]"
+                      dataType="wstr"
+                      length="300"
+                      name="customers_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[customers_inv_inn]"
+                      dataType="wstr"
+                      length="12"
+                      name="customers_inv_inn" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[models_art_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="models_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[models_inv_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="models_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[marks_art_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="marks_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[marks_inv_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="marks_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producers_art_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="producers_art_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producers_inv_name]"
+                      dataType="wstr"
+                      length="512"
+                      name="producers_inv_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoices_articul]"
+                      dataType="wstr"
+                      length="512"
+                      name="invoices_articul" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoices_name]"
+                      dataType="wstr"
+                      length="2048"
+                      name="invoices_name" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[other_1]"
+                      dataType="wstr"
+                      length="2048"
+                      name="other_1" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoices_code_tnved]"
+                      dataType="wstr"
+                      length="10"
+                      name="invoices_code_tnved" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[code_classificate]"
+                      dataType="wstr"
+                      length="10"
+                      name="code_classificate" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[price_unit]"
+                      dataType="numeric"
+                      name="price_unit"
+                      precision="20"
+                      scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[brutto_unit]"
+                      dataType="wstr"
+                      length="100"
+                      name="brutto_unit" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[netto_unit]"
+                      dataType="wstr"
+                      length="100"
+                      name="netto_unit" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[other_5]"
+                      dataType="wstr"
+                      length="2048"
+                      name="other_5" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[country]"
+                      dataType="wstr"
+                      length="100"
+                      name="country" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[country_code]"
+                      dataType="wstr"
+                      length="100"
+                      name="country_code" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[code_okp]"
+                      dataType="wstr"
+                      length="100"
+                      name="code_okp" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[contract]"
+                      dataType="wstr"
+                      length="100"
+                      name="contract" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[contract_date]"
+                      dataType="dbTimeStamp"
+                      name="contract_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DS]"
+                      dataType="wstr"
+                      length="100"
+                      name="DS" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DS_begin_date]"
+                      dataType="dbTimeStamp"
+                      name="DS_begin_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DS_end_date]"
+                      dataType="dbTimeStamp"
+                      name="DS_end_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ozonka]"
+                      dataType="wstr"
+                      length="100"
+                      name="ozonka" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ozonka_date]"
+                      dataType="dbTimeStamp"
+                      name="ozonka_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[SGR]"
+                      dataType="wstr"
+                      length="100"
+                      name="SGR" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[SGR_date]"
+                      dataType="dbTimeStamp"
+                      name="SGR_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[spirt]"
+                      dataType="wstr"
+                      length="100"
+                      name="spirt" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[spirt_date]"
+                      dataType="dbTimeStamp"
+                      name="spirt_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[notification]"
+                      dataType="wstr"
+                      length="100"
+                      name="notification" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[notification_date]"
+                      dataType="dbTimeStamp"
+                      name="notification_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_udost]"
+                      dataType="wstr"
+                      length="100"
+                      name="reg_udost" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_udost_begin_date]"
+                      dataType="dbTimeStamp"
+                      name="reg_udost_begin_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[reg_udost_end_date]"
+                      dataType="dbTimeStamp"
+                      name="reg_udost_end_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[nds]"
+                      dataType="wstr"
+                      length="100"
+                      name="nds" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[confirmation]"
+                      dataType="wstr"
+                      length="100"
+                      name="confirmation" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[agreement]"
+                      dataType="wstr"
+                      length="100"
+                      name="agreement" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[other_docs]"
+                      dataType="wstr"
+                      length="100"
+                      name="other_docs" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[doc_begin_date]"
+                      dataType="dbTimeStamp"
+                      name="doc_begin_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[doc_end_date]"
+                      dataType="dbTimeStamp"
+                      name="doc_end_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[color]"
+                      dataType="wstr"
+                      length="100"
+                      name="color" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[size]"
+                      dataType="wstr"
+                      length="100"
+                      name="size" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[DT_number]"
+                      dataType="wstr"
+                      length="100"
+                      name="DT_number" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoice]"
+                      dataType="wstr"
+                      length="100"
+                      name="invoice" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[invoice_date]"
+                      dataType="dbTimeStamp"
+                      name="invoice_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[doc_date]"
+                      dataType="dbTimeStamp"
+                      name="doc_date" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[is_old]"
+                      dataType="i4"
+                      name="is_old" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[fulltext_field]"
+                      dataType="wstr"
+                      length="1024"
+                      name="fulltext_field" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_number]"
+                      dataType="wstr"
+                      length="20"
+                      name="delivery_number" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Main\Table.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\Main\Table.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Main\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Main\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Main\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Main\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Main.Paths[ADO NET Source Output]"
+              endId="Package\Main\Table.Inputs[ADO NET Destination Input]"
+              name="ADO NET Source Output"
+              startId="Package\Main\Query.Outputs[ADO NET Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="101,42"
+          Id="Package\Main"
+          TopLeft="157,53" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Main">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Main\Query"
+          TopLeft="245,58" />
+        <NodeLayout
+          Size="105,42"
+          Id="Package\Main\Table"
+          TopLeft="241,127" />
+        <EdgeLayout
+          Id="Package\Main.Paths[ADO NET Source Output]"
+          TopLeft="296,100">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,27"
+              Start="0,0"
+              End="0,19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,19.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Main\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Main\Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

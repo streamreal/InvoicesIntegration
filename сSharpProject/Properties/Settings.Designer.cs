@@ -42,5 +42,15 @@ namespace сSharpProject.Properties {
                 return ((string)(this["webprojectConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=10.10.0.28;Initial Catalog=BI;Integrated Security=True")]
+        public string BIConnectionString {
+            get {
+                return ((string)(this["BIConnectionString"]));
+            }
+        }
     }
 }
