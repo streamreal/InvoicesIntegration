@@ -11,12 +11,38 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package3"
   DTS:PackageType="5"
-  DTS:VersionBuild="59"
-  DTS:VersionGUID="{5C11A51B-F72E-4094-9BB9-AA7633C9AF10}">
+  DTS:VersionBuild="121"
+  DTS:VersionGUID="{39A20B64-8E42-4BF5-AD68-5D1459AA3086}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
-  <DTS:Variables />
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{1A2E678A-BC7C-4D8D-AEC8-03BF4B400642}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="depth_months">
+      <DTS:VariableValue
+        DTS:DataType="3">1</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
   <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Delete add roles"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{74FD6FC9-1405-49B5-8B47-9C035B459966}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Delete add roles"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="DELETE&#xA;FROM [motivation].[dbo].[ttr_workers]&#xA;WHERE role_type = 2" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
     <DTS:Executable
       DTS:refId="Package\Reload add roles"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
@@ -30,7 +56,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="DELETE&#xA;FROM [motivation].[dbo].[ttr_workers]&#xA;WHERE role_type = 2&#xA;GO&#xA;DECLARE @start [date] = CAST(DATEFROMPARTS(YEAR(DATEADD(MONTH, -2, GETDATE())), MONTH(DATEADD(MONTH, -2, GETDATE())), 1) AS datetime);&#xA;&#xA;WITH cte_search AS (&#xA;&#x9;SELECT &#xA;&#x9;DATEPART(YEAR, decision_date) AS ttr_id_year,&#xA;&#x9;DATEPART(MONTH, decision_date) AS ttr_id_month,&#xA;&#x9;[service_type_row] AS ttr_service,&#xA;&#x9;[assigned_ttr] AS ttr_assigned&#xA;&#x9;FROM [webproject].[dbo].[deals] d&#xA;&#x9;WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= @start&#xA;&#x9;UNION&#xA;&#x9;SELECT &#xA;&#x9;DATEPART(YEAR, req_calc_finish) AS ttr_id_year,&#xA;&#x9;DATEPART(MONTH, req_calc_finish) AS ttr_id_month,&#xA;&#x9;[service_type_row] AS ttr_service,&#xA;&#x9;[assigned_ttr] AS ttr_assigned&#xA;&#x9;FROM [webproject].[dbo].[deals] d&#xA;&#x9;WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= @start AND req_calc_finish &lt;= GETDATE()&#xA;),&#xA;&#xA;cte_insert AS (&#xA;&#xA;SELECT &#xA;ttr_service AS [service],&#xA;ca.SalespersonName AS [name],&#xA;ttr_assigned AS [bitrix_name],&#xA;ca.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#xA;CAST(DATEFROMPARTS(ttr_id_year, ttr_id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(ttr_id_year, ttr_id_month, 1)) AS date) AS [date_end],&#xA;'0' AS [is_archive],&#xA;'0' AS [estimate_participant],&#xA;'2' AS [role_type]&#xA;&#xA;FROM cte_search AS c&#xA;CROSS APPLY (SELECT TOP (1) * FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS sp WHERE sp.SalespersonName LIKE ttr_assigned + '%') AS ca&#xA;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;AND NOT EXISTS (&#xA;SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS w&#xA;WHERE w.code = ca.SalespersonCode AND w.[role_type] = 1&#xA;AND CAST(DATEFROMPARTS(ttr_id_year, ttr_id_month, 15) AS date) &#xA;BETWEEN w.[date_begin] AND COALESCE(w.[date_end], CAST(EOMONTH(GETDATE()) AS date))&#xA;)&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers]&#xA;([service]&#xA;      ,[name]&#xA;      ,[bitrix_name]&#xA;      ,[code]&#xA;      ,[type]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type])&#xA;SELECT [service]&#xA;      ,[name]&#xA;      ,[bitrix_name]&#xA;      ,[code]&#xA;      ,[type]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type]&#xA;&#x9;  FROM cte_insert&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DECLARE @start [date] = CAST(DATEFROMPARTS(YEAR(DATEADD(MONTH, -2, GETDATE())), MONTH(DATEADD(MONTH, -2, GETDATE())), 1) AS datetime);&#xA;&#xA;WITH cte_search AS (&#xA;&#x9;SELECT &#xA;&#x9;DATEPART(YEAR, decision_date) AS ttr_id_year,&#xA;&#x9;DATEPART(MONTH, decision_date) AS ttr_id_month,&#xA;&#x9;[service_type_row] AS ttr_service,&#xA;&#x9;[assigned_ttr] AS ttr_assigned&#xA;&#x9;FROM [webproject].[dbo].[deals] d&#xA;&#x9;WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= @start&#xA;&#x9;UNION&#xA;&#xA;&#x9;SELECT &#xA;&#x9;DATEPART(YEAR, req_calc_finish) AS ttr_id_year,&#xA;&#x9;DATEPART(MONTH, req_calc_finish) AS ttr_id_month,&#xA;&#x9;[service_type_row] AS ttr_service,&#xA;&#x9;[assigned_ttr] AS ttr_assigned&#xA;&#x9;FROM [webproject].[dbo].[deals] d&#xA;&#x9;WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND service_type_row IN ('ТО','ТЭО')&#xA;&#x9;AND req_calc_finish &gt;= @start AND req_calc_finish &lt;= GETDATE()&#xA;&#xA;&#x9;UNION&#xA;&#xA;&#x9;SELECT &#xA;&#x9;DATEPART(YEAR, calc_finish_date) AS ttr_id_year,&#xA;&#x9;DATEPART(MONTH, calc_finish_date) AS ttr_id_month,&#xA;&#x9;[service_type_row] AS ttr_service,&#xA;&#x9;[assigned_ttr] AS ttr_assigned&#xA;&#x9;FROM [webproject].[dbo].[calculation_deals] d&#xA;&#x9;WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND calc_finish_date &gt;= @start AND calc_finish_date &lt;= GETDATE()&#xA;&#xA;),&#xA;&#xA;cte_insert AS (&#xA;&#xA;SELECT &#xA;ttr_service AS [service],&#xA;ca.SalespersonName AS [name],&#xA;ttr_assigned AS [bitrix_name],&#xA;ca.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#xA;CAST(DATEFROMPARTS(ttr_id_year, ttr_id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(ttr_id_year, ttr_id_month, 1)) AS date) AS [date_end],&#xA;'0' AS [is_archive],&#xA;'0' AS [estimate_participant],&#xA;'2' AS [role_type]&#xA;&#xA;FROM cte_search AS c&#xA;CROSS APPLY (SELECT TOP (1) * FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS sp WHERE sp.SalespersonName LIKE ttr_assigned + '%') AS ca&#xA;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;AND NOT EXISTS (&#xA;SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS w&#xA;WHERE w.code = ca.SalespersonCode AND w.[role_type] = 1&#xA;AND CAST(DATEFROMPARTS(ttr_id_year, ttr_id_month, 15) AS date) &#xA;BETWEEN w.[date_begin] AND COALESCE(w.[date_end], CAST(EOMONTH(GETDATE()) AS date))&#xA;)&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers]&#xA;([service]&#xA;      ,[name]&#xA;      ,[bitrix_name]&#xA;      ,[code]&#xA;      ,[type]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type])&#xA;SELECT [service]&#xA;      ,[name]&#xA;      ,[bitrix_name]&#xA;      ,[code]&#xA;      ,[type]&#xA;      ,[schedule]&#xA;      ,[date_begin]&#xA;      ,[date_end]&#xA;      ,[is_archive]&#xA;      ,[estimate_participant]&#xA;      ,[role_type]&#xA;&#x9;  FROM cte_insert&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -43,6 +69,107 @@
       DTS:ObjectName="Reload commissions"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="[Query].[SqlCommand]">"WITH cte_deals AS (
+SELECT d.*
+,ROW_NUMBER() OVER (PARTITION BY deal_id, service_type_row ORDER BY (SELECT NULL)) AS deals_rownum
+,ROW_NUMBER() OVER (PARTITION BY deal_id ORDER BY (SELECT NULL)) AS distinct_deals_rownum
+FROM [webproject].[dbo].[deals] AS d
+),
+
+cte_commission_data AS (
+SELECT cd.* , d.*
+,ROW_NUMBER() OVER (PARTITION BY cd_parent_deal_id, cd_service_type ORDER BY (SELECT NULL)) AS commission_rownum
+FROM [webproject].[dbo].[commission_data] AS cd
+JOIN cte_deals AS d
+ON cd.cd_parent_deal_id = d.deal_id
+AND cd.cd_service_type = d.service_type_row
+AND d.deals_rownum = 1
+),
+
+cte_main AS (
+SELECT
+COALESCE(c1.[deal_id], c2.[deal_id]) AS [deal_id]
+,COALESCE(c1.[service_type], c2.[service_type]) AS [service_type]
+,COALESCE(c1.[client], c2.[client]) AS [client]
+,COALESCE(c1.[client_type], c2.[client_type]) AS [client_type]
+,COALESCE(c1.[service_type_row], c2.[service_type_row]) AS [service_type_row]
+
+,c1.margin_fact AS old_margin_fact
+,c1.[comission_date] AS old_commission_date
+,c1.[delivery_number] AS old_delivery_number
+
+,[cd_margin_fact] AS new_margin_fact
+,[cd_delivery_number] AS new_delivery_number
+,[cd_comission_date] AS new_commission_date
+
+,c1.deals_rownum
+,c1.distinct_deals_rownum
+,c2.commission_rownum
+
+,COUNT(commission_rownum) OVER (PARTITION BY COALESCE(c1.[deal_id], c2.[deal_id]), COALESCE(c1.[service_type_row], c2.[service_type_row])) AS prefiltered_commission_row_count
+
+FROM
+cte_deals AS c1 FULL JOIN cte_commission_data AS c2
+ON c1.deal_id = c2.cd_parent_deal_id
+AND c1.service_type_row = c2.cd_service_type
+AND c1.deals_rownum = c2.commission_rownum
+),
+
+cte_merged AS (
+SELECT
+c.*
+,CASE WHEN prefiltered_commission_row_count = 0 THEN [old_margin_fact] ELSE new_margin_fact END AS [margin_fact]
+,CASE WHEN prefiltered_commission_row_count = 0 THEN [old_commission_date] ELSE new_commission_date END AS [commission_date]
+,CASE WHEN prefiltered_commission_row_count = 0 THEN [old_delivery_number] ELSE new_delivery_number END AS [delivery_number]
+FROM cte_main AS c
+),
+
+cte_partition AS (
+SELECT
+ROW_NUMBER() OVER (PARTITION BY deal_id ORDER BY (SELECT NULL)) AS deal_level_pointer
+,ROW_NUMBER() OVER (PARTITION BY deal_id, service_type_row ORDER BY (SELECT NULL)) AS service_level_pointer
+,COUNT(deals_rownum) OVER (PARTITION BY deal_id, service_type_row) AS deal_row_count
+,COUNT(commission_rownum) OVER (PARTITION BY deal_id, service_type_row) AS commission_row_count
+, c.*
+, ca_delivery.close_date
+FROM cte_merged AS c
+OUTER APPLY (SELECT TOP (1) CASE WHEN [DRLLastFactDate] &gt;= '20200101' THEN [DRLLastFactDate] END AS close_date FROM [BI].[dwh].[ETP$SQL_Delivery] sd WHERE sd.No_ = c.delivery_number) AS ca_delivery
+),
+
+cte_sum AS (
+	SELECT 	
+	[deal_id]
+    ,[service_type_row]  
+    ,[client]
+	,SUM(margin_fact) AS sum_margin_fact
+	,close_date
+	,MONTH(close_date) AS [close_month]
+	,YEAR(close_date) AS [close_year]
+	FROM cte_partition AS d	
+	WHERE close_date IS NOT NULL AND [commission_date] &gt;= '20200101'
+	AND 	
+	(([commission_row_count] = 0 AND [service_level_pointer] = 1)
+    OR
+	([commission_row_count] &gt; 0 AND [commission_rownum] IS NOT NULL))
+	GROUP BY
+	[deal_id]
+    ,[service_type_row]  
+    ,[client]	
+	,close_date
+	,MONTH(close_date)
+	,YEAR(close_date)
+)
+
+	SELECT 
+	c.*, 
+	ca.code,
+	(sum_margin_fact / COUNT(*) OVER (PARTITION BY c.deal_id, c.service_type_row)) AS personal_margin
+	FROM [webproject].[dbo].[deals] AS d
+	JOIN cte_sum AS c ON d.deal_id = c.deal_id AND d.service_type_row = c.service_type_row
+	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] AS t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+	WHERE d.accept_cs = 'Y'
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, " + (DT_WSTR, 2) @[User::depth_months] + ", DATEFROMPARTS(YEAR(close_date), MONTH(close_date), 10)) AS date)"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <pipeline
           version="1">
@@ -160,7 +287,7 @@ cte_sum AS (
 	JOIN cte_sum AS c ON d.deal_id = c.deal_id AND d.service_type_row = c.service_type_row
 	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] AS t WHERE t.bitrix_name = d.assigned_ttr) AS ca
 	WHERE d.accept_cs = 'Y'
-	AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(close_date), MONTH(close_date), 10)) AS date)</property>
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(close_date), MONTH(close_date), 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -612,25 +739,8 @@ cte_sum AS (
       DTS:ObjectName="Reload main"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
-      <DTS:ObjectData>
-        <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\Reload main\Query"
-              componentClassID="Microsoft.ManagedComponentHost"
-              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
-              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
-              name="Query"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement used by the component to extract data."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">WITH cte_calendar AS (
+      <DTS:PropertyExpression
+        DTS:Name="[Query].[SqlCommand]">"WITH cte_calendar AS (
 	SELECT id_year, id_month, SUM(CAST([WorkDay] AS int)) work_days_in_month
 	FROM [BI].[dbo].[DimCalendar] dc
 	WHERE id_year &gt;= 2020
@@ -652,12 +762,18 @@ cte_work_days AS (
 	COUNT(0) work_days
 	FROM (SELECT tt.*, ROW_NUMBER() OVER (PARTITION BY [Person], [Date] ORDER BY (SELECT NULL)) rownum FROM [BI].[etl].[timesheet] tt) AS t
 	JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] AS esp ON esp.[SalespersonName] = t.[Person]
-	WHERE t.[Letter_code] = 'Я' AND t.[Date] &lt;= GETDATE() AND t.rownum = 1
+	WHERE t.[Letter_code] = 'Я' AND t.[Date] &lt; CAST(GETDATE() AS date) AND t.rownum = 1
 	GROUP BY YEAR([Date]), MONTH([Date]), esp.SalespersonCode
 ),
 
 cte_base AS (
-	SELECT [id_year], [id_month], [work_days_in_month], [name], [code], [service], [bitrix_name], [estimate_participant], COALESCE([work_days], 0) [work_days]
+	SELECT [id_year], [id_month], [work_days_in_month], [name], [code], [service], [bitrix_name], 
+	
+	CASE WHEN oa_participant.not_a_participant IS NOT NULL THEN 0
+	ELSE [estimate_participant] END AS [raw_estimate_participant], 
+	
+	COALESCE([work_days], 0) [work_days]
+
 	FROM cte_calendar c
 	
 	CROSS JOIN cte_distinct_code 
@@ -680,73 +796,96 @@ cte_base AS (
 	SELECT work_days 
 	FROM cte_work_days cte 
 	WHERE cte.id_year = c.id_year AND cte.id_month = c.id_month AND cte.code = cte_distinct_code.code) as oa_work_days
+
+	
+	OUTER APPLY (
+	SELECT 1 AS not_a_participant
+	FROM [motivation].[dbo].[calc_exceptions] AS ce
+	WHERE ce.[type] = 'ttr_specialist' AND ce.code = cte_distinct_code.code
+	) AS oa_participant
+
 ),
 
 cte_finished AS (
 	
 	SELECT
 	
-	DATEPART(YEAR, req_calc_finish) AS ttr_id_year,
-	DATEPART(MONTH, req_calc_finish) AS ttr_id_month,
-	[service_type_row] AS ttr_service,
-	[assigned_ttr] AS ttr_assigned,	
+	DATEPART(YEAR, TRY_CONVERT(date, req_calc_finish, 104)) AS ttr_id_year,
+	DATEPART(MONTH, TRY_CONVERT(date, req_calc_finish, 104)) AS ttr_id_month,
+	ttr_service,
+	ttr_assigned,	
 
 	COUNT(0) AS ttr_req_qty_all,
-	COUNT(ALL CASE WHEN request_type = 'Тендер' THEN 0 ELSE NULL END) AS ttr_req_qty_tender,
-	COUNT(ALL CASE WHEN request_type = 'Проект' THEN 0 ELSE NULL END) AS ttr_req_qty_project,
-	COUNT(ALL CASE WHEN request_type = 'Сложный' THEN 0 ELSE NULL END) AS ttr_req_qty_complex,
-	COUNT(ALL CASE WHEN request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_qty_typical,
-	COUNT(ALL CASE WHEN request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_qty_indicative,
-
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 THEN 0 ELSE NULL END) AS ttr_req_fast_qty_all,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_tender,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_project,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_complex,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_typical,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_fast_qty_indicative,
-
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 THEN 0 ELSE NULL END) AS ttr_req_slow_qty_all,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_tender,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_project,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_complex,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_typical,
-	COUNT(ALL CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ttr_req_slow_qty_indicative,
+	COUNT(ALL CASE WHEN ttr_req_qty_tender = 1 THEN 0 END) AS ttr_req_qty_tender,
+	COUNT(ALL CASE WHEN ttr_req_qty_project = 1 THEN 0 END) AS ttr_req_qty_project,
+	COUNT(ALL CASE WHEN ttr_req_qty_complex = 1 THEN 0 END) AS ttr_req_qty_complex,
+	COUNT(ALL CASE WHEN ttr_req_qty_typical = 1 THEN 0 END) AS ttr_req_qty_typical,
+	COUNT(ALL CASE WHEN ttr_req_qty_indicative = 1 THEN 0 END) AS ttr_req_qty_indicative,
+		 
+	COUNT(ALL CASE 
+	WHEN   
+	  [ttr_req_fast_qty_tender]       = 1 OR 
+      [ttr_req_fast_qty_project]	  = 1 OR
+      [ttr_req_fast_qty_complex]	  = 1 OR
+      [ttr_req_fast_qty_typical]	  = 1 OR
+      [ttr_req_fast_qty_indicative]	  = 1
+	THEN 0 END) AS ttr_req_fast_qty_all,
 	
-	SUM(COALESCE(calc_rework_num, 0)) AS ttr_rework_qty,
-	SUM(COALESCE(calc_classified_qty, 0)) AS ttr_classified_qty
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_tender = 1 THEN 0 END) AS ttr_req_fast_qty_tender,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_project = 1 THEN 0 END) AS ttr_req_fast_qty_project,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_complex = 1 THEN 0 END) AS ttr_req_fast_qty_complex,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_typical = 1 THEN 0 END) AS ttr_req_fast_qty_typical,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_indicative = 1 THEN 0 END) AS ttr_req_fast_qty_indicative,
 
-	FROM [webproject].[dbo].[deals]
-	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= '20200101'
+	COUNT(ALL CASE 
+	WHEN  [ttr_req_slow_qty_tender]       = 1 OR 
+      [ttr_req_slow_qty_project]	  = 1 OR
+      [ttr_req_slow_qty_complex]	  = 1 OR
+      [ttr_req_slow_qty_typical]	  = 1 OR
+      [ttr_req_slow_qty_indicative]	  = 1	
+	THEN 0 END) AS ttr_req_slow_qty_all,
+	
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_tender = 1 THEN 0 END) AS ttr_req_slow_qty_tender,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_project = 1 THEN 0 END) AS ttr_req_slow_qty_project,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_complex = 1 THEN 0 END) AS ttr_req_slow_qty_complex,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_typical = 1 THEN 0 END) AS ttr_req_slow_qty_typical,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_indicative = 1 THEN 0 END) AS ttr_req_slow_qty_indicative,
+
+	SUM(ttr_rework_qty) AS ttr_rework_qty,
+	SUM(ttr_classified_qty) AS ttr_classified_qty
+
+	FROM [motivation].[dbo].[ttr_request_details]
+	WHERE COALESCE(ttr_assigned, '') &lt;&gt; '' AND TRY_CONVERT(date, req_calc_finish, 104) &gt;= '20200101'
 	GROUP BY 
-	[assigned_ttr], 
-	[service_type_row],
-	DATEPART(YEAR, req_calc_finish),
-	DATEPART(MONTH, req_calc_finish)
+	ttr_assigned, 
+	ttr_service,
+	DATEPART(YEAR, TRY_CONVERT(date, req_calc_finish, 104)),
+	DATEPART(MONTH, TRY_CONVERT(date, req_calc_finish, 104))
 ),
 
 cte_result AS (
 
 	SELECT
 	
-	DATEPART(YEAR, decision_date) AS ttr_id_year,
-	DATEPART(MONTH, decision_date) AS ttr_id_month,
-	[service_type_row] AS ttr_service,
-	[assigned_ttr] AS ttr_assigned,	
+	DATEPART(YEAR, TRY_CONVERT(date, decision_date, 104)) AS ttr_id_year,
+	DATEPART(MONTH, TRY_CONVERT(date, decision_date, 104)) AS ttr_id_month,
+	ttr_service,
+	ttr_assigned,	
 
 	COUNT(0) AS ttr_des_qty_all,	
-	COUNT(ALL CASE WHEN UPPER([client_decision]) = 'ПРИНЯТО' AND CAST([comission_date] AS date) &lt; '20190101' THEN 0 ELSE NULL END) AS ttr_des_qty_accepted,
-	COUNT(ALL CASE WHEN CAST([comission_date] AS date) &gt;= '20190101' THEN 0 ELSE NULL END) AS ttr_des_qty_commission,	
-	COUNT(ALL CASE WHEN UPPER([client_decision]) = 'ИНДИКАТИВ' THEN 0 ELSE NULL END) AS ttr_des_qty_indicative,
-	COUNT(ALL CASE WHEN UPPER([client_decision]) = 'ОТКАЗ / ДОРОГО' THEN 0 ELSE NULL END) AS ttr_des_qty_rejected_expensive,
-	COUNT(ALL CASE WHEN UPPER([client_decision]) IN ('ОТКАЗ / ДОЛГО ОТВЕЧАЛИ', 'НЕ АКТУАЛЬНО', 'ОТКАЗ / ТРАНЗИТНОЕ ВРЕМЯ') THEN 0 ELSE NULL END) AS ttr_des_qty_rejected_other
+	COUNT(ALL CASE WHEN ttr_des_qty_accepted = 1 THEN 0 END) AS ttr_des_qty_accepted,
+	COUNT(ALL CASE WHEN ttr_des_qty_commission = 1 THEN 0 END) AS ttr_des_qty_commission,	
+	COUNT(ALL CASE WHEN ttr_des_qty_indicative = 1 THEN 0 END) AS ttr_des_qty_indicative,
+	COUNT(ALL CASE WHEN ttr_des_qty_rejected_expensive = 1 THEN 0 END) AS ttr_des_qty_rejected_expensive,
+	COUNT(ALL CASE WHEN ttr_des_qty_rejected_other = 1 THEN 0 END) AS ttr_des_qty_rejected_other
 
-	FROM [webproject].[dbo].[deals]
-	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= '20200101'
+	FROM [motivation].[dbo].[ttr_result_details]
+	WHERE COALESCE(ttr_assigned, '') &lt;&gt; '' AND TRY_CONVERT(date, decision_date, 104) &gt;= '20200101'
 	GROUP BY 
-	[assigned_ttr], 
-	[service_type_row],
-	DATEPART(YEAR, decision_date),
-	DATEPART(MONTH, decision_date)
+	ttr_assigned, 
+	ttr_service,
+	DATEPART(YEAR, TRY_CONVERT(date, decision_date, 104)),
+	DATEPART(MONTH, TRY_CONVERT(date, decision_date, 104))
 ),
 
 cte_marginality AS (
@@ -768,6 +907,13 @@ cte_marginality_overall AS (
 	FROM [motivation].[dbo].[ks_commissions]
 	GROUP BY
 	[close_month], [close_year]	
+),
+
+cte_bitrix_321 AS (
+	SELECT [code], [ttr_id_year], [ttr_id_month], SUM(COALESCE(ttr_classified_qty, 0)) AS ext_ttr_classified_qty
+	FROM [motivation].[dbo].[ttr_bitrix_commission_details]
+	GROUP BY
+	[code], [ttr_id_year], [ttr_id_month]
 ),
 
 cte_extended AS (
@@ -793,7 +939,7 @@ cte_base.*
 ,COALESCE(ttr_req_slow_qty_typical, 0) AS ttr_req_slow_qty_typical
 ,COALESCE(ttr_req_slow_qty_indicative, 0) AS ttr_req_slow_qty_indicative
 ,COALESCE(ttr_rework_qty, 0) AS ttr_rework_qty
-,COALESCE(ttr_classified_qty, 0) AS ttr_classified_qty
+,COALESCE(ttr_classified_qty, 0) + COALESCE(ext_ttr_classified_qty, 0) AS ttr_classified_qty
 ,COALESCE(ttr_des_qty_all, 0) AS ttr_des_qty_all
 ,COALESCE(ttr_des_qty_accepted, 0) AS ttr_des_qty_accepted
 ,COALESCE(ttr_des_qty_commission, 0) AS ttr_des_qty_commission
@@ -802,6 +948,12 @@ cte_base.*
 ,COALESCE(ttr_des_qty_rejected_other, 0) AS ttr_des_qty_rejected_other
 ,COALESCE(CAST(personal_margin AS decimal(18,2)), 0) AS ttr_personal_marginality
 ,COALESCE(CAST(ttr_sum_margin AS decimal(18,2)), 0) AS ttr_sum_margin
+
+,CASE WHEN raw_estimate_participant = 1 
+AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt; MONTH(GETDATE())))
+AND COALESCE(ttr_req_qty_all, 0) &lt; 20 AND [service] = 'ТЭО' THEN 0
+ELSE raw_estimate_participant END AS estimate_participant
+
 FROM cte_base
 LEFT JOIN cte_finished 
 	ON cte_finished.ttr_id_year = cte_base.id_year 
@@ -818,6 +970,10 @@ LEFT JOIN cte_marginality
 LEFT JOIN cte_marginality_overall
 	ON cte_marginality_overall.close_year = cte_base.id_year 
 	AND cte_marginality_overall.close_month = cte_base.id_month
+LEFT JOIN cte_bitrix_321
+	ON cte_bitrix_321.ttr_id_year = cte_base.id_year 
+	AND cte_bitrix_321.ttr_id_month = cte_base.id_month
+	AND cte_bitrix_321.code = cte_base.code
 ),
 
 cte_pre_calc AS (
@@ -893,7 +1049,361 @@ FROM cte_pre_calc c
 CROSS APPLY
 (SELECT COUNT(0) work_days_in_month_now 
 FROM [BI].[dbo].[DimCalendar] dc
-WHERE dc.DT &lt;= CAST(GETDATE() AS date)
+WHERE dc.DT &lt; CAST(GETDATE() AS date)
+AND dc.id_year = c.id_year
+AND dc.id_month = c.id_month
+AND dc.WorkDay = 1) AS calendar_now
+)
+
+SELECT c.*,
+
+CONVERT(decimal(18,2), 
+COALESCE(
+AVG(CASE WHEN estimate_participant = 1 THEN overall_estimate ELSE NULL END) 
+OVER (PARTITION BY id_year, id_month, [service])
+, 0)
+) average_group_estimate,
+
+CONVERT(decimal(18,2), 
+COALESCE(
+overall_estimate / 
+NULLIF (
+AVG(CASE WHEN estimate_participant = 1 THEN overall_estimate ELSE NULL END) 
+OVER (PARTITION BY id_year, id_month, [service])
+, 0)
+, 0)
+) worker_factor
+
+FROM cte_calc_done c
+WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, " + (DT_WSTR, 2) @[User::depth_months] + ", DATEFROMPARTS(id_year, id_month, 10)) AS date)"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Reload main\Query"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="Query"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">WITH cte_calendar AS (
+	SELECT id_year, id_month, SUM(CAST([WorkDay] AS int)) work_days_in_month
+	FROM [BI].[dbo].[DimCalendar] dc
+	WHERE id_year &gt;= 2020
+	AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))
+	GROUP BY id_year, id_month
+),
+
+cte_distinct_code AS (
+	SELECT DISTINCT [code]
+	FROM [motivation].[dbo].[ttr_workers] 
+	WHERE [type] = 'ttr_specialist'
+),
+
+cte_work_days AS (
+	SELECT 
+	YEAR([Date]) id_year, 
+	MONTH([Date]) id_month, 
+	esp.SalespersonCode code,
+	COUNT(0) work_days
+	FROM (SELECT tt.*, ROW_NUMBER() OVER (PARTITION BY [Person], [Date] ORDER BY (SELECT NULL)) rownum FROM [BI].[etl].[timesheet] tt) AS t
+	JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] AS esp ON esp.[SalespersonName] = t.[Person]
+	WHERE t.[Letter_code] = 'Я' AND t.[Date] &lt; CAST(GETDATE() AS date) AND t.rownum = 1
+	GROUP BY YEAR([Date]), MONTH([Date]), esp.SalespersonCode
+),
+
+cte_base AS (
+	SELECT [id_year], [id_month], [work_days_in_month], [name], [code], [service], [bitrix_name], 
+	
+	CASE WHEN oa_participant.not_a_participant IS NOT NULL THEN 0
+	ELSE [estimate_participant] END AS [raw_estimate_participant], 
+	
+	COALESCE([work_days], 0) [work_days]
+
+	FROM cte_calendar c
+	
+	CROSS JOIN cte_distinct_code 
+	
+	--[ttr_workers] содержит записи с полями [date_begin] [date_end]
+	--которые определяют (!) непересекающиеся интервалы времени и предоставляют данные для расчета
+	--[date_end] NULL означает текущую активную запись если сотрудник работает
+	--отсутствие записи с [date_end] NULL = был уволен
+	--на случай ошибок при внесении данных в таблицу оставляем TOP (1) и ORDER BY
+	CROSS APPLY (
+	SELECT TOP (1) [name], [service], [bitrix_name], [estimate_participant] FROM [motivation].[dbo].[ttr_workers] w
+	WHERE w.[type] = 'ttr_specialist' 
+	AND w.[code] = cte_distinct_code.code
+	AND CAST(DATEFROMPARTS(id_year, id_month, 15) AS date) 
+	BETWEEN w.[date_begin] AND COALESCE(w.[date_end], CAST(EOMONTH(GETDATE()) AS date)) 
+	ORDER BY CASE WHEN w.[date_end] IS NULL THEN 1 ELSE 0 END ASC	
+	) AS ca_workers_data
+
+	OUTER APPLY (
+	SELECT work_days 
+	FROM cte_work_days cte 
+	WHERE cte.id_year = c.id_year AND cte.id_month = c.id_month AND cte.code = cte_distinct_code.code) as oa_work_days
+
+	
+	OUTER APPLY (
+	SELECT 1 AS not_a_participant
+	FROM [motivation].[dbo].[calc_exceptions] AS ce
+	WHERE ce.[type] = 'ttr_specialist' AND ce.code = cte_distinct_code.code
+	) AS oa_participant
+
+),
+
+cte_finished AS (
+	
+	SELECT
+	
+	DATEPART(YEAR, TRY_CONVERT(date, req_calc_finish, 104)) AS ttr_id_year,
+	DATEPART(MONTH, TRY_CONVERT(date, req_calc_finish, 104)) AS ttr_id_month,
+	ttr_service,
+	ttr_assigned,	
+
+	COUNT(0) AS ttr_req_qty_all,
+	COUNT(ALL CASE WHEN ttr_req_qty_tender = 1 THEN 0 END) AS ttr_req_qty_tender,
+	COUNT(ALL CASE WHEN ttr_req_qty_project = 1 THEN 0 END) AS ttr_req_qty_project,
+	COUNT(ALL CASE WHEN ttr_req_qty_complex = 1 THEN 0 END) AS ttr_req_qty_complex,
+	COUNT(ALL CASE WHEN ttr_req_qty_typical = 1 THEN 0 END) AS ttr_req_qty_typical,
+	COUNT(ALL CASE WHEN ttr_req_qty_indicative = 1 THEN 0 END) AS ttr_req_qty_indicative,
+		 
+	COUNT(ALL CASE 
+	WHEN   
+	  [ttr_req_fast_qty_tender]       = 1 OR 
+      [ttr_req_fast_qty_project]	  = 1 OR
+      [ttr_req_fast_qty_complex]	  = 1 OR
+      [ttr_req_fast_qty_typical]	  = 1 OR
+      [ttr_req_fast_qty_indicative]	  = 1
+	THEN 0 END) AS ttr_req_fast_qty_all,
+	
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_tender = 1 THEN 0 END) AS ttr_req_fast_qty_tender,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_project = 1 THEN 0 END) AS ttr_req_fast_qty_project,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_complex = 1 THEN 0 END) AS ttr_req_fast_qty_complex,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_typical = 1 THEN 0 END) AS ttr_req_fast_qty_typical,
+	COUNT(ALL CASE WHEN ttr_req_fast_qty_indicative = 1 THEN 0 END) AS ttr_req_fast_qty_indicative,
+
+	COUNT(ALL CASE 
+	WHEN  [ttr_req_slow_qty_tender]       = 1 OR 
+      [ttr_req_slow_qty_project]	  = 1 OR
+      [ttr_req_slow_qty_complex]	  = 1 OR
+      [ttr_req_slow_qty_typical]	  = 1 OR
+      [ttr_req_slow_qty_indicative]	  = 1	
+	THEN 0 END) AS ttr_req_slow_qty_all,
+	
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_tender = 1 THEN 0 END) AS ttr_req_slow_qty_tender,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_project = 1 THEN 0 END) AS ttr_req_slow_qty_project,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_complex = 1 THEN 0 END) AS ttr_req_slow_qty_complex,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_typical = 1 THEN 0 END) AS ttr_req_slow_qty_typical,
+	COUNT(ALL CASE WHEN ttr_req_slow_qty_indicative = 1 THEN 0 END) AS ttr_req_slow_qty_indicative,
+
+	SUM(ttr_rework_qty) AS ttr_rework_qty,
+	SUM(ttr_classified_qty) AS ttr_classified_qty
+
+	FROM [motivation].[dbo].[ttr_request_details]
+	WHERE COALESCE(ttr_assigned, '') &lt;&gt; '' AND TRY_CONVERT(date, req_calc_finish, 104) &gt;= '20200101'
+	GROUP BY 
+	ttr_assigned, 
+	ttr_service,
+	DATEPART(YEAR, TRY_CONVERT(date, req_calc_finish, 104)),
+	DATEPART(MONTH, TRY_CONVERT(date, req_calc_finish, 104))
+),
+
+cte_result AS (
+
+	SELECT
+	
+	DATEPART(YEAR, TRY_CONVERT(date, decision_date, 104)) AS ttr_id_year,
+	DATEPART(MONTH, TRY_CONVERT(date, decision_date, 104)) AS ttr_id_month,
+	ttr_service,
+	ttr_assigned,	
+
+	COUNT(0) AS ttr_des_qty_all,	
+	COUNT(ALL CASE WHEN ttr_des_qty_accepted = 1 THEN 0 END) AS ttr_des_qty_accepted,
+	COUNT(ALL CASE WHEN ttr_des_qty_commission = 1 THEN 0 END) AS ttr_des_qty_commission,	
+	COUNT(ALL CASE WHEN ttr_des_qty_indicative = 1 THEN 0 END) AS ttr_des_qty_indicative,
+	COUNT(ALL CASE WHEN ttr_des_qty_rejected_expensive = 1 THEN 0 END) AS ttr_des_qty_rejected_expensive,
+	COUNT(ALL CASE WHEN ttr_des_qty_rejected_other = 1 THEN 0 END) AS ttr_des_qty_rejected_other
+
+	FROM [motivation].[dbo].[ttr_result_details]
+	WHERE COALESCE(ttr_assigned, '') &lt;&gt; '' AND TRY_CONVERT(date, decision_date, 104) &gt;= '20200101'
+	GROUP BY 
+	ttr_assigned, 
+	ttr_service,
+	DATEPART(YEAR, TRY_CONVERT(date, decision_date, 104)),
+	DATEPART(MONTH, TRY_CONVERT(date, decision_date, 104))
+),
+
+cte_marginality AS (
+
+SELECT	
+	[code]
+	,close_month
+	,close_year
+	,CAST((COALESCE(SUM(personal_margin), 0) * 0.4) AS decimal(18,2)) AS personal_margin
+	FROM motivation.dbo.ttr_marginality
+	GROUP BY 
+	[code]
+	,close_month
+	,close_year
+),
+
+cte_marginality_overall AS (
+	SELECT [close_month], [close_year], CAST((COALESCE(SUM(margin_fact), 0) * 0.4) AS decimal(18,2)) AS ttr_sum_margin
+	FROM [motivation].[dbo].[ks_commissions]
+	GROUP BY
+	[close_month], [close_year]	
+),
+
+cte_bitrix_321 AS (
+	SELECT [code], [ttr_id_year], [ttr_id_month], SUM(COALESCE(ttr_classified_qty, 0)) AS ext_ttr_classified_qty
+	FROM [motivation].[dbo].[ttr_bitrix_commission_details]
+	GROUP BY
+	[code], [ttr_id_year], [ttr_id_month]
+),
+
+cte_extended AS (
+
+SELECT 
+cte_base.*
+,COALESCE(ttr_req_qty_all, 0) AS ttr_req_qty_all
+,COALESCE(ttr_req_qty_tender, 0) AS ttr_req_qty_tender
+,COALESCE(ttr_req_qty_project, 0) AS ttr_req_qty_project
+,COALESCE(ttr_req_qty_complex, 0) AS ttr_req_qty_complex
+,COALESCE(ttr_req_qty_typical, 0) AS ttr_req_qty_typical
+,COALESCE(ttr_req_qty_indicative, 0) AS ttr_req_qty_indicative
+,COALESCE(ttr_req_fast_qty_all, 0) AS ttr_req_fast_qty_all
+,COALESCE(ttr_req_fast_qty_tender, 0) AS ttr_req_fast_qty_tender
+,COALESCE(ttr_req_fast_qty_project, 0) AS ttr_req_fast_qty_project
+,COALESCE(ttr_req_fast_qty_complex, 0) AS ttr_req_fast_qty_complex
+,COALESCE(ttr_req_fast_qty_typical, 0) AS ttr_req_fast_qty_typical
+,COALESCE(ttr_req_fast_qty_indicative, 0) AS ttr_req_fast_qty_indicative
+,COALESCE(ttr_req_slow_qty_all, 0) AS ttr_req_slow_qty_all
+,COALESCE(ttr_req_slow_qty_tender, 0) AS ttr_req_slow_qty_tender
+,COALESCE(ttr_req_slow_qty_project, 0) AS ttr_req_slow_qty_project
+,COALESCE(ttr_req_slow_qty_complex, 0) AS ttr_req_slow_qty_complex
+,COALESCE(ttr_req_slow_qty_typical, 0) AS ttr_req_slow_qty_typical
+,COALESCE(ttr_req_slow_qty_indicative, 0) AS ttr_req_slow_qty_indicative
+,COALESCE(ttr_rework_qty, 0) AS ttr_rework_qty
+,COALESCE(ttr_classified_qty, 0) + COALESCE(ext_ttr_classified_qty, 0) AS ttr_classified_qty
+,COALESCE(ttr_des_qty_all, 0) AS ttr_des_qty_all
+,COALESCE(ttr_des_qty_accepted, 0) AS ttr_des_qty_accepted
+,COALESCE(ttr_des_qty_commission, 0) AS ttr_des_qty_commission
+,COALESCE(ttr_des_qty_indicative, 0) AS ttr_des_qty_indicative
+,COALESCE(ttr_des_qty_rejected_expensive, 0) AS ttr_des_qty_rejected_expensive
+,COALESCE(ttr_des_qty_rejected_other, 0) AS ttr_des_qty_rejected_other
+,COALESCE(CAST(personal_margin AS decimal(18,2)), 0) AS ttr_personal_marginality
+,COALESCE(CAST(ttr_sum_margin AS decimal(18,2)), 0) AS ttr_sum_margin
+
+,CASE WHEN raw_estimate_participant = 1 
+AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt; MONTH(GETDATE())))
+AND COALESCE(ttr_req_qty_all, 0) &lt; 20 AND [service] = 'ТЭО' THEN 0
+ELSE raw_estimate_participant END AS estimate_participant
+
+FROM cte_base
+LEFT JOIN cte_finished 
+	ON cte_finished.ttr_id_year = cte_base.id_year 
+	AND cte_finished.ttr_id_month = cte_base.id_month
+	AND cte_finished.ttr_assigned = cte_base.bitrix_name
+LEFT JOIN cte_result 
+	ON cte_result.ttr_id_year = cte_base.id_year 
+	AND cte_result.ttr_id_month = cte_base.id_month
+	AND cte_result.ttr_assigned = cte_base.bitrix_name
+LEFT JOIN cte_marginality
+	ON cte_marginality.close_year = cte_base.id_year 
+	AND cte_marginality.close_month = cte_base.id_month
+	AND cte_marginality.code = cte_base.code
+LEFT JOIN cte_marginality_overall
+	ON cte_marginality_overall.close_year = cte_base.id_year 
+	AND cte_marginality_overall.close_month = cte_base.id_month
+LEFT JOIN cte_bitrix_321
+	ON cte_bitrix_321.ttr_id_year = cte_base.id_year 
+	AND cte_bitrix_321.ttr_id_month = cte_base.id_month
+	AND cte_bitrix_321.code = cte_base.code
+),
+
+cte_pre_calc AS (
+	SELECT c.* 
+	,COUNT(CASE WHEN estimate_participant = 1 THEN 1 END) OVER (PARTITION BY id_year, id_month, c.[service]) [workers_count]
+
+	,f.[req_qty_tender]
+    ,f.[req_qty_project]
+    ,f.[req_qty_complex]
+    ,f.[req_qty_typical]
+    ,f.[req_qty_indicative]
+    ,f.[req_fast_qty_tender]
+    ,f.[req_fast_qty_project]
+    ,f.[req_fast_qty_complex]
+    ,f.[req_fast_qty_typical]
+    ,f.[req_fast_qty_indicative]
+    ,f.[req_slow_qty_tender]
+    ,f.[req_slow_qty_project]
+    ,f.[req_slow_qty_complex]
+    ,f.[req_slow_qty_typical]
+    ,f.[req_slow_qty_indicative]
+    ,f.[rework_qty]
+    ,f.[des_qty_accepted]
+    ,f.[des_qty_commission]
+    ,f.[des_qty_indicative]
+    ,f.[des_qty_rejected_expensive]
+    ,f.[des_qty_rejected_other]	
+	
+	,estimate =  
+	(f.req_qty_tender * ttr_req_qty_tender
+	+ f.req_qty_project * ttr_req_qty_project
+	+ f.req_qty_complex * ttr_req_qty_complex
+	+ f.req_qty_typical * ttr_req_qty_typical
+	+ f.req_qty_indicative * ttr_req_qty_indicative
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_tender) * ttr_req_fast_qty_tender
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_project) * ttr_req_fast_qty_project
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_complex) * ttr_req_fast_qty_complex
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_typical) * ttr_req_fast_qty_typical
+	+ (COALESCE(f.req_in_time, 0) + f.req_fast_qty_indicative) * ttr_req_fast_qty_indicative
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_tender) * ttr_req_slow_qty_tender
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_project) * ttr_req_slow_qty_project
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_complex) * ttr_req_slow_qty_complex
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_typical) * ttr_req_slow_qty_typical
+	+ (COALESCE(f.req_not_in_time, 0) + f.req_slow_qty_indicative) * ttr_req_slow_qty_indicative
+	+ f.rework_qty * ttr_rework_qty
+	+ f.des_qty_accepted * ttr_des_qty_accepted
+	+ f.des_qty_commission * ttr_des_qty_commission
+	+ f.des_qty_indicative * ttr_des_qty_indicative
+	+ f.des_qty_rejected_expensive * ttr_des_qty_rejected_expensive
+	+ f.des_qty_rejected_other * ttr_des_qty_rejected_other
+	+ COALESCE(f.req_art_classify, 0) * ttr_classified_qty
+	)
+
+	FROM cte_extended c
+	JOIN [motivation].[dbo].[ttr_factors] f ON f.[service] = c.[service]
+	CROSS APPLY (SELECT TOP (1) [f_profit_fact] FROM [motivation].[dbo].[ks_factors]) AS ca
+),
+
+cte_calc_done AS (
+
+SELECT c.*,
+overall_estimate =
+CONVERT(decimal(18,2), CASE 
+	--начало месяца с нерабочих дней - учитывается один рабочий день
+	WHEN COALESCE(work_days, 0) = 0 AND calendar_now.work_days_in_month_now = 0
+	THEN (estimate / (1.00 / work_days_in_month))	
+	--прочее условие если сотрудник не отработал ни одного дня
+	WHEN COALESCE(work_days, 0) = 0 THEN 0.00	
+	--общий случай, обычный расчет
+	ELSE (estimate / (CONVERT(decimal(18, 10), work_days) / work_days_in_month))
+END)
+FROM cte_pre_calc c
+CROSS APPLY
+(SELECT COUNT(0) work_days_in_month_now 
+FROM [BI].[dbo].[DimCalendar] dc
+WHERE dc.DT &lt; CAST(GETDATE() AS date)
 AND dc.id_year = c.id_year
 AND dc.id_month = c.id_month
 AND dc.WorkDay = 1) AS calendar_now
@@ -1024,13 +1534,13 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       name="bitrix_name"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
-                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[raw_estimate_participant]"
                       dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
-                      externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
-                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
-                      name="estimate_participant"
+                      externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[raw_estimate_participant]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[raw_estimate_participant]"
+                      name="raw_estimate_participant"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[work_days]"
@@ -1214,14 +1724,12 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]"
-                      dataType="numeric"
+                      dataType="i4"
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_classified_qty]"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]"
                       name="ttr_classified_qty"
-                      precision="38"
-                      scale="4"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_des_qty_all]"
@@ -1298,6 +1806,15 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       name="ttr_sum_margin"
                       precision="18"
                       scale="2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
+                      name="estimate_participant"
                       truncationRowDisposition="FailComponent" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
@@ -1619,9 +2136,9 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       length="200"
                       name="bitrix_name" />
                     <externalMetadataColumn
-                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[raw_estimate_participant]"
                       dataType="i4"
-                      name="estimate_participant" />
+                      name="raw_estimate_participant" />
                     <externalMetadataColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days]"
                       dataType="i4"
@@ -1704,10 +2221,8 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       name="ttr_rework_qty" />
                     <externalMetadataColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_classified_qty]"
-                      dataType="numeric"
-                      name="ttr_classified_qty"
-                      precision="38"
-                      scale="4" />
+                      dataType="i4"
+                      name="ttr_classified_qty" />
                     <externalMetadataColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_des_qty_all]"
                       dataType="i4"
@@ -1744,6 +2259,10 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       name="ttr_sum_margin"
                       precision="18"
                       scale="2" />
+                    <externalMetadataColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
+                      dataType="i4"
+                      name="estimate_participant" />
                     <externalMetadataColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
                       dataType="i4"
@@ -1945,10 +2464,10 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[bitrix_name]"
                       name="bitrix_name" />
                     <outputColumn
-                      refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[raw_estimate_participant]"
                       dataType="i4"
-                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
-                      name="estimate_participant" />
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[raw_estimate_participant]"
+                      name="raw_estimate_participant" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[work_days]"
                       dataType="i4"
@@ -2051,11 +2570,9 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       name="ttr_rework_qty" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_classified_qty]"
-                      dataType="numeric"
+                      dataType="i4"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_classified_qty]"
-                      name="ttr_classified_qty"
-                      precision="38"
-                      scale="4" />
+                      name="ttr_classified_qty" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[ttr_des_qty_all]"
                       dataType="i4"
@@ -2100,6 +2617,11 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       name="ttr_sum_margin"
                       precision="18"
                       scale="2" />
+                    <outputColumn
+                      refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
+                      dataType="i4"
+                      lineageId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
+                      name="estimate_participant" />
                     <outputColumn
                       refId="Package\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
                       dataType="i4"
@@ -2520,10 +3042,8 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_rework_qty]" />
                     <inputColumn
                       refId="Package\Reload main\Table.Inputs[ADO NET Destination Input].Columns[ttr_classified_qty]"
-                      cachedDataType="numeric"
+                      cachedDataType="i4"
                       cachedName="ttr_classified_qty"
-                      cachedPrecision="38"
-                      cachedScale="4"
                       externalMetadataColumnId="Package\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_classified_qty]"
                       lineageId="Package\Reload main\Query.Outputs[ADO NET Source Output].Columns[ttr_classified_qty]" />
                     <inputColumn
@@ -3151,6 +3671,156 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
       DTS:ObjectName="Reload request details"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="[Query].[SqlCommand]">"SELECT	
+
+	DATEPART(YEAR, req_calc_finish) AS ttr_id_year,
+
+	DATEPART(MONTH, req_calc_finish) AS ttr_id_month,
+
+	[service_type_row] AS ttr_service,
+
+	[assigned_ttr] AS ttr_assigned,	
+
+	ca.code,
+
+	deal_id,
+
+	client,
+
+	COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) req_calc_duration,
+
+	FORMAT(req_calc_finish, 'dd.MM.yyyy') req_calc_finish,
+
+
+
+	CASE WHEN request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_qty_tender,
+
+	CASE WHEN request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_qty_project,
+
+	CASE WHEN request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_qty_complex,
+
+	CASE WHEN request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_qty_typical,
+
+	CASE WHEN request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_qty_indicative,
+
+
+
+	CASE WHEN req_calc_finish &lt;= COALESCE(tender_reply_date, '1900-01-01 00:00:00.000') AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_fast_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 96 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_fast_qty_project,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_complex,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_fast_qty_typical,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_indicative,
+
+
+
+	CASE WHEN req_calc_finish &gt; COALESCE(tender_reply_date, '1900-01-01 00:00:00.000') AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_slow_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 96 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_slow_qty_project,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_complex,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_slow_qty_typical,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_indicative,
+
+
+
+	CAST(ROUND((COALESCE([calc_fact_duration], 0) / 3600), 0) AS int) AS ttr_calc_fact_duration,
+
+	CAST(COALESCE(calc_classified_qty, 0) AS int) AS ttr_classified_qty,
+
+	calc_rework_num AS ttr_rework_qty
+
+	FROM [webproject].[dbo].[deals] d 
+
+	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= '20200101'
+
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, " + (DT_WSTR, 2) @[User::depth_months] + ", DATEFROMPARTS(DATEPART(YEAR, req_calc_finish), DATEPART(MONTH, req_calc_finish), 10)) AS date)
+
+
+
+UNION
+
+
+
+SELECT	
+
+	DATEPART(YEAR, calc_finish_date) AS ttr_id_year,
+
+	DATEPART(MONTH, calc_finish_date) AS ttr_id_month,
+
+	[service_type_row] AS ttr_service,
+
+	[assigned_ttr] AS ttr_assigned,	
+
+	ca.code,
+
+	calc_id AS deal_id,
+
+	COALESCE(client, '') AS client,
+
+	COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) req_calc_duration,
+
+	FORMAT(calc_finish_date, 'dd.MM.yyyy') req_calc_finish,
+
+	
+
+	CASE WHEN request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_qty_tender,
+
+	CASE WHEN request_type LIKE 'Проект%' THEN 1 ELSE 0 END AS ttr_req_qty_project,
+
+	CASE WHEN request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_qty_complex,
+
+	CASE WHEN request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_qty_typical,
+
+	0 AS ttr_req_qty_indicative,
+
+
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 96 AND request_type = 'Тендер' THEN 1 ELSE 0 END  AS ttr_req_fast_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 96 AND request_type LIKE 'Проект%' THEN 1 ELSE 0 END AS ttr_req_fast_qty_project,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_complex,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_fast_qty_typical,
+
+	0 AS ttr_req_fast_qty_indicative,
+
+
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 96 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_slow_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 96 AND request_type LIKE 'Проект%' THEN 1 ELSE 0 END AS ttr_req_slow_qty_project,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_complex,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_slow_qty_typical,
+
+	0 AS ttr_req_slow_qty_indicative,	
+
+
+
+	CAST(ROUND((COALESCE([calc_fact_duration], 0)), 0) AS int) AS ttr_calc_fact_duration,
+
+	0 AS ttr_classified_qty,
+
+	calc_rework_num AS ttr_rework_qty
+
+	FROM [webproject].[dbo].[calculation_deals] d 
+
+	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND calc_finish_date &gt;= '20200101' AND service_type_row IN ('ТО','ТЭО')
+
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, " + (DT_WSTR, 2) @[User::depth_months] + ", DATEFROMPARTS(DATEPART(YEAR, calc_finish_date), DATEPART(MONTH, calc_finish_date), 10)) AS date)"</DTS:PropertyExpression>
       <DTS:ObjectData>
         <pipeline
           version="1">
@@ -3169,43 +3839,155 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year,
                   description="Specifies the SQL statement used by the component to extract data."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT
-	
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT	
+
 	DATEPART(YEAR, req_calc_finish) AS ttr_id_year,
+
 	DATEPART(MONTH, req_calc_finish) AS ttr_id_month,
+
 	[service_type_row] AS ttr_service,
+
 	[assigned_ttr] AS ttr_assigned,	
+
 	ca.code,
+
 	deal_id,
+
 	client,
+
 	COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) req_calc_duration,
+
 	FORMAT(req_calc_finish, 'dd.MM.yyyy') req_calc_finish,
 
+
+
 	CASE WHEN request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_qty_tender,
+
 	CASE WHEN request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_qty_project,
+
 	CASE WHEN request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_qty_complex,
+
 	CASE WHEN request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_qty_typical,
+
 	CASE WHEN request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_qty_indicative,
 
-	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_fast_qty_tender,
-	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_fast_qty_project,
+
+
+	CASE WHEN req_calc_finish &lt;= COALESCE(tender_reply_date, '1900-01-01 00:00:00.000') AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_fast_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 96 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_fast_qty_project,
+
 	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_complex,
+
 	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_fast_qty_typical,
+
 	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &lt; 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_indicative,
 
-	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_slow_qty_tender,
-	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_slow_qty_project,
+
+
+	CASE WHEN req_calc_finish &gt; COALESCE(tender_reply_date, '1900-01-01 00:00:00.000') AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_slow_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 96 AND request_type = 'Проект' THEN 1 ELSE 0 END AS ttr_req_slow_qty_project,
+
 	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_complex,
+
 	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_slow_qty_typical,
+
 	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration] / 3600, 0) AS int), [req_calc_duration], 0) &gt;= 24 AND request_type = 'Индикативный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_indicative,
 
+
+
 	CAST(ROUND((COALESCE([calc_fact_duration], 0) / 3600), 0) AS int) AS ttr_calc_fact_duration,
-	CAST(COALESCE(calc_classified_qty, 0) AS int) AS ttr_classified_qty
-	
+
+	CAST(COALESCE(calc_classified_qty, 0) AS int) AS ttr_classified_qty,
+
+	calc_rework_num AS ttr_rework_qty
+
 	FROM [webproject].[dbo].[deals] d 
+
 	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+
 	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND req_calc_finish &gt;= '20200101'
-AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, req_calc_finish), DATEPART(MONTH, req_calc_finish), 10)) AS date)</property>
+
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, req_calc_finish), DATEPART(MONTH, req_calc_finish), 10)) AS date)
+
+
+
+UNION
+
+
+
+SELECT	
+
+	DATEPART(YEAR, calc_finish_date) AS ttr_id_year,
+
+	DATEPART(MONTH, calc_finish_date) AS ttr_id_month,
+
+	[service_type_row] AS ttr_service,
+
+	[assigned_ttr] AS ttr_assigned,	
+
+	ca.code,
+
+	calc_id AS deal_id,
+
+	COALESCE(client, '') AS client,
+
+	COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) req_calc_duration,
+
+	FORMAT(calc_finish_date, 'dd.MM.yyyy') req_calc_finish,
+
+	
+
+	CASE WHEN request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_qty_tender,
+
+	CASE WHEN request_type LIKE 'Проект%' THEN 1 ELSE 0 END AS ttr_req_qty_project,
+
+	CASE WHEN request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_qty_complex,
+
+	CASE WHEN request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_qty_typical,
+
+	0 AS ttr_req_qty_indicative,
+
+
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 96 AND request_type = 'Тендер' THEN 1 ELSE 0 END  AS ttr_req_fast_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 96 AND request_type LIKE 'Проект%' THEN 1 ELSE 0 END AS ttr_req_fast_qty_project,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_fast_qty_complex,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &lt; 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_fast_qty_typical,
+
+	0 AS ttr_req_fast_qty_indicative,
+
+
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 96 AND request_type = 'Тендер' THEN 1 ELSE 0 END AS ttr_req_slow_qty_tender,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 96 AND request_type LIKE 'Проект%' THEN 1 ELSE 0 END AS ttr_req_slow_qty_project,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 24 AND request_type = 'Сложный' THEN 1 ELSE 0 END AS ttr_req_slow_qty_complex,
+
+	CASE WHEN COALESCE(CAST(ROUND([calc_fact_duration], 0) AS int), calc_duration, 0) &gt;= 24 AND request_type = 'Типовой' THEN 1 ELSE 0 END AS ttr_req_slow_qty_typical,
+
+	0 AS ttr_req_slow_qty_indicative,	
+
+
+
+	CAST(ROUND((COALESCE([calc_fact_duration], 0)), 0) AS int) AS ttr_calc_fact_duration,
+
+	0 AS ttr_classified_qty,
+
+	calc_rework_num AS ttr_rework_qty
+
+	FROM [webproject].[dbo].[calculation_deals] d 
+
+	CROSS APPLY (SELECT TOP (1) code FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND calc_finish_date &gt;= '20200101' AND service_type_row IN ('ТО','ТЭО')
+
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, calc_finish_date), DATEPART(MONTH, calc_finish_date), 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -4123,25 +4905,33 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       DTS:ObjectName="Reload result details"
       DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
       <DTS:Variables />
-      <DTS:ObjectData>
-        <pipeline
-          version="1">
-          <components>
-            <component
-              refId="Package\Reload result details\Query"
-              componentClassID="Microsoft.ManagedComponentHost"
-              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
-              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
-              name="Query"
-              usesDispositions="true"
-              version="4">
-              <properties>
-                <property
-                  dataType="System.String"
-                  description="Specifies the SQL statement used by the component to extract data."
-                  expressionType="Notify"
-                  name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT
+      <DTS:PropertyExpression
+        DTS:Name="[Query].[SqlCommand]">"SELECT
+	
+	DATEPART(YEAR, calc_decision_date) AS ttr_id_year,
+	DATEPART(MONTH, calc_decision_date) AS ttr_id_month,
+	[service_type_row] AS ttr_service,
+	[assigned_ttr] AS ttr_assigned,
+	ca.code,
+	calc_id AS [deal_id],
+	[client],
+	FORMAT(calc_decision_date, 'dd.MM.yyyy') AS decision_date,
+	'-' AS [comission_date],
+	
+	CASE WHEN calc_status_id = 'C16:WON' THEN 1 ELSE 0 END AS ttr_des_qty_accepted,
+	0 AS ttr_des_qty_commission,	
+	CASE WHEN calc_status_id = 'C16:LOSE' THEN 1 ELSE 0 END AS ttr_des_qty_indicative,
+	CASE WHEN calc_status_id = 'C16:1' THEN 1 ELSE 0 END AS ttr_des_qty_rejected_expensive,
+	CASE WHEN calc_status_id IN ('C16:APOLOGY', 'C16:2', 'C16:3') THEN 1 ELSE 0 END AS ttr_des_qty_rejected_other
+
+	FROM [webproject].[dbo].calculation_deals d
+	CROSS APPLY (SELECT TOP (1) [code] FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND calc_decision_date &gt;= '20200101'
+	AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, " + (DT_WSTR, 2) @[User::depth_months] + ", DATEFROMPARTS(DATEPART(YEAR, calc_decision_date), DATEPART(MONTH, calc_decision_date), 10)) AS date)
+
+UNION
+
+SELECT
 	
 	DATEPART(YEAR, decision_date) AS ttr_id_year,
 	DATEPART(MONTH, decision_date) AS ttr_id_month,
@@ -4165,7 +4955,75 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
 	FROM [webproject].[dbo].[deals] d
 	CROSS APPLY (SELECT TOP (1) [code] FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
 	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= '20200101'
-	AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, decision_date), DATEPART(MONTH, decision_date), 10)) AS date)</property>
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, " + (DT_WSTR, 2) @[User::depth_months] + ", DATEFROMPARTS(DATEPART(YEAR, decision_date), DATEPART(MONTH, decision_date), 10)) AS date)"</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Reload result details\Query"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="Query"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT
+	
+	DATEPART(YEAR, calc_decision_date) AS ttr_id_year,
+	DATEPART(MONTH, calc_decision_date) AS ttr_id_month,
+	[service_type_row] AS ttr_service,
+	[assigned_ttr] AS ttr_assigned,
+	ca.code,
+	calc_id AS [deal_id],
+	[client],
+	FORMAT(calc_decision_date, 'dd.MM.yyyy') AS decision_date,
+	'-' AS [comission_date],
+	
+	CASE WHEN calc_status_id = 'C16:WON' THEN 1 ELSE 0 END AS ttr_des_qty_accepted,
+	0 AS ttr_des_qty_commission,	
+	CASE WHEN calc_status_id = 'C16:LOSE' THEN 1 ELSE 0 END AS ttr_des_qty_indicative,
+	CASE WHEN calc_status_id = 'C16:1' THEN 1 ELSE 0 END AS ttr_des_qty_rejected_expensive,
+	CASE WHEN calc_status_id IN ('C16:APOLOGY', 'C16:2', 'C16:3') THEN 1 ELSE 0 END AS ttr_des_qty_rejected_other
+
+	FROM [webproject].[dbo].calculation_deals d
+	CROSS APPLY (SELECT TOP (1) [code] FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND calc_decision_date &gt;= '20200101'
+	AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, calc_decision_date), DATEPART(MONTH, calc_decision_date), 10)) AS date)
+
+UNION
+
+SELECT
+	
+	DATEPART(YEAR, decision_date) AS ttr_id_year,
+	DATEPART(MONTH, decision_date) AS ttr_id_month,
+	[service_type_row] AS ttr_service,
+	[assigned_ttr] AS ttr_assigned,
+	ca.code,
+	[deal_id],
+	[client],
+	FORMAT(decision_date, 'dd.MM.yyyy') AS decision_date,
+	CASE 
+	WHEN CAST([comission_date] AS date) &gt;= '20190101' THEN FORMAT([comission_date], 'dd.MM.yyyy')
+	ELSE '-' END
+	AS [comission_date],
+	
+	CASE WHEN UPPER([client_decision]) = 'ПРИНЯТО' AND CAST([comission_date] AS date) &lt; '20190101' THEN 1 ELSE 0 END AS ttr_des_qty_accepted,
+	CASE WHEN CAST([comission_date] AS date) &gt;= '20190101' THEN 1 ELSE 0 END AS ttr_des_qty_commission,	
+	CASE WHEN UPPER([client_decision]) = 'ИНДИКАТИВ' THEN 1 ELSE 0 END AS ttr_des_qty_indicative,
+	CASE WHEN UPPER([client_decision]) = 'ОТКАЗ / ДОРОГО' THEN 1 ELSE 0 END AS ttr_des_qty_rejected_expensive,
+	CASE WHEN UPPER([client_decision]) IN ('ОТКАЗ / ДОЛГО ОТВЕЧАЛИ', 'НЕ АКТУАЛЬНО', 'ОТКАЗ / ТРАНЗИТНОЕ ВРЕМЯ') THEN 1 ELSE 0 END AS ttr_des_qty_rejected_other
+
+	FROM [webproject].[dbo].[deals] d
+	CROSS APPLY (SELECT TOP (1) [code] FROM [motivation].[dbo].[ttr_workers] t WHERE t.bitrix_name = d.assigned_ttr) AS ca
+	WHERE COALESCE([assigned_ttr], '') &lt;&gt; '' AND decision_date &gt;= '20200101'
+AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(YEAR, decision_date), DATEPART(MONTH, decision_date), 10)) AS date)</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
@@ -4226,7 +5084,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Reload result details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_service]"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload result details\Query.Outputs[ADO NET Source Output].Columns[ttr_service]"
                       name="ttr_service"
                       truncationRowDisposition="FailComponent" />
@@ -4236,7 +5094,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Reload result details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_assigned]"
-                      length="100"
+                      length="200"
                       lineageId="Package\Reload result details\Query.Outputs[ADO NET Source Output].Columns[ttr_assigned]"
                       name="ttr_assigned"
                       truncationRowDisposition="FailComponent" />
@@ -4348,12 +5206,12 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
                     <externalMetadataColumn
                       refId="Package\Reload result details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_service]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       name="ttr_service" />
                     <externalMetadataColumn
                       refId="Package\Reload result details\Query.Outputs[ADO NET Source Output].ExternalColumns[ttr_assigned]"
                       dataType="wstr"
-                      length="100"
+                      length="200"
                       name="ttr_assigned" />
                     <externalMetadataColumn
                       refId="Package\Reload result details\Query.Outputs[ADO NET Source Output].ExternalColumns[code]"
@@ -4419,13 +5277,13 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
                     <outputColumn
                       refId="Package\Reload result details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_service]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload result details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_service]"
                       name="ttr_service" />
                     <outputColumn
                       refId="Package\Reload result details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_assigned]"
                       dataType="wstr"
-                      length="100"
+                      length="200"
                       lineageId="Package\Reload result details\Query.Outputs[ADO NET Source Error Output].Columns[ttr_assigned]"
                       name="ttr_assigned" />
                     <outputColumn
@@ -4563,14 +5421,14 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
                     <inputColumn
                       refId="Package\Reload result details\Table.Inputs[ADO NET Destination Input].Columns[ttr_service]"
                       cachedDataType="wstr"
-                      cachedLength="3"
+                      cachedLength="50"
                       cachedName="ttr_service"
                       externalMetadataColumnId="Package\Reload result details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_service]"
                       lineageId="Package\Reload result details\Query.Outputs[ADO NET Source Output].Columns[ttr_service]" />
                     <inputColumn
                       refId="Package\Reload result details\Table.Inputs[ADO NET Destination Input].Columns[ttr_assigned]"
                       cachedDataType="wstr"
-                      cachedLength="100"
+                      cachedLength="200"
                       cachedName="ttr_assigned"
                       externalMetadataColumnId="Package\Reload result details\Table.Inputs[ADO NET Destination Input].ExternalColumns[ttr_assigned]"
                       lineageId="Package\Reload result details\Query.Outputs[ADO NET Source Output].Columns[ttr_assigned]" />
@@ -4743,6 +5601,22 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Remove fired"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{7B53D4A8-E24D-44DA-A658-9476D0EF2F8F}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Remove fired"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="WITH cte AS (&#xA;SELECT w.*&#xA;FROM [motivation].[dbo].[ttr_workers] AS w&#xA;JOIN [motivation].[dbo].[bitrix_users] AS sp ON sp.nav_code = w.code AND sp.active = 'N'&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(w.date_begin), MONTH(w.date_begin), 10)) AS date)&#xA;AND w.role_type = 1&#xA;AND w.estimate_participant = 1&#xA;AND w.type = 'ttr_specialist'&#xA;AND w.service = 'ТО'&#xA;)&#xA;UPDATE cte&#xA;SET estimate_participant = 0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Truncate"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
@@ -4755,7 +5629,32 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="DELETE FROM [motivation].[dbo].[ttr_main]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(id_year, id_month, 10)) AS date)&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[ttr_result_details]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(ttr_id_year, ttr_id_month, 10)) AS date)&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[ttr_marginality]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(close_year, close_month, 10)) AS date)&#xA;GO&#xA;DELETE FROM [motivation].[dbo].[ttr_request_details]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(ttr_id_year, ttr_id_month, 10)) AS date)&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="DELETE FROM [motivation].[dbo].[ttr_main]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, ?, DATEFROMPARTS(id_year, id_month, 10)) AS date)&#xA;DELETE FROM [motivation].[dbo].[ttr_result_details]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, ?, DATEFROMPARTS(ttr_id_year, ttr_id_month, 10)) AS date)&#xA;DELETE FROM [motivation].[dbo].[ttr_marginality]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, ?, DATEFROMPARTS(close_year, close_month, 10)) AS date)&#xA;DELETE FROM [motivation].[dbo].[ttr_request_details]&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, ?, DATEFROMPARTS(ttr_id_year, ttr_id_month, 10)) AS date)" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::depth_months"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::depth_months"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="2"
+            SQLTask:DtsVariableName="User::depth_months"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="3"
+            SQLTask:DtsVariableName="User::depth_months"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -4771,7 +5670,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ttr_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND [service] = 'ТЭО' AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_declarant AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 1 AND &#xA;&#x9;([Dept_ Code] IN ('ЯРЦЕВО','С-З ФИЛИАЛ','ДЕКЛАРАНТЫ','ВЛАДИВОСТОК1')&#xA;&#x9;OR [Dept_ Code] LIKE 'ЦОТО,%')  &#xA;),&#xA;&#xA;cte_sto_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 0 AND [Dept_ Code] LIKE 'ЦОТО,%'&#xA;&#x9;AND EXISTS (&#xA;&#x9;SELECT 0 FROM [BI].[olap].[FactReleaseRateSTO] AS f &#xA;&#x9;WHERE f.SalespersonKey = s.SalespersonKey&#xA;&#x9;AND f.[Release Date] &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_stl_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [BI].[dwh].[DeliveryDatamart] dd&#xA;&#x9;WHERE dd.[Executive Code] = s.SalespersonCode&#xA;&#x9;AND dd.DRLLastFactDate &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_sto_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] LIKE 'ЦОТО,%' AND [Act_ Declarant] = 0&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТО')&#xA;),&#xA;&#xA;cte_stl_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТЭО')&#xA;),&#xA;&#xA;cte_ks AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] = 'ПРОДАЖИ-РАЗВИТИЕ'&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;((s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '')&#xA;&#x9;OR &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '')&#xA;&#x9;)&#xA;&#x9;AND d.request_date &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT s.SalespersonCode, s.SalespersonName, s.[Dept_ Code], oa.bitrix_name&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_declarant AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_declarant&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_ks AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_ks&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;OUTER APPLY &#xA;&#x9;(SELECT TOP (1) &#xA;&#x9;COALESCE(&#xA;&#x9;IIF(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '', d.responsible_ks, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '', d.assigned, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '', d.assigned_ttr, NULL),&#xA;&#x9;'')&#xA;&#x9;AS [bitrix_name] &#xA;&#x9;FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '')&#xA;&#x9;) AS oa&#xA;&#xA;&#x9;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers] ([service]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;'ТЭО' AS [service],&#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_stl_ttr = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS sw &#xA;WHERE sw.[service] = 'ТЭО' AND cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ttr_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND [service] = 'ТЭО' AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT &#xA;&#x9;b.nav_code AS SalespersonCode,&#xA;&#x9;b.[name] AS SalespersonName,&#xA;&#x9;b.bitrix_name AS bitrix_name,&#xA;&#x9;b.[department_name] AS [Dept_ Code]&#xA;&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND group_id IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_declarant&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND COALESCE(group_id, '') NOT IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_sto_spec&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id = '1123' THEN 1 ELSE 0 END AS is_sto_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '52' AND (department_id IN ('1044','56','60','64','66','68') OR (department_id = '1090' AND COALESCE(group_id, '') = '')) THEN 1 ELSE 0 END AS is_stl_spec&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id = '1090' AND COALESCE(group_id, '') &lt;&gt; '' THEN 1 ELSE 0 END AS is_stl_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '628' AND department_id IN ('1052','1082','22','76') THEN 1 ELSE 0 END AS is_ks&#xA;&#x9;FROM [motivation].[dbo].[bitrix_users] AS b&#xA;&#x9;WHERE active = 'Y' AND COALESCE(nav_code, '') &lt;&gt; ''&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers] ([service]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;'ТЭО' AS [service],&#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_stl_ttr = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS sw &#xA;WHERE sw.[service] = 'ТЭО' AND cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -4787,7 +5686,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ttr_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND [service] = 'ТО' AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_declarant AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 1 AND &#xA;&#x9;([Dept_ Code] IN ('ЯРЦЕВО','С-З ФИЛИАЛ','ДЕКЛАРАНТЫ','ВЛАДИВОСТОК1')&#xA;&#x9;OR [Dept_ Code] LIKE 'ЦОТО,%')  &#xA;),&#xA;&#xA;cte_sto_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Act_ Declarant] = 0 AND [Dept_ Code] LIKE 'ЦОТО,%'&#xA;&#x9;AND EXISTS (&#xA;&#x9;SELECT 0 FROM [BI].[olap].[FactReleaseRateSTO] AS f &#xA;&#x9;WHERE f.SalespersonKey = s.SalespersonKey&#xA;&#x9;AND f.[Release Date] &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_stl_spec AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [BI].[dwh].[DeliveryDatamart] dd&#xA;&#x9;WHERE dd.[Executive Code] = s.SalespersonCode&#xA;&#x9;AND dd.DRLLastFactDate &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_sto_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] LIKE 'ЦОТО,%' AND [Act_ Declarant] = 0&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТО')&#xA;),&#xA;&#xA;cte_stl_ttr AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] IN ('СТЛ,МАП','СТЛ,МОРЕ','СТЛ,АВИА','ВЛАДИВОСТОК,МОРЕ','С-З ФИЛИАЛ,МОРЕ')&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE s.SalespersonName LIKE d.assigned_ttr + '%'&#xA;&#x9;AND COALESCE(d.assigned_ttr, '') &lt;&gt; ''&#xA;&#x9;AND d.req_calc_start &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -1, GETDATE())), MONTH(DATEADD(month, -1, GETDATE())), 1) AS datetime)&#xA;&#x9;AND d.service_type_row = 'ТЭО')&#xA;),&#xA;&#xA;cte_ks AS (&#xA;&#x9;SELECT DISTINCT SalespersonCode&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;WHERE [Dept_ Code] = 'ПРОДАЖИ-РАЗВИТИЕ'&#xA;&#x9;AND EXISTS (SELECT 0 FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;((s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '')&#xA;&#x9;OR &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '')&#xA;&#x9;)&#xA;&#x9;AND d.request_date &gt;= CAST(DATEFROMPARTS(YEAR(DATEADD(month, -3, GETDATE())), MONTH(DATEADD(month, -3, GETDATE())), 1) AS datetime))&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT s.SalespersonCode, s.SalespersonName, s.[Dept_ Code], oa.bitrix_name&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_declarant AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_declarant&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_sto_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_sto_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_spec AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_spec&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_stl_ttr AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_stl_ttr&#xA;&#x9;,CASE WHEN EXISTS (SELECT 0 FROM cte_ks AS c WHERE c.SalespersonCode = s.SalespersonCode) THEN 1 ELSE 0 END is_ks&#xA;&#x9;FROM [BI].[dwh].[ETP$Salesperson_Purchaser] AS s&#xA;&#x9;OUTER APPLY &#xA;&#x9;(SELECT TOP (1) &#xA;&#x9;COALESCE(&#xA;&#x9;IIF(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '', d.responsible_ks, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '', d.assigned, NULL),&#xA;&#x9;IIF(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '', d.assigned_ttr, NULL),&#xA;&#x9;'')&#xA;&#x9;AS [bitrix_name] &#xA;&#x9;FROM [webproject].[dbo].[deals] AS d&#xA;&#x9;WHERE &#xA;&#x9;(s.SalespersonName LIKE d.responsible_ks + '%' AND COALESCE(d.responsible_ks, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned + '%' AND COALESCE(d.assigned, '') &lt;&gt; '') OR&#xA;&#x9;(s.SalespersonName LIKE d.assigned_ttr + '%' AND COALESCE(d.assigned_ttr, '') &lt;&gt; '')&#xA;&#x9;) AS oa&#xA;&#xA;&#x9;WHERE [Dept_ Code] &lt;&gt; 'УВОЛЕННЫЕ'&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers] ([service]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;'ТО' AS [service],&#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_sto_ttr = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS sw &#xA;WHERE sw.[service] = 'ТО' AND cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ttr_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND [service] = 'ТО' AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT &#xA;&#x9;b.nav_code AS SalespersonCode,&#xA;&#x9;b.[name] AS SalespersonName,&#xA;&#x9;b.bitrix_name AS bitrix_name,&#xA;&#x9;b.[department_name] AS [Dept_ Code]&#xA;&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND group_id IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_declarant&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND COALESCE(group_id, '') NOT IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_sto_spec&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id = '1123' THEN 1 ELSE 0 END AS is_sto_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id IN ('1044','56','60','64','66','68') THEN 1 ELSE 0 END AS is_stl_spec&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id = '1090' THEN 1 ELSE 0 END AS is_stl_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '628' AND department_id IN ('1052','1082','22','76') THEN 1 ELSE 0 END AS is_ks&#xA;&#x9;FROM [motivation].[dbo].[bitrix_users] AS b&#xA;&#x9;WHERE active = 'Y' AND COALESCE(nav_code, '') &lt;&gt; ''&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ttr_workers] ([service]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;'ТО' AS [service],&#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'ttr_specialist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_sto_ttr = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ttr_workers] AS sw &#xA;WHERE sw.[service] = 'ТО' AND cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -4848,6 +5747,22 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 10"
       DTS:To="Package\Update role_type" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 11]"
+      DTS:CreationName=""
+      DTS:DTSID="{0CDB28F2-7B32-46BD-ADE2-B9D3792FDFB3}"
+      DTS:From="Package\Delete add roles"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 11"
+      DTS:To="Package\Update main TO roles" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 12]"
+      DTS:CreationName=""
+      DTS:DTSID="{E329D6B2-7E4E-4D19-AAC4-F4C9A56E3FD2}"
+      DTS:From="Package\Remove fired"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 12"
+      DTS:To="Package\Delete add roles" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
       DTS:CreationName=""
@@ -4926,6 +5841,10 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       <GraphLayout
         Capacity="32" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="156,42"
+          Id="Package\Delete add roles"
+          TopLeft="191,17" />
+        <NodeLayout
           Size="157,42"
           Id="Package\Reload add roles"
           TopLeft="201,291" />
@@ -4945,6 +5864,10 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
           Size="174,42"
           Id="Package\Reload result details"
           TopLeft="4,365" />
+        <NodeLayout
+          Size="141,42"
+          Id="Package\Remove fired"
+          TopLeft="9,21" />
         <NodeLayout
           Size="121,42"
           Id="Package\Truncate"
@@ -5023,6 +5946,62 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
                   Capacity="5">
                   <mssgle:LineSegment
                     End="26.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 11]"
+          TopLeft="347,38">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="11,58"
+              Start="0,0"
+              End="18.5,58">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="29.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="29.5,0"
+                    Point2="33.5,0"
+                    Point3="33.5,4" />
+                  <mssgle:LineSegment
+                    End="33.5,54" />
+                  <mssgle:CubicBezierSegment
+                    Point1="33.5,54"
+                    Point2="33.5,58"
+                    Point3="29.5,58" />
+                  <mssgle:LineSegment
+                    End="18.5,58" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 12]"
+          TopLeft="150,40">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41,0"
+              Start="0,0"
+              End="33.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="33.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5127,26 +6106,26 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="182.5,94"
+              EndConnector="150.25,94"
               Start="0,0"
-              End="182.5,86.5">
+              End="150.25,86.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,43" />
+                    End="0,57.4701670644391" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,43"
-                    Point2="0,47"
-                    Point3="4,47" />
+                    Point1="0,57.4701670644391"
+                    Point2="0,61.4701670644391"
+                    Point3="4,61.4701670644391" />
                   <mssgle:LineSegment
-                    End="178.5,47" />
+                    End="146.25,61.4701670644391" />
                   <mssgle:CubicBezierSegment
-                    Point1="178.5,47"
-                    Point2="182.5,47"
-                    Point3="182.5,51" />
+                    Point1="146.25,61.4701670644391"
+                    Point2="150.25,61.4701670644391"
+                    Point3="150.25,65.4701670644392" />
                   <mssgle:LineSegment
-                    End="182.5,86.5" />
+                    End="150.25,86.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5157,30 +6136,18 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 6]"
-          TopLeft="280,411">
+          TopLeft="276.75,411">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="15,90"
+              EndConnector="0,90"
               Start="0,0"
-              End="15,82.5">
+              End="0,82.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,49.3766233766234" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,49.3766233766234"
-                    Point2="0,53.3766233766234"
-                    Point3="4,53.3766233766234" />
-                  <mssgle:LineSegment
-                    End="11,53.3766233766234" />
-                  <mssgle:CubicBezierSegment
-                    Point1="11,53.3766233766234"
-                    Point2="15,53.3766233766234"
-                    Point3="15,57.3766233766234" />
-                  <mssgle:LineSegment
-                    End="15,82.5" />
+                    End="0,82.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5332,13 +6299,13 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="107,42"
-          Id="Package\Reload main\Query"
-          TopLeft="192,61" />
-        <NodeLayout
           Size="105,42"
           Id="Package\Reload main\Table"
           TopLeft="195,136" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Reload main\Query"
+          TopLeft="192,61" />
         <EdgeLayout
           Id="Package\Reload main.Paths[ADO NET Source Output]"
           TopLeft="246.5,103">
@@ -5366,6 +6333,14 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
   </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\Reload main\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Reload main\Table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5412,6 +6387,14 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
   </TaskHost>
   <PipelineComponentMetadata
     design-time-name="Package\Reload request details\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Reload request details\Table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5466,22 +6449,6 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
     design-time-name="Package\Reload result details\Table">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Reload request details\Table">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Reload main\Table">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>

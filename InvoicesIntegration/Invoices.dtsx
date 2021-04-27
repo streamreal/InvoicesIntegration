@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="10"
-  DTS:VersionGUID="{36C4773F-CE56-4AFB-A34C-64D8D83D710A}">
+  DTS:VersionBuild="12"
+  DTS:VersionGUID="{8E196AE8-F014-4A6C-B6D0-7D81DE76F0FC}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -780,7 +780,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_1]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_1"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_1]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_1]" />
@@ -836,7 +836,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_2]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_2"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_2]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_2]" />
@@ -892,7 +892,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_3]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_3"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_3]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_3]" />
@@ -948,7 +948,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_4]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_4"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_4]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_4]" />
@@ -1004,7 +1004,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_5]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_5"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_5]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_5]" />
@@ -1060,7 +1060,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_6]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_6"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_6]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_6]" />
@@ -1116,7 +1116,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_7]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_7"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_7]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_7]" />
@@ -1172,7 +1172,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_8]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_8"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_8]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_8]" />
@@ -1228,7 +1228,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_9]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_9"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_9]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_9]" />
@@ -1284,7 +1284,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_10]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_10"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_10]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_10]" />
@@ -1340,7 +1340,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_11]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_11"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_11]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_11]" />
@@ -1396,7 +1396,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_12]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_12"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_12]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_12]" />
@@ -1452,7 +1452,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_13]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_13"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_13]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_13]" />
@@ -1508,7 +1508,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_14]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_14"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_14]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_14]" />
@@ -1564,7 +1564,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].Columns[G442_15]"
                       cachedCodepage="1251"
                       cachedDataType="str"
-                      cachedLength="50"
+                      cachedLength="500"
                       cachedName="G442_15"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_15]"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_15]" />
@@ -2533,7 +2533,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_1]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_1" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_1]"
@@ -2575,7 +2575,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_2]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_2" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_2]"
@@ -2617,7 +2617,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_3]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_3" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_3]"
@@ -2659,7 +2659,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_4]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_4" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_4]"
@@ -2701,7 +2701,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_5]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_5" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_5]"
@@ -2743,7 +2743,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_6]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="1000"
                       name="G442_6" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_6]"
@@ -2785,7 +2785,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_7]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="1000"
                       name="G442_7" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_7]"
@@ -2827,7 +2827,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_8]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_8" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_8]"
@@ -2869,7 +2869,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_9]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_9" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_9]"
@@ -2911,7 +2911,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_10]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_10" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_10]"
@@ -2953,7 +2953,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_11]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_11" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_11]"
@@ -2995,7 +2995,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_12]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_12" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_12]"
@@ -3037,7 +3037,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_13]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_13" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_13]"
@@ -3079,7 +3079,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_14]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_14" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_14]"
@@ -3121,7 +3121,7 @@
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G442_15]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_15" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка в webproject.Inputs[Вход назначения &quot;OLE DB&quot;].ExternalColumns[G443_15]"
@@ -4472,7 +4472,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_1]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_1]"
                       name="G442_1"
                       truncationRowDisposition="FailComponent" />
@@ -4549,7 +4549,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_2]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_2]"
                       name="G442_2"
                       truncationRowDisposition="FailComponent" />
@@ -4626,7 +4626,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_3]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_3]"
                       name="G442_3"
                       truncationRowDisposition="FailComponent" />
@@ -4703,7 +4703,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_4]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_4]"
                       name="G442_4"
                       truncationRowDisposition="FailComponent" />
@@ -4780,7 +4780,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_5]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_5]"
                       name="G442_5"
                       truncationRowDisposition="FailComponent" />
@@ -4857,7 +4857,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_6]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_6]"
                       name="G442_6"
                       truncationRowDisposition="FailComponent" />
@@ -4934,7 +4934,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_7]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_7]"
                       name="G442_7"
                       truncationRowDisposition="FailComponent" />
@@ -5011,7 +5011,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_8]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_8]"
                       name="G442_8"
                       truncationRowDisposition="FailComponent" />
@@ -5088,7 +5088,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_9]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_9]"
                       name="G442_9"
                       truncationRowDisposition="FailComponent" />
@@ -5165,7 +5165,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_10]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_10]"
                       name="G442_10"
                       truncationRowDisposition="FailComponent" />
@@ -5242,7 +5242,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_11]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_11]"
                       name="G442_11"
                       truncationRowDisposition="FailComponent" />
@@ -5319,7 +5319,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_12]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_12]"
                       name="G442_12"
                       truncationRowDisposition="FailComponent" />
@@ -5396,7 +5396,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_13]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_13]"
                       name="G442_13"
                       truncationRowDisposition="FailComponent" />
@@ -5473,7 +5473,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_14]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_14]"
                       name="G442_14"
                       truncationRowDisposition="FailComponent" />
@@ -5550,7 +5550,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       errorOrTruncationOperation="Преобразование"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_15]"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].Columns[G442_15]"
                       name="G442_15"
                       truncationRowDisposition="FailComponent" />
@@ -6696,7 +6696,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_1]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_1" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_1]"
@@ -6738,7 +6738,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_2]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_2" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_2]"
@@ -6780,7 +6780,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_3]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_3" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_3]"
@@ -6822,7 +6822,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_4]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_4" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_4]"
@@ -6864,7 +6864,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_5]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_5" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_5]"
@@ -6906,7 +6906,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_6]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_6" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_6]"
@@ -6948,7 +6948,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_7]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_7" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_7]"
@@ -6990,7 +6990,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_8]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_8" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_8]"
@@ -7032,7 +7032,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_9]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_9" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_9]"
@@ -7074,7 +7074,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_10]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_10" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_10]"
@@ -7116,7 +7116,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_11]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_11" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_11]"
@@ -7158,7 +7158,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_12]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_12" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_12]"
@@ -7200,7 +7200,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_13]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_13" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_13]"
@@ -7242,7 +7242,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_14]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_14" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_14]"
@@ -7284,7 +7284,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G442_15]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       name="G442_15" />
                     <externalMetadataColumn
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[G443_15]"
@@ -8219,7 +8219,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_1]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_1]"
                       name="G442_1" />
                     <outputColumn
@@ -8268,7 +8268,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_2]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_2]"
                       name="G442_2" />
                     <outputColumn
@@ -8317,7 +8317,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_3]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_3]"
                       name="G442_3" />
                     <outputColumn
@@ -8366,7 +8366,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_4]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_4]"
                       name="G442_4" />
                     <outputColumn
@@ -8415,7 +8415,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_5]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_5]"
                       name="G442_5" />
                     <outputColumn
@@ -8464,7 +8464,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_6]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_6]"
                       name="G442_6" />
                     <outputColumn
@@ -8513,7 +8513,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_7]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_7]"
                       name="G442_7" />
                     <outputColumn
@@ -8562,7 +8562,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_8]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_8]"
                       name="G442_8" />
                     <outputColumn
@@ -8611,7 +8611,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_9]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_9]"
                       name="G442_9" />
                     <outputColumn
@@ -8660,7 +8660,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_10]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_10]"
                       name="G442_10" />
                     <outputColumn
@@ -8709,7 +8709,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_11]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_11]"
                       name="G442_11" />
                     <outputColumn
@@ -8758,7 +8758,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_12]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_12]"
                       name="G442_12" />
                     <outputColumn
@@ -8807,7 +8807,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_13]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_13]"
                       name="G442_13" />
                     <outputColumn
@@ -8856,7 +8856,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_14]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_14]"
                       name="G442_14" />
                     <outputColumn
@@ -8905,7 +8905,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
                       refId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_15]"
                       codePage="1251"
                       dataType="str"
-                      length="50"
+                      length="500"
                       lineageId="Package\Загрузка данных\Загрузка из таблицы InvoicesNew.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[G442_15]"
                       name="G442_15" />
                     <outputColumn
@@ -9456,6 +9456,10 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
           Size="172,42"
           Id="Package\Перенос в таблицу"
           TopLeft="127,277" />
+        <NodeLayout
+          Size="162,42"
+          Id="Package\Связка invoice_id"
+          TopLeft="129,357" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
           TopLeft="210.75,162">
@@ -9522,10 +9526,6 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="162,42"
-          Id="Package\Связка invoice_id"
-          TopLeft="129,357" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
           TopLeft="211.5,319">

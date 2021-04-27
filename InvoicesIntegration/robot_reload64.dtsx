@@ -1,0 +1,759 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="3/25/2021 10:30:47 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ETP025"
+  DTS:CreatorName="ELTRANSPLUS\andreydruzhinin"
+  DTS:DTSID="{04CB65C4-A581-4594-B2F0-2F3125B23078}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.71"
+  DTS:LocaleID="1049"
+  DTS:ObjectName="Package4"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{A6C9BF47-805F-4DB6-8FFB-168E52CF7D81}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[\\10.10.0.28\alta\Robot\MDB_rois\reg_ois.mdb]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{B7850E70-2F83-4034-A4A6-48BD5B607A29}"
+      DTS:ObjectName="\\10.10.0.28\alta\Robot\MDB_rois\reg_ois.mdb">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=\\10.10.0.28\alta\Robot\MDB_rois\reg_ois.mdb;Provider=Microsoft.ACE.OLEDB.12.0;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\ROIS"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:DTSID="{9fe38d17-d15c-418e-886e-35df45fc3d5b}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="ROIS"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\ROIS\MDB"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="Источник &quot;OLE DB&quot;;Корпорация Майкрософт. Microsoft SQL Server. (C) Корпорация Майкрософт (Microsoft Corporation). Все права защищены. http://www.microsoft.com/sql/support;7"
+              description="Источник &quot;OLE DB&quot;"
+              name="MDB"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="Время ожидания команды, в секундах. Величина 0 означает неограниченное время ожидания."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowset">ROIS_MAIN</property>
+                <property
+                  dataType="System.String"
+                  description="Указывает переменную, содержащую имя объекта базы данных, используемого для открытия набора строк."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="Команда SQL для выполнения."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor, Microsoft.DataTransformationServices.Controls, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91"></property>
+                <property
+                  dataType="System.String"
+                  description="Переменная, содержащая команду SQL для выполнения."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает кодовую страницу столбца, используемую, когда недоступны сведения о кодовой странице из источника данных."
+                  name="DefaultCodePage">1251</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Вызывает безусловное использование значение свойства DefaultCodePage при описании символьных данных."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Указывает используемый режим доступа к базе данных."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="Сопоставления между параметрами в команде SQL и переменными."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ROIS\MDB.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[\\10.10.0.28\alta\Robot\MDB_rois\reg_ois.mdb]"
+                  connectionManagerRefId="Package.ConnectionManagers[\\10.10.0.28\alta\Robot\MDB_rois\reg_ois.mdb]"
+                  description="Соединение OLE DB среды выполнения, используемое для доступа к базе данных."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;]"
+                  name="Выход источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ROIS_MAIN_ID]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ROIS_MAIN_ID]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ROIS_MAIN_ID]"
+                      name="ROIS_MAIN_ID"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGNOMER]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REGNOMER]"
+                      length="64"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGNOMER]"
+                      name="REGNOMER"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NAME]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NAME]"
+                      length="254"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NAME]"
+                      name="NAME"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NOMER_DATE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NOMER_DATE]"
+                      length="32"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NOMER_DATE]"
+                      name="NOMER_DATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[POSSESSOR]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[POSSESSOR]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[POSSESSOR]"
+                      name="POSSESSOR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DELEGATE]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DELEGATE]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DELEGATE]"
+                      name="DELEGATE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DATEINSCR]"
+                      dataType="date"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DATEINSCR]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DATEINSCR]"
+                      name="DATEINSCR"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NOMERLET]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NOMERLET]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NOMERLET]"
+                      name="NOMERLET"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[COMMENTS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[COMMENTS]"
+                      length="254"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[COMMENTS]"
+                      name="COMMENTS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IMAGEFILE]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[IMAGEFILE]"
+                      length="64"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IMAGEFILE]"
+                      name="IMAGEFILE"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IMG1]"
+                      dataType="image"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[IMG1]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IMG1]"
+                      name="IMG1"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[KEYWORDS]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[KEYWORDS]"
+                      length="254"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[KEYWORDS]"
+                      name="KEYWORDS"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DATEADD]"
+                      dataType="date"
+                      errorOrTruncationOperation="Преобразование"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DATEADD]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DATEADD]"
+                      name="DATEADD"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[ROIS_MAIN_ID]"
+                      dataType="i4"
+                      name="ROIS_MAIN_ID" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[REGNOMER]"
+                      dataType="wstr"
+                      length="64"
+                      name="REGNOMER" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NAME]"
+                      dataType="wstr"
+                      length="254"
+                      name="NAME" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NOMER_DATE]"
+                      dataType="wstr"
+                      length="32"
+                      name="NOMER_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[POSSESSOR]"
+                      dataType="nText"
+                      name="POSSESSOR" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DELEGATE]"
+                      dataType="nText"
+                      name="DELEGATE" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DATEINSCR]"
+                      dataType="date"
+                      name="DATEINSCR" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[NOMERLET]"
+                      dataType="nText"
+                      name="NOMERLET" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[COMMENTS]"
+                      dataType="wstr"
+                      length="254"
+                      name="COMMENTS" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[IMAGEFILE]"
+                      dataType="wstr"
+                      length="64"
+                      name="IMAGEFILE" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[IMG1]"
+                      dataType="image"
+                      name="IMG1" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[KEYWORDS]"
+                      dataType="wstr"
+                      length="254"
+                      name="KEYWORDS" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].ExternalColumns[DATEADD]"
+                      dataType="date"
+                      name="DATEADD" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;]"
+                  isErrorOut="true"
+                  name="Вывод ошибок источника &quot;OLE DB&quot;">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ROIS_MAIN_ID]"
+                      dataType="i4"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ROIS_MAIN_ID]"
+                      name="ROIS_MAIN_ID" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REGNOMER]"
+                      dataType="wstr"
+                      length="64"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[REGNOMER]"
+                      name="REGNOMER" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NAME]"
+                      dataType="wstr"
+                      length="254"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NAME]"
+                      name="NAME" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NOMER_DATE]"
+                      dataType="wstr"
+                      length="32"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NOMER_DATE]"
+                      name="NOMER_DATE" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[POSSESSOR]"
+                      dataType="nText"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[POSSESSOR]"
+                      name="POSSESSOR" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DELEGATE]"
+                      dataType="nText"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DELEGATE]"
+                      name="DELEGATE" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DATEINSCR]"
+                      dataType="date"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DATEINSCR]"
+                      name="DATEINSCR" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NOMERLET]"
+                      dataType="nText"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[NOMERLET]"
+                      name="NOMERLET" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[COMMENTS]"
+                      dataType="wstr"
+                      length="254"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[COMMENTS]"
+                      name="COMMENTS" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[IMAGEFILE]"
+                      dataType="wstr"
+                      length="64"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[IMAGEFILE]"
+                      name="IMAGEFILE" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[IMG1]"
+                      dataType="image"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[IMG1]"
+                      name="IMG1" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[KEYWORDS]"
+                      dataType="wstr"
+                      length="254"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[KEYWORDS]"
+                      name="KEYWORDS" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DATEADD]"
+                      dataType="date"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[DATEADD]"
+                      name="DATEADD" />
+                    <outputColumn
+                      refId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ROIS\MDB.Outputs[Вывод ошибок источника &quot;OLE DB&quot;].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\ROIS\ROIS"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="ROIS"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">"dbo"."rois_ref"</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">30</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\ROIS\ROIS.Connections[IDbConnection]"
+                  connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[ROIS_MAIN_ID]"
+                      cachedDataType="i4"
+                      cachedName="ROIS_MAIN_ID"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[ROIS_MAIN_ID]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[ROIS_MAIN_ID]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[REGNOMER]"
+                      cachedDataType="wstr"
+                      cachedLength="64"
+                      cachedName="REGNOMER"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[REGNOMER]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[REGNOMER]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[NAME]"
+                      cachedDataType="wstr"
+                      cachedLength="254"
+                      cachedName="NAME"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[NAME]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NAME]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[NOMER_DATE]"
+                      cachedDataType="wstr"
+                      cachedLength="32"
+                      cachedName="NOMER_DATE"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[NOMER_DATE]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NOMER_DATE]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[POSSESSOR]"
+                      cachedDataType="nText"
+                      cachedName="POSSESSOR"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[POSSESSOR]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[POSSESSOR]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[DELEGATE]"
+                      cachedDataType="nText"
+                      cachedName="DELEGATE"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[DELEGATE]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DELEGATE]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[DATEINSCR]"
+                      cachedDataType="date"
+                      cachedName="DATEINSCR"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[DATEINSCR]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DATEINSCR]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[NOMERLET]"
+                      cachedDataType="nText"
+                      cachedName="NOMERLET"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[NOMERLET]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[NOMERLET]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[COMMENTS]"
+                      cachedDataType="wstr"
+                      cachedLength="254"
+                      cachedName="COMMENTS"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[COMMENTS]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[COMMENTS]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[IMAGEFILE]"
+                      cachedDataType="wstr"
+                      cachedLength="64"
+                      cachedName="IMAGEFILE"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[IMAGEFILE]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IMAGEFILE]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[IMG1]"
+                      cachedDataType="image"
+                      cachedName="IMG1"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[IMG1]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[IMG1]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[KEYWORDS]"
+                      cachedDataType="wstr"
+                      cachedLength="254"
+                      cachedName="KEYWORDS"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[KEYWORDS]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[KEYWORDS]" />
+                    <inputColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].Columns[DATEADD]"
+                      cachedDataType="date"
+                      cachedName="DATEADD"
+                      externalMetadataColumnId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[DATEADD]"
+                      lineageId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;].Columns[DATEADD]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[ROIS_MAIN_ID]"
+                      dataType="i4"
+                      name="ROIS_MAIN_ID" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[REGNOMER]"
+                      dataType="wstr"
+                      length="64"
+                      name="REGNOMER" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[NAME]"
+                      dataType="wstr"
+                      length="254"
+                      name="NAME" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[NOMER_DATE]"
+                      dataType="wstr"
+                      length="32"
+                      name="NOMER_DATE" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[POSSESSOR]"
+                      dataType="wstr"
+                      length="2147483647"
+                      name="POSSESSOR" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[DELEGATE]"
+                      dataType="wstr"
+                      length="2147483647"
+                      name="DELEGATE" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[DATEINSCR]"
+                      dataType="dbTimeStamp"
+                      name="DATEINSCR" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[NOMERLET]"
+                      dataType="wstr"
+                      length="2147483647"
+                      name="NOMERLET" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[COMMENTS]"
+                      dataType="wstr"
+                      length="254"
+                      name="COMMENTS" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[IMAGEFILE]"
+                      dataType="wstr"
+                      length="64"
+                      name="IMAGEFILE" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[IMG1]"
+                      dataType="bytes"
+                      length="2147483647"
+                      name="IMG1" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[KEYWORDS]"
+                      dataType="wstr"
+                      length="254"
+                      name="KEYWORDS" />
+                    <externalMetadataColumn
+                      refId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input].ExternalColumns[DATEADD]"
+                      dataType="dbTimeStamp"
+                      name="DATEADD" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\ROIS\ROIS.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\ROIS\ROIS.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\ROIS\ROIS.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\ROIS\ROIS.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\ROIS\ROIS.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\ROIS.Paths[Выход источника &quot;OLE DB&quot;]"
+              endId="Package\ROIS\ROIS.Inputs[ADO NET Destination Input]"
+              name="Выход источника &quot;OLE DB&quot;"
+              startId="Package\ROIS\MDB.Outputs[Выход источника &quot;OLE DB&quot;]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{8af62d04-f171-476f-9b41-ba13a7e89dcf}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE automation.dbo.rois_ref" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 6]"
+      DTS:CreationName=""
+      DTS:DTSID="{2cdfa452-4126-4466-ad92-b26a086b5e25}"
+      DTS:From="Package\Truncate"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 6"
+      DTS:To="Package\ROIS" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
+<!--В случае возникновения ошибки при редактировании этого раздела вручную его можно удалить. -->
+<!--Пакет можно загрузить обычным образом, но прежние сведения о макете будут утеряны, и конструктор автоматически перераспределит элементы в области конструктора.-->
+<Objects
+  Version="8">
+  <!--Все приведенные ниже узлы будут содержать свойства, не влияющие на поведение среды выполнения.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="103,42"
+          Id="Package\ROIS"
+          TopLeft="72,122" />
+        <NodeLayout
+          Size="121,42"
+          Id="Package\Truncate"
+          TopLeft="60,60" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 6]"
+          TopLeft="60,81">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="12,62"
+              Start="0,0"
+              End="4.5,62">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="-18.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.5,0"
+                    Point2="-22.5,0"
+                    Point3="-22.5,4" />
+                  <mssgle:LineSegment
+                    End="-22.5,58" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-22.5,58"
+                    Point2="-22.5,62"
+                    Point3="-18.5,62" />
+                  <mssgle:LineSegment
+                    End="4.5,62" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\ROIS">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="101,42"
+          Id="Package\ROIS\MDB"
+          TopLeft="212,115" />
+        <NodeLayout
+          Size="103,42"
+          Id="Package\ROIS\ROIS"
+          TopLeft="212,182" />
+        <EdgeLayout
+          Id="Package\ROIS.Paths[Выход источника &quot;OLE DB&quot;]"
+          TopLeft="263,157">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\ROIS\MDB">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>

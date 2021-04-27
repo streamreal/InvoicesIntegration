@@ -71,6 +71,7 @@
     <Compile Include="RowsConcat.cs" />
     <Compile Include="ParseContainers.cs" />
     <Compile Include="GetDeliveryNumber.cs" />
+    <Compile Include="DistinctRowsConcat.cs" />
   </ItemGroup>
   <ItemGroup>
     <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac">
