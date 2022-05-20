@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package1"
   DTS:PackageType="5"
-  DTS:VersionBuild="93"
-  DTS:VersionGUID="{29F68127-B156-4B3F-AD6B-0A445039C398}">
+  DTS:VersionBuild="115"
+  DTS:VersionGUID="{DF6E6B22-2713-4649-BF95-85AE95B1AE26}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,7 +27,7 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAT02lHisyrkSGE6l7zGTqeQAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAABC1uiNkZM3SWPZMZPKsd9AAAAAAASAAACgAAAAEAAAALr5qlAfGv2lRGh1MgDSz2AYAAAA+NWxfDucxPFVG2IGFsQnPfvNNDdzInPvFAAAAIz+OGc/T1If58O4P5jqstUnAuoP</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAjMh3awE9jkm+PqRifB4smgAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAAC+oLhoITO95J1ZQYGq3tXqAAAAAASAAACgAAAAEAAAAExmxba7ExWi7AaXRXkKus4YAAAAVwili9qrzJ6RVir8nyYpfeuMHna/wlWXFAAAAGaFcpxoS+cDZCuOlqOfmIHvT32g</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
@@ -258,7 +258,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.regnum, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.regnum END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Уведомление о досмотре' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]    &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.customs_examination_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.customs_examination_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.customs_examination_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE dosmotr = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND dosmotr = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Уведомление о досмотре')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.regnum, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.regnum END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Уведомление о досмотре' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]    &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.customs_examination_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.customs_examination_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.customs_examination_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE dosmotr = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND dosmotr = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Уведомление о досмотре')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -275,7 +275,23 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Завершение транзита' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_TransportDeliveryCloseDateTimeCaption [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.transit_closure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.transit_closure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.transit_closure_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_TransportDeliveryCloseDateTimeCaption IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_TransportDeliveryCloseDateTimeCaption IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Завершение транзита')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Завершение транзита' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_TransportDeliveryCloseDateTimeCaption [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.transit_closure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.transit_closure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.transit_closure_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_TransportDeliveryCloseDateTimeCaption IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_TransportDeliveryCloseDateTimeCaption IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Завершение транзита')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          </DTS:ObjectData>
+        </DTS:Executable>
+        <DTS:Executable
+          DTS:refId="Package\Система уведомлений\INSERT запросы по ДТ"
+          DTS:CreationName="Microsoft.ExecuteSQLTask"
+          DTS:Description="Execute SQL Task"
+          DTS:DTSID="{0B3CA814-2270-4150-AE28-02524C2003ED}"
+          DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+          DTS:LocaleID="-1"
+          DTS:ObjectName="INSERT запросы по ДТ"
+          DTS:ThreadHint="0">
+          <DTS:Variables />
+          <DTS:ObjectData>
+            <SQLTask:SqlTaskData
+              SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#xA;&#x9;&#x9;,'Запрос: ' + x.Result AS message_text&#x9;&#x9;&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT&#x9;&#x9;&#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Запрос документов по ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.transport&#x9;&#xA;&#x9;&#x9;,n.ptd_sign&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,n.Result&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]    &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.dt_request_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_request_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.dt_request_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE request = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND request = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Запрос документов по ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -292,7 +308,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="USE [webproject]&#xA;GO&#xA;INSERT INTO [dbo].[alta_notices]           &#xA;&#x9;&#x9;   ([EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,[&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;&#x9;&#x9;   ,[regnum]&#xA;&#x9;&#x9;   ,[transport]&#xA;&#x9;&#x9;   ,[ptd_sign]&#xA;&#x9;&#x9;   ,[sender]&#xA;&#x9;&#x9;   ,[inv]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,[CargoID]&#xA;&#x9;&#x9;   ,[Name]&#xA;&#x9;&#x9;   ,[terminal_name])     &#xA;&#x9; SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9; ,LEFT([&amp;&amp;PRIM], 7) AS [&amp;&amp;PRIM]&#xA;&#x9;  ,[VAT]&#xA;&#x9;  ,[RegNum]&#xA;&#x9;  ,[transport]&#xA;&#x9;  ,[ptd_sign]&#xA;&#x9;  ,[sender]&#xA;&#x9;  ,[inv]&#xA;&#x9;  ,[decision]&#xA;      ,[open_ed]&#xA;      ,[reg]&#xA;      ,[dosmotr]&#xA;      ,[ptd_notice]&#xA;          ,CASE WHEN PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]) &gt; 0 THEN SUBSTRING([&amp;&amp;PRIM], PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]), 7)&#xA;&#x9;&#x9;   WHEN ca1.[CargoID] IS NOT NULL THEN ca1.[CargoID]&#xA;&#x9;&#x9;   ELSE 'UNKNOWN'&#xA;&#x9;&#x9;   END AS [CargoID]&#xA;&#x9;  ,ca_cust.[Name]&#xA;&#x9;  ,COALESCE(oa1.TERMINAL_NAME, '-')&#xA;&#x9; FROM (&#xA;     SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9;  ,ca.[&amp;&amp;PRIM]&#xA;&#x9;  ,ca.VAT&#xA;&#x9;  ,ca.RegNum&#xA;&#x9;  ,ca.transport&#xA;&#x9;  ,ca.ptd_sign&#xA;&#x9;  ,ca.sender&#xA;&#x9;  ,ca.inv&#x9;  &#xA;&#x9;,CASE&#xA;&#x9;WHEN [MessageType] IN &#xA;&#x9;    ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND NOT EXISTS &#xA;&#x9;&#x9;(SELECT 0 FROM [gtd].[dbo].[EDMsgs] e &#xA;&#x9;&#x9;WHERE e.DocGuid = ed.DocGuid AND e.MessageType IN &#xA;&#x9;    ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA;&#x9;&#x9; THEN 1&#xA;&#x9;&#x9; ELSE 0&#xA;&#x9;END decision&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'ED.11002' AND NOT EXISTS &#xA;&#x9;(SELECT 0 FROM [gtd].[dbo].[EDMsgs] e &#xA;&#x9;WHERE e.DocGuid = ed.DocGuid AND e.MessageType = 'ED.11002' AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA;&#x9;THEN 1&#xA;&#x9;ELSE 0&#xA;&#x9;END open_ed&#xA;&#x9;,CASE&#xA;&#x9;WHEN [MessageType] = 'CMN.11001' THEN 1&#xA;&#x9;ELSE 0&#xA;&#x9;END reg&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'CMN.11005' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END dosmotr&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'CMN.11049' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END ptd_notice&#x9;&#xA;  FROM [gtd].[dbo].[EDMsgs] ed&#xA;  CROSS APPLY &#xA;  (SELECT COALESCE([&amp;&amp;PRIM], '') [&amp;&amp;PRIM], &#xA;  CASE WHEN CHARINDEX('/', [14_4]) &gt; 0 THEN SUBSTRING([14_4], 1, CHARINDEX('/', [14_4]) - 1)&#xA;  ELSE COALESCE([14_4], '')&#xA;  END VAT,&#xA;  COALESCE(g.RegNum, '') RegNum,&#xA;  COALESCE(NULLIF(COALESCE(g.[18], ''), ''), NULLIF(COALESCE(g.[21], ''), ''),'-') transport,&#xA;  COALESCE(g.[1_3], '') ptd_sign,&#xA;  COALESCE(NULLIF(COALESCE(g.[2_NAM], ''), ''), NULLIF(COALESCE(g.[2], ''), ''),'-') sender,&#xA;  COALESCE(g.[BLOCK\1\@44_!_04021], '') inv&#xA;  FROM gtd.dbo.GTDList g WHERE g.DOCGID = ed.[DocGuid]) AS ca&#xA;  WHERE InOutDateTime BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, 1, GETDATE())&#xA;  ) x&#xA;  CROSS APPLY (SELECT TOP (1) cust.[Name]&#xA;  FROM [BI].[dwh].[ETP$Customer] cust WHERE cust.[VAT Registration No_] = x.VAT&#xA;  ) AS ca_cust&#xA;  OUTER APPLY (SELECT TOP (1) cd.[CargoID]&#xA;  FROM [BI].[dwh].[CargoDelivery] cd&#xA;  JOIN [BI].[dwh].[ETP$SQL_Cargo] sc ON cd.CargoID = sc.[Cargo ID]&#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON sc.[Customer No_] = cust.[No_]&#xA;  WHERE cd.[DeliveryNo_] = x.[&amp;&amp;PRIM] AND cust.[VAT Registration No_] = x.VAT) AS ca1&#xA;  OUTER APPLY (SELECT TOP (1) TERMINAL_NAME&#xA;  FROM [BI].[dwh].[MonitorsDatamart] md&#xA;  WHERE md.DOCGID = x.DocGuid&#xA;  ) AS oa1   &#xA;  WHERE &#xA;  NOT EXISTS(SELECT 0 FROM [dbo].[alta_notices] n WHERE n.[EnvelopeID] = x.EnvelopeID)&#xA;  AND (decision = 1 OR open_ed = 1 OR reg = 1 OR dosmotr = 1 OR ptd_notice = 1)&#xA;  GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="USE [webproject]&#xA;GO&#xA;INSERT INTO [dbo].[alta_notices]           &#xA;&#x9;&#x9;   ([EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,[&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;&#x9;&#x9;   ,[regnum]&#xA;&#x9;&#x9;   ,[transport]&#xA;&#x9;&#x9;   ,[ptd_sign]&#xA;&#x9;&#x9;   ,[sender]&#xA;&#x9;&#x9;   ,[inv]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,[CargoID]&#xA;&#x9;&#x9;   ,[Name]&#xA;&#x9;&#x9;   ,[terminal_name]&#xA;&#x9;&#x9;   ,[request])     &#xA;&#x9; SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9; ,LEFT([&amp;&amp;PRIM], 7) AS [&amp;&amp;PRIM]&#xA;&#x9;  ,[VAT]&#xA;&#x9;  ,[RegNum]&#xA;&#x9;  ,[transport]&#xA;&#x9;  ,[ptd_sign]&#xA;&#x9;  ,[sender]&#xA;&#x9;  ,[inv]&#xA;&#x9;  ,[decision]&#xA;      ,[open_ed]&#xA;      ,[reg]&#xA;      ,[dosmotr]&#xA;      ,[ptd_notice]&#xA;          ,CASE WHEN PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]) &gt; 0 THEN SUBSTRING([&amp;&amp;PRIM], PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]), 7)&#xA;&#x9;&#x9;   WHEN ca1.[CargoID] IS NOT NULL THEN ca1.[CargoID]&#xA;&#x9;&#x9;   ELSE 'UNKNOWN'&#xA;&#x9;&#x9;   END AS [CargoID]&#xA;&#x9;  ,ca_cust.[Name]&#xA;&#x9;  ,COALESCE(oa1.TERMINAL_NAME, '-')&#xA;&#x9;  ,request&#xA;&#x9; FROM (&#xA;     SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9;  ,ca.[&amp;&amp;PRIM]&#xA;&#x9;  ,ca.VAT&#xA;&#x9;  ,COALESCE(CASE WHEN [MessageType] = 'CMN.11001' THEN Result ELSE NULL END, ca.RegNum) AS RegNum&#xA;&#x9;  ,ca.transport&#xA;&#x9;  ,ca.ptd_sign&#xA;&#x9;  ,ca.sender&#xA;&#x9;  ,ca.inv&#x9;  &#xA;&#x9;,CASE&#xA;&#x9;WHEN [MessageType] IN &#xA;&#x9;    ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND NOT EXISTS &#xA;&#x9;&#x9;(SELECT 0 FROM [gtd].[dbo].[EDMsgs] e &#xA;&#x9;&#x9;WHERE e.DocGuid = ed.DocGuid AND e.MessageType IN &#xA;&#x9;    ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA;&#x9;&#x9; THEN 1&#xA;&#x9;&#x9; ELSE 0&#xA;&#x9;END decision&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'ED.11002' AND NOT EXISTS &#xA;&#x9;(SELECT 0 FROM [gtd].[dbo].[EDMsgs] e &#xA;&#x9;WHERE e.DocGuid = ed.DocGuid AND e.MessageType = 'ED.11002' AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA;&#x9;THEN 1&#xA;&#x9;ELSE 0&#xA;&#x9;END open_ed&#xA;&#x9;,CASE&#xA;&#x9;WHEN [MessageType] = 'CMN.11001' AND COALESCE(Result, '') &lt;&gt; '' THEN 1&#xA;&#x9;ELSE 0&#xA;&#x9;END reg&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'CMN.11005' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END dosmotr&#xA;&#x9;,CASE &#xA;&#x9;WHEN [MessageType] = 'CMN.11049' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END ptd_notice&#x9;&#xA;&#x9;,CASE&#xA;&#x9;WHEN DocumentName = 'ReqInventoryDoc' AND MessageType LIKE 'MY.1%' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END AS [request]&#xA;  FROM [gtd].[dbo].[EDMsgs] ed&#xA;  CROSS APPLY &#xA;  (SELECT COALESCE([&amp;&amp;PRIM], '') [&amp;&amp;PRIM], &#xA;  CASE WHEN CHARINDEX('/', [14_4]) &gt; 0 THEN SUBSTRING([14_4], 1, CHARINDEX('/', [14_4]) - 1)&#xA;  ELSE COALESCE([14_4], '')&#xA;  END VAT,&#xA;  COALESCE(g.RegNum, '') RegNum,&#xA;  COALESCE(NULLIF(COALESCE(g.[18], ''), ''), NULLIF(COALESCE(g.[21], ''), ''),'-') transport,&#xA;  COALESCE(g.[1_3], '') ptd_sign,&#xA;  COALESCE(NULLIF(COALESCE(g.[2_NAM], ''), ''), NULLIF(COALESCE(g.[2], ''), ''),'-') sender,&#xA;  COALESCE(g.[BLOCK\1\@44_!_04021], '') inv&#xA;  FROM gtd.dbo.GTDList g WHERE g.DOCGID = ed.[DocGuid]) AS ca&#xA;  WHERE InOutDateTime BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, 1, GETDATE())&#xA;  ) x&#xA;  CROSS APPLY (SELECT TOP (1) cust.[Name]&#xA;  FROM [BI].[dwh].[ETP$Customer] cust WHERE cust.[VAT Registration No_] = x.VAT&#xA;  ) AS ca_cust&#xA;  OUTER APPLY (SELECT TOP (1) cd.[CargoID]&#xA;  FROM [BI].[dwh].[CargoDelivery] cd&#xA;  JOIN [BI].[dwh].[ETP$SQL_Cargo] sc ON cd.CargoID = sc.[Cargo ID]&#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON sc.[Customer No_] = cust.[No_]&#xA;  WHERE cd.[DeliveryNo_] = x.[&amp;&amp;PRIM] AND cust.[VAT Registration No_] = x.VAT) AS ca1&#xA;  OUTER APPLY (SELECT TOP (1) TERMINAL_NAME&#xA;  FROM [BI].[dwh].[MonitorsDatamart] md&#xA;  WHERE md.DOCGID = x.DocGuid&#xA;  ) AS oa1   &#xA;  WHERE &#xA;  NOT EXISTS(SELECT 0 FROM [dbo].[alta_notices] n WHERE n.[EnvelopeID] = x.EnvelopeID)&#xA;  AND (decision = 1 OR open_ed = 1 OR reg = 1 OR dosmotr = 1 OR ptd_notice = 1 OR request = 1)&#xA;  GO&#xA;  " xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -309,7 +325,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="USE [webproject]&#xA;GO&#xA;INSERT INTO [dbo].[alta_notices]           &#xA;     ([EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,[&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;&#x9;&#x9;&#x9; ,[regnum]&#xA;&#x9;&#x9;&#x9; ,[transport]&#xA;&#x9;&#x9;&#x9; ,[ptd_sign]&#xA;&#x9;&#x9;&#x9; ,[sender]&#xA;&#x9;&#x9;&#x9;,[inv]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,[CargoID]&#xA;     ,[Name]&#xA;&#x9; ,[terminal_name])&#xA;  SELECT [EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,LEFT([&amp;&amp;PRIM], 7) AS [&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;&#x9;&#x9;&#x9;,[regnum]&#xA;&#x9;&#x9;&#x9;,[transport]&#xA;&#x9;&#x9;&#x9;,[ptd_sign]&#xA;&#x9;&#x9;&#x9;,[sender]&#xA;&#x9;&#x9;&#x9;,[inv]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,CASE WHEN PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]) &gt; 0 THEN SUBSTRING([&amp;&amp;PRIM], PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]), 7)&#xA;&#x9;&#x9;   WHEN ca1.[CargoID] IS NOT NULL THEN ca1.[CargoID]&#xA;&#x9;&#x9;   ELSE 'UNKNOWN'&#xA;&#x9;&#x9;   END AS [CargoID]&#xA;&#x9;&#x9;&#x9;,ca_cust.[Name]  &#xA;&#x9;&#x9;&#x9;,COALESCE(oa1.TERMINAL_NAME, '-') TERMINAL_NAME&#xA;  FROM (&#xA;     SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9;   ,ca.[&amp;&amp;PRIM]&#xA;&#x9;   ,ca.VAT&#xA;&#x9;   ,ca.RegNum&#xA;&#x9;   ,ca.transport&#xA;&#x9;   ,ca.ptd_sign&#xA;&#x9;    ,ca.sender&#xA;&#x9;  ,ca.inv&#xA; ,CASE&#xA; WHEN [MessageType] IN &#xA;     ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND NOT EXISTS &#xA;&#x9;&#x9;&#x9;(SELECT 0 FROM [gtd].[dbo].[EDMsgs] e &#xA;&#x9;&#x9;&#x9;WHERE e.DocGuid = ed.DocGuid AND e.MessageType IN &#xA;     ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA;   THEN 1&#xA;   ELSE 0&#xA; END decision&#xA; ,CASE &#xA; WHEN [MessageType] = 'ED.11002' AND NOT EXISTS &#xA; (SELECT 0 FROM [gtd].[dbo].[EDMsgs] e &#xA; WHERE e.DocGuid = ed.DocGuid AND e.MessageType = 'ED.11002' AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA; THEN 1&#xA; ELSE 0&#xA; END open_ed&#xA; ,CASE&#xA; WHEN [MessageType] = 'CMN.11001' THEN 1&#xA; ELSE 0&#xA; END reg&#xA; ,CASE &#xA; WHEN [MessageType] = 'CMN.11005' THEN 1 &#xA; ELSE 0&#xA; END dosmotr&#xA; ,CASE &#xA; WHEN [MessageType] = 'CMN.11049' THEN 1 &#xA; ELSE 0&#xA; END ptd_notice &#xA;  FROM [gtd_tnp].[dbo].[EDMsgs] ed&#xA;  CROSS APPLY &#xA;  (SELECT COALESCE([&amp;&amp;PRIM], '') [&amp;&amp;PRIM], &#xA;  CASE WHEN CHARINDEX('/', [14_4]) &gt; 0 THEN SUBSTRING([14_4], 1, CHARINDEX('/', [14_4]) - 1)&#xA;  ELSE COALESCE([14_4], '')&#xA;  END VAT,&#xA;  COALESCE(g.RegNum, '') RegNum,&#xA;  COALESCE(NULLIF(COALESCE(g.[18], ''), ''), NULLIF(COALESCE(g.[21], ''), ''),'-') transport&#xA;  ,COALESCE(g.[1_3], '') ptd_sign,&#xA;  COALESCE(NULLIF(COALESCE(g.[2_NAM], ''), ''), NULLIF(COALESCE(g.[2], ''), ''),'-') sender,&#xA;  COALESCE(g.[BLOCK\1\@44_!_04021], '') inv&#xA;  FROM gtd_tnp.dbo.GTDList g WHERE g.DOCGID = ed.[DocGuid]) AS ca&#xA;  WHERE InOutDateTime BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, 1, GETDATE())&#xA;  ) x&#xA;  CROSS APPLY (SELECT TOP (1) cust.[Name]&#xA;  FROM [BI].[dwh].[ETP$Customer] cust WHERE cust.[VAT Registration No_] = x.VAT&#xA;  ) AS ca_cust&#xA;  OUTER APPLY (SELECT TOP (1) cd.[CargoID]&#xA;  FROM [BI].[dwh].[CargoDelivery] cd&#xA;  JOIN [BI].[dwh].[ETP$SQL_Cargo] sc ON cd.CargoID = sc.[Cargo ID]&#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON sc.[Customer No_] = cust.[No_]&#xA;  WHERE cd.[DeliveryNo_] = x.[&amp;&amp;PRIM] AND cust.[VAT Registration No_] = x.VAT) AS ca1  &#xA;  OUTER APPLY (SELECT TOP (1) TERMINAL_NAME&#xA;  FROM [BI].[dwh].[MonitorsDatamart] md&#xA;  WHERE md.DOCGID = x.DocGuid&#xA;  ) AS oa1&#xA;  WHERE &#xA;  NOT EXISTS(SELECT 0 FROM [dbo].[alta_notices] n WHERE n.[EnvelopeID] = x.EnvelopeID)&#xA;  AND (decision = 1 OR open_ed = 1 OR reg = 1 OR dosmotr = 1 OR ptd_notice = 1)&#xA;  GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="USE [webproject]&#xA;GO&#xA;INSERT INTO [dbo].[alta_notices]           &#xA;     ([EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,[&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;&#x9;&#x9;&#x9; ,[regnum]&#xA;&#x9;&#x9;&#x9; ,[transport]&#xA;&#x9;&#x9;&#x9; ,[ptd_sign]&#xA;&#x9;&#x9;&#x9; ,[sender]&#xA;&#x9;&#x9;&#x9;,[inv]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,[CargoID]&#xA;     ,[Name]&#xA;&#x9; ,[terminal_name]&#xA;&#x9;    ,[request])    &#xA;  SELECT [EnvelopeID]&#xA;           ,[InOutDateTime]&#xA;           ,[MessageType]&#xA;           ,[CustomsCode]&#xA;           ,[Result]&#xA;           ,[DocGuid]&#xA;           ,LEFT([&amp;&amp;PRIM], 7) AS [&amp;&amp;PRIM]&#xA;           ,[VAT]&#xA;&#x9;&#x9;&#x9;,[regnum]&#xA;&#x9;&#x9;&#x9;,[transport]&#xA;&#x9;&#x9;&#x9;,[ptd_sign]&#xA;&#x9;&#x9;&#x9;,[sender]&#xA;&#x9;&#x9;&#x9;,[inv]&#xA;           ,[decision]&#xA;           ,[open_ed]&#xA;           ,[reg]&#xA;           ,[dosmotr]&#xA;           ,[ptd_notice]&#xA;           ,CASE WHEN PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]) &gt; 0 THEN SUBSTRING([&amp;&amp;PRIM], PATINDEX('%C[0-9][0-9][0-9][0-9][0-9][0-9]%', [&amp;&amp;PRIM]), 7)&#xA;&#x9;&#x9;   WHEN ca1.[CargoID] IS NOT NULL THEN ca1.[CargoID]&#xA;&#x9;&#x9;   ELSE 'UNKNOWN'&#xA;&#x9;&#x9;   END AS [CargoID]&#xA;&#x9;&#x9;&#x9;,ca_cust.[Name]  &#xA;&#x9;&#x9;&#x9;,COALESCE(oa1.TERMINAL_NAME, '-') TERMINAL_NAME&#xA;&#x9;&#x9;&#x9;,request&#xA;  FROM (&#xA;     SELECT [EnvelopeID]      &#xA;      ,[InOutDateTime]      &#xA;      ,[MessageType]     &#xA;      ,[CustomsCode] &#xA;      ,[Result]&#xA;      ,[DocGuid]&#xA;&#x9;   ,ca.[&amp;&amp;PRIM]&#xA;&#x9;   ,ca.VAT&#xA;&#x9;   ,COALESCE(CASE WHEN [MessageType] = 'CMN.11001' THEN Result ELSE NULL END, ca.RegNum) AS RegNum&#xA;&#x9;   ,ca.transport&#xA;&#x9;   ,ca.ptd_sign&#xA;&#x9;    ,ca.sender&#xA;&#x9;  ,ca.inv&#xA; ,CASE&#xA; WHEN [MessageType] IN &#xA;     ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND NOT EXISTS &#xA;&#x9;&#x9;&#x9;(SELECT 0 FROM [gtd_tnp].[dbo].[EDMsgs] e &#xA;&#x9;&#x9;&#x9;WHERE e.DocGuid = ed.DocGuid AND e.MessageType IN &#xA;     ('CMN.11089',&#xA;         'CMN.11264',&#xA;         'CMN.11101',&#xA;         'CMN.11117',&#xA;         'CMN.11118',&#xA;         'CMN.11124',&#xA;         'CMN.11163',&#xA;         'CMN.11010',&#xA;         'CMN.11012',&#xA;         'CMN.11033',&#xA;         'CMN.11034',&#xA;         'CMN.11042',&#xA;         'CMN.11043',&#xA;         'CMN.11124') AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA;   THEN 1&#xA;   ELSE 0&#xA; END decision&#xA; ,CASE &#xA; WHEN [MessageType] = 'ED.11002' AND NOT EXISTS &#xA; (SELECT 0 FROM [gtd_tnp].[dbo].[EDMsgs] e &#xA; WHERE e.DocGuid = ed.DocGuid AND e.MessageType = 'ED.11002' AND e.EnvelopeID &lt;&gt; ed.EnvelopeID)&#xA; THEN 1&#xA; ELSE 0&#xA; END open_ed&#xA; ,CASE&#xA; WHEN [MessageType] = 'CMN.11001' AND COALESCE(Result, '') &lt;&gt; '' THEN 1&#xA; ELSE 0&#xA; END reg&#xA; ,CASE &#xA; WHEN [MessageType] = 'CMN.11005' THEN 1 &#xA; ELSE 0&#xA; END dosmotr&#xA; ,CASE &#xA; WHEN [MessageType] = 'CMN.11049' THEN 1 &#xA; ELSE 0&#xA; END ptd_notice &#xA; &#x9;,CASE&#xA;&#x9;WHEN DocumentName = 'ReqInventoryDoc' AND MessageType LIKE 'MY.1%' THEN 1 &#xA;&#x9;ELSE 0&#xA;&#x9;END AS [request]&#xA;  FROM [gtd_tnp].[dbo].[EDMsgs] ed&#xA;  CROSS APPLY &#xA;  (SELECT COALESCE([&amp;&amp;PRIM], '') [&amp;&amp;PRIM], &#xA;  CASE WHEN CHARINDEX('/', [14_4]) &gt; 0 THEN SUBSTRING([14_4], 1, CHARINDEX('/', [14_4]) - 1)&#xA;  ELSE COALESCE([14_4], '')&#xA;  END VAT,&#xA;  COALESCE(g.RegNum, '') RegNum,&#xA;  COALESCE(NULLIF(COALESCE(g.[18], ''), ''), NULLIF(COALESCE(g.[21], ''), ''),'-') transport&#xA;  ,COALESCE(g.[1_3], '') ptd_sign,&#xA;  COALESCE(NULLIF(COALESCE(g.[2_NAM], ''), ''), NULLIF(COALESCE(g.[2], ''), ''),'-') sender,&#xA;  COALESCE(g.[BLOCK\1\@44_!_04021], '') inv&#xA;  FROM gtd_tnp.dbo.GTDList g WHERE g.DOCGID = ed.[DocGuid]) AS ca&#xA;  WHERE InOutDateTime BETWEEN DATEADD(day, -1, GETDATE()) AND DATEADD(day, 1, GETDATE())&#xA;  ) x&#xA;  CROSS APPLY (SELECT TOP (1) cust.[Name]&#xA;  FROM [BI].[dwh].[ETP$Customer] cust WHERE cust.[VAT Registration No_] = x.VAT&#xA;  ) AS ca_cust&#xA;  OUTER APPLY (SELECT TOP (1) cd.[CargoID]&#xA;  FROM [BI].[dwh].[CargoDelivery] cd&#xA;  JOIN [BI].[dwh].[ETP$SQL_Cargo] sc ON cd.CargoID = sc.[Cargo ID]&#xA;  JOIN [BI].[dwh].[ETP$Customer] cust ON sc.[Customer No_] = cust.[No_]&#xA;  WHERE cd.[DeliveryNo_] = x.[&amp;&amp;PRIM] AND cust.[VAT Registration No_] = x.VAT) AS ca1  &#xA;  OUTER APPLY (SELECT TOP (1) TERMINAL_NAME&#xA;  FROM [BI].[dwh].[MonitorsDatamart] md&#xA;  WHERE md.DOCGID = x.DocGuid&#xA;  ) AS oa1&#xA;  WHERE &#xA;  NOT EXISTS(SELECT 0 FROM [dbo].[alta_notices] n WHERE n.[EnvelopeID] = x.EnvelopeID)&#xA;  AND (decision = 1 OR open_ed = 1 OR reg = 1 OR dosmotr = 1 OR ptd_notice = 1 OR request = 1)&#xA;  GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -326,7 +342,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.regnum, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.regnum END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Отправка уведомления о прибытии (ПТД)' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.ptd_arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.ptd_arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.ptd_arrival_notice_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE ptd_notice = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND ptd_notice = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Отправка уведомления о прибытии (ПТД)')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.regnum, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.regnum END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Отправка уведомления о прибытии (ПТД)' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.ptd_arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.ptd_arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.ptd_arrival_notice_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE ptd_notice = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND ptd_notice = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Отправка уведомления о прибытии (ПТД)')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -343,7 +359,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#xA;&#x9;&#x9;,'Особенности декларирования: ' + (CASE WHEN COALESCE(x.ptd_sign, '') = '' THEN '-' ELSE x.ptd_sign END) &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Транспортное средство: ' + x.transport&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT&#x9;&#x9;&#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Подача ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.transport&#x9;&#xA;&#x9;&#x9;,n.ptd_sign&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]    &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.dt_submit_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_submit_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.dt_submit_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE open_ed = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND [open_ed] = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Подача ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#xA;&#x9;&#x9;,'Особенности декларирования: ' + (CASE WHEN COALESCE(x.ptd_sign, '') = '' THEN '-' ELSE x.ptd_sign END) &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Транспортное средство: ' + x.transport&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT&#x9;&#x9;&#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Подача ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.transport&#x9;&#xA;&#x9;&#x9;,n.ptd_sign&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]    &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.dt_submit_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_submit_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.dt_submit_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE open_ed = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND [open_ed] = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Подача ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -359,7 +375,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Получение подтверждения о прибытии ТС' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_arrival_notice_date_time [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]  &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.arrival_notice_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_arrival_notice_date_time IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_arrival_notice_date_time IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Получение подтверждения о прибытии ТС')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Получение подтверждения о прибытии ТС' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_arrival_notice_date_time [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]  &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.arrival_notice_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.arrival_notice_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_arrival_notice_date_time IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_arrival_notice_date_time IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Получение подтверждения о прибытии ТС')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -376,7 +392,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Получение ТСД' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_TCD_DATE_TIME [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]  &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.tcd_reception_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.tcd_reception_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.tcd_reception_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_TCD_DATE_TIME IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_TCD_DATE_TIME IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Получение ТСД')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Получение ТСД' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_TCD_DATE_TIME [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport &#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]  &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.tcd_reception_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.tcd_reception_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.tcd_reception_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_TCD_DATE_TIME IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_TCD_DATE_TIME IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Получение ТСД')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -393,7 +409,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Прибытие на терминал' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.[DELIVERY_SVX_DATE_TIME] [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport&#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.terminal_arrival_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.terminal_arrival_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.terminal_arrival_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE [DELIVERY_SVX_DATE_TIME] IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND [DELIVERY_SVX_DATE_TIME] IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Прибытие на терминал')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Прибытие на терминал' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.[DELIVERY_SVX_DATE_TIME] [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport&#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.terminal_arrival_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.terminal_arrival_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.terminal_arrival_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE [DELIVERY_SVX_DATE_TIME] IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND [DELIVERY_SVX_DATE_TIME] IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Прибытие на терминал')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -410,7 +426,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#xA;&#x9;&#x9;,'Особенности декларирования: ' + (CASE WHEN COALESCE(x.ptd_sign, '') = '' THEN '-' ELSE x.ptd_sign END) &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.Result &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.Result, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.Result END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Регистрация ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.ptd_sign&#xA;&#x9;&#x9;,n.Result&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]     &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.dt_registration_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_registration_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.dt_registration_flag = 1&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE reg = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND reg = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Регистрация ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#xA;&#x9;&#x9;,'Особенности декларирования: ' + (CASE WHEN COALESCE(x.ptd_sign, '') = '' THEN '-' ELSE x.ptd_sign END) &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.Result &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.Result, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.Result END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Регистрация ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.ptd_sign&#xA;&#x9;&#x9;,n.Result&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,cr.is_lk_user&#xA;&#x9;&#x9;,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]     &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.dt_registration_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_registration_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.dt_registration_flag = 1&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE reg = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND reg = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Регистрация ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -427,7 +443,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Решение: ' + x.result &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.regnum, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.regnum END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Решение по ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,CASE &#xA;&#x9;&#x9; WHEN n.MessageType = 'CMN.11089' THEN 'Выпуск товаров, заявленных в Обязательстве о подаче ДТ'&#xA;         WHEN n.MessageType = 'CMN.11264' THEN 'Разрешение на выпуск заявления о выпуске товаров до подачи ДТ'&#xA;         WHEN n.MessageType = 'CMN.11101' THEN 'Выпуск товаров под обеспечение (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11117' THEN 'Частичный выпуск товаров (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11118' THEN 'Частичный выпуск товаров (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11124' THEN 'Условный выпуск ДТ (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11163' THEN 'ДТ считается не поданной (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11010' THEN n.Result + ' (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11012' THEN 'Разрешение на отзыв ДТ (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11033' THEN n.Result + ' (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11034' THEN 'Разрешение на отзыв ДТ (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11042' THEN 'Выпуск товаров под обеспечение (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11043' THEN 'Условный выпуск товаров (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11124' THEN 'Условный выпуск ДТ (ЭК)'&#xA;&#x9;&#x9; ELSE ''&#xA;&#x9;&#x9; END Result&#xA;&#x9;&#x9; ,cr.is_lk_user&#xA;&#x9;&#x9; ,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.dt_decision_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_decision_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.dt_decision_flag = 1&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE decision = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND decision = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Решение по ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#x9;&#xA;&#x9;&#x9;x.[UserName]&#xA;&#x9;&#x9;,x.[CargoID]&#xA;&#x9;&#x9;,x.[event_name]&#xA;&#x9;&#x9;,x.[msg_sent]&#xA;&#x9;&#x9;,x.[No_]&#xA;&#x9;&#x9;,x.[CustomerName]&#xA;&#x9;&#x9;,x.[MessageSent]&#xA;&#x9;&#x9;,x.[event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + x.transport &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Номер ДТ: ' + x.regnum &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Решение: ' + x.result &#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + CASE WHEN x.is_lk_user = 1 OR COALESCE(x.regnum, '') = '' THEN '' ELSE 'Ссылка на ЭД-обмен: https://mon.eltransplus.ru/portal/messages-by-dt-number/' + x.regnum END&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Отправитель: ' + x.sender&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Инвойс: ' + x.inv&#xA;&#x9;&#x9;+ CHAR(13) + CHAR(10) + 'Терминал: ' + x.terminal_name&#xA;&#x9;&#x9;+ CASE WHEN x.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM&#xA;&#x9;&#x9;(SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Решение по ДТ' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,n.[&amp;&amp;PRIM] [No_]&#xA;&#x9;&#x9;,n.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.InOutDateTime [event_datetime]&#x9;&#x9;&#xA;&#x9;&#x9;,n.regnum&#xA;&#x9;&#x9;,n.transport&#xA;&#x9;&#x9;,n.sender&#xA;&#x9;&#x9;,n.inv&#xA;&#x9;&#x9;,CASE &#xA;&#x9;&#x9; WHEN n.MessageType = 'CMN.11089' THEN 'Выпуск товаров, заявленных в Обязательстве о подаче ДТ'&#xA;         WHEN n.MessageType = 'CMN.11264' THEN 'Разрешение на выпуск заявления о выпуске товаров до подачи ДТ'&#xA;         WHEN n.MessageType = 'CMN.11101' THEN 'Выпуск товаров под обеспечение (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11117' THEN 'Частичный выпуск товаров (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11118' THEN 'Частичный выпуск товаров (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11124' THEN 'Условный выпуск ДТ (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11163' THEN 'ДТ считается не поданной (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11010' THEN n.Result + ' (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11012' THEN 'Разрешение на отзыв ДТ (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11033' THEN n.Result + ' (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11034' THEN 'Разрешение на отзыв ДТ (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11042' THEN 'Выпуск товаров под обеспечение (ЭК)'&#xA;         WHEN n.MessageType = 'CMN.11043' THEN 'Условный выпуск товаров (ИМ)'&#xA;         WHEN n.MessageType = 'CMN.11124' THEN 'Условный выпуск ДТ (ЭК)'&#xA;&#x9;&#x9; ELSE ''&#xA;&#x9;&#x9; END Result&#xA;&#x9;&#x9; ,cr.is_lk_user&#xA;&#x9;&#x9; ,n.terminal_name&#xA;&#x9;&#x9;FROM [webproject].[dbo].[alta_notices] n&#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.dt_decision_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.dt_decision_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.dt_decision_flag = 1&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]&#xA;&#x9;&#x9;) AS cr&#xA;&#x9;&#x9;WHERE decision = 1 AND old = 0 &#xA;&#x9;&#x9;) x&#xA;GO&#xA;UPDATE [webproject].[dbo].[alta_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[alta_notices] n&#xA;WHERE [old] = 0 AND decision = 1 AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Решение по ДТ')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -444,7 +460,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT &#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Убытие с терминала' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_DEPARTURE_SVX_DATE_TIME [event_datetime]&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport&#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2020 ООО &quot;Елтранс+&quot; | 117218, Россия, Москва, ул. Б. Черемушкинская, д. 40, корп. 3. | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.terminal_departure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.terminal_departure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.terminal_departure_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#x9;&#x9;WHERE man_DEPARTURE_SVX_DATE_TIME IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_DEPARTURE_SVX_DATE_TIME IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Убытие с терминала')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="INSERT INTO [webproject].[dbo].[notices_msg]&#xA;           ([Username]&#xA;           ,[CargoID]&#xA;           ,[event_name]&#xA;           ,[msg_sent]&#xA;           ,[No_]&#xA;           ,[CustomerName]&#xA;           ,[MessageSent]&#xA;           ,[event_datetime]&#xA;&#x9;&#x9;   ,[message_text])&#xA;     SELECT&#xA;&#x9;&#x9;cr.UserName&#xA;&#x9;&#x9;,n.[CargoID]&#xA;&#x9;&#x9;,'Убытие с терминала' [event_name]&#xA;&#x9;&#x9;,0 [msg_sent]&#xA;&#x9;&#x9;,cd.DeliveryNo_ [No_]&#xA;&#x9;&#x9;,cust.[Name] [CustomerName]&#xA;&#x9;&#x9;,0 [MessageSent]&#xA;&#x9;&#x9;,n.man_DEPARTURE_SVX_DATE_TIME [event_datetime]&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;,'Транспортное средство: ' + n.transport&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;+ CASE WHEN COALESCE(docs.REGNUM, '') &lt;&gt; '' THEN&#xA;&#x9;&#x9;CHAR(13) + CHAR(10) + 'ДТ: ' + docs.REGNUM ELSE '' END&#xA;&#xA;&#x9;&#x9;+ CASE WHEN COALESCE(altasvh.drv_man, '') &lt;&gt; '' THEN&#xA;&#x9;&#x9;CHAR(13) + CHAR(10) + 'Водитель: ' + altasvh.drv_man ELSE '' END&#xA;&#xA;&#x9;&#x9;+ CASE WHEN COALESCE(altasvh.drv_phone, '') &lt;&gt; '' THEN&#xA;&#x9;&#x9;CHAR(13) + CHAR(10) + 'Телефон водителя: ' + altasvh.drv_phone ELSE '' END&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;+ CASE WHEN cr.is_lk_user = 1 THEN CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + &#xA;'Copyright © 2021 ООО &quot;Елтранс+&quot; | 117638, г. Москва, ул. Одесская, д.2, этаж 13, офис 05 | +7 495 411-99-39&#xA;Вы получили это письмо потому что заполнили форму получения уведомлений в личном кабинете федерального логистического оператора Елтранс+ . Если вы не хотите больше получать рассылку, зайдите в веб форму личного кабинета cabinet.eltransplus.ru либо напишите об этом на bizline@eltransplus.ru'&#xA;+ CHAR(13) + CHAR(10) + CHAR(13) + CHAR(10) + 'Письмо создано автоматически, отвечать на него не нужно' ELSE '' END&#xA;&#x9;&#x9;&#xA;&#x9;&#x9;FROM [webproject].[dbo].[manual_notices] n&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[CargoDelivery] cd ON cd.CargoID = n.CargoID&#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$SQL_Cargo] c ON c.[Cargo ID] = n.CargoID  &#xA;&#x9;&#x9;LEFT JOIN [BI].[dwh].[ETP$Customer] cust ON cust.[No_] = c.[Customer No_]  &#xA;&#x9;&#x9;CROSS APPLY &#xA;&#x9;&#x9;(SELECT * FROM&#xA;&#x9;&#x9;(SELECT s.[CargoID],s.[UserName],s.[is_lk_user]      &#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send] s JOIN [webproject].[dbo].[notices_user_events] ev&#xA;&#x9;&#x9;ON s.[UserName] = ev.Username AND s.[is_lk_user] = ev.[is_lk_user] AND ev.terminal_departure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT man.CargoID, man.UserName, '0'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_manual] man&#xA;&#x9;&#x9;WHERE man.terminal_departure_flag = 1&#xA;&#x9;&#x9;UNION&#xA;&#x9;&#x9;SELECT ad.CargoID, ad.UserName, '1'&#xA;&#x9;&#x9;FROM [webproject].[dbo].[notices_send_additional] ad&#xA;&#x9;&#x9;WHERE ad.terminal_departure_flag = 1&#x9;&#x9;&#xA;&#x9;&#x9;) cm&#xA;&#x9;&#x9;WHERE cm.CargoID = n.[CargoID]) AS cr&#xA;&#xA;&#x9;&#x9;OUTER APPLY (&#xA;&#x9;&#x9;&#x9;SELECT TOP (1) REGNUM&#xA;&#x9;&#x9;&#x9;FROM gtd.dbo.Docs AS d &#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;WHERE d.COMMENT = cd.DeliveryNo_ + n.CargoID&#xA;&#x9;&#x9;&#x9;AND COALESCE(REGNUM, '') &lt;&gt; ''&#xA;&#x9;&#x9;&#x9;AND DOCTYP = 'GTD'&#xA;&#x9;&#x9;) AS docs&#xA;&#xA;&#x9;&#x9;OUTER APPLY (&#xA;&#x9;&#x9;&#x9;SELECT TOP (1) drv_man, drv_phone&#xA;&#x9;&#x9;&#x9;FROM [automation].[dbo].[view_svh_prop] AS v&#x9;&#x9;&#x9;&#xA;&#x9;&#x9;&#x9;WHERE v.ngtd LIKE '%' + docs.REGNUM + '%'&#xA;&#x9;&#x9;&#x9;AND COALESCE(docs.REGNUM, '') &lt;&gt; ''&#xA;&#x9;&#x9;) AS altasvh&#xA;&#xA;&#x9;&#x9;WHERE man_DEPARTURE_SVX_DATE_TIME IS NOT NULL AND old = 0&#xA;GO&#xA;UPDATE [webproject].[dbo].[manual_notices]&#xA;SET [old] = 1&#xA;FROM [webproject].[dbo].[manual_notices] n&#xA;WHERE [old] = 0 AND man_DEPARTURE_SVX_DATE_TIME IS NOT NULL AND EXISTS &#xA;(SELECT 0 FROM [webproject].[dbo].[notices_msg] ms WHERE ms.[MessageSent] = 0 &#xA;AND n.CargoID = ms.CargoID AND ms.event_name = 'Убытие с терминала')&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
@@ -460,7 +476,7 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="SELECT&#xA;  COALESCE(t.No_, '') + ' ' + COALESCE(t.CargoID, '') + ' ' + COALESCE(t.CustomerName, '') + ' ' + COALESCE(t.event_name, '') + ' ' + COALESCE(REPLACE(CONVERT(VARCHAR(16),&#xA;  t.event_datetime, 104), '-', '.'), '') + ' ' + COALESCE(REPLACE(CONVERT(VARCHAR(16),&#xA;  t.event_datetime, 108), '-', '.'), '') AS MessageText&#xA; ,t.Username&#xA; ,t.id&#xA; ,COALESCE(t.message_text, '')&#xA;FROM webproject.dbo.notices_msg t&#xA;WHERE t.MessageSent IS NULL&#xA;OR t.MessageSent = 0"
+              SQLTask:SqlStatementSource="SELECT&#xA;  COALESCE(t.No_, '') + ' ' + COALESCE(t.CargoID, '') + ' ' + COALESCE(t.CustomerName, '') + ' ' + COALESCE(t.event_name, '') + ' ' + COALESCE(REPLACE(CONVERT(VARCHAR(16),&#xA;  t.event_datetime, 104), '-', '.'), '') + ' ' + COALESCE(REPLACE(CONVERT(VARCHAR(16),&#xA;  t.event_datetime, 108), '-', '.'), '') AS MessageText&#xA; ,t.Username&#xA; ,t.id&#xA; ,COALESCE(t.message_text, '')&#xA;FROM webproject.dbo.notices_msg t&#xA;WHERE t.MessageSent IS NULL&#xA;OR t.MessageSent = 0&#xA;ORDER BY t.event_datetime ASC"
               SQLTask:ResultType="ResultSetType_Rowset" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
               <SQLTask:ResultBinding
                 SQLTask:ResultName="0"
@@ -532,13 +548,14 @@
           <DTS:ObjectData>
             <SQLTask:SqlTaskData
               SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-              SQLTask:SqlStatementSource="&#x9;TRUNCATE TABLE [webproject].[dbo].[notices_send]&#xA;&#x9;GO&#xA;&#x9;INSERT INTO [webproject].[dbo].[notices_send]&#xA;&#x9;&#x9;&#x9;   ([CargoID]&#xA;&#x9;&#x9;&#x9;   ,[UserName]&#xA;&#x9;&#x9;&#x9;   ,[is_lk_user])&#xA;  SELECT DISTINCT ca.CargoID, f.username, f.is_lk_user&#xA;  FROM [webproject].[dbo].[notices_user_filters] f&#xA;  CROSS APPLY &#xA;  (SELECT cargoid &#xA;  FROM [BI].[dwh].[MonitorsDatamart] m&#xA;  WHERE &#xA;  f.customer_filter = m.CustomerName&#xA;  OR f.sto_department_filter = m.DCLDepartmentCode&#xA;  OR f.sto_specialist_filter = m.STOSalesPersoCode&#xA;  OR f.decl_creater_filter = m.CreaterUsername_Full&#xA;  OR f.decl_reg_filter = m.RegUsername_Full&#xA;  OR f.terminal_filter = m.TERMINAL_NAME) AS ca&#xA;  WHERE [CargoID] IS NOT NULL &#xA;&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+              SQLTask:SqlStatementSource="&#x9;TRUNCATE TABLE [webproject].[dbo].[notices_send]&#xA;&#x9;GO&#xA;&#x9;INSERT INTO [webproject].[dbo].[notices_send]&#xA;&#x9;&#x9;&#x9;   ([CargoID]&#xA;&#x9;&#x9;&#x9;   ,[UserName]&#xA;&#x9;&#x9;&#x9;   ,[is_lk_user])&#xA;  SELECT ca.CargoID, f.username, f.is_lk_user&#xA;  FROM [webproject].[dbo].[notices_user_filters] f&#xA;  CROSS APPLY &#xA;  (SELECT cargoid &#xA;  FROM [BI].[dwh].[MonitorsDatamart] m&#xA;  WHERE &#xA;  f.customer_filter = m.CustomerName&#xA;  OR f.sto_department_filter = m.DCLDepartmentCode&#xA;  OR f.sto_specialist_filter = m.STOSalesPersoCode&#xA;  OR f.decl_creater_filter = m.CreaterUsername_Full&#xA;  OR f.decl_reg_filter = m.RegUsername_Full&#xA;  OR f.terminal_filter = m.TERMINAL_NAME) AS ca&#xA;  WHERE [CargoID] IS NOT NULL &#xA;&#xA;  UNION&#xA;&#xA;  SELECT mmd.key_code, f.username, 0 AS is_lk_user&#xA;FROM [webproject].[dbo].[notices_user_filters] AS f&#xA;CROSS APPLY (SELECT TOP (1) * FROM bi.dwh.vDimDeclarant AS v&#xA;WHERE v.USERNAME = f.decl_creater_filter AND COALESCE(v.USERNAME, '') &lt;&gt; '') AS ca&#xA;CROSS APPLY (SELECT TOP (1) * FROM motivation.dbo.bitrix_users AS b&#xA;WHERE b.nav_code = ca.SalespersonCode AND COALESCE(b.nav_code, '') &lt;&gt; '') AS ca1&#xA;JOIN webproject.dbo.monitor_manual_data AS mmd ON mmd.man_bitrix_declarant = ca1.bitrix_name&#xA;WHERE mmd.key_code IS NOT NULL&#xA;&#xA;GO" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
           </DTS:ObjectData>
         </DTS:Executable>
         <DTS:Executable
           DTS:refId="Package\Система уведомлений\Пари уведомления бухгалтерам"
           DTS:CreationName="STOCK:SEQUENCE"
           DTS:Description="Контейнер последовательности"
+          DTS:Disabled="True"
           DTS:DTSID="{ED070C5A-7070-4516-8ED0-7DBAF9B3C346}"
           DTS:ExecutableType="STOCK:SEQUENCE"
           DTS:LocaleID="-1"
@@ -962,182 +979,6 @@
   </resheader>
 </root>]]></ProjectItem>
                       <ProjectItem
-                        Name="ST_7789ad873ae04f4e9b97d541a0c32fa2.csproj"
-                        Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{BEA7C3AD-CAFC-4969-843F-F10A53346992}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>Properties</AppDesignerFolder><RootNamespace>ST_e6a525588f3140f4851d015a3bacb54d</RootNamespace><AssemblyName>ST_7789ad873ae04f4e9b97d541a0c32fa2</AssemblyName><TargetFrameworkVersion>v4.0</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>DEBUG;TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Runtime.Serialization" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.ScriptTask, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" /></ItemGroup><ItemGroup><AppDesigner Include="Properties\" /><Compile Include="Web_api.cs" /><Compile Include="Properties\AssemblyInfo.cs"><SubType>Code</SubType></Compile><EmbeddedResource Include="Properties\Resources.resx"><Generator>ResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.cs</LastGenOutput></EmbeddedResource><Compile Include="Properties\Resources.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Resources.resx</DependentUpon></Compile><None Include="Properties\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.cs</LastGenOutput></None><Compile Include="Properties\Settings.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon></Compile><Compile Include="ScriptMain.cs"><SubType>Code</SubType></Compile></ItemGroup><!-- Include the build rules for a C# project.--><Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" /><Host Name="ScriptTask" /><ProjectClient><HostIdentifier>SSIS_ST130</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></ProjectItem>
-                      <ProjectItem
-                        Name="ScriptMain.cs"
-                        Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
-/* The Script Task allows you to perform virtually any operation that can be accomplished in
- * a .Net application within the context of an Integration Services control flow. 
- * 
- * Expand the other regions which have "Help" prefixes for examples of specific ways to use
- * Integration Services features within this script task. */
-#endregion
-
-
-#region Namespaces
-using System;
-using System.IO;
-using System.Text;
-#endregion
-using System.Net;
-using System.Reflection;
-
-namespace ST_e6a525588f3140f4851d015a3bacb54d
-{
-    /// <summary>
-    /// ScriptMain is the entry point class of the script.  Do not change the name, attributes,
-    /// or parent of this class.
-    /// </summary>
-	[Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute]
-    public partial class ScriptMain : Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
-    {
-        #region Help:  Using Integration Services variables and parameters in a script
-        /* To use a variable in this script, first ensure that the variable has been added to 
-         * either the list contained in the ReadOnlyVariables property or the list contained in 
-         * the ReadWriteVariables property of this script task, according to whether or not your
-         * code needs to write to the variable.  To add the variable, save this script, close this instance of
-         * Visual Studio, and update the ReadOnlyVariables and 
-         * ReadWriteVariables properties in the Script Transformation Editor window.
-         * To use a parameter in this script, follow the same steps. Parameters are always read-only.
-         * 
-         * Example of reading from a variable:
-         *  DateTime startTime = (DateTime) Dts.Variables["System::StartTime"].Value;
-         * 
-         * Example of writing to a variable:
-         *  Dts.Variables["User::myStringVariable"].Value = "new value";
-         * 
-         * Example of reading from a package parameter:
-         *  int batchId = (int) Dts.Variables["$Package::batchId"].Value;
-         *  
-         * Example of reading from a project parameter:
-         *  int batchId = (int) Dts.Variables["$Project::batchId"].Value;
-         * 
-         * Example of reading from a sensitive project parameter:
-         *  int batchId = (int) Dts.Variables["$Project::batchId"].GetSensitiveValue();
-         * */
-
-        #endregion
-
-        #region Help:  Firing Integration Services events from a script
-        /* This script task can fire events for logging purposes.
-         * 
-         * Example of firing an error event:
-         *  Dts.Events.FireError(18, "Process Values", "Bad value", "", 0);
-         * 
-         * Example of firing an information event:
-         *  Dts.Events.FireInformation(3, "Process Values", "Processing has started", "", 0, ref fireAgain)
-         * 
-         * Example of firing a warning event:
-         *  Dts.Events.FireWarning(14, "Process Values", "No values received for input", "", 0);
-         * */
-        #endregion
-
-        #region Help:  Using Integration Services connection managers in a script
-        /* Some types of connection managers can be used in this script task.  See the topic 
-         * "Working with Connection Managers Programatically" for details.
-         * 
-         * Example of using an ADO.Net connection manager:
-         *  object rawConnection = Dts.Connections["Sales DB"].AcquireConnection(Dts.Transaction);
-         *  SqlConnection myADONETConnection = (SqlConnection)rawConnection;
-         *  //Use the connection in some code here, then release the connection
-         *  Dts.Connections["Sales DB"].ReleaseConnection(rawConnection);
-         *
-         * Example of using a File connection manager
-         *  object rawConnection = Dts.Connections["Prices.zip"].AcquireConnection(Dts.Transaction);
-         *  string filePath = (string)rawConnection;
-         *  //Use the connection in some code here, then release the connection
-         *  Dts.Connections["Prices.zip"].ReleaseConnection(rawConnection);
-         * */
-        #endregion
-
-
-        /// <summary>
-        /// This method is called when this script task executes in the control flow.
-        /// Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
-        /// To open Help, press F1.
-        /// </summary>
-        public void Main()
-        {
-            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
-            try
-            {                
-                Dts.Variables["User::file_vbd"].Value = "";
-                string xmlFileName = @"\\10.10.0.28\alta\PaymentCheck\check.xml";
-                string xmlText = (string)Dts.Variables["User::xml_vbd"].Value;
-                Web_api.ClearFolder(@"\\10.10.0.28\alta\PaymentCheck");
-
-                if (xmlText != "")
-                {
-                    using (Stream st = File.Create(xmlFileName)) { }
-                    File.WriteAllText(xmlFileName, xmlText, Encoding.UTF8);
-                    Web_api w = new Web_api();
-                    string[] files = w.ProcessXml(xmlFileName.Remove(xmlFileName.LastIndexOf(".")));
-                    Dts.Variables["User::file_vbd"].Value = string.Join("|", files);
-                }
-            }
-            catch (Exception e)
-            {
-                Dts.Events.FireError(0, "Script Task", e.Message, String.Empty, 0);
-            }
-            Dts.TaskResult = (int)ScriptResults.Success;
-        }
-
-        public Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
-        {
-            Assembly assembly = null;
-            try
-            {
-                assembly = LoadAssembly(args, assembly);
-            }
-            catch (Exception exception)
-            {
-                Dts.Log(exception.ToString(), 0, new byte[0]);
-                throw;
-            }
-
-            Dts.Log("Exiting CurrentDomain_AssemblyResolve", 0, new byte[0]);
-            return assembly;
-        }
-
-        private Assembly LoadAssembly(ResolveEventArgs args, Assembly assembly)
-        {
-            Dts.Log(string.Format("Entering CurrentDomain_AssemblyResolve with args.Name [{0}]", args.Name), 0, new byte[0]);
-            String _Common_DLLs = @"\\10.10.0.28\alta\Robot\Data";
-
-            var dllName = string.Format("{0}.dll", args.Name.Split(',')[0]);
-            Dts.Log("DLL Name is " + dllName, 0, new byte[0]);
-            var dllFilename = Path.Combine(_Common_DLLs, dllName);
-            if (File.Exists(dllFilename))
-            {
-                Dts.Log(string.Format("The file [{0}] was found and that assembly will be loaded.", dllFilename), 0, new byte[0]);
-                assembly = Assembly.LoadFile(dllFilename);
-            }
-            else
-            {
-                Dts.Log(string.Format("Couldn't find the file [{0}].", dllFilename), 0, new byte[0]);
-            }
-
-            return assembly;
-        }
-
-        #region ScriptResults declaration
-        /// <summary>
-        /// This enum provides a convenient shorthand within the scope of this class for setting the
-        /// result of the script.
-        /// 
-        /// This code was generated automatically.
-        /// </summary>
-        enum ScriptResults
-        {
-            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
-            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
-        };
-        #endregion
-
-    }
-}]]></ProjectItem>
-                      <ProjectItem
                         Name="Web_api.cs"
                         Encoding="UTF8"><![CDATA[using System.Runtime.Serialization;
 using System;
@@ -1392,6 +1233,182 @@ namespace ST_e6a525588f3140f4851d015a3bacb54d
 
 
 }]]></ProjectItem>
+                      <ProjectItem
+                        Name="ScriptMain.cs"
+                        Encoding="UTF8"><![CDATA[#region Help:  Introduction to the script task
+/* The Script Task allows you to perform virtually any operation that can be accomplished in
+ * a .Net application within the context of an Integration Services control flow. 
+ * 
+ * Expand the other regions which have "Help" prefixes for examples of specific ways to use
+ * Integration Services features within this script task. */
+#endregion
+
+
+#region Namespaces
+using System;
+using System.IO;
+using System.Text;
+#endregion
+using System.Net;
+using System.Reflection;
+
+namespace ST_e6a525588f3140f4851d015a3bacb54d
+{
+    /// <summary>
+    /// ScriptMain is the entry point class of the script.  Do not change the name, attributes,
+    /// or parent of this class.
+    /// </summary>
+	[Microsoft.SqlServer.Dts.Tasks.ScriptTask.SSISScriptTaskEntryPointAttribute]
+    public partial class ScriptMain : Microsoft.SqlServer.Dts.Tasks.ScriptTask.VSTARTScriptObjectModelBase
+    {
+        #region Help:  Using Integration Services variables and parameters in a script
+        /* To use a variable in this script, first ensure that the variable has been added to 
+         * either the list contained in the ReadOnlyVariables property or the list contained in 
+         * the ReadWriteVariables property of this script task, according to whether or not your
+         * code needs to write to the variable.  To add the variable, save this script, close this instance of
+         * Visual Studio, and update the ReadOnlyVariables and 
+         * ReadWriteVariables properties in the Script Transformation Editor window.
+         * To use a parameter in this script, follow the same steps. Parameters are always read-only.
+         * 
+         * Example of reading from a variable:
+         *  DateTime startTime = (DateTime) Dts.Variables["System::StartTime"].Value;
+         * 
+         * Example of writing to a variable:
+         *  Dts.Variables["User::myStringVariable"].Value = "new value";
+         * 
+         * Example of reading from a package parameter:
+         *  int batchId = (int) Dts.Variables["$Package::batchId"].Value;
+         *  
+         * Example of reading from a project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].Value;
+         * 
+         * Example of reading from a sensitive project parameter:
+         *  int batchId = (int) Dts.Variables["$Project::batchId"].GetSensitiveValue();
+         * */
+
+        #endregion
+
+        #region Help:  Firing Integration Services events from a script
+        /* This script task can fire events for logging purposes.
+         * 
+         * Example of firing an error event:
+         *  Dts.Events.FireError(18, "Process Values", "Bad value", "", 0);
+         * 
+         * Example of firing an information event:
+         *  Dts.Events.FireInformation(3, "Process Values", "Processing has started", "", 0, ref fireAgain)
+         * 
+         * Example of firing a warning event:
+         *  Dts.Events.FireWarning(14, "Process Values", "No values received for input", "", 0);
+         * */
+        #endregion
+
+        #region Help:  Using Integration Services connection managers in a script
+        /* Some types of connection managers can be used in this script task.  See the topic 
+         * "Working with Connection Managers Programatically" for details.
+         * 
+         * Example of using an ADO.Net connection manager:
+         *  object rawConnection = Dts.Connections["Sales DB"].AcquireConnection(Dts.Transaction);
+         *  SqlConnection myADONETConnection = (SqlConnection)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Sales DB"].ReleaseConnection(rawConnection);
+         *
+         * Example of using a File connection manager
+         *  object rawConnection = Dts.Connections["Prices.zip"].AcquireConnection(Dts.Transaction);
+         *  string filePath = (string)rawConnection;
+         *  //Use the connection in some code here, then release the connection
+         *  Dts.Connections["Prices.zip"].ReleaseConnection(rawConnection);
+         * */
+        #endregion
+
+
+        /// <summary>
+        /// This method is called when this script task executes in the control flow.
+        /// Before returning from this method, set the value of Dts.TaskResult to indicate success or failure.
+        /// To open Help, press F1.
+        /// </summary>
+        public void Main()
+        {
+            AppDomain.CurrentDomain.AssemblyResolve += new ResolveEventHandler(CurrentDomain_AssemblyResolve);
+            try
+            {                
+                Dts.Variables["User::file_vbd"].Value = "";
+                string xmlFileName = @"\\10.10.0.28\alta\PaymentCheck\check.xml";
+                string xmlText = (string)Dts.Variables["User::xml_vbd"].Value;
+                Web_api.ClearFolder(@"\\10.10.0.28\alta\PaymentCheck");
+
+                if (xmlText != "")
+                {
+                    using (Stream st = File.Create(xmlFileName)) { }
+                    File.WriteAllText(xmlFileName, xmlText, Encoding.UTF8);
+                    Web_api w = new Web_api();
+                    string[] files = w.ProcessXml(xmlFileName.Remove(xmlFileName.LastIndexOf(".")));
+                    Dts.Variables["User::file_vbd"].Value = string.Join("|", files);
+                }
+            }
+            catch (Exception e)
+            {
+                Dts.Events.FireError(0, "Script Task", e.Message, String.Empty, 0);
+            }
+            Dts.TaskResult = (int)ScriptResults.Success;
+        }
+
+        public Assembly CurrentDomain_AssemblyResolve(object sender, ResolveEventArgs args)
+        {
+            Assembly assembly = null;
+            try
+            {
+                assembly = LoadAssembly(args, assembly);
+            }
+            catch (Exception exception)
+            {
+                Dts.Log(exception.ToString(), 0, new byte[0]);
+                throw;
+            }
+
+            Dts.Log("Exiting CurrentDomain_AssemblyResolve", 0, new byte[0]);
+            return assembly;
+        }
+
+        private Assembly LoadAssembly(ResolveEventArgs args, Assembly assembly)
+        {
+            Dts.Log(string.Format("Entering CurrentDomain_AssemblyResolve with args.Name [{0}]", args.Name), 0, new byte[0]);
+            String _Common_DLLs = @"\\10.10.0.28\alta\Robot\Data";
+
+            var dllName = string.Format("{0}.dll", args.Name.Split(',')[0]);
+            Dts.Log("DLL Name is " + dllName, 0, new byte[0]);
+            var dllFilename = Path.Combine(_Common_DLLs, dllName);
+            if (File.Exists(dllFilename))
+            {
+                Dts.Log(string.Format("The file [{0}] was found and that assembly will be loaded.", dllFilename), 0, new byte[0]);
+                assembly = Assembly.LoadFile(dllFilename);
+            }
+            else
+            {
+                Dts.Log(string.Format("Couldn't find the file [{0}].", dllFilename), 0, new byte[0]);
+            }
+
+            return assembly;
+        }
+
+        #region ScriptResults declaration
+        /// <summary>
+        /// This enum provides a convenient shorthand within the scope of this class for setting the
+        /// result of the script.
+        /// 
+        /// This code was generated automatically.
+        /// </summary>
+        enum ScriptResults
+        {
+            Success = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Success,
+            Failure = Microsoft.SqlServer.Dts.Runtime.DTSExecResult.Failure
+        };
+        #endregion
+
+    }
+}]]></ProjectItem>
+                      <ProjectItem
+                        Name="ST_7789ad873ae04f4e9b97d541a0c32fa2.csproj"
+                        Encoding="UTF8"><![CDATA[<?xml version="1.0" encoding="utf-8"?><Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003"><PropertyGroup><ProjectTypeGuids>{30D016F9-3734-4E33-A861-5E7D899E18F3};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids><Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration><Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform><ProductVersion>8.0.30703</ProductVersion><SchemaVersion>2.0</SchemaVersion><ProjectGuid>{BEA7C3AD-CAFC-4969-843F-F10A53346992}</ProjectGuid><OutputType>Library</OutputType><AppDesignerFolder>Properties</AppDesignerFolder><RootNamespace>ST_e6a525588f3140f4851d015a3bacb54d</RootNamespace><AssemblyName>ST_7789ad873ae04f4e9b97d541a0c32fa2</AssemblyName><TargetFrameworkVersion>v4.0</TargetFrameworkVersion><FileAlignment>512</FileAlignment><ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch>true</ResolveAssemblyReferenceIgnoreTargetFrameworkAttributeVersionMismatch></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Debug' "><DebugSymbols>true</DebugSymbols><DebugType>full</DebugType><Optimize>false</Optimize><OutputPath>.\bin\Debug\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>DEBUG;TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><PropertyGroup Condition=" '$(Configuration)' == 'Release' "><DebugSymbols>false</DebugSymbols><Optimize>true</Optimize><OutputPath>.\bin\Release\</OutputPath><EnableUnmanagedDebugging>false</EnableUnmanagedDebugging><DefineConstants>TRACE</DefineConstants><ErrorReport>prompt</ErrorReport><WarningLevel>4</WarningLevel></PropertyGroup><ItemGroup><Reference Include="System" /><Reference Include="System.Data" /><Reference Include="System.Runtime.Serialization" /><Reference Include="System.Windows.Forms" /><Reference Include="System.Xml" /><Reference Include="Microsoft.SqlServer.ManagedDTS, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" /><Reference Include="Microsoft.SqlServer.ScriptTask, Version=13.0.0.0, Culture=Neutral, PublicKeyToken=89845dcd8080cc91" /></ItemGroup><ItemGroup><AppDesigner Include="Properties\" /><Compile Include="Web_api.cs" /><Compile Include="Properties\AssemblyInfo.cs"><SubType>Code</SubType></Compile><EmbeddedResource Include="Properties\Resources.resx"><Generator>ResXFileCodeGenerator</Generator><LastGenOutput>Resources.Designer.cs</LastGenOutput></EmbeddedResource><Compile Include="Properties\Resources.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Resources.resx</DependentUpon></Compile><None Include="Properties\Settings.settings"><Generator>SettingsSingleFileGenerator</Generator><LastGenOutput>Settings.Designer.cs</LastGenOutput></None><Compile Include="Properties\Settings.Designer.cs"><AutoGen>True</AutoGen><DependentUpon>Settings.settings</DependentUpon></Compile><Compile Include="ScriptMain.cs"><SubType>Code</SubType></Compile></ItemGroup><!-- Include the build rules for a C# project.--><Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" /><ProjectExtensions><VisualStudio><FlavorProperties GUID="{30D016F9-3734-4E33-A861-5E7D899E18F3}"><ProjectProperties HostName="VSTAHostName" HostPackage="{B3A685AA-7EAF-4BC6-9940-57959FA5AC07}" ApplicationType="usd" Language="cs" TemplatesPath="" /><Host Name="ScriptTask" /><ProjectClient><HostIdentifier>SSIS_ST130</HostIdentifier></ProjectClient></FlavorProperties></VisualStudio></ProjectExtensions></Project>]]></ProjectItem>
                       <ProjectItem
                         Name="Project"
                         Encoding="UTF16LE"><![CDATA[<?xml version="1.0" encoding="UTF-16" standalone="yes"?>
@@ -1921,11 +1938,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Система уведомлений.PrecedenceConstraints[Ограничение 13]"
           DTS:CreationName=""
-          DTS:DTSID="{0A956585-63AF-41B4-9B7D-82CF3C40554C}"
-          DTS:From="Package\Система уведомлений\UPDATE отправки ЭД"
+          DTS:DTSID="{CB4215CB-B096-4550-B76D-7794741ACF85}"
+          DTS:From="Package\Система уведомлений\INSERT досмотр"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 13"
-          DTS:To="Package\Система уведомлений\INSERT прибытие" />
+          DTS:To="Package\Система уведомлений\INSERT запросы по ДТ" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Система уведомлений.PrecedenceConstraints[Ограничение 14]"
           DTS:CreationName=""
@@ -1934,6 +1951,14 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 14"
           DTS:To="Package\Система уведомлений\INSERT новых записей ED Main" />
+        <DTS:PrecedenceConstraint
+          DTS:refId="Package\Система уведомлений.PrecedenceConstraints[Ограничение 15]"
+          DTS:CreationName=""
+          DTS:DTSID="{908697C4-D2AF-4ABF-A8A9-700484185A0F}"
+          DTS:From="Package\Система уведомлений\INSERT запросы по ДТ"
+          DTS:LogicalAnd="True"
+          DTS:ObjectName="Ограничение 15"
+          DTS:To="Package\Система уведомлений\INSERT решение по товарам" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Система уведомлений.PrecedenceConstraints[Ограничение 17]"
           DTS:CreationName=""
@@ -1969,11 +1994,11 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Система уведомлений.PrecedenceConstraints[Ограничение 4]"
           DTS:CreationName=""
-          DTS:DTSID="{1A1FD65A-1278-4956-B7D1-7A13F76E8374}"
-          DTS:From="Package\Система уведомлений\INSERT досмотр"
+          DTS:DTSID="{F34F75F3-986F-4F64-B91A-99F258A7C25E}"
+          DTS:From="Package\Система уведомлений\UPDATE отправки ЭД"
           DTS:LogicalAnd="True"
           DTS:ObjectName="Ограничение 4"
-          DTS:To="Package\Система уведомлений\INSERT решение по товарам" />
+          DTS:To="Package\Система уведомлений\INSERT прибытие" />
         <DTS:PrecedenceConstraint
           DTS:refId="Package\Система уведомлений.PrecedenceConstraints[Ограничение 5]"
           DTS:CreationName=""
@@ -2075,6 +2100,10 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
           Id="Package\Система уведомлений\INSERT закрытие ТТ"
           TopLeft="286.585714285714,422.25" />
         <NodeLayout
+          Size="191,42"
+          Id="Package\Система уведомлений\INSERT запросы по ДТ"
+          TopLeft="32,571" />
+        <NodeLayout
           Size="233,42"
           Id="Package\Система уведомлений\INSERT новых записей ED Main"
           TopLeft="17.0000000000001,193.678571428571" />
@@ -2109,7 +2138,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <NodeLayout
           Size="220,42"
           Id="Package\Система уведомлений\INSERT решение по товарам"
-          TopLeft="23,570.821428571429" />
+          TopLeft="21,637.821428571429" />
         <NodeLayout
           Size="153,42"
           Id="Package\Система уведомлений\INSERT убытие"
@@ -2125,7 +2154,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         <NodeLayout
           Size="183,42"
           Id="Package\Система уведомлений\UPDATE отправки ЭД"
-          TopLeft="41.5000000000001,646.25" />
+          TopLeft="39.5000000000001,713.25" />
         <NodeLayout
           Size="243,42"
           Id="Package\Система уведомлений\Обновление доп таблицы для ЛК"
@@ -2476,18 +2505,18 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Система уведомлений.PrecedenceConstraints[Ограничение 13]"
-          TopLeft="224.5,664.75">
+          TopLeft="130.25,537.392857142857">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="68.0857142857143,0"
+              EndConnector="0,33.607142857143"
               Start="0,0"
-              End="60.5857142857143,0">
+              End="0,26.107142857143">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="60.5857142857143,0" />
+                    End="0,26.107142857143" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2510,6 +2539,28 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
                   Capacity="5">
                   <mssgle:LineSegment
                     End="0,30.178571428571" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Система уведомлений.PrecedenceConstraints[Ограничение 15]"
+          TopLeft="129.25,613">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,24.821428571429"
+              Start="0,0"
+              End="0,17.321428571429">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.321428571429" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2620,18 +2671,30 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Система уведомлений.PrecedenceConstraints[Ограничение 4]"
-          TopLeft="133,537.392857142857">
+          TopLeft="160.166666666667,713.25">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,33.4285714285713"
+              EndConnector="215.419047619047,-30"
               Start="0,0"
-              End="0,25.9285714285713">
+              End="215.419047619047,-22.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.9285714285713" />
+                    End="0,-8.15601300108342" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-8.15601300108342"
+                    Point2="0,-12.1560130010834"
+                    Point3="4,-12.1560130010834" />
+                  <mssgle:LineSegment
+                    End="211.419047619047,-12.1560130010834" />
+                  <mssgle:CubicBezierSegment
+                    Point1="211.419047619047,-12.1560130010834"
+                    Point2="215.419047619047,-12.1560130010834"
+                    Point3="215.419047619047,-16.1560130010834" />
+                  <mssgle:LineSegment
+                    End="215.419047619047,-22.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -2642,7 +2705,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</BinaryItem>
         </EdgeLayout>
         <EdgeLayout
           Id="Package\Система уведомлений.PrecedenceConstraints[Ограничение 5]"
-          TopLeft="133,612.821428571429">
+          TopLeft="131,679.821428571429">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"

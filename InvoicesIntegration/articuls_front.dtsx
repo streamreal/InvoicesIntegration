@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package3"
   DTS:PackageType="5"
-  DTS:VersionBuild="38"
-  DTS:VersionGUID="{25DF9DCA-A7C0-4603-92F1-5C5455587DA6}">
+  DTS:VersionBuild="93"
+  DTS:VersionGUID="{540638AE-A122-4196-90FF-4FE3BB99F59B}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -21,6 +21,7 @@
       DTS:refId="Package\Load marking codes"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{D94D0044-85D1-4E4C-9EA8-C4448D13D1B5}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -489,6 +490,7 @@ WHERE i.NGR = '31' AND i.TYP_NGR = '13'</property>
       DTS:refId="Package\Main"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{97EBE1E2-8E47-4376-82DB-5D6556AEE457}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -523,7 +525,7 @@ WHERE i.NGR = '31' AND i.TYP_NGR = '13'</property>
  ,articuls.producer_id
 
 ,LEFT(articuls.articul, 512) AS articuls_articul
-,LEFT(articuls.name, 2048) AS articuls_name
+,LEFT(REPLACE(REPLACE(articuls.name, CHAR(13), ' '), CHAR(10), ' '), 2048) AS articuls_name
 ,LEFT(articuls.code_tnved, 10) AS articuls_code_tnved
 ,LEFT(articuls.product, 10) AS product
 ,LEFT(articuls.descr, 2048) AS descr
@@ -556,12 +558,22 @@ WHERE i.NGR = '31' AND i.TYP_NGR = '13'</property>
 ,LEFT(invoices.code_okp, 100) AS code_okp
 ,LEFT(invoices.contract, 100) AS [contract]
 ,invoices.contract_date
-,LEFT(COALESCE(oa_sert.[sert_num], ''), 512) AS DS
+,CASE
+WHEN COALESCE(oa_sert.[sert_num], '') &lt;&gt; '' THEN LEFT(COALESCE(oa_sert.[sert_num], ''), 512) 
+WHEN COALESCE(articuls.sert_concat, '') &lt;&gt; '' THEN articuls.sert_concat
+WHEN COALESCE(oa_sert_tovar.[sert_num], '') &lt;&gt; '' THEN 'НУЖЕН СС/ДС (НОМЕР НЕ РАСПОЗНАН)'
+ELSE ''
+END AS DS
 ,oa_sert.sert_from AS DS_begin_date
 ,oa_sert.sert_to AS DS_end_date
 ,LEFT(invoices.ozonka, 100) AS ozonka
 ,invoices.ozonka_date
-,LEFT(COALESCE(oa_sgr.[sert_num], ''), 512) AS SGR
+,CASE
+WHEN COALESCE(oa_sgr.[sert_num], '') &lt;&gt; '' THEN LEFT(COALESCE(oa_sgr.[sert_num], ''), 512) 
+WHEN COALESCE(articuls.sgr_concat, '') &lt;&gt; '' THEN articuls.sgr_concat
+WHEN COALESCE(oa_sgr_tovar.[sert_num], '') &lt;&gt; '' THEN 'НУЖЕН СГР (НОМЕР НЕ РАСПОЗНАН)'
+ELSE ''
+END AS SGR
 ,oa_sgr.sert_from AS SGR_date
 ,LEFT(invoices.spirt, 100) AS spirt
 ,invoices.spirt_date
@@ -586,6 +598,9 @@ WHERE i.NGR = '31' AND i.TYP_NGR = '13'</property>
 
 ,LEFT(CONCAT(articuls.descr, articuls.name), 1024) AS fulltext_field
 ,dd.[Delivery No_] AS delivery_number
+,COALESCE(parsing_tovar.procedure_code, '') AS procedure_code
+,CASE WHEN parsing_tovar.procedure_code = 'ИМ40' THEN 1 ELSE 0 END AS is_im40
+,LEFT(articuls.unit_measurement, 10) AS unit_measurement
 
 FROM webproject.dbo.articuls AS articuls
 LEFT JOIN webproject.dbo.invoices AS invoices ON invoices.id = articuls.invoice_id
@@ -639,6 +654,20 @@ AND (p.simple_search = 1 OR
 	)
 )
 ) AS oa_sert
+
+OUTER APPLY (
+	SELECT TOP (1) * 
+	FROM [webproject].[dbo].[parsing_01191] AS p
+	WHERE p.art_regnum = declarations.reg_num
+	AND p.art_tovar = articuls.product
+) AS oa_sert_tovar
+
+OUTER APPLY (
+	SELECT TOP (1) * 
+	FROM [webproject].[dbo].[parsing_01206] AS p
+	WHERE p.art_regnum = declarations.reg_num
+	AND p.art_tovar = articuls.product
+) AS oa_sgr_tovar
 
 WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.id = articuls.id)</property>
                 <property
@@ -903,7 +932,7 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_art_name]"
-                      length="300"
+                      length="512"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_art_name]"
                       name="producers_art_name"
                       truncationRowDisposition="FailComponent" />
@@ -913,7 +942,7 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_inv_name]"
-                      length="300"
+                      length="512"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_inv_name]"
                       name="producers_inv_name"
                       truncationRowDisposition="FailComponent" />
@@ -1331,6 +1360,35 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[delivery_number]"
                       name="delivery_number"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[procedure_code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[procedure_code]"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[procedure_code]"
+                      name="procedure_code"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[is_im40]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[is_im40]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[is_im40]"
+                      name="is_im40"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[unit_measurement]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[unit_measurement]"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[unit_measurement]"
+                      name="unit_measurement"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -1442,12 +1500,12 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                     <externalMetadataColumn
                       refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_art_name]"
                       dataType="wstr"
-                      length="300"
+                      length="512"
                       name="producers_art_name" />
                     <externalMetadataColumn
                       refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[producers_inv_name]"
                       dataType="wstr"
-                      length="300"
+                      length="512"
                       name="producers_inv_name" />
                     <externalMetadataColumn
                       refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[invoices_articul]"
@@ -1648,6 +1706,20 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                       dataType="wstr"
                       length="20"
                       name="delivery_number" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[procedure_code]"
+                      dataType="wstr"
+                      length="10"
+                      name="procedure_code" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[is_im40]"
+                      dataType="i4"
+                      name="is_im40" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Output].ExternalColumns[unit_measurement]"
+                      dataType="wstr"
+                      length="10"
+                      name="unit_measurement" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -1786,13 +1858,13 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                     <outputColumn
                       refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_art_name]"
                       dataType="wstr"
-                      length="300"
+                      length="512"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_art_name]"
                       name="producers_art_name" />
                     <outputColumn
                       refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_inv_name]"
                       dataType="wstr"
-                      length="300"
+                      length="512"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[producers_inv_name]"
                       name="producers_inv_name" />
                     <outputColumn
@@ -2038,6 +2110,23 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[delivery_number]"
                       name="delivery_number" />
                     <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[procedure_code]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[procedure_code]"
+                      name="procedure_code" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[is_im40]"
+                      dataType="i4"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[is_im40]"
+                      name="is_im40" />
+                    <outputColumn
+                      refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[unit_measurement]"
+                      dataType="wstr"
+                      length="10"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[unit_measurement]"
+                      name="unit_measurement" />
+                    <outputColumn
                       refId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
@@ -2257,14 +2346,14 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                     <inputColumn
                       refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[producers_art_name]"
                       cachedDataType="wstr"
-                      cachedLength="300"
+                      cachedLength="512"
                       cachedName="producers_art_name"
                       externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producers_art_name]"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_art_name]" />
                     <inputColumn
                       refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[producers_inv_name]"
                       cachedDataType="wstr"
-                      cachedLength="300"
+                      cachedLength="512"
                       cachedName="producers_inv_name"
                       externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[producers_inv_name]"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[producers_inv_name]" />
@@ -2553,6 +2642,26 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                       cachedName="delivery_number"
                       externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[delivery_number]"
                       lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[delivery_number]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[procedure_code]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="procedure_code"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[procedure_code]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[procedure_code]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[is_im40]"
+                      cachedDataType="i4"
+                      cachedName="is_im40"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[is_im40]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[is_im40]" />
+                    <inputColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].Columns[unit_measurement]"
+                      cachedDataType="wstr"
+                      cachedLength="10"
+                      cachedName="unit_measurement"
+                      externalMetadataColumnId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[unit_measurement]"
+                      lineageId="Package\Main\Query.Outputs[ADO NET Source Output].Columns[unit_measurement]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -2879,6 +2988,20 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
                       refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[table_id]"
                       dataType="i4"
                       name="table_id" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[procedure_code]"
+                      dataType="wstr"
+                      length="10"
+                      name="procedure_code" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[is_im40]"
+                      dataType="i4"
+                      name="is_im40" />
+                    <externalMetadataColumn
+                      refId="Package\Main\Table.Inputs[ADO NET Destination Input].ExternalColumns[unit_measurement]"
+                      dataType="wstr"
+                      length="10"
+                      name="unit_measurement" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -2922,6 +3045,7 @@ WHERE NOT EXISTS (SELECT 0 FROM [webproject].[dbo].[articuls_front] af WHERE af.
       DTS:refId="Package\Reload sert"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{7803CCB9-711F-4928-A010-3B1B1F6CFE2A}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -3102,7 +3226,10 @@ WHEN LTRIM(RTRIM(G447_7)) LIKE '[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]' THEN
 ELSE NULL END AS G447_7
 
 FROM [Invoices2SQL].[dbo].[InvoicesNew] WITH (NOLOCK)
-WHERE [G441_7] = '01191'
+WHERE 
+  TRY_CONVERT(DATE, [D_G_DATE], 4) &gt; DATEADD(MONTH, -1, CAST(GETDATE() AS date))
+  AND [G441_7] IN ('01191','01401','01402','01403','01404','01408')
+  AND COALESCE(G442_7, '') &lt;&gt; ''
 ),
 
 cte_invoice_keyed AS (
@@ -3129,14 +3256,19 @@ G442, G443, G447,
 ROW_NUMBER() OVER (PARTITION BY [DocNum], G32 ORDER BY (SELECT NULL)) AS rownum,
 COUNT(*) OVER (PARTITION BY [DocNum], G32) AS sert_row_count
 FROM [Docs2SQL].[dbo].[DBRTECHD] AS t WITH (NOLOCK)
-WHERE G441 = '01191'
+WHERE G441 IN ('01191','01401','01402','01403','01404','01408')
 ),
 
-cte_sert_concat_and AS (
+cte_sert_concat AS (
 SELECT 
 regnum, 
 tovar,
-automation.dbo.RowsConcat(COALESCE(G442, ''), ', ') AS concat_num_and
+automation.dbo.RowsConcat(
+	COALESCE(G442, '') 
+	+ CASE WHEN G443 IS NOT NULL THEN ' ОТ ' + FORMAT(G443, 'dd.MM.yyyy') ELSE '' END
+	+ CASE WHEN G447 IS NOT NULL THEN ' ПО ' + FORMAT(G447, 'dd.MM.yyyy') ELSE '' END
+	, ', '
+) AS concat_num
 FROM cte_sert
 WHERE sert_row_count &gt; 1
 GROUP BY regnum, tovar
@@ -3158,12 +3290,12 @@ cte_joined AS (
 SELECT 
 a.*, 
 s.*, 
-sca.concat_num_and, 
+sca.concat_num, 
 sco.concat_num_or,
 i.*
 FROM cte_articuls_keyed AS a
 JOIN cte_sert AS s ON a.art_regnum = s.regnum AND a.art_tovar = s.tovar AND s.rownum = 1
-LEFT JOIN cte_sert_concat_and AS sca ON a.art_regnum = sca.regnum AND a.art_tovar = sca.tovar
+LEFT JOIN cte_sert_concat AS sca ON a.art_regnum = sca.regnum AND a.art_tovar = sca.tovar
 LEFT JOIN cte_sert_concat_or AS sco ON a.art_regnum = sco.regnum AND a.art_tovar = sco.tovar
 LEFT JOIN cte_invoice_keyed AS i ON a.art_key = i.inv_key AND i.inv_rownum = 1
 
@@ -3174,7 +3306,7 @@ art_regnum, art_tovar, art_articul, art_model, art_row_count,
 
 CASE 
 WHEN sert_row_count = 1 THEN LEFT(G442, 1000)
-WHEN sert_row_count &gt; 1 AND art_row_count = 1 THEN LEFT(concat_num_and, 1000)
+WHEN sert_row_count &gt; 1 AND art_row_count = 1 THEN LEFT(concat_num, 1000)
 WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') &lt;&gt; '' THEN LEFT(G442_7, 1000)
 WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') = '' THEN LEFT(concat_num_or, 1000)
 END AS sert_num,
@@ -3204,7 +3336,7 @@ FROM cte_joined</property>
                 <property
                   dataType="System.Int32"
                   description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
-                  name="CommandTimeout">300</property>
+                  name="CommandTimeout">600</property>
                 <property
                   dataType="System.Boolean"
                   description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
@@ -3459,7 +3591,7 @@ FROM cte_joined</property>
                   dataType="System.Int32"
                   description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
                   expressionType="Notify"
-                  name="CommandTimeout">300</property>
+                  name="CommandTimeout">600</property>
                 <property
                   dataType="System.Boolean"
                   description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
@@ -3624,9 +3756,729 @@ FROM cte_joined</property>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Reload sert test"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
+      DTS:DTSID="{d0474f71-21b0-4c09-b89c-1565c3215446}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Reload sert test"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Reload sert test\Query"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="Query"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">WITH cte_articuls AS (
+
+SELECT t.[DocNum] AS art_regnum, G32 AS art_tovar,
+
+CASE
+WHEN UPPER(LTRIM(RTRIM(G31_15))) IN 
+('',
+'ОТСУТСТВУЕТ',
+'ОТСУТСВУЕТ',
+'ОТСУТСТВЕТ',
+'ОТСУТСТВУЕ',
+'ОТСТУТСТВУЕТ',
+'ОТСУТСТВУЕТМ',
+'ОТСУТСТВУЕТ.',
+'ОТСУТСТВУУЕТ',
+'ОСУТСТВУЕТ',
+'ОТСУУТСТВУЕТ',
+'ОТСУТВТУЕТ',
+'ОТСУТСТСУЕТ',
+'ОТСУТСТВУЮТ',
+'ОТСУСТВУЕТ',
+'ОТСТУСТВУЕТ',
+'ОТСУСТСВУЕТ',
+'ОТСУТСТВУЕУТ',
+'ОТУТСТВУЕТ',
+'ОТСУТСТУЕТ',
+'ОТСУТСВТУЕТ',
+'ОТСВУТСТВУЕТ',
+'ОТСУТСТВУВЕТ',
+'ОТСУТСТВУЕТОТСУТСТВУЕТ',
+'ОТСУТСТВУЕТС',
+'ОТСТУТСТУЕТ') THEN NULL
+ELSE UPPER(LTRIM(RTRIM(G31_15)))
+END AS art_articul,
+
+CASE
+WHEN UPPER(LTRIM(RTRIM(G31_15_MOD))) IN 
+('',
+'ОТСУТСТВУЕТ',
+'ОТСУТСВУЕТ',
+'ОТСУТСТВЕТ',
+'ОТСУТСТВУЕ',
+'ОТСТУТСТВУЕТ',
+'ОТСУТСТВУЕТМ',
+'ОТСУТСТВУЕТ.',
+'ОТСУТСТВУУЕТ',
+'ОСУТСТВУЕТ',
+'ОТСУУТСТВУЕТ',
+'ОТСУТВТУЕТ',
+'ОТСУТСТСУЕТ',
+'ОТСУТСТВУЮТ',
+'ОТСУСТВУЕТ',
+'ОТСТУСТВУЕТ',
+'ОТСУСТСВУЕТ',
+'ОТСУТСТВУЕУТ',
+'ОТУТСТВУЕТ',
+'ОТСУТСТУЕТ',
+'ОТСУТСВТУЕТ',
+'ОТСВУТСТВУЕТ',
+'ОТСУТСТВУВЕТ',
+'ОТСУТСТВУЕТОТСУТСТВУЕТ',
+'ОТСУТСТВУЕТС',
+'ОТСТУТСТУЕТ') THEN NULL
+ELSE UPPER(LTRIM(RTRIM(G31_15_MOD)))
+END AS art_model,
+
+COUNT(*) OVER (PARTITION BY t.[DocNum], G32) AS art_row_count
+
+
+FROM [Docs2SQL].[dbo].[DBRHEAD] AS h WITH (NOLOCK)
+JOIN [Docs2SQL].[dbo].[DBRTOVG] AS t WITH (NOLOCK) ON t.DocNum = h.DocNum
+WHERE h.G141 = '7819301797'
+),
+
+cte_articuls_keyed AS (
+SELECT *, COALESCE(art_regnum, '') 
+	+ COALESCE(CAST(art_tovar AS varchar(100)), '')
+	+ COALESCE(art_articul, '')
+	+ COALESCE(art_model, '') AS art_key FROM cte_articuls
+),
+
+cte_invoice AS (
+SELECT [32_realnum] AS inv_regnum, [32_tovnum] AS inv_tovar,
+
+CASE
+WHEN UPPER(LTRIM(RTRIM([31_ARTICUL]))) IN 
+('',
+'ОТСУТСТВУЕТ',
+'ОТСУТСВУЕТ',
+'ОТСУТСТВЕТ',
+'ОТСУТСТВУЕ',
+'ОТСТУТСТВУЕТ',
+'ОТСУТСТВУЕТМ',
+'ОТСУТСТВУЕТ.',
+'ОТСУТСТВУУЕТ',
+'ОСУТСТВУЕТ',
+'ОТСУУТСТВУЕТ',
+'ОТСУТВТУЕТ',
+'ОТСУТСТСУЕТ',
+'ОТСУТСТВУЮТ',
+'ОТСУСТВУЕТ',
+'ОТСТУСТВУЕТ',
+'ОТСУСТСВУЕТ',
+'ОТСУТСТВУЕУТ',
+'ОТУТСТВУЕТ',
+'ОТСУТСТУЕТ',
+'ОТСУТСВТУЕТ',
+'ОТСВУТСТВУЕТ',
+'ОТСУТСТВУВЕТ',
+'ОТСУТСТВУЕТОТСУТСТВУЕТ',
+'ОТСУТСТВУЕТС',
+'ОТСТУТСТУЕТ') THEN NULL
+ELSE UPPER(LTRIM(RTRIM([31_ARTICUL])))
+END AS inv_articul,
+
+CASE
+WHEN UPPER(LTRIM(RTRIM([31_MODEL]))) IN 
+('',
+'ОТСУТСТВУЕТ',
+'ОТСУТСВУЕТ',
+'ОТСУТСТВЕТ',
+'ОТСУТСТВУЕ',
+'ОТСТУТСТВУЕТ',
+'ОТСУТСТВУЕТМ',
+'ОТСУТСТВУЕТ.',
+'ОТСУТСТВУУЕТ',
+'ОСУТСТВУЕТ',
+'ОТСУУТСТВУЕТ',
+'ОТСУТВТУЕТ',
+'ОТСУТСТСУЕТ',
+'ОТСУТСТВУЮТ',
+'ОТСУСТВУЕТ',
+'ОТСТУСТВУЕТ',
+'ОТСУСТСВУЕТ',
+'ОТСУТСТВУЕУТ',
+'ОТУТСТВУЕТ',
+'ОТСУТСТУЕТ',
+'ОТСУТСВТУЕТ',
+'ОТСВУТСТВУЕТ',
+'ОТСУТСТВУВЕТ',
+'ОТСУТСТВУЕТОТСУТСТВУЕТ',
+'ОТСУТСТВУЕТС',
+'ОТСТУТСТУЕТ') THEN NULL
+ELSE UPPER(LTRIM(RTRIM([31_MODEL]))) END AS inv_model,
+
+G442_7, 
+
+CASE
+WHEN LTRIM(RTRIM(G443_7)) LIKE '[0-9][0-9].[0-9][0-9].[0-9][0-9]' THEN TRY_CONVERT(DATETIME, LTRIM(RTRIM(G443_7)), 4)
+WHEN LTRIM(RTRIM(G443_7)) LIKE '[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]' THEN TRY_CONVERT(DATETIME, LTRIM(RTRIM(G443_7)), 104)
+ELSE NULL END AS G443_7,
+
+CASE
+WHEN LTRIM(RTRIM(G447_7)) LIKE '[0-9][0-9].[0-9][0-9].[0-9][0-9]' THEN TRY_CONVERT(DATETIME, LTRIM(RTRIM(G447_7)), 4)
+WHEN LTRIM(RTRIM(G447_7)) LIKE '[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]' THEN TRY_CONVERT(DATETIME, LTRIM(RTRIM(G447_7)), 104)
+ELSE NULL END AS G447_7
+
+FROM [Invoices2SQL].[dbo].[InvoicesNew] WITH (NOLOCK)
+WHERE 
+  [G441_7] IN ('01191','01401','01402','01403','01404','01408')
+  AND COALESCE(G442_7, '') &lt;&gt; ''
+  AND [32_REALNUM] IN (SELECT DocNum 
+  FROM [Docs2SQL].[dbo].[DBRHEAD] AS h WITH (NOLOCK)
+  WHERE h.G141 = '7819301797'
+  )
+),
+
+cte_invoice_keyed AS (
+	SELECT *,
+
+	COALESCE(inv_regnum, '') 
+	+ COALESCE(CAST(inv_tovar AS varchar(100)), '')
+	+ COALESCE(inv_articul, '')
+	+ COALESCE(inv_model, '') AS inv_key,
+
+	ROW_NUMBER() OVER (PARTITION BY COALESCE(inv_regnum, '') 
+	+ COALESCE(CAST(inv_tovar AS varchar(100)), '')
+	+ COALESCE(inv_articul, '')
+	+ COALESCE(inv_model, '') ORDER BY (SELECT NULL)) AS inv_rownum
+
+FROM cte_invoice
+),
+
+cte_sert AS (
+SELECT 
+DocNum AS regnum, 
+g32 AS tovar,
+G442, G443, G447, 
+ROW_NUMBER() OVER (PARTITION BY [DocNum], G32 ORDER BY (SELECT NULL)) AS rownum,
+COUNT(*) OVER (PARTITION BY [DocNum], G32) AS sert_row_count
+FROM [Docs2SQL].[dbo].[DBRTECHD] AS t WITH (NOLOCK)
+WHERE G441 IN ('01191','01401','01402','01403','01404','01408')
+),
+
+cte_sert_concat AS (
+SELECT 
+regnum, 
+tovar,
+automation.dbo.RowsConcat(
+	COALESCE(G442, '') 
+	+ CASE WHEN G443 IS NOT NULL THEN ' ОТ ' + FORMAT(G443, 'dd.MM.yyyy') ELSE '' END
+	+ CASE WHEN G447 IS NOT NULL THEN ' ПО ' + FORMAT(G447, 'dd.MM.yyyy') ELSE '' END
+	, ', '
+) AS concat_num
+FROM cte_sert
+WHERE sert_row_count &gt; 1
+GROUP BY regnum, tovar
+
+),
+
+cte_sert_concat_or AS (
+SELECT 
+regnum, 
+tovar,
+automation.dbo.RowsConcat(COALESCE(G442, ''), ' ИЛИ ') AS concat_num_or
+FROM cte_sert
+WHERE sert_row_count &gt; 1
+GROUP BY regnum, tovar
+
+),
+
+cte_joined AS (
+SELECT 
+a.*, 
+s.*, 
+sca.concat_num, 
+sco.concat_num_or,
+i.*
+FROM cte_articuls_keyed AS a
+JOIN cte_sert AS s ON a.art_regnum = s.regnum AND a.art_tovar = s.tovar AND s.rownum = 1
+LEFT JOIN cte_sert_concat AS sca ON a.art_regnum = sca.regnum AND a.art_tovar = sca.tovar
+LEFT JOIN cte_sert_concat_or AS sco ON a.art_regnum = sco.regnum AND a.art_tovar = sco.tovar
+LEFT JOIN cte_invoice_keyed AS i ON a.art_key = i.inv_key AND i.inv_rownum = 1
+
+)
+
+SELECT 
+art_regnum, art_tovar, art_articul, art_model, art_row_count,
+
+CASE 
+WHEN sert_row_count = 1 THEN LEFT(G442, 1000)
+WHEN sert_row_count &gt; 1 AND art_row_count = 1 THEN LEFT(concat_num, 1000)
+WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') &lt;&gt; '' THEN LEFT(G442_7, 1000)
+WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') = '' THEN LEFT(concat_num_or, 1000)
+END AS sert_num,
+
+CASE 
+WHEN sert_row_count = 1 THEN G443
+WHEN sert_row_count &gt; 1 AND art_row_count = 1 THEN NULL
+WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') &lt;&gt; '' THEN G443_7
+WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') = '' THEN NULL
+END AS sert_from,
+
+CASE 
+WHEN sert_row_count = 1 THEN G447
+WHEN sert_row_count &gt; 1 AND art_row_count = 1 THEN NULL
+WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') &lt;&gt; '' THEN G447_7
+WHEN sert_row_count &gt; 1 AND art_row_count &gt; 1 AND COALESCE(G442_7, '') = '' THEN NULL
+END AS sert_to,
+
+CASE 
+
+WHEN sert_row_count = 1 THEN 1
+WHEN sert_row_count &gt; 1 AND art_row_count = 1 THEN 1
+ELSE 0
+END AS simple_search
+
+FROM cte_joined</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">600</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="The Source database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the mode to retrieve external column information"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Reload sert test\Query.Connections[IDbConnection]"
+                  connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output]"
+                  name="ADO NET Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_regnum]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_regnum]"
+                      length="25"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_regnum]"
+                      name="art_regnum"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_tovar]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_tovar]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_tovar]"
+                      name="art_tovar"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_articul]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_articul]"
+                      length="50"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_articul]"
+                      name="art_articul"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_model]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_model]"
+                      length="50"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_model]"
+                      name="art_model"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_row_count]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_row_count]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_row_count]"
+                      name="art_row_count"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_num]"
+                      dataType="nText"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[sert_num]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_num]"
+                      name="sert_num"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_from]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[sert_from]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_from]"
+                      name="sert_from"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_to]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[sert_to]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_to]"
+                      name="sert_to"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[simple_search]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[simple_search]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[simple_search]"
+                      name="simple_search"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_regnum]"
+                      dataType="wstr"
+                      length="25"
+                      name="art_regnum" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_tovar]"
+                      dataType="i4"
+                      name="art_tovar" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_articul]"
+                      dataType="wstr"
+                      length="50"
+                      name="art_articul" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_model]"
+                      dataType="wstr"
+                      length="50"
+                      name="art_model" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[art_row_count]"
+                      dataType="i4"
+                      name="art_row_count" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[sert_num]"
+                      dataType="nText"
+                      name="sert_num" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[sert_from]"
+                      dataType="dbTimeStamp"
+                      name="sert_from" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[sert_to]"
+                      dataType="dbTimeStamp"
+                      name="sert_to" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].ExternalColumns[simple_search]"
+                      dataType="i4"
+                      name="simple_search" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output]"
+                  isErrorOut="true"
+                  name="ADO NET Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_regnum]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_regnum]"
+                      name="art_regnum" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_tovar]"
+                      dataType="i4"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_tovar]"
+                      name="art_tovar" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_articul]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_articul]"
+                      name="art_articul" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_model]"
+                      dataType="wstr"
+                      length="50"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_model]"
+                      name="art_model" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_row_count]"
+                      dataType="i4"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[art_row_count]"
+                      name="art_row_count" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[sert_num]"
+                      dataType="nText"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[sert_num]"
+                      name="sert_num" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[sert_from]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[sert_from]"
+                      name="sert_from" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[sert_to]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[sert_to]"
+                      name="sert_to" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[simple_search]"
+                      dataType="i4"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[simple_search]"
+                      name="simple_search" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Reload sert test\Table"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="Table"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">webproject.dbo.parsing_01191</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">600</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Reload sert test\Table.Connections[IDbConnection]"
+                  connectionManagerID="{D0F12EF9-606D-48B9-8156-106830717504}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.0.0.33.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[art_regnum]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="art_regnum"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_regnum]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_regnum]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[art_tovar]"
+                      cachedDataType="i4"
+                      cachedName="art_tovar"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_tovar]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_tovar]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[art_articul]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="art_articul"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_articul]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_articul]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[art_model]"
+                      cachedDataType="wstr"
+                      cachedLength="50"
+                      cachedName="art_model"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_model]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_model]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[art_row_count]"
+                      cachedDataType="i4"
+                      cachedName="art_row_count"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_row_count]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[art_row_count]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[sert_num]"
+                      cachedDataType="nText"
+                      cachedName="sert_num"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[sert_num]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_num]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[sert_from]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="sert_from"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[sert_from]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_from]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[sert_to]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="sert_to"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[sert_to]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[sert_to]" />
+                    <inputColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].Columns[simple_search]"
+                      cachedDataType="i4"
+                      cachedName="simple_search"
+                      externalMetadataColumnId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[simple_search]"
+                      lineageId="Package\Reload sert test\Query.Outputs[ADO NET Source Output].Columns[simple_search]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_regnum]"
+                      dataType="wstr"
+                      length="25"
+                      name="art_regnum" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_tovar]"
+                      dataType="i4"
+                      name="art_tovar" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_articul]"
+                      dataType="wstr"
+                      length="50"
+                      name="art_articul" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_model]"
+                      dataType="wstr"
+                      length="50"
+                      name="art_model" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[art_row_count]"
+                      dataType="i4"
+                      name="art_row_count" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[sert_num]"
+                      dataType="wstr"
+                      length="4000"
+                      name="sert_num" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[sert_from]"
+                      dataType="dbTimeStamp"
+                      name="sert_from" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[sert_to]"
+                      dataType="dbTimeStamp"
+                      name="sert_to" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input].ExternalColumns[simple_search]"
+                      dataType="i4"
+                      name="simple_search" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Reload sert test\Table.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Reload sert test\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Reload sert test\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Reload sert test\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Reload sert test\Table.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Reload sert test.Paths[ADO NET Source Output]"
+              endId="Package\Reload sert test\Table.Inputs[ADO NET Destination Input]"
+              name="ADO NET Source Output"
+              startId="Package\Reload sert test\Query.Outputs[ADO NET Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Reload sgr"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{FC4BA488-812E-4C39-8418-84C000EE09CF}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -4332,6 +5184,7 @@ FROM cte_joined</property>
       DTS:refId="Package\Reload tovar"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{E6EBE37F-D029-4DB5-95FB-2028C0C9AE43}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -4356,8 +5209,9 @@ FROM cte_joined</property>
                   description="Specifies the SQL statement used by the component to extract data."
                   expressionType="Notify"
                   name="SqlCommand"
-                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT DOCNUM, G32, G34, G333, rc.description
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT d.DOCNUM, G32, G34, G333, rc.description, h.G011 + h.G0121 AS procedure_code
 FROM [Docs2SQL].[dbo].[DBRTOVAR] AS d WITH (NOLOCK)
+JOIN [Docs2SQL].[dbo].[DBRHEAD] AS h WITH (NOLOCK) ON d.DocNum = h.DocNum
 LEFT JOIN [automation].[dbo].[ref_countries] AS rc
 ON d.G34 = rc.code_name</property>
                 <property
@@ -4445,6 +5299,16 @@ ON d.G34 = rc.code_name</property>
                       lineageId="Package\Reload tovar\Query.Outputs[ADO NET Source Output].Columns[description]"
                       name="description"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload tovar\Query.Outputs[ADO NET Source Output].Columns[procedure_code]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload tovar\Query.Outputs[ADO NET Source Output].ExternalColumns[procedure_code]"
+                      length="5"
+                      lineageId="Package\Reload tovar\Query.Outputs[ADO NET Source Output].Columns[procedure_code]"
+                      name="procedure_code"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -4472,6 +5336,11 @@ ON d.G34 = rc.code_name</property>
                       dataType="wstr"
                       length="100"
                       name="description" />
+                    <externalMetadataColumn
+                      refId="Package\Reload tovar\Query.Outputs[ADO NET Source Output].ExternalColumns[procedure_code]"
+                      dataType="wstr"
+                      length="5"
+                      name="procedure_code" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -4508,6 +5377,12 @@ ON d.G34 = rc.code_name</property>
                       length="100"
                       lineageId="Package\Reload tovar\Query.Outputs[ADO NET Source Error Output].Columns[description]"
                       name="description" />
+                    <outputColumn
+                      refId="Package\Reload tovar\Query.Outputs[ADO NET Source Error Output].Columns[procedure_code]"
+                      dataType="wstr"
+                      length="5"
+                      lineageId="Package\Reload tovar\Query.Outputs[ADO NET Source Error Output].Columns[procedure_code]"
+                      name="procedure_code" />
                     <outputColumn
                       refId="Package\Reload tovar\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
@@ -4608,6 +5483,13 @@ ON d.G34 = rc.code_name</property>
                       cachedName="description"
                       externalMetadataColumnId="Package\Reload tovar\Table.Inputs[ADO NET Destination Input].ExternalColumns[description]"
                       lineageId="Package\Reload tovar\Query.Outputs[ADO NET Source Output].Columns[description]" />
+                    <inputColumn
+                      refId="Package\Reload tovar\Table.Inputs[ADO NET Destination Input].Columns[procedure_code]"
+                      cachedDataType="wstr"
+                      cachedLength="5"
+                      cachedName="procedure_code"
+                      externalMetadataColumnId="Package\Reload tovar\Table.Inputs[ADO NET Destination Input].ExternalColumns[procedure_code]"
+                      lineageId="Package\Reload tovar\Query.Outputs[ADO NET Source Output].Columns[procedure_code]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -4636,6 +5518,11 @@ ON d.G34 = rc.code_name</property>
                       dataType="wstr"
                       length="100"
                       name="description" />
+                    <externalMetadataColumn
+                      refId="Package\Reload tovar\Table.Inputs[ADO NET Destination Input].ExternalColumns[procedure_code]"
+                      dataType="wstr"
+                      length="10"
+                      name="procedure_code" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -4676,9 +5563,333 @@ ON d.G34 = rc.code_name</property>
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\temp"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
+      DTS:DTSID="{C65C3C6D-0E87-42B7-AE8C-8E19A2A82192}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="temp"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\temp\ADO NET Destination"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;2"
+              description="Loads data into an ADO.NET-compliant database that uses a database table or view. Load data into a new or existing table. For example, use an ADO.NET provider for ODBC to load data into an ODBC destination."
+              name="ADO NET Destination"
+              usesDispositions="true"
+              version="2">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="The Destination database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">webproject.dbo.declarations_check</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the number of rows per batch. The default is 0 which uses the same size as SSIS internal buffer. "
+                  expressionType="Notify"
+                  name="BatchSize">0</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out. A value of 0 indicates infinite time-out. "
+                  expressionType="Notify"
+                  name="CommandTimeout">600</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Specifies whether to use the SqlBulkCopy interface to improve the performance of bulk insert operations. Only certain providers support this interface."
+                  expressionType="Notify"
+                  name="UseBulkInsertWhenPossible">true</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.ADONETDestination</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\temp\ADO NET Destination.Connections[IDbConnection]"
+                  connectionManagerID="{D0F12EF9-606D-48B9-8156-106830717504}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.0.0.33.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input]"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="ADO NET Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[DocNum]"
+                      cachedDataType="wstr"
+                      cachedLength="25"
+                      cachedName="DocNum"
+                      externalMetadataColumnId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[docnum]"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[DocNum]" />
+                    <inputColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[G32]"
+                      cachedDataType="i4"
+                      cachedName="G32"
+                      externalMetadataColumnId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[g32]"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[G32]" />
+                    <inputColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[has_sert]"
+                      cachedDataType="i4"
+                      cachedName="has_sert"
+                      externalMetadataColumnId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[has_sert]"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[has_sert]" />
+                    <inputColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].Columns[has_sgr]"
+                      cachedDataType="i4"
+                      cachedName="has_sgr"
+                      externalMetadataColumnId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[has_sgr]"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[has_sgr]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[docnum]"
+                      dataType="wstr"
+                      length="100"
+                      name="docnum" />
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[g32]"
+                      dataType="wstr"
+                      length="100"
+                      name="g32" />
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[has_sert]"
+                      dataType="i4"
+                      name="has_sert" />
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input].ExternalColumns[has_sgr]"
+                      dataType="i4"
+                      name="has_sgr" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\temp\ADO NET Destination.Outputs[ADO NET Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="ADO NET Destination Error Output"
+                  synchronousInputId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\temp\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\temp\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\temp\ADO NET Destination.Outputs[ADO NET Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\temp\ADO NET Source"
+              componentClassID="Microsoft.ManagedComponentHost"
+              contactInfo="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server.;Microsoft Corporation; Microsoft SQL Server; © Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="Consumes data from SQL Server, OLE DB, ODBC, or Oracle, using the corresponding .NET Framework data provider. Use a Transact-SQL statement to define the result set. For example, extract data from SQL Server with the .NET Framework data provider for SQL Server."
+              name="ADO NET Source"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.String"
+                  description="Specifies the SQL statement used by the component to extract data."
+                  expressionType="Notify"
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT d.DocNum, d.G32 
+,CASE 
+WHEN EXISTS (
+	SELECT 0 
+	FROM [Docs2SQL].[dbo].[DBRTECHD] AS t
+	WHERE t.DocNum = d.DocNum
+	AND t.G32 = d.G32
+	AND t.G441 IN ('01191','01401','01402','01403','01404','01408')
+) THEN 1 ELSE 0 END AS has_sert
+
+,CASE 
+WHEN EXISTS (
+	SELECT 0 
+	FROM [Docs2SQL].[dbo].[DBRTECHD] AS t
+	WHERE t.DocNum = d.DocNum
+	AND t.G32 = d.G32
+	AND t.G441 IN ('01206')
+) THEN 1 ELSE 0 END AS has_sgr
+
+FROM [Docs2SQL].[dbo].[DBRTOVAR] AS d
+JOIN [Docs2SQL].[dbo].[DBRHEAD] AS h ON d.DocNum = h.DocNum
+WHERE h.GD1 &gt;= '2020-01-01'</property>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">600</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether to allow non-string external columns to be implicitly converted to strings at the output columns."
+                  name="AllowImplicitStringConversion">true</property>
+                <property
+                  dataType="System.String"
+                  description="The Source database table name."
+                  expressionType="Notify"
+                  name="TableOrViewName"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specify the mode to retrieve external column information"
+                  name="AccessMode"
+                  typeConverter="Microsoft.SqlServer.Dts.Pipeline.DataReaderSourceAdapter+EnumToStringConverter">2</property>
+                <property
+                  dataType="System.String"
+                  name="UserComponentTypeName">Microsoft.DataReaderSourceAdapter</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\temp\ADO NET Source.Connections[IDbConnection]"
+                  connectionManagerID="{76382CC5-2C1A-4767-958A-4AFC8DEA4336}:external"
+                  connectionManagerRefId="Project.ConnectionManagers[10.10.0.28.automation.phpuser]"
+                  description="Managed connection manager"
+                  name="IDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output]"
+                  name="ADO NET Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[DocNum]"
+                      dataType="wstr"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DocNum]"
+                      length="25"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[DocNum]"
+                      name="DocNum"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[G32]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[G32]"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[G32]"
+                      name="G32"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[has_sert]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[has_sert]"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[has_sert]"
+                      name="has_sert"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[has_sgr]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[has_sgr]"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].Columns[has_sgr]"
+                      name="has_sgr"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[DocNum]"
+                      dataType="wstr"
+                      length="25"
+                      name="DocNum" />
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[G32]"
+                      dataType="i4"
+                      name="G32" />
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[has_sert]"
+                      dataType="i4"
+                      name="has_sert" />
+                    <externalMetadataColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output].ExternalColumns[has_sgr]"
+                      dataType="i4"
+                      name="has_sgr" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output]"
+                  isErrorOut="true"
+                  name="ADO NET Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DocNum]"
+                      dataType="wstr"
+                      length="25"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[DocNum]"
+                      name="DocNum" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[G32]"
+                      dataType="i4"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[G32]"
+                      name="G32" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[has_sert]"
+                      dataType="i4"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[has_sert]"
+                      name="has_sert" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[has_sgr]"
+                      dataType="i4"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[has_sgr]"
+                      name="has_sgr" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\temp\ADO NET Source.Outputs[ADO NET Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\temp.Paths[ADO NET Source Output]"
+              endId="Package\temp\ADO NET Destination.Inputs[ADO NET Destination Input]"
+              name="ADO NET Source Output"
+              startId="Package\temp\ADO NET Source.Outputs[ADO NET Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Truncate"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
       DTS:DTSID="{8F01D3C7-3C4E-4C0E-809E-6A0E78209DEE}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -4755,17 +5966,25 @@ ON d.G34 = rc.code_name</property>
       <GraphLayout
         Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="173,42"
+          Id="Package\Load marking codes"
+          TopLeft="420,108" />
+        <NodeLayout
           Size="101,42"
           Id="Package\Main"
           TopLeft="470,352" />
         <NodeLayout
           Size="132,42"
           Id="Package\Reload sert"
-          TopLeft="290,252" />
+          TopLeft="291,256" />
+        <NodeLayout
+          Size="153,42"
+          Id="Package\Reload sert test"
+          TopLeft="111,345" />
         <NodeLayout
           Size="129,42"
           Id="Package\Reload sgr"
-          TopLeft="462,256" />
+          TopLeft="463,259" />
         <NodeLayout
           Size="138,42"
           Id="Package\Reload tovar"
@@ -4780,26 +5999,26 @@ ON d.G34 = rc.code_name</property>
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-137.25,25"
+              EndConnector="-136.25,29"
               Start="0,0"
-              End="-137.25,17.5">
+              End="-136.25,21.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,4.69272237196765" />
+                    End="0,6.08355795148248" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,4.69272237196765"
-                    Point2="0,8.69272237196765"
-                    Point3="-4,8.69272237196765" />
+                    Point1="0,6.08355795148248"
+                    Point2="0,10.0835579514825"
+                    Point3="-4,10.0835579514825" />
                   <mssgle:LineSegment
-                    End="-133.25,8.69272237196765" />
+                    End="-132.25,10.0835579514825" />
                   <mssgle:CubicBezierSegment
-                    Point1="-133.25,8.69272237196765"
-                    Point2="-137.25,8.69272237196765"
-                    Point3="-137.25,12.6927223719677" />
+                    Point1="-132.25,10.0835579514825"
+                    Point2="-136.25,10.0835579514825"
+                    Point3="-136.25,14.0835579514825" />
                   <mssgle:LineSegment
-                    End="-137.25,17.5" />
+                    End="-136.25,21.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4810,18 +6029,18 @@ ON d.G34 = rc.code_name</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="524,227">
+          TopLeft="524.5,227">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,29"
+              EndConnector="0,32"
               Start="0,0"
-              End="0,21.5">
+              End="0,24.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,21.5" />
+                    End="0,24.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4832,30 +6051,30 @@ ON d.G34 = rc.code_name</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="356,294">
+          TopLeft="357,298">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="141.25,58"
+              EndConnector="140.25,54"
               Start="0,0"
-              End="141.25,50.5">
+              End="140.25,46.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,33.6720257234727" />
+                    End="0,31.0739549839228" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,33.6720257234727"
-                    Point2="0,37.6720257234727"
-                    Point3="4,37.6720257234727" />
+                    Point1="0,31.0739549839228"
+                    Point2="0,35.0739549839228"
+                    Point3="4,35.0739549839228" />
                   <mssgle:LineSegment
-                    End="137.25,37.6720257234727" />
+                    End="136.25,35.0739549839228" />
                   <mssgle:CubicBezierSegment
-                    Point1="137.25,37.6720257234727"
-                    Point2="141.25,37.6720257234727"
-                    Point3="141.25,41.6720257234727" />
+                    Point1="136.25,35.0739549839228"
+                    Point2="140.25,35.0739549839228"
+                    Point3="140.25,39.0739549839228" />
                   <mssgle:LineSegment
-                    End="141.25,50.5" />
+                    End="140.25,46.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4866,18 +6085,18 @@ ON d.G34 = rc.code_name</property>
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="523.5,298">
+          TopLeft="524,301">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,54"
+              EndConnector="0,51"
               Start="0,0"
-              End="0,46.5">
+              End="0,43.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,46.5" />
+                    End="0,43.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -4955,39 +6174,146 @@ ON d.G34 = rc.code_name</property>
           </EdgeLayout.Labels>
         </EdgeLayout>
         <NodeLayout
-          Size="173,42"
-          Id="Package\Load marking codes"
-          TopLeft="140,111" />
+          Size="103,42"
+          Id="Package\temp"
+          TopLeft="38,255" />
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Load marking codes">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Load marking codes\Query"
+          TopLeft="116,74" />
+        <NodeLayout
+          Size="102,42"
+          Id="Package\Load marking codes\Filter"
+          TopLeft="120,151" />
+        <NodeLayout
+          Size="105,42"
+          Id="Package\Load marking codes\Table"
+          TopLeft="118,235" />
+        <EdgeLayout
+          Id="Package\Load marking codes.Paths[ADO NET Source Output]"
+          TopLeft="170.25,116">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,35"
+              Start="0,0"
+              End="0,27.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,27.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Load marking codes.Paths[Выход несовпадающих строк уточняющего запроса]"
+          TopLeft="169.75,193">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,42"
+              Start="0,0"
+              End="0,34.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,34.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="-119.598359375,11.60888671875,239.19671875,11.2822265625"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load marking codes\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load marking codes\Filter">
+    <Properties>
+      <Property>
+        <Name>OverwriteParamsSQLProp</Name>
+        <Value
+          type="q2:string">false</Value>
+      </Property>
+      <Property>
+        <Name>UsedTableName</Name>
+        <Value
+          type="q3:string">[dbo].[parsing_marking_codes]</Value>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q4:string">0</Value>
+      </Property>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load marking codes\Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Main">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="107,42"
-          Id="Package\Main\Query"
-          TopLeft="245,58" />
-        <NodeLayout
           Size="105,42"
           Id="Package\Main\Table"
-          TopLeft="241,127" />
+          TopLeft="239,131" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Main\Query"
+          TopLeft="242,64" />
         <EdgeLayout
           Id="Package\Main.Paths[ADO NET Source Output]"
-          TopLeft="296,100">
+          TopLeft="293.5,106">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,27"
+              EndConnector="0,25"
               Start="0,0"
-              End="0,19.5">
+              End="0,17.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,19.5" />
+                    End="0,17.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5029,21 +6355,21 @@ ON d.G34 = rc.code_name</property>
         <NodeLayout
           Size="107,42"
           Id="Package\Reload sert\Query"
-          TopLeft="145,101" />
+          TopLeft="150,104" />
         <EdgeLayout
           Id="Package\Reload sert.Paths[ADO NET Source Output]"
-          TopLeft="197.5,143">
+          TopLeft="200,146">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,37"
+              EndConnector="0,34"
               Start="0,0"
-              End="0,29.5">
+              End="0,26.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,29.5" />
+                    End="0,26.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5074,6 +6400,54 @@ ON d.G34 = rc.code_name</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
+    design-time-name="Package\Reload sert test">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="105,42"
+          Id="Package\Reload sert test\Table"
+          TopLeft="144,180" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Reload sert test\Query"
+          TopLeft="150,104" />
+        <EdgeLayout
+          Id="Package\Reload sert test.Paths[ADO NET Source Output]"
+          TopLeft="200,146">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,34"
+              Start="0,0"
+              End="0,26.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Reload sert test\Query">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
     design-time-name="Package\Reload sgr">
     <LayoutInfo>
       <GraphLayout
@@ -5085,21 +6459,21 @@ ON d.G34 = rc.code_name</property>
         <NodeLayout
           Size="107,42"
           Id="Package\Reload sgr\Query"
-          TopLeft="153,87" />
+          TopLeft="157,92" />
         <EdgeLayout
           Id="Package\Reload sgr.Paths[ADO NET Source Output]"
-          TopLeft="207,129">
+          TopLeft="209,134">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,36"
+              EndConnector="0,31"
               Start="0,0"
-              End="0,28.5">
+              End="0,23.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,28.5" />
+                    End="0,23.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5135,13 +6509,13 @@ ON d.G34 = rc.code_name</property>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
-          Size="107,42"
-          Id="Package\Reload tovar\Query"
-          TopLeft="113,74" />
-        <NodeLayout
           Size="105,42"
           Id="Package\Reload tovar\Table"
           TopLeft="110,149" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Reload tovar\Query"
+          TopLeft="113,74" />
         <EdgeLayout
           Id="Package\Reload tovar.Paths[ADO NET Source Output]"
           TopLeft="164.5,116">
@@ -5186,36 +6560,32 @@ ON d.G34 = rc.code_name</property>
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Load marking codes">
+    design-time-name="Package\temp">
     <LayoutInfo>
       <GraphLayout
-        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="107,42"
-          Id="Package\Load marking codes\Query"
-          TopLeft="116,74" />
+          Size="158,42"
+          Id="Package\temp\ADO NET Source"
+          TopLeft="81,77" />
         <NodeLayout
-          Size="105,42"
-          Id="Package\Load marking codes\Table"
-          TopLeft="118,235" />
-        <NodeLayout
-          Size="102,42"
-          Id="Package\Load marking codes\Filter"
-          TopLeft="119,149" />
+          Size="179,42"
+          Id="Package\temp\ADO NET Destination"
+          TopLeft="63,158" />
         <EdgeLayout
-          Id="Package\Load marking codes.Paths[ADO NET Source Output]"
-          TopLeft="169.75,116">
+          Id="Package\temp.Paths[ADO NET Source Output]"
+          TopLeft="156.25,119">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="0,33"
+              EndConnector="0,39"
               Start="0,0"
-              End="0,25.5">
+              End="0,31.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="0,25.5" />
+                    End="0,31.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -5224,35 +6594,11 @@ ON d.G34 = rc.code_name</property>
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <EdgeLayout
-          Id="Package\Load marking codes.Paths[Выход несовпадающих строк уточняющего запроса]"
-          TopLeft="170.25,191">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,44"
-              Start="0,0"
-              End="0,36.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,36.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="-119.598359375,12.60888671875,239.19671875,11.2822265625"
-              RelativePosition="Any" />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </TaskHost>
   <PipelineComponentMetadata
-    design-time-name="Package\Load marking codes\Query">
+    design-time-name="Package\temp\ADO NET Source">
     <Properties>
       <Property>
         <Name>DataSourceViewID</Name>
@@ -5260,31 +6606,8 @@ ON d.G34 = rc.code_name</property>
     </Properties>
   </PipelineComponentMetadata>
   <PipelineComponentMetadata
-    design-time-name="Package\Load marking codes\Table">
+    design-time-name="Package\temp\ADO NET Destination">
     <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Load marking codes\Filter">
-    <Properties>
-      <Property>
-        <Name>OverwriteParamsSQLProp</Name>
-        <Value
-          type="q2:boolean">false</Value>
-      </Property>
-      <Property>
-        <Name>UsedTableName</Name>
-        <Value
-          type="q3:string">[dbo].[parsing_marking_codes]</Value>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q4:int">0</Value>
-      </Property>
       <Property>
         <Name>DataSourceViewID</Name>
       </Property>

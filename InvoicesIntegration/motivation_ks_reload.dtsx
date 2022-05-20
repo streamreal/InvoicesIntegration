@@ -11,10 +11,22 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package3"
   DTS:PackageType="5"
-  DTS:VersionBuild="114"
-  DTS:VersionGUID="{C15852B7-91E8-43B1-937F-C90F1A81365C}">
+  DTS:VersionBuild="140"
+  DTS:VersionGUID="{259EE9C9-13AB-4B1C-BEE7-936DC6681007}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{F908B9AF-1CBD-446B-98FE-E7EE90550E36}"
+      DTS:ObjectName="depth_months"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -195,7 +207,7 @@ SELECT DISTINCT
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Reload accepted\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload accepted\Query.Outputs[ADO NET Source Output].Columns[service_type_row]"
                       name="service_type_row"
                       truncationRowDisposition="FailComponent" />
@@ -271,7 +283,7 @@ SELECT DISTINCT
                     <externalMetadataColumn
                       refId="Package\Reload accepted\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       name="service_type_row" />
                     <externalMetadataColumn
                       refId="Package\Reload accepted\Query.Outputs[ADO NET Source Output].ExternalColumns[request_type]"
@@ -321,7 +333,7 @@ SELECT DISTINCT
                     <outputColumn
                       refId="Package\Reload accepted\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload accepted\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
                       name="service_type_row" />
                     <outputColumn
@@ -439,7 +451,7 @@ SELECT DISTINCT
                     <inputColumn
                       refId="Package\Reload accepted\Table.Inputs[ADO NET Destination Input].Columns[service_type_row]"
                       cachedDataType="wstr"
-                      cachedLength="3"
+                      cachedLength="50"
                       cachedName="service_type_row"
                       externalMetadataColumnId="Package\Reload accepted\Table.Inputs[ADO NET Destination Input].ExternalColumns[service_type_row]"
                       lineageId="Package\Reload accepted\Query.Outputs[ADO NET Source Output].Columns[service_type_row]" />
@@ -1171,6 +1183,7 @@ SELECT
       DTS:refId="Package\Reload commissions"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{755F9E54-C9AE-468A-9D3C-7B1FF3F8BCDE}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -1976,6 +1989,7 @@ FROM cte_merged AS c
       DTS:refId="Package\Reload commissions close"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{3825FE98-2A34-4552-A688-387254445226}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -2967,41 +2981,28 @@ cte_sent_replies_assigned AS (
     [reply_year],
 	
 	COUNT(0) AS ks_reply_qty_all_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_assigned,
 
 	COUNT(ALL CASE WHEN request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_assigned,
-	COUNT(ALL CASE WHEN request_type = 'Тендер' AND 
-	(
-		(tender_reply_date IS NULL AND ex_reply_duration &lt;= 9)
-		OR 
-		(tender_reply_date IS NOT NULL AND ex_reply_date &lt;= tender_reply_date)
-	)
-	THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_assigned,
-	
-	COUNT(ALL CASE WHEN request_type = 'Тендер' AND 
-	(
-		(tender_reply_date IS NULL AND ex_reply_duration &gt; 9)
-		OR 
-		(tender_reply_date IS NOT NULL AND ex_reply_date &gt; tender_reply_date)
-	)
-	THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_assigned,
+	COUNT(ALL CASE WHEN request_type = 'Тендер' AND kp_in_time = 1 THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_assigned,
+	COUNT(ALL CASE WHEN request_type = 'Тендер' AND kp_in_time = 0 THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_assigned,
 
 	COUNT(ALL CASE WHEN request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_assigned,
 	
 	COUNT(ALL CASE WHEN request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_assigned,
 	
 	COUNT(ALL CASE WHEN request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_assigned,
 	
 	COUNT(ALL CASE WHEN request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_assigned
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_assigned
 
 	FROM [motivation].[dbo].[ks_sent_replies]
 	GROUP BY 
@@ -3018,28 +3019,29 @@ cte_sent_replies_responsible AS (
     [reply_year],
 	
 	COUNT(0) AS ks_reply_qty_all_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_responsible,
+	
+	COUNT(ALL CASE WHEN kp_in_time = 1 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_responsible,
 
 	COUNT(ALL CASE WHEN request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_responsible
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_responsible
 
 	FROM [motivation].[dbo].[ks_sent_replies]
 	GROUP BY 
@@ -3572,41 +3574,28 @@ cte_sent_replies_assigned AS (
     [reply_year],
 	
 	COUNT(0) AS ks_reply_qty_all_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_assigned,
 
 	COUNT(ALL CASE WHEN request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_assigned,
-	COUNT(ALL CASE WHEN request_type = 'Тендер' AND 
-	(
-		(tender_reply_date IS NULL AND ex_reply_duration &lt;= 9)
-		OR 
-		(tender_reply_date IS NOT NULL AND ex_reply_date &lt;= tender_reply_date)
-	)
-	THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_assigned,
-	
-	COUNT(ALL CASE WHEN request_type = 'Тендер' AND 
-	(
-		(tender_reply_date IS NULL AND ex_reply_duration &gt; 9)
-		OR 
-		(tender_reply_date IS NOT NULL AND ex_reply_date &gt; tender_reply_date)
-	)
-	THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_assigned,
+	COUNT(ALL CASE WHEN request_type = 'Тендер' AND kp_in_time = 1 THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_assigned,
+	COUNT(ALL CASE WHEN request_type = 'Тендер' AND kp_in_time = 0 THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_assigned,
 
 	COUNT(ALL CASE WHEN request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_assigned,
 	
 	COUNT(ALL CASE WHEN request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_assigned,
 	
 	COUNT(ALL CASE WHEN request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_assigned,
 	
 	COUNT(ALL CASE WHEN request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_assigned,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_assigned
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_assigned,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_assigned
 
 	FROM [motivation].[dbo].[ks_sent_replies]
 	GROUP BY 
@@ -3623,28 +3612,29 @@ cte_sent_replies_responsible AS (
     [reply_year],
 	
 	COUNT(0) AS ks_reply_qty_all_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_responsible,
+	
+	COUNT(ALL CASE WHEN kp_in_time = 1 THEN 0 ELSE NULL END) AS ks_reply_qty_all_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 THEN 0 ELSE NULL END) AS ks_reply_qty_all_slow_responsible,
 
 	COUNT(ALL CASE WHEN request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Тендер' THEN 0 ELSE NULL END) AS ks_reply_qty_tender_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Проект' THEN 0 ELSE NULL END) AS ks_reply_qty_project_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Сложный' THEN 0 ELSE NULL END) AS ks_reply_qty_complex_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Типовой' THEN 0 ELSE NULL END) AS ks_reply_qty_typical_slow_responsible,
 	
 	COUNT(ALL CASE WHEN request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &lt;= 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_responsible,
-	COUNT(ALL CASE WHEN ex_reply_duration &gt; 9 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_responsible
+	COUNT(ALL CASE WHEN kp_in_time = 1 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_fast_responsible,
+	COUNT(ALL CASE WHEN kp_in_time = 0 AND request_type = 'Индикативный' THEN 0 ELSE NULL END) AS ks_reply_qty_indicative_slow_responsible
 
 	FROM [motivation].[dbo].[ks_sent_replies]
 	GROUP BY 
@@ -8596,7 +8586,7 @@ SELECT DISTINCT
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].Columns[service_type_row]"
                       name="service_type_row"
                       truncationRowDisposition="FailComponent" />
@@ -8636,7 +8626,7 @@ SELECT DISTINCT
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].ExternalColumns[client_decision]"
-                      length="50"
+                      length="100"
                       lineageId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].Columns[client_decision]"
                       name="client_decision"
                       truncationRowDisposition="FailComponent" />
@@ -8682,7 +8672,7 @@ SELECT DISTINCT
                     <externalMetadataColumn
                       refId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       name="service_type_row" />
                     <externalMetadataColumn
                       refId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].ExternalColumns[request_type]"
@@ -8702,7 +8692,7 @@ SELECT DISTINCT
                     <externalMetadataColumn
                       refId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].ExternalColumns[client_decision]"
                       dataType="wstr"
-                      length="50"
+                      length="100"
                       name="client_decision" />
                     <externalMetadataColumn
                       refId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].ExternalColumns[decision_date]"
@@ -8737,7 +8727,7 @@ SELECT DISTINCT
                     <outputColumn
                       refId="Package\Reload rejected\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload rejected\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
                       name="service_type_row" />
                     <outputColumn
@@ -8761,7 +8751,7 @@ SELECT DISTINCT
                     <outputColumn
                       refId="Package\Reload rejected\Query.Outputs[ADO NET Source Error Output].Columns[client_decision]"
                       dataType="wstr"
-                      length="50"
+                      length="100"
                       lineageId="Package\Reload rejected\Query.Outputs[ADO NET Source Error Output].Columns[client_decision]"
                       name="client_decision" />
                     <outputColumn
@@ -8861,7 +8851,7 @@ SELECT DISTINCT
                     <inputColumn
                       refId="Package\Reload rejected\Table.Inputs[ADO NET Destination Input].Columns[service_type_row]"
                       cachedDataType="wstr"
-                      cachedLength="3"
+                      cachedLength="50"
                       cachedName="service_type_row"
                       externalMetadataColumnId="Package\Reload rejected\Table.Inputs[ADO NET Destination Input].ExternalColumns[service_type_row]"
                       lineageId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].Columns[service_type_row]" />
@@ -8889,7 +8879,7 @@ SELECT DISTINCT
                     <inputColumn
                       refId="Package\Reload rejected\Table.Inputs[ADO NET Destination Input].Columns[client_decision]"
                       cachedDataType="wstr"
-                      cachedLength="50"
+                      cachedLength="100"
                       cachedName="client_decision"
                       externalMetadataColumnId="Package\Reload rejected\Table.Inputs[ADO NET Destination Input].ExternalColumns[client_decision]"
                       lineageId="Package\Reload rejected\Query.Outputs[ADO NET Source Output].Columns[client_decision]" />
@@ -9545,6 +9535,7 @@ SELECT DISTINCT
 	,DATEADD(HOUR, 96, request_date) AS tender_reply_date
 	,MONTH(calc_response_date) AS [reply_month]
 	,YEAR(calc_response_date) AS [reply_year]
+	,kp_in_time
 	FROM [webproject].[dbo].[calculation_deals]	AS d
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.assigned) AS ca_assigned
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.responsible_ks) AS ca_resp
@@ -9567,6 +9558,7 @@ SELECT DISTINCT
 	,tender_reply_date
 	,MONTH(ex_reply_date) AS [reply_month]
 	,YEAR(ex_reply_date) AS [reply_year]
+	,NULL AS kp_in_time
 	FROM [webproject].[dbo].[deals]	AS d
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.assigned) AS ca_assigned
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.responsible_ks) AS ca_resp
@@ -9603,6 +9595,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, " + (DT_WSTR, 2) @[User::de
 	,DATEADD(HOUR, 96, request_date) AS tender_reply_date
 	,MONTH(calc_response_date) AS [reply_month]
 	,YEAR(calc_response_date) AS [reply_year]
+	,kp_in_time
 	FROM [webproject].[dbo].[calculation_deals]	AS d
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.assigned) AS ca_assigned
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.responsible_ks) AS ca_resp
@@ -9625,6 +9618,7 @@ SELECT DISTINCT
 	,tender_reply_date
 	,MONTH(ex_reply_date) AS [reply_month]
 	,YEAR(ex_reply_date) AS [reply_year]
+	,NULL AS kp_in_time
 	FROM [webproject].[dbo].[deals]	AS d
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.assigned) AS ca_assigned
 	OUTER APPLY (SELECT TOP (1) code FROM motivation.dbo.ks_workers AS k WHERE k.bitrix_name = d.responsible_ks) AS ca_resp
@@ -9701,7 +9695,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                       errorOrTruncationOperation="Conversion"
                       errorRowDisposition="FailComponent"
                       externalMetadataColumnId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].Columns[service_type_row]"
                       name="service_type_row"
                       truncationRowDisposition="FailComponent" />
@@ -9780,6 +9774,15 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                       lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].Columns[reply_year]"
                       name="reply_year"
                       truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].Columns[kp_in_time]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].ExternalColumns[kp_in_time]"
+                      lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].Columns[kp_in_time]"
+                      name="kp_in_time"
+                      truncationRowDisposition="FailComponent" />
                   </outputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -9800,7 +9803,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                     <externalMetadataColumn
                       refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].ExternalColumns[service_type_row]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       name="service_type_row" />
                     <externalMetadataColumn
                       refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].ExternalColumns[request_type]"
@@ -9837,6 +9840,10 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                       refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].ExternalColumns[reply_year]"
                       dataType="i4"
                       name="reply_year" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].ExternalColumns[kp_in_time]"
+                      dataType="i4"
+                      name="kp_in_time" />
                   </externalMetadataColumns>
                 </output>
                 <output
@@ -9864,7 +9871,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                     <outputColumn
                       refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
                       dataType="wstr"
-                      length="3"
+                      length="50"
                       lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Error Output].Columns[service_type_row]"
                       name="service_type_row" />
                     <outputColumn
@@ -9910,6 +9917,11 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                       dataType="i4"
                       lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Error Output].Columns[reply_year]"
                       name="reply_year" />
+                    <outputColumn
+                      refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Error Output].Columns[kp_in_time]"
+                      dataType="i4"
+                      lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Error Output].Columns[kp_in_time]"
+                      name="kp_in_time" />
                     <outputColumn
                       refId="Package\Reload sent replies\Query.Outputs[ADO NET Source Error Output].Columns[ErrorCode]"
                       dataType="i4"
@@ -9999,7 +10011,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                     <inputColumn
                       refId="Package\Reload sent replies\Table.Inputs[ADO NET Destination Input].Columns[service_type_row]"
                       cachedDataType="wstr"
-                      cachedLength="3"
+                      cachedLength="50"
                       cachedName="service_type_row"
                       externalMetadataColumnId="Package\Reload sent replies\Table.Inputs[ADO NET Destination Input].ExternalColumns[service_type_row]"
                       lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].Columns[service_type_row]" />
@@ -10054,6 +10066,12 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                       cachedName="reply_year"
                       externalMetadataColumnId="Package\Reload sent replies\Table.Inputs[ADO NET Destination Input].ExternalColumns[reply_year]"
                       lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].Columns[reply_year]" />
+                    <inputColumn
+                      refId="Package\Reload sent replies\Table.Inputs[ADO NET Destination Input].Columns[kp_in_time]"
+                      cachedDataType="i4"
+                      cachedName="kp_in_time"
+                      externalMetadataColumnId="Package\Reload sent replies\Table.Inputs[ADO NET Destination Input].ExternalColumns[kp_in_time]"
+                      lineageId="Package\Reload sent replies\Query.Outputs[ADO NET Source Output].Columns[kp_in_time]" />
                   </inputColumns>
                   <externalMetadataColumns
                     isUsed="True">
@@ -10111,6 +10129,10 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
                       refId="Package\Reload sent replies\Table.Inputs[ADO NET Destination Input].ExternalColumns[tender_reply_date]"
                       dataType="dbTimeStamp"
                       name="tender_reply_date" />
+                    <externalMetadataColumn
+                      refId="Package\Reload sent replies\Table.Inputs[ADO NET Destination Input].ExternalColumns[kp_in_time]"
+                      dataType="i4"
+                      name="kp_in_time" />
                   </externalMetadataColumns>
                 </input>
               </inputs>
@@ -10164,6 +10186,21 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
           SQLTask:SqlStatementSource="WITH cte AS (&#xA;SELECT w.*&#xA;FROM [motivation].[dbo].ks_workers AS w&#xA;JOIN [motivation].[dbo].[bitrix_users] AS sp ON sp.nav_code = w.code AND sp.active = 'N'&#xA;WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(w.date_begin), MONTH(w.date_begin), 10)) AS date)&#xA;AND w.role_type = 1&#xA;AND w.estimate_participant = 1&#xA;AND w.type = 'manager'&#xA;)&#xA;UPDATE cte&#xA;SET estimate_participant = 0" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Set depth"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:Description="Expression Task"
+      DTS:DTSID="{50124AB5-3431-4123-978A-8920CE50BEF2}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set depth"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::depth_months] =  @[$Package::depth_months]" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -10244,7 +10281,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ks_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT &#xA;&#x9;b.nav_code AS SalespersonCode,&#xA;&#x9;b.[name] AS SalespersonName,&#xA;&#x9;b.bitrix_name AS bitrix_name,&#xA;&#x9;b.[department_name] AS [Dept_ Code]&#xA;&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND group_id IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_declarant&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND COALESCE(group_id, '') NOT IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_sto_spec&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id = '1123' THEN 1 ELSE 0 END AS is_sto_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id IN ('1044','56','60','64','66','68') THEN 1 ELSE 0 END AS is_stl_spec&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id = '1090' THEN 1 ELSE 0 END AS is_stl_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '628' AND department_id IN ('1052','1082','22','76') THEN 1 ELSE 0 END AS is_ks&#xA;&#x9;FROM [motivation].[dbo].[bitrix_users] AS b&#xA;&#x9;WHERE active = 'Y' AND COALESCE(nav_code, '') &lt;&gt; ''&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ks_workers] ([name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'manager' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_ks = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ks_workers] AS sw &#xA;WHERE cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[ks_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT &#xA;&#x9;b.nav_code AS SalespersonCode,&#xA;&#x9;b.[name] AS SalespersonName,&#xA;&#x9;b.bitrix_name AS bitrix_name,&#xA;&#x9;b.[department_name] AS [Dept_ Code]&#xA;&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND group_id IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_declarant&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND COALESCE(group_id, '') NOT IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_sto_spec&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id = '1123' THEN 1 ELSE 0 END AS is_sto_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id IN ('1044','56','60','64','66','68') THEN 1 ELSE 0 END AS is_stl_spec&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id = '1090' THEN 1 ELSE 0 END AS is_stl_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '628' AND (department_id IN ('1052','1082','22','76') OR (department_id = '1176' AND work_position LIKE '%руковод%')) THEN 1 ELSE 0 END AS is_ks&#xA;&#x9;FROM [motivation].[dbo].[bitrix_users] AS b&#xA;&#x9;WHERE active = 'Y' AND COALESCE(nav_code, '') &lt;&gt; ''&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[ks_workers] ([name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[bitrix_name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;c.SalespersonName AS [name],&#xA;c.bitrix_name AS [bitrix_name],&#xA;c.SalespersonCode AS [code],&#xA;'manager' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_ks = 1&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[ks_workers] AS sw &#xA;WHERE cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -10386,6 +10423,14 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
       DTS:ObjectName="Ограничение 2"
       DTS:To="Package\Reload sent replies" />
     <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 20]"
+      DTS:CreationName=""
+      DTS:DTSID="{9E8D4732-DAA1-4CFF-B118-65DA8134D4A5}"
+      DTS:From="Package\Set depth"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 20"
+      DTS:To="Package\Remove fired" />
+    <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
       DTS:CreationName=""
       DTS:DTSID="{688E783F-70B7-43E1-A201-8FD21BB96FBD}"
@@ -10457,83 +10502,89 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         <NodeLayout
           Size="156,42"
           Id="Package\Delete add roles"
-          TopLeft="854,2" />
+          TopLeft="855,7" />
         <NodeLayout
           Size="156,42"
           Id="Package\Reload accepted"
-          TopLeft="504,146" />
+          TopLeft="504,167" />
         <NodeLayout
           Size="157,42"
           Id="Package\Reload add roles"
-          TopLeft="388,63" />
+          TopLeft="388,84" />
         <NodeLayout
           Size="169,42"
           Id="Package\Reload calculations"
-          TopLeft="346,192" />
+          TopLeft="346,213" />
         <NodeLayout
           Size="174,42"
           Id="Package\Reload commissions"
-          TopLeft="674,153" />
+          TopLeft="674,174" />
         <NodeLayout
           Size="201,42"
           Id="Package\Reload commissions close"
-          TopLeft="805,198" />
+          TopLeft="805,219" />
         <NodeLayout
           Size="137,42"
           Id="Package\Reload main"
-          TopLeft="413,294" />
+          TopLeft="413,315" />
         <NodeLayout
           Size="152,42"
           Id="Package\Reload rejected"
-          TopLeft="958,141" />
+          TopLeft="958,162" />
         <NodeLayout
           Size="154,42"
           Id="Package\Reload requests"
-          TopLeft="35,147" />
+          TopLeft="35,168" />
         <NodeLayout
           Size="168,42"
           Id="Package\Reload sent replies"
-          TopLeft="210,143" />
+          TopLeft="210,164" />
         <NodeLayout
           Size="141,42"
           Id="Package\Remove fired"
-          TopLeft="870,65" />
+          TopLeft="956,82" />
         <NodeLayout
           Size="121,42"
           Id="Package\Truncate"
-          TopLeft="480,2" />
+          TopLeft="484,4" />
         <NodeLayout
           Size="165,42"
           Id="Package\Update main roles"
-          TopLeft="658,2" />
+          TopLeft="657,0" />
         <NodeLayout
           Size="160,42"
           Id="Package\Update role_type"
-          TopLeft="584,292" />
+          TopLeft="584,313" />
         <NodeLayout
           Size="131,42"
           Id="Package\Updated at"
-          TopLeft="423,366" />
+          TopLeft="423,387" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение]"
-          TopLeft="480,23">
+          TopLeft="544.5,46">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-13.5,40"
+              EndConnector="-78,38"
               Start="0,0"
-              End="-13.5,32.5">
+              End="-78,30.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-9.5,0" />
+                    End="0,15" />
                   <mssgle:CubicBezierSegment
-                    Point1="-9.5,0"
-                    Point2="-13.5,0"
-                    Point3="-13.5,4" />
+                    Point1="0,15"
+                    Point2="0,19"
+                    Point3="-4,19" />
                   <mssgle:LineSegment
-                    End="-13.5,32.5" />
+                    End="-74,19" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-74,19"
+                    Point2="-78,19"
+                    Point3="-78,23" />
+                  <mssgle:LineSegment
+                    End="-78,30.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10544,7 +10595,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="416.833333333333,105">
+          TopLeft="416.833333333333,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10578,7 +10629,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 10]"
-          TopLeft="1034,183">
+          TopLeft="1034,204">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10612,7 +10663,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 11]"
-          TopLeft="294,185">
+          TopLeft="294,206">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10646,7 +10697,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 12]"
-          TopLeft="112,189">
+          TopLeft="112,210">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10680,18 +10731,18 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 13]"
-          TopLeft="658,23">
+          TopLeft="657,23">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-57,0"
+              EndConnector="-52,0"
               Start="0,0"
-              End="-49.5,0">
+              End="-44.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-49.5,0" />
+                    End="-44.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10702,7 +10753,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 14]"
-          TopLeft="498.428571428571,105">
+          TopLeft="498.428571428571,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10736,7 +10787,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 15]"
-          TopLeft="905.5,240">
+          TopLeft="905.5,261">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10770,7 +10821,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 16]"
-          TopLeft="447.875,105">
+          TopLeft="447.875,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10804,7 +10855,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 17]"
-          TopLeft="550,314">
+          TopLeft="550,335">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10826,18 +10877,18 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 18]"
-          TopLeft="854,23">
+          TopLeft="855,24.5">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-31,0"
+              EndConnector="-33,0"
               Start="0,0"
-              End="-23.5,0">
+              End="-25.5,0">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="-23.5,0" />
+                    End="-25.5,0" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10848,30 +10899,30 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 19]"
-          TopLeft="1011,86">
+          TopLeft="1026.5,82">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="-1,-63"
+              EndConnector="-93.5,-33"
               Start="0,0"
-              End="6.5,-63">
+              End="-93.5,-25.5">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="18.5,0" />
+                    End="0,-12.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="18.5,0"
-                    Point2="22.5,0"
-                    Point3="22.5,-4" />
+                    Point1="0,-12.5"
+                    Point2="0,-16.5"
+                    Point3="-4,-16.5" />
                   <mssgle:LineSegment
-                    End="22.5,-59" />
+                    End="-89.5,-16.5" />
                   <mssgle:CubicBezierSegment
-                    Point1="22.5,-59"
-                    Point2="22.5,-63"
-                    Point3="18.5,-63" />
+                    Point1="-89.5,-16.5"
+                    Point2="-93.5,-16.5"
+                    Point3="-93.5,-20.5" />
                   <mssgle:LineSegment
-                    End="6.5,-63" />
+                    End="-93.5,-25.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -10882,7 +10933,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="441.666666666667,105">
+          TopLeft="441.666666666667,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10916,7 +10967,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 3]"
-          TopLeft="466.5,105">
+          TopLeft="466.5,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10950,7 +11001,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 4]"
-          TopLeft="477.142857142857,105">
+          TopLeft="477.142857142857,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -10984,7 +11035,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 5]"
-          TopLeft="516.166666666667,105">
+          TopLeft="516.166666666667,126">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -11018,7 +11069,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 6]"
-          TopLeft="485,336">
+          TopLeft="485,357">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -11040,7 +11091,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 7]"
-          TopLeft="430.5,234">
+          TopLeft="430.5,255">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -11074,7 +11125,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 8]"
-          TopLeft="582,188">
+          TopLeft="582,209">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -11108,7 +11159,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 9]"
-          TopLeft="761,195">
+          TopLeft="761,216">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
@@ -11140,6 +11191,32 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Set depth"
+          TopLeft="754,83" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 20]"
+          TopLeft="878,103.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="78,0"
+              Start="0,0"
+              End="70.5,0">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="70.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -11147,7 +11224,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload accepted">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload accepted\Table"
@@ -11175,7 +11252,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11201,7 +11280,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload calculations">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload calculations\Table"
@@ -11229,7 +11308,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11255,7 +11336,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload commissions">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="107,42"
           Id="Package\Reload commissions\Query"
@@ -11283,7 +11364,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11309,7 +11392,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload commissions close">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="107,42"
           Id="Package\Reload commissions close\Query"
@@ -11337,7 +11420,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11363,7 +11448,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload main">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload main\Table"
@@ -11391,7 +11476,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11417,7 +11504,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload rejected">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload rejected\Table"
@@ -11445,7 +11532,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11471,7 +11560,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload requests">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload requests\Table"
@@ -11499,7 +11588,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11525,15 +11616,15 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
     design-time-name="Package\Reload sent replies">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="107,42"
-          Id="Package\Reload sent replies\Query"
-          TopLeft="125,51" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload sent replies\Table"
           TopLeft="127,123" />
+        <NodeLayout
+          Size="107,42"
+          Id="Package\Reload sent replies\Query"
+          TopLeft="125,51" />
         <EdgeLayout
           Id="Package\Reload sent replies.Paths[ADO NET Source Output]"
           TopLeft="179,93">
@@ -11553,7 +11644,9 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(YEAR(ex_re
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

@@ -51,6 +51,9 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
+    <None Include="..\.editorconfig">
+      <Link>.editorconfig</Link>
+    </None>
     <None Include="App.config" />
     <None Include="LinqConstructor.dbml">
       <Generator>MSLinqToSQLGenerator</Generator>
@@ -66,7 +69,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\..\..\Desktop\ObligationContext.cs" />
     <Compile Include="Bitrix24.cs" />
     <Compile Include="BitrixLists\Bitrix24.cs" />
     <Compile Include="BitrixLists\BitrixList.cs" />

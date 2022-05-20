@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package"
   DTS:PackageType="5"
-  DTS:VersionBuild="12"
-  DTS:VersionGUID="{8E196AE8-F014-4A6C-B6D0-7D81DE76F0FC}">
+  DTS:VersionBuild="13"
+  DTS:VersionGUID="{72280319-E471-476F-8E76-613801496B4C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:Variables />
@@ -21,6 +21,7 @@
       DTS:refId="Package\Truncate"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{D710498C-CFF9-40CD-9000-C1105A45015D}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -38,6 +39,7 @@
       DTS:refId="Package\Загрузка данных"
       DTS:CreationName="Microsoft.Pipeline"
       DTS:Description="Задача потока данных"
+      DTS:Disabled="True"
       DTS:DTSID="{8AFA8EB7-842E-4338-B9B2-05F9B3BD8755}"
       DTS:ExecutableType="Microsoft.Pipeline"
       DTS:LocaleID="-1"
@@ -9347,6 +9349,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
       DTS:refId="Package\Задача &quot;Выполнение SQL&quot;"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{7571AF88-9B62-4460-BA62-4BF89C91BDC4}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -9364,6 +9367,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
       DTS:refId="Package\Перенос в таблицу"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Задача &quot;Выполнение SQL&quot;"
+      DTS:Disabled="True"
       DTS:DTSID="{CB12DB7C-4255-4A2D-8515-4C024EDAB158}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
@@ -9381,6 +9385,7 @@ WHERE [ID] NOT IN (SELECT t.[ID] FROM [dbo].[InvoicesID] t)) i join [gtd].[dbo].
       DTS:refId="Package\Связка invoice_id"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
+      DTS:Disabled="True"
       DTS:DTSID="{C86FF7A3-9C73-4FEF-9D61-32C6DAF8901F}"
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"

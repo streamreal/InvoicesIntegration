@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package2"
   DTS:PackageType="5"
-  DTS:VersionBuild="79"
-  DTS:VersionGUID="{CBF07B14-643A-4244-8BCC-D48215E1F223}">
+  DTS:VersionBuild="89"
+  DTS:VersionGUID="{0B417A19-617E-417A-8CCC-7136DD7C72D9}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -27,11 +27,23 @@
           <DTS:Password
             DTS:Name="Password"
             Sensitive="1"
-            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAzkD972perkarxXN/BP1UkwAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAACX6qe3zZd1u0hYFE8V99EIAAAAAASAAACgAAAAEAAAALx/+gaBkWWkJ8MNXWJsfFYYAAAANN1KD3p0inOtG8QlIv4STCGxaO2vE9+LFAAAACEsa+mOB8t52OLS3Uwa0Lgfk0qr</DTS:Password>
+            Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAjGy6skELtUm1I7eSzGaWbwAAAAAIAAAARABUAFMAAAADZgAAwAAAABAAAADm9eeTlo1f9s+KjNkoi6taAAAAAASAAACgAAAAEAAAAJ+Dc2ZnlPY6VrmCSItpYaUYAAAArQMHSiCzFLlEa81uOWVUeZo45joN5AF2FAAAALxKB9JClnshRzyj+TH1s1He7IMW</DTS:Password>
         </DTS:ConnectionManager>
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="3"
+      DTS:DTSID="{D09AE087-8A28-46BE-9107-C71DE7DEDAE4}"
+      DTS:ObjectName="depth_months"
+      DTS:Required="True">
+      <DTS:Property
+        DTS:DataType="3"
+        DTS:Name="ParameterValue">1</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
   <DTS:Variables>
     <DTS:Variable
       DTS:CreationName=""
@@ -150,11 +162,14 @@ cte_datamart AS (
 	FROM [BI].[dwh].[DeliveryDatamart] dd
 	JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] sp ON sp.SalespersonCode = dd.[Executive Code]
 	
-	LEFT JOIN (SELECT UPPER(LTRIM([20_20])) terms, UPPER(LTRIM(RTRIM([&amp;&amp;PRIM]))) delivery, 
-		ROW_NUMBER() OVER (PARTITION BY [&amp;&amp;PRIM] ORDER BY ([&amp;&amp;PRIM])) rn
-		FROM [gtd].[dbo].[GTDList] 
-		WHERE LEFT(C_1, 4) IN ('2-10', '2-11', '2-12', '2-13', '2-14', '2-20', '2-**')) gtd
-	ON gtd.delivery = dd.No_ AND gtd.rn = 1	
+  LEFT JOIN (
+                SELECT 
+                UPPER(LTRIM([G202])) terms,                 
+                UPPER(LTRIM(RTRIM(LEFT([EXTRNL], 7)))) delivery, 
+                ROW_NUMBER() OVER (PARTITION BY LEFT([EXTRNL], 7) ORDER BY (LEFT([EXTRNL], 7))) rn
+                FROM [Docs2SQL].[dbo].[DBRHEAD]                
+            ) gtd
+            ON gtd.delivery = dd.No_ AND gtd.rn = 1	
 	
 	LEFT JOIN (SELECT [No_], ROW_NUMBER() 
 							OVER (PARTITION BY [Customer No_], [Transport Method] 
@@ -433,11 +448,14 @@ cte_datamart AS (
 	FROM [BI].[dwh].[DeliveryDatamart] dd
 	JOIN [BI].[dwh].[ETP$Salesperson_Purchaser] sp ON sp.SalespersonCode = dd.[Executive Code]
 	
-	LEFT JOIN (SELECT UPPER(LTRIM([20_20])) terms, UPPER(LTRIM(RTRIM([&amp;&amp;PRIM]))) delivery, 
-		ROW_NUMBER() OVER (PARTITION BY [&amp;&amp;PRIM] ORDER BY ([&amp;&amp;PRIM])) rn
-		FROM [gtd].[dbo].[GTDList] 
-		WHERE LEFT(C_1, 4) IN ('2-10', '2-11', '2-12', '2-13', '2-14', '2-20', '2-**')) gtd
-	ON gtd.delivery = dd.No_ AND gtd.rn = 1	
+  LEFT JOIN (
+                SELECT 
+                UPPER(LTRIM([G202])) terms,                 
+                UPPER(LTRIM(RTRIM(LEFT([EXTRNL], 7)))) delivery, 
+                ROW_NUMBER() OVER (PARTITION BY LEFT([EXTRNL], 7) ORDER BY (LEFT([EXTRNL], 7))) rn
+                FROM [Docs2SQL].[dbo].[DBRHEAD]                
+            ) gtd
+            ON gtd.delivery = dd.No_ AND gtd.rn = 1	
 	
 	LEFT JOIN (SELECT [No_], ROW_NUMBER() 
 							OVER (PARTITION BY [Customer No_], [Transport Method] 
@@ -2377,11 +2395,14 @@ SELECT
   
   JOIN [BI].[dwh].[ETP$SQL_Delivery] esd ON esd.No_ = dd.No_
   
-  LEFT JOIN (SELECT UPPER(LTRIM([20_20])) terms, UPPER(LTRIM(RTRIM([&amp;&amp;PRIM]))) delivery, 
-		ROW_NUMBER() OVER (PARTITION BY [&amp;&amp;PRIM] ORDER BY ([&amp;&amp;PRIM])) rn
-		FROM [gtd].[dbo].[GTDList]
-		WHERE LEFT(C_1, 4) IN ('2-10', '2-11', '2-12', '2-13', '2-14', '2-20', '2-**')) gtd
-  ON gtd.delivery = dd.No_ AND gtd.rn = 1	
+      LEFT JOIN (
+                SELECT 
+                UPPER(LTRIM([G202])) terms,                 
+                UPPER(LTRIM(RTRIM(LEFT([EXTRNL], 7)))) delivery, 
+                ROW_NUMBER() OVER (PARTITION BY LEFT([EXTRNL], 7) ORDER BY (LEFT([EXTRNL], 7))) rn
+                FROM [Docs2SQL].[dbo].[DBRHEAD]                
+            ) gtd
+            ON gtd.delivery = dd.No_ AND gtd.rn = 1	
   	
   LEFT JOIN [motivation].[dbo].[stl_delivery_route] dr ON dr.document = dd.No_
 	
@@ -2452,11 +2473,14 @@ SELECT
   
   JOIN [BI].[dwh].[ETP$SQL_Delivery] esd ON esd.No_ = dd.No_
   
-  LEFT JOIN (SELECT UPPER(LTRIM([20_20])) terms, UPPER(LTRIM(RTRIM([&amp;&amp;PRIM]))) delivery, 
-		ROW_NUMBER() OVER (PARTITION BY [&amp;&amp;PRIM] ORDER BY ([&amp;&amp;PRIM])) rn
-		FROM [gtd].[dbo].[GTDList]
-		WHERE LEFT(C_1, 4) IN ('2-10', '2-11', '2-12', '2-13', '2-14', '2-20', '2-**')) gtd
-  ON gtd.delivery = dd.No_ AND gtd.rn = 1	
+      LEFT JOIN (
+                SELECT 
+                UPPER(LTRIM([G202])) terms,                 
+                UPPER(LTRIM(RTRIM(LEFT([EXTRNL], 7)))) delivery, 
+                ROW_NUMBER() OVER (PARTITION BY LEFT([EXTRNL], 7) ORDER BY (LEFT([EXTRNL], 7))) rn
+                FROM [Docs2SQL].[dbo].[DBRHEAD]                
+            ) gtd
+            ON gtd.delivery = dd.No_ AND gtd.rn = 1	
   	
   LEFT JOIN [motivation].[dbo].[stl_delivery_route] dr ON dr.document = dd.No_
 	
@@ -2920,6 +2944,21 @@ SELECT
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Set depth"
+      DTS:CreationName="Microsoft.ExpressionTask"
+      DTS:Description="Expression Task"
+      DTS:DTSID="{F7BAF324-D202-4BBB-A8EE-1497A718CE85}"
+      DTS:ExecutableType="Microsoft.ExpressionTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Set depth"
+      DTS:ThreadHint="1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <ExpressionTask
+          Expression="@[User::depth_months] =  @[$Package::depth_months]" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Set updated_at datetime"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
@@ -2927,7 +2966,7 @@ SELECT
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Set updated_at datetime"
-      DTS:ThreadHint="1">
+      DTS:ThreadHint="0">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -2977,7 +3016,7 @@ SELECT
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
-          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[stl_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT &#xA;&#x9;b.nav_code AS SalespersonCode,&#xA;&#x9;b.[name] AS SalespersonName,&#xA;&#x9;b.[name] AS bitrix_name,&#xA;&#x9;b.[department_name] AS [Dept_ Code]&#xA;&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND group_id IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_declarant&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND COALESCE(group_id, '') NOT IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_sto_spec&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id = '1123' THEN 1 ELSE 0 END AS is_sto_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '52' AND (department_id IN ('1044','56','60','64','66','68') OR (department_id = '1090' AND COALESCE(group_id, '') = '')) THEN 1 ELSE 0 END AS is_stl_spec&#xA;&#x9;,CASE WHEN office_id = '52' AND department_id = '1090' AND COALESCE(group_id, '') &lt;&gt; '' THEN 1 ELSE 0 END AS is_stl_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '628' AND department_id IN ('1052','1082','22','76') THEN 1 ELSE 0 END AS is_ks&#xA;&#x9;FROM [motivation].[dbo].[bitrix_users] AS b&#xA;&#x9;WHERE active = 'Y' AND COALESCE(nav_code, '') &lt;&gt; ''&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[stl_workers] ([department]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;c.[Dept_ Code] AS [department],&#xA;c.SalespersonName AS [name],&#xA;c.SalespersonCode AS [code],&#xA;'logist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_stl_spec = 1 AND is_stl_ttr = 0&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[stl_workers] AS sw &#xA;WHERE cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="UPDATE [motivation].[dbo].[stl_workers]&#xA;SET [is_archive] = 1&#xA;WHERE [is_archive] = 0 AND [role_type] = 1 AND&#xA;[date_end] &lt; CAST(GETDATE() AS date)&#xA;&#xA;GO&#xA;&#xA;WITH cte_calendar AS (&#xA;&#x9;SELECT id_year, id_month, CASE WHEN id_year = YEAR(GETDATE()) AND id_month = MONTH(GETDATE()) THEN 1 ELSE 0 END AS current_month&#xA;&#x9;FROM [BI].[dbo].[DimCalendar] dc&#xA;&#x9;WHERE id_year &gt;= 2020 &#xA;&#x9;AND (id_year &lt; YEAR(GETDATE()) OR (id_year = YEAR(GETDATE()) AND id_month &lt;= MONTH(GETDATE())))&#xA;&#x9;GROUP BY id_year, id_month&#xA;),&#xA;&#xA;cte_final AS (&#xA;&#x9;SELECT &#xA;&#x9;b.nav_code AS SalespersonCode,&#xA;&#x9;b.[name] AS SalespersonName,&#xA;&#x9;b.[name] AS bitrix_name,&#xA;&#x9;b.[department_name] AS [Dept_ Code]&#xA;&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND group_id IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_declarant&#xA;&#x9;,CASE WHEN office_id = '34' AND department_id IN ('1068','1069','1070') AND COALESCE(group_id, '') NOT IN ('1083','1094','1095') THEN 1 ELSE 0 END AS is_sto_spec&#xA;&#x9;,CASE WHEN office_id = '34' AND has_ttr_calculations = 1 AND department_id = '1123' THEN 1 ELSE 0 END AS is_sto_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '52' AND has_stl_data = 1 AND (department_id IN ('1044','56','60','64','66','68') OR (department_id = '1090' AND COALESCE(group_id, '') = '')) THEN 1 ELSE 0 END AS is_stl_spec&#xA;&#x9;,CASE WHEN office_id = '52' AND has_ttr_calculations = 1 AND department_id = '1090' AND COALESCE(group_id, '') &lt;&gt; '' THEN 1 ELSE 0 END AS is_stl_ttr&#x9;&#xA;&#x9;,CASE WHEN office_id = '628' AND department_id IN ('1052','1082','22','76') THEN 1 ELSE 0 END AS is_ks&#xA;&#x9;FROM [motivation].[dbo].[bitrix_users] AS b&#xA;&#x9;WHERE active = 'Y' AND COALESCE(nav_code, '') &lt;&gt; ''&#xA;)&#xA;&#xA;INSERT [motivation].[dbo].[stl_workers] ([department]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[name]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[code]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[type]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[schedule]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_begin]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[date_end]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[is_archive]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[estimate_participant]&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;  ,[role_type])&#xA;SELECT &#xA;c.[Dept_ Code] AS [department],&#xA;c.SalespersonName AS [name],&#xA;c.SalespersonCode AS [code],&#xA;'logist' AS [type],&#xA;NULL AS [schedule],&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;&#xA;CAST(DATEFROMPARTS(id_year, id_month, 1) AS date) AS [date_begin],&#xA;CAST(EOMONTH(DATEFROMPARTS(id_year, id_month, 1)) AS date) AS [date_end],&#xA;CASE WHEN current_month = 1 THEN 0 ELSE 1 END AS [is_archive],&#xA;1 AS [estimate_participant],&#xA;1 AS [role_type]&#xA;&#xA;FROM cte_final AS c&#xA;CROSS JOIN cte_calendar AS cc&#xA;WHERE is_stl_spec = 1 AND is_stl_ttr = 0&#xA;AND NOT EXISTS (SELECT 0 FROM [motivation].[dbo].[stl_workers] AS sw &#xA;WHERE cc.id_year = YEAR([date_begin]) AND cc.id_month = MONTH([date_begin]))" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -2988,7 +3027,7 @@ SELECT
       DTS:ExecutableType="Microsoft.ExecuteSQLTask"
       DTS:LocaleID="-1"
       DTS:ObjectName="Update role_type"
-      DTS:ThreadHint="0">
+      DTS:ThreadHint="1">
       <DTS:Variables />
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
@@ -3062,6 +3101,14 @@ SELECT
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 7"
       DTS:To="Package\Update main roles" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 8]"
+      DTS:CreationName=""
+      DTS:DTSID="{D13688D2-B47F-459D-ACFA-D79CADB7DD20}"
+      DTS:From="Package\Set depth"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 8"
+      DTS:To="Package\Update main roles" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -3102,6 +3149,10 @@ SELECT
           Size="141,42"
           Id="Package\Remove fired"
           TopLeft="33,120" />
+        <NodeLayout
+          Size="124,42"
+          Id="Package\Set depth"
+          TopLeft="3,7" />
         <NodeLayout
           Size="195,42"
           Id="Package\Set updated_at datetime"
@@ -3300,6 +3351,34 @@ SELECT
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 8]"
+          TopLeft="127,28">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="83.5,28"
+              Start="0,0"
+              End="83.5,20.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="79.5,0" />
+                  <mssgle:CubicBezierSegment
+                    Point1="79.5,0"
+                    Point2="83.5,0"
+                    Point3="83.5,4" />
+                  <mssgle:LineSegment
+                    End="83.5,20.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -3307,7 +3386,7 @@ SELECT
     design-time-name="Package\Load new data">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="105,42"
           Id="Package\Load new data\Table"
@@ -3335,9 +3414,7 @@ SELECT
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3363,7 +3440,7 @@ SELECT
     design-time-name="Package\NAV\Reload from 33">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="107,42"
           Id="Package\NAV\Reload from 33\Query"
@@ -3391,9 +3468,7 @@ SELECT
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -3419,7 +3494,7 @@ SELECT
     design-time-name="Package\Reload details">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="105,42"
           Id="Package\Reload details\Table"
@@ -3447,9 +3522,7 @@ SELECT
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

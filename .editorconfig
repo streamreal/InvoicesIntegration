@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS2001: Не удалось найти исходный файл "C:\Users\andreydruzhinin\source\repos\InvoicesIntegration\сSharpProject\..\..\..\..\Desktop\ObligationContext.cs".
+dotnet_diagnostic.CS2001.severity = none

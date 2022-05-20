@@ -72,6 +72,7 @@
     <Compile Include="ParseContainers.cs" />
     <Compile Include="GetDeliveryNumber.cs" />
     <Compile Include="DistinctRowsConcat.cs" />
+    <Compile Include="FixRuToEn.cs" />
   </ItemGroup>
   <ItemGroup>
     <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac">

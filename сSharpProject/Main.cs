@@ -3,15 +3,17 @@ using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 
+
 namespace сSharpProject
 {
     class MainIntro
     {
         public static void Main()
         {
+            CurrencyRates.Go();
             //BitrixLists.In i = new BitrixLists.In();
             //i.Intro();
-            CheckDtFiles.LoadNewDeclarations();
+            //CheckDtFiles.LoadNewDeclarations();
             //ExcelCharts.Process();
 
             //RefDeclarationParser.Run();
@@ -77,7 +79,7 @@ namespace сSharpProject
            Console.ReadLine();
            */
 
-            //CurrencyRate.GetRates();
+
 
             //DeclarationParser d = new DeclarationParser();
             //d.Go();

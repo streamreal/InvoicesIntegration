@@ -8,7 +8,7 @@ namespace сSharpProject
 {
     class CurrencyRates
     {
-        static void Go()
+        public static void Go()
         {
             string ConnectionString = @"Data Source=10.10.0.28;User ID=phpuser;Password=gnQCUElU";
             XDocument doc = XDocument.Load(@"https://www.cbr-xml-daily.ru/daily_utf8.xml");
