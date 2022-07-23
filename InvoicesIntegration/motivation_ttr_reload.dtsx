@@ -11,8 +11,8 @@
   DTS:LocaleID="1049"
   DTS:ObjectName="Package3"
   DTS:PackageType="5"
-  DTS:VersionBuild="148"
-  DTS:VersionGUID="{158AD499-BB23-4B31-AFBD-775D3E9B29A5}">
+  DTS:VersionBuild="155"
+  DTS:VersionGUID="{E7412520-2789-43C1-BD3B-044D12B1665C}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:PackageParameters>
@@ -865,7 +865,8 @@ cte_finished AS (
 	COUNT(ALL CASE WHEN ttr_req_slow_qty_indicative = 1 THEN 0 END) AS ttr_req_slow_qty_indicative,
 
 	SUM(ttr_rework_qty) AS ttr_rework_qty,
-	SUM(ttr_classified_qty) AS ttr_classified_qty
+	SUM(ttr_classified_qty) AS ttr_classified_qty,
+	SUM(ttr_clothes_classified_qty) AS ttr_clothes_classified_qty
 
 	FROM [motivation].[dbo].[ttr_request_details]
 	WHERE COALESCE(ttr_assigned, '') &lt;&gt; '' AND TRY_CONVERT(date, req_calc_finish, 104) &gt;= '20200101'
@@ -923,7 +924,9 @@ cte_marginality_overall AS (
 ),
 
 cte_bitrix_321 AS (
-	SELECT [code], [ttr_id_year], [ttr_id_month], SUM(COALESCE(ttr_classified_qty, 0)) AS ext_ttr_classified_qty
+	SELECT [code], [ttr_id_year], [ttr_id_month]
+	,SUM(COALESCE(ttr_classified_qty, 0)) AS ext_ttr_classified_qty
+	,SUM(COALESCE(ttr_classified_clothes_qty, 0)) AS ext_ttr_classified_clothes_qty
 	FROM [motivation].[dbo].[ttr_bitrix_commission_details]
 	GROUP BY
 	[code], [ttr_id_year], [ttr_id_month]
@@ -953,6 +956,7 @@ cte_base.*
 ,COALESCE(ttr_req_slow_qty_indicative, 0) AS ttr_req_slow_qty_indicative
 ,COALESCE(ttr_rework_qty, 0) AS ttr_rework_qty
 ,COALESCE(ttr_classified_qty, 0) + COALESCE(ext_ttr_classified_qty, 0) AS ttr_classified_qty
+,COALESCE(ttr_clothes_classified_qty, 0) + COALESCE(ext_ttr_classified_clothes_qty, 0) AS ttr_classified_clothes_qty
 ,COALESCE(ttr_des_qty_all, 0) AS ttr_des_qty_all
 ,COALESCE(ttr_des_qty_accepted, 0) AS ttr_des_qty_accepted
 ,COALESCE(ttr_des_qty_commission, 0) AS ttr_des_qty_commission
@@ -1037,7 +1041,10 @@ cte_pre_calc AS (
 	+ f.des_qty_indicative * ttr_des_qty_indicative
 	+ f.des_qty_rejected_expensive * ttr_des_qty_rejected_expensive
 	+ f.des_qty_rejected_other * ttr_des_qty_rejected_other
-	+ COALESCE(f.req_art_classify, 0) * ttr_classified_qty
+	+ CASE
+         WHEN ttr_classified_qty &lt;= 500 THEN ttr_classified_qty * COALESCE(f.req_art_classify, 0)
+         ELSE (ttr_classified_qty - 500) * COALESCE(f.req_art_clothes_classify, 0) + 500 * COALESCE(f.req_art_classify, 0)
+    END
 	)
 
 	FROM cte_extended c
@@ -1135,6 +1142,7 @@ cte_calc_done_corrected AS (
 ,[estimate_participant] = CASE 
 WHEN c.[estimate_participant] = 0 THEN 0
 WHEN c.estimate &lt; 0 AND service = 'ТО' THEN 0 
+WHEN COALESCE(work_days, 0) = 0 THEN 0 
 ELSE 1
 END
 
@@ -1292,7 +1300,8 @@ cte_finished AS (
 	COUNT(ALL CASE WHEN ttr_req_slow_qty_indicative = 1 THEN 0 END) AS ttr_req_slow_qty_indicative,
 
 	SUM(ttr_rework_qty) AS ttr_rework_qty,
-	SUM(ttr_classified_qty) AS ttr_classified_qty
+	SUM(ttr_classified_qty) AS ttr_classified_qty,
+	SUM(ttr_clothes_classified_qty) AS ttr_clothes_classified_qty
 
 	FROM [motivation].[dbo].[ttr_request_details]
 	WHERE COALESCE(ttr_assigned, '') &lt;&gt; '' AND TRY_CONVERT(date, req_calc_finish, 104) &gt;= '20200101'
@@ -1350,7 +1359,9 @@ cte_marginality_overall AS (
 ),
 
 cte_bitrix_321 AS (
-	SELECT [code], [ttr_id_year], [ttr_id_month], SUM(COALESCE(ttr_classified_qty, 0)) AS ext_ttr_classified_qty
+	SELECT [code], [ttr_id_year], [ttr_id_month]
+	,SUM(COALESCE(ttr_classified_qty, 0)) AS ext_ttr_classified_qty
+	,SUM(COALESCE(ttr_classified_clothes_qty, 0)) AS ext_ttr_classified_clothes_qty
 	FROM [motivation].[dbo].[ttr_bitrix_commission_details]
 	GROUP BY
 	[code], [ttr_id_year], [ttr_id_month]
@@ -1380,6 +1391,7 @@ cte_base.*
 ,COALESCE(ttr_req_slow_qty_indicative, 0) AS ttr_req_slow_qty_indicative
 ,COALESCE(ttr_rework_qty, 0) AS ttr_rework_qty
 ,COALESCE(ttr_classified_qty, 0) + COALESCE(ext_ttr_classified_qty, 0) AS ttr_classified_qty
+,COALESCE(ttr_clothes_classified_qty, 0) + COALESCE(ext_ttr_classified_clothes_qty, 0) AS ttr_classified_clothes_qty
 ,COALESCE(ttr_des_qty_all, 0) AS ttr_des_qty_all
 ,COALESCE(ttr_des_qty_accepted, 0) AS ttr_des_qty_accepted
 ,COALESCE(ttr_des_qty_commission, 0) AS ttr_des_qty_commission
@@ -1464,7 +1476,10 @@ cte_pre_calc AS (
 	+ f.des_qty_indicative * ttr_des_qty_indicative
 	+ f.des_qty_rejected_expensive * ttr_des_qty_rejected_expensive
 	+ f.des_qty_rejected_other * ttr_des_qty_rejected_other
-	+ COALESCE(f.req_art_classify, 0) * ttr_classified_qty
+	+ CASE
+         WHEN ttr_classified_qty &lt;= 500 THEN ttr_classified_qty * COALESCE(f.req_art_classify, 0)
+         ELSE (ttr_classified_qty - 500) * COALESCE(f.req_art_clothes_classify, 0) + 500 * COALESCE(f.req_art_classify, 0)
+    END
 	)
 
 	FROM cte_extended c
@@ -1562,6 +1577,7 @@ cte_calc_done_corrected AS (
 ,[estimate_participant] = CASE 
 WHEN c.[estimate_participant] = 0 THEN 0
 WHEN c.estimate &lt; 0 AND service = 'ТО' THEN 0 
+WHEN COALESCE(work_days, 0) = 0 THEN 0 
 ELSE 1
 END
 
@@ -6128,6 +6144,10 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
           Id="Package\Remove fired"
           TopLeft="9,21" />
         <NodeLayout
+          Size="124,42"
+          Id="Package\Set depth"
+          TopLeft="19,90" />
+        <NodeLayout
           Size="121,42"
           Id="Package\Truncate"
           TopLeft="213,217" />
@@ -6261,6 +6281,28 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
                   Capacity="5">
                   <mssgle:LineSegment
                     End="33.5,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 13]"
+          TopLeft="80.25,90">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,-27"
+              Start="0,0"
+              End="0,-19.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-19.5" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -6493,44 +6535,6 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="124,42"
-          Id="Package\Set depth"
-          TopLeft="8,91" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 13]"
-          TopLeft="70,91">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="9.5,-28"
-              Start="0,0"
-              End="9.5,-20.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-10" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-10"
-                    Point2="0,-14"
-                    Point3="4,-14" />
-                  <mssgle:LineSegment
-                    End="5.5,-14" />
-                  <mssgle:CubicBezierSegment
-                    Point1="5.5,-14"
-                    Point2="9.5,-14"
-                    Point3="9.5,-18" />
-                  <mssgle:LineSegment
-                    End="9.5,-20.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
@@ -6648,7 +6652,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
     design-time-name="Package\Reload request details">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="107,42"
           Id="Package\Reload request details\Query"
@@ -6676,9 +6680,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -6704,7 +6706,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
     design-time-name="Package\Reload result details">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
           Size="107,42"
           Id="Package\Reload result details\Query"
@@ -6732,9 +6734,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 1, DATEFROMPARTS(DATEPART(Y
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <mssgm:EdgeLabel
-              BoundingBox="0,0,0,0"
-              RelativePosition="Any" />
+            <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>

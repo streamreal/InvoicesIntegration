@@ -7,12 +7,13 @@
   DTS:CreatorName="ELTRANSPLUS\andreydruzhinin"
   DTS:DTSID="{F9D1FBA2-BDD5-4E05-B999-4B31C2E41707}"
   DTS:ExecutableType="Microsoft.Package"
+  DTS:ISOLevel="4096"
   DTS:LastModifiedProductVersion="15.0.2000.71"
   DTS:LocaleID="1049"
   DTS:ObjectName="Package2"
   DTS:PackageType="5"
-  DTS:VersionBuild="281"
-  DTS:VersionGUID="{386805E6-E892-4560-9CB4-A6F050660AF0}">
+  DTS:VersionBuild="292"
+  DTS:VersionGUID="{AAC151C4-7B1B-409A-B8E6-1F35D6DF8579}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:PackageParameters>
@@ -72,6 +73,7 @@
       DTS:Description="Контейнер последовательности"
       DTS:DTSID="{9DE3AD92-87E5-4807-A20D-7BFB36B8E1A9}"
       DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:ISOLevel="4096"
       DTS:LocaleID="-1"
       DTS:ObjectName="Declarant">
       <DTS:Variables />
@@ -98,6 +100,7 @@
           DTS:Description="Задача потока данных"
           DTS:DTSID="{2A40A345-3C06-4E00-BF49-475FDC5A2418}"
           DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:ISOLevel="4096"
           DTS:LocaleID="-1"
           DTS:ObjectName="Reload main"
           DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -221,6 +224,17 @@ cte_td AS (
 	GROUP BY YEAR([release_datetime]), MONTH([release_datetime]), [declarant_code]
 ),
 
+cte_obligations AS (
+	SELECT 
+	YEAR(Closure_DateTime) id_year, 
+	MONTH(Closure_DateTime) id_month, 
+	dec_nav_code AS declarant_code,
+	SUM(CASE WHEN ID_Obligation = 91 OR (ID_Obligation = 99 AND Obligation_Name LIKE '%корректировка%') THEN 1 ELSE 0 END) all_kdt,
+	SUM(CASE WHEN ID_Obligation IN (0,1,2,3,101) OR (ID_Obligation = 99 AND Obligation_Name LIKE '%проверка после выпуска%') THEN 1 ELSE 0 END) all_exams
+  FROM [motivation].[dbo].sto_obligations
+	GROUP BY YEAR(Closure_DateTime), MONTH(Closure_DateTime), dec_nav_code
+),
+
 cte_request AS (
 	SELECT 
 	YEAR([release_datetime]) id_year, 
@@ -248,6 +262,8 @@ cte_base.*
 ,COALESCE(cte_request.all_request, 0) all_request
 ,COALESCE(cte_dt_preparation.sum_dt_prepared_robot, 0) sum_dt_prepared_robot
 ,COALESCE(cte_dt_preparation.sum_dt_prepared_no_robot, 0) sum_dt_prepared_no_robot
+,COALESCE(cte_obligations.all_kdt, 0) all_kdt
+,COALESCE(cte_obligations.all_exams, 0) all_exams
 
 FROM cte_base
 LEFT JOIN cte_dt_preparation 
@@ -266,6 +282,10 @@ LEFT JOIN cte_request
 	ON cte_request.id_year = cte_base.id_year 
 	AND cte_request.id_month = cte_base.id_month
 	AND cte_request.declarant_code = cte_base.code
+LEFT JOIN cte_obligations
+	ON cte_obligations.id_year = cte_base.id_year 
+	AND cte_obligations.id_month = cte_base.id_month
+	AND cte_obligations.declarant_code = cte_base.code
 ),
 
 cte_pre_calc AS (
@@ -277,13 +297,17 @@ cte_pre_calc AS (
 	,f.[decl_td]
     ,f.[decl_request]
 	
-	,estimate =  ([sum_dt_prepared] * [decl_preparation]
+	,estimate =  (
+                  [sum_dt_prepared] * [decl_preparation]
                 + [sum_dt_release] * [decl_release] 
-				+ [sum_products] * [decl_product]
+				        + [sum_products] * [decl_product]
                 + [sum_articuls] * [decl_articul]
-				+ [all_td] * [decl_td]
-				+ [all_request] * [decl_request]
-				+ ([sum_transport_qty] - sum_dt_prepared) * decl_ts)
+				        + [all_td] * [decl_td]
+				        + [all_request] * [decl_request]
+                + [all_kdt] * [decl_kdt]
+                + [all_exams] * [decl_exams]
+				        + ([sum_transport_qty] - sum_dt_prepared) * decl_ts
+                )
 
 	FROM cte_extended c
 	CROSS JOIN 
@@ -340,6 +364,8 @@ cte_calc_done_corrected AS (
 ,c.decl_articul
 ,c.decl_td
 ,c.decl_request
+,c.all_kdt
+,c.all_exams
 ,c.estimate
 ,c.overall_estimate
 	
@@ -523,6 +549,17 @@ cte_td AS (
 	GROUP BY YEAR([release_datetime]), MONTH([release_datetime]), [declarant_code]
 ),
 
+cte_obligations AS (
+	SELECT 
+	YEAR(Closure_DateTime) id_year, 
+	MONTH(Closure_DateTime) id_month, 
+	dec_nav_code AS declarant_code,
+	SUM(CASE WHEN ID_Obligation = 91 OR (ID_Obligation = 99 AND Obligation_Name LIKE '%корректировка%') THEN 1 ELSE 0 END) all_kdt,
+	SUM(CASE WHEN ID_Obligation IN (0,1,2,3,101) OR (ID_Obligation = 99 AND Obligation_Name LIKE '%проверка после выпуска%') THEN 1 ELSE 0 END) all_exams
+  FROM [motivation].[dbo].sto_obligations
+	GROUP BY YEAR(Closure_DateTime), MONTH(Closure_DateTime), dec_nav_code
+),
+
 cte_request AS (
 	SELECT 
 	YEAR([release_datetime]) id_year, 
@@ -550,6 +587,8 @@ cte_base.*
 ,COALESCE(cte_request.all_request, 0) all_request
 ,COALESCE(cte_dt_preparation.sum_dt_prepared_robot, 0) sum_dt_prepared_robot
 ,COALESCE(cte_dt_preparation.sum_dt_prepared_no_robot, 0) sum_dt_prepared_no_robot
+,COALESCE(cte_obligations.all_kdt, 0) all_kdt
+,COALESCE(cte_obligations.all_exams, 0) all_exams
 
 FROM cte_base
 LEFT JOIN cte_dt_preparation 
@@ -568,6 +607,10 @@ LEFT JOIN cte_request
 	ON cte_request.id_year = cte_base.id_year 
 	AND cte_request.id_month = cte_base.id_month
 	AND cte_request.declarant_code = cte_base.code
+LEFT JOIN cte_obligations
+	ON cte_obligations.id_year = cte_base.id_year 
+	AND cte_obligations.id_month = cte_base.id_month
+	AND cte_obligations.declarant_code = cte_base.code
 ),
 
 cte_pre_calc AS (
@@ -579,13 +622,17 @@ cte_pre_calc AS (
 	,f.[decl_td]
     ,f.[decl_request]
 	
-	,estimate =  ([sum_dt_prepared] * [decl_preparation]
+	,estimate =  (
+                  [sum_dt_prepared] * [decl_preparation]
                 + [sum_dt_release] * [decl_release] 
-				+ [sum_products] * [decl_product]
+				        + [sum_products] * [decl_product]
                 + [sum_articuls] * [decl_articul]
-				+ [all_td] * [decl_td]
-				+ [all_request] * [decl_request]
-				+ ([sum_transport_qty] - sum_dt_prepared) * decl_ts)
+				        + [all_td] * [decl_td]
+				        + [all_request] * [decl_request]
+                + [all_kdt] * [decl_kdt]
+                + [all_exams] * [decl_exams]
+				        + ([sum_transport_qty] - sum_dt_prepared) * decl_ts
+                )
 
 	FROM cte_extended c
 	CROSS JOIN 
@@ -642,6 +689,8 @@ cte_calc_done_corrected AS (
 ,c.decl_articul
 ,c.decl_td
 ,c.decl_request
+,c.all_kdt
+,c.all_exams
 ,c.estimate
 ,c.overall_estimate
 	
@@ -783,15 +832,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           name="department"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Conversion"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
-                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
-                          name="estimate_participant"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[work_days]"
                           dataType="i4"
                           errorOrTruncationOperation="Conversion"
@@ -909,15 +949,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           name="sum_dt_prepared_no_robot"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Conversion"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
-                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
-                          name="workers_count"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[decl_preparation]"
                           dataType="numeric"
                           errorOrTruncationOperation="Conversion"
@@ -984,6 +1015,24 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           scale="2"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_kdt]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_kdt]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_kdt]"
+                          name="all_kdt"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_exams]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_exams]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_exams]"
+                          name="all_exams"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate]"
                           dataType="numeric"
                           errorOrTruncationOperation="Conversion"
@@ -991,7 +1040,7 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate]"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate]"
                           name="estimate"
-                          precision="35"
+                          precision="37"
                           scale="2"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
@@ -1006,6 +1055,15 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           scale="2"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
+                          name="estimate_participant"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[average_group_estimate]"
                           dataType="numeric"
                           errorOrTruncationOperation="Conversion"
@@ -1015,6 +1073,15 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           name="average_group_estimate"
                           precision="18"
                           scale="2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
+                          name="workers_count"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[worker_factor]"
@@ -1057,10 +1124,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           dataType="wstr"
                           length="300"
                           name="department" />
-                        <externalMetadataColumn
-                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
-                          dataType="i4"
-                          name="estimate_participant" />
                         <externalMetadataColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days]"
                           dataType="i4"
@@ -1114,10 +1177,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           dataType="i4"
                           name="sum_dt_prepared_no_robot" />
                         <externalMetadataColumn
-                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
-                          dataType="i4"
-                          name="workers_count" />
-                        <externalMetadataColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[decl_preparation]"
                           dataType="numeric"
                           name="decl_preparation"
@@ -1154,10 +1213,18 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <externalMetadataColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_kdt]"
+                          dataType="i4"
+                          name="all_kdt" />
+                        <externalMetadataColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_exams]"
+                          dataType="i4"
+                          name="all_exams" />
+                        <externalMetadataColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate]"
                           dataType="numeric"
                           name="estimate"
-                          precision="35"
+                          precision="37"
                           scale="2" />
                         <externalMetadataColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[overall_estimate]"
@@ -1166,11 +1233,19 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <externalMetadataColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
+                          dataType="i4"
+                          name="estimate_participant" />
+                        <externalMetadataColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[average_group_estimate]"
                           dataType="numeric"
                           name="average_group_estimate"
                           precision="18"
                           scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
+                          dataType="i4"
+                          name="workers_count" />
                         <externalMetadataColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[worker_factor]"
                           dataType="numeric"
@@ -1217,11 +1292,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           length="300"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[department]"
                           name="department" />
-                        <outputColumn
-                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
-                          dataType="i4"
-                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
-                          name="estimate_participant" />
                         <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[work_days]"
                           dataType="i4"
@@ -1288,11 +1358,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[sum_dt_prepared_no_robot]"
                           name="sum_dt_prepared_no_robot" />
                         <outputColumn
-                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
-                          dataType="i4"
-                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
-                          name="workers_count" />
-                        <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[decl_preparation]"
                           dataType="numeric"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[decl_preparation]"
@@ -1335,11 +1400,21 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_kdt]"
+                          dataType="i4"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_kdt]"
+                          name="all_kdt" />
+                        <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_exams]"
+                          dataType="i4"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_exams]"
+                          name="all_exams" />
+                        <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate]"
                           dataType="numeric"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate]"
                           name="estimate"
-                          precision="35"
+                          precision="37"
                           scale="2" />
                         <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[overall_estimate]"
@@ -1349,12 +1424,22 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
+                          dataType="i4"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
+                          name="estimate_participant" />
+                        <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[average_group_estimate]"
                           dataType="numeric"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[average_group_estimate]"
                           name="average_group_estimate"
                           precision="18"
                           scale="2" />
+                        <outputColumn
+                          refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
+                          dataType="i4"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
+                          name="workers_count" />
                         <outputColumn
                           refId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[worker_factor]"
                           dataType="numeric"
@@ -1468,12 +1553,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[department]"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[department]" />
                         <inputColumn
-                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[estimate_participant]"
-                          cachedDataType="i4"
-                          cachedName="estimate_participant"
-                          externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_participant]"
-                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]" />
-                        <inputColumn
                           refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[work_days]"
                           cachedDataType="i4"
                           cachedName="work_days"
@@ -1552,12 +1631,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[sum_dt_prepared_no_robot]"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[sum_dt_prepared_no_robot]" />
                         <inputColumn
-                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[workers_count]"
-                          cachedDataType="i4"
-                          cachedName="workers_count"
-                          externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_count]"
-                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]" />
-                        <inputColumn
                           refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[decl_preparation]"
                           cachedDataType="numeric"
                           cachedName="decl_preparation"
@@ -1590,10 +1663,22 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[decl_articul]"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[decl_articul]" />
                         <inputColumn
+                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[all_kdt]"
+                          cachedDataType="i4"
+                          cachedName="all_kdt"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_kdt]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_kdt]" />
+                        <inputColumn
+                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[all_exams]"
+                          cachedDataType="i4"
+                          cachedName="all_exams"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_exams]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_exams]" />
+                        <inputColumn
                           refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[estimate]"
                           cachedDataType="numeric"
                           cachedName="estimate"
-                          cachedPrecision="35"
+                          cachedPrecision="37"
                           cachedScale="2"
                           externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate]"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate]" />
@@ -1606,6 +1691,12 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[overall_estimate]"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[overall_estimate]" />
                         <inputColumn
+                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[estimate_participant]"
+                          cachedDataType="i4"
+                          cachedName="estimate_participant"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_participant]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]" />
+                        <inputColumn
                           refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[average_group_estimate]"
                           cachedDataType="numeric"
                           cachedName="average_group_estimate"
@@ -1613,6 +1704,12 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           cachedScale="2"
                           externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[average_group_estimate]"
                           lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[average_group_estimate]" />
+                        <inputColumn
+                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[workers_count]"
+                          cachedDataType="i4"
+                          cachedName="workers_count"
+                          externalMetadataColumnId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_count]"
+                          lineageId="Package\Declarant\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]" />
                         <inputColumn
                           refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].Columns[worker_factor]"
                           cachedDataType="numeric"
@@ -1764,6 +1861,14 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[sum_dt_prepared_no_robot]"
                           dataType="i4"
                           name="sum_dt_prepared_no_robot" />
+                        <externalMetadataColumn
+                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_kdt]"
+                          dataType="i4"
+                          name="all_kdt" />
+                        <externalMetadataColumn
+                          refId="Package\Declarant\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_exams]"
+                          dataType="i4"
+                          name="all_exams" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -2997,6 +3102,22 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(dt_year,
       </DTS:PrecedenceConstraints>
     </DTS:Executable>
     <DTS:Executable
+      DTS:refId="Package\Obligations"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{47E55D91-BD1B-439D-9BBE-F8E4648CAEC8}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Obligations"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{9FEB3277-5F6F-47B9-86DD-F48ABBDA0231}"
+          SQLTask:SqlStatementSource="INSERT INTO [motivation].[dbo].[sto_obligations]&#xA;  SELECT &#xA;&#x9;  COALESCE&#xA;&#x9;  (&#xA;&#x9;&#x9;  NULLIF(T.Obligation_Name, ''),&#xA;&#x9;&#x9;  NULLIF(O.Obligation_Name, ''), &#xA;&#x9;&#x9;  NULLIF(O.man_obligation_descr, ''), &#xA;&#x9;&#x9;  NULLIF(O.man_obligation_type, ''),&#xA;&#x9;&#x9;  'Прочие обязательства'&#xA;&#x9;  ) AS [Obligation_Name] &#xA;    ,[Import_DateTime]&#xA;    ,[Closure_DateTime]  &#xA;    ,MONTH([Closure_DateTime]) AS [Closure_Month]  &#xA;    ,YEAR([Closure_DateTime]) AS [Closure_Year]  &#xA;    ,[CustomerName]     &#xA;    ,[Delivery]   &#xA;    ,[RegNum]&#xA;    ,[Specialist]  &#xA;    ,s.spec_nav_code&#xA;  &#xA;    ,o.RegUsername_Full&#xA;    ,COALESCE(d.dec_nav_code, dd.dec_nav_code) AS dec_nav_code&#xA;&#xA;    ,[id] &#xA;    ,O.ID_Obligation    &#xA;&#xA;    FROM [BI].[dwh].[Obligations] O&#xA;    LEFT JOIN bi.dwh.Obligation_Types T ON O.ID_Obligation = T.ID_Obligation&#xA;    OUTER APPLY &#xA;    (&#xA;      SELECT TOP 1 nav_code AS spec_nav_code&#xA;      FROM motivation.dbo.bitrix_users AS b&#xA;      WHERE b.bitrix_fullname = O.Specialist&#xA;    ) S&#xA;    OUTER APPLY &#xA;    (&#xA;      SELECT TOP 1 nav_code AS dec_nav_code&#xA;      FROM motivation.dbo.bitrix_users AS b&#xA;      WHERE b.bitrix_fullname = O.RegUsername_Full&#xA;    ) D&#xA;    OUTER APPLY &#xA;    (&#xA;      SELECT TOP 1 SalespersonCode AS dec_nav_code&#xA;      FROM BI.dwh.vDimDeclarant AS d&#xA;      WHERE d.USERNAME = O.RegUsername_Full&#xA;        AND COALESCE(d.[Dept_ Code], '') &lt;&gt; 'УВОЛЕННЫЕ'&#xA;    ) DD&#xA;    WHERE Closure_DateTime IS NOT NULL&#xA;    AND NOT EXISTS (&#xA;      SELECT *&#xA;      FROM [motivation].[dbo].[sto_obligations] SO&#xA;      WHERE SO.id = O.id&#xA;    )" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
       DTS:refId="Package\Remove fired"
       DTS:CreationName="Microsoft.ExecuteSQLTask"
       DTS:Description="Execute SQL Task"
@@ -3033,6 +3154,7 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(dt_year,
       DTS:Description="Контейнер последовательности"
       DTS:DTSID="{B3664964-60AD-459A-B891-F35AED89A6C5}"
       DTS:ExecutableType="STOCK:SEQUENCE"
+      DTS:ISOLevel="4096"
       DTS:LocaleID="-1"
       DTS:ObjectName="Specialist">
       <DTS:Variables />
@@ -3684,6 +3806,7 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(release_
           DTS:Description="Задача потока данных"
           DTS:DTSID="{B4644D1B-0A9B-484F-A8B0-DACB89EE8416}"
           DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:ISOLevel="4096"
           DTS:LocaleID="-1"
           DTS:ObjectName="Reload DT details"
           DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -4703,6 +4826,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
           DTS:Description="Задача потока данных"
           DTS:DTSID="{CE930A1B-D1BC-4E29-BE83-9D169E82FE28}"
           DTS:ExecutableType="Microsoft.Pipeline"
+          DTS:ISOLevel="4096"
           DTS:LocaleID="-1"
           DTS:ObjectName="Reload main"
           DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
@@ -4796,6 +4920,18 @@ cte_dt AS (
 	GROUP BY ssd.specialist_code, ssd.dt_month, ssd.dt_year
 ),
 
+cte_obligations AS (
+	SELECT 
+	YEAR(Closure_DateTime) id_year, 
+	MONTH(Closure_DateTime) id_month, 
+	spec_nav_code AS specialist_code,
+	SUM(CASE WHEN ID_Obligation = 91 OR (ID_Obligation = 99 AND Obligation_Name LIKE '%корректировка%') THEN 1 ELSE 0 END) all_kdt,
+	SUM(CASE WHEN ID_Obligation IN (0,1,2,3,101) OR (ID_Obligation = 99 AND Obligation_Name LIKE '%проверка после выпуска%') THEN 1 ELSE 0 END) all_exams,
+  COUNT(*) all_obligations
+  FROM [motivation].[dbo].sto_obligations
+	GROUP BY YEAR(Closure_DateTime), MONTH(Closure_DateTime), spec_nav_code
+),
+
 cte_td AS (
 	SELECT 
 	YEAR([release_datetime]) id_year, 
@@ -4885,6 +5021,11 @@ cte_base.*
 ,COALESCE(cte_dt.sum_dt_prepared_no_robot, 0) sum_dt_prepared_no_robot
 ,COALESCE(cte_nzo_replies.qty, 0) AS check_reply_qty
 ,COALESCE(cte_nzo_kdt.qty, 0) AS kdt_qty
+
+,COALESCE(cte_obligations.all_kdt, 0) AS all_kdt
+,COALESCE(cte_obligations.all_exams, 0) AS all_exams
+,COALESCE(cte_obligations.all_obligations, 0) AS all_obligations
+
 FROM cte_base
 LEFT JOIN cte_dt 
 	ON cte_dt.id_year = cte_base.id_year 
@@ -4910,6 +5051,10 @@ LEFT JOIN cte_nzo_replies
 	ON cte_nzo_replies.id_year = cte_base.id_year 
 	AND cte_nzo_replies.id_month = cte_base.id_month
 	AND cte_nzo_replies.code = cte_base.code
+LEFT JOIN cte_obligations
+	ON cte_obligations.id_year = cte_base.id_year 
+	AND cte_obligations.id_month = cte_base.id_month
+	AND cte_obligations.specialist_code = cte_base.code
 ),
 
 cte_pre_calc AS (
@@ -4939,6 +5084,8 @@ cte_pre_calc AS (
 				+ [spec_other_procedures] * [sum_other_procedures]
 				+ [spec_stat_forms] * [all_stat]
 				+ [spec_td] * [all_td]
+        + all_kdt * spec_kdt
+        + all_exams* spec_exams
 				+ [spec_request] * [all_request]
 				+ check_reply_qty * 20)
 
@@ -5009,6 +5156,9 @@ cte_calc_done_corrected AS (
 	,c.spec_stat_forms
 	,c.spec_td
 	,c.spec_request
+  ,c.all_kdt
+  ,c.all_exams
+  ,c.all_obligations
 	,c.estimate	
 	,c.overall_estimate
 	
@@ -5162,6 +5312,18 @@ cte_dt AS (
 	GROUP BY ssd.specialist_code, ssd.dt_month, ssd.dt_year
 ),
 
+cte_obligations AS (
+	SELECT 
+	YEAR(Closure_DateTime) id_year, 
+	MONTH(Closure_DateTime) id_month, 
+	spec_nav_code AS specialist_code,
+	SUM(CASE WHEN ID_Obligation = 91 OR (ID_Obligation = 99 AND Obligation_Name LIKE '%корректировка%') THEN 1 ELSE 0 END) all_kdt,
+	SUM(CASE WHEN ID_Obligation IN (0,1,2,3,101) OR (ID_Obligation = 99 AND Obligation_Name LIKE '%проверка после выпуска%') THEN 1 ELSE 0 END) all_exams,
+  COUNT(*) all_obligations
+  FROM [motivation].[dbo].sto_obligations
+	GROUP BY YEAR(Closure_DateTime), MONTH(Closure_DateTime), spec_nav_code
+),
+
 cte_td AS (
 	SELECT 
 	YEAR([release_datetime]) id_year, 
@@ -5251,6 +5413,11 @@ cte_base.*
 ,COALESCE(cte_dt.sum_dt_prepared_no_robot, 0) sum_dt_prepared_no_robot
 ,COALESCE(cte_nzo_replies.qty, 0) AS check_reply_qty
 ,COALESCE(cte_nzo_kdt.qty, 0) AS kdt_qty
+
+,COALESCE(cte_obligations.all_kdt, 0) AS all_kdt
+,COALESCE(cte_obligations.all_exams, 0) AS all_exams
+,COALESCE(cte_obligations.all_obligations, 0) AS all_obligations
+
 FROM cte_base
 LEFT JOIN cte_dt 
 	ON cte_dt.id_year = cte_base.id_year 
@@ -5276,6 +5443,10 @@ LEFT JOIN cte_nzo_replies
 	ON cte_nzo_replies.id_year = cte_base.id_year 
 	AND cte_nzo_replies.id_month = cte_base.id_month
 	AND cte_nzo_replies.code = cte_base.code
+LEFT JOIN cte_obligations
+	ON cte_obligations.id_year = cte_base.id_year 
+	AND cte_obligations.id_month = cte_base.id_month
+	AND cte_obligations.specialist_code = cte_base.code
 ),
 
 cte_pre_calc AS (
@@ -5305,6 +5476,8 @@ cte_pre_calc AS (
 				+ [spec_other_procedures] * [sum_other_procedures]
 				+ [spec_stat_forms] * [all_stat]
 				+ [spec_td] * [all_td]
+        + all_kdt * spec_kdt
+        + all_exams* spec_exams
 				+ [spec_request] * [all_request]
 				+ check_reply_qty * 20)
 
@@ -5375,6 +5548,9 @@ cte_calc_done_corrected AS (
 	,c.spec_stat_forms
 	,c.spec_td
 	,c.spec_request
+  ,c.all_kdt
+  ,c.all_exams
+  ,c.all_obligations
 	,c.estimate	
 	,c.overall_estimate
 	
@@ -5514,15 +5690,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           length="300"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[department]"
                           name="department"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
-                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Conversion"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
-                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
-                          name="estimate_participant"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[work_days]"
@@ -5705,15 +5872,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           name="kdt_qty"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
-                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
-                          dataType="i4"
-                          errorOrTruncationOperation="Conversion"
-                          errorRowDisposition="FailComponent"
-                          externalMetadataColumnId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
-                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
-                          name="workers_count"
-                          truncationRowDisposition="FailComponent" />
-                        <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[spec_broker_payment]"
                           dataType="numeric"
                           errorOrTruncationOperation="Conversion"
@@ -5835,6 +5993,33 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           scale="2"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_kdt]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_kdt]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_kdt]"
+                          name="all_kdt"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_exams]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_exams]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_exams]"
+                          name="all_exams"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_obligations]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_obligations]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_obligations]"
+                          name="all_obligations"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate]"
                           dataType="numeric"
                           errorOrTruncationOperation="Conversion"
@@ -5857,6 +6042,15 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           scale="2"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]"
+                          name="estimate_participant"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[average_group_estimate]"
                           dataType="numeric"
                           errorOrTruncationOperation="Conversion"
@@ -5866,6 +6060,15 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           name="average_group_estimate"
                           precision="18"
                           scale="2"
+                          truncationRowDisposition="FailComponent" />
+                        <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
+                          dataType="i4"
+                          errorOrTruncationOperation="Conversion"
+                          errorRowDisposition="FailComponent"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]"
+                          name="workers_count"
                           truncationRowDisposition="FailComponent" />
                         <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[worker_factor]"
@@ -5908,10 +6111,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           dataType="wstr"
                           length="300"
                           name="department" />
-                        <externalMetadataColumn
-                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
-                          dataType="i4"
-                          name="estimate_participant" />
                         <externalMetadataColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[work_days]"
                           dataType="i4"
@@ -5993,10 +6192,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           dataType="i4"
                           name="kdt_qty" />
                         <externalMetadataColumn
-                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
-                          dataType="i4"
-                          name="workers_count" />
-                        <externalMetadataColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[spec_broker_payment]"
                           dataType="numeric"
                           name="spec_broker_payment"
@@ -6063,6 +6258,18 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_kdt]"
+                          dataType="i4"
+                          name="all_kdt" />
+                        <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_exams]"
+                          dataType="i4"
+                          name="all_exams" />
+                        <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[all_obligations]"
+                          dataType="i4"
+                          name="all_obligations" />
+                        <externalMetadataColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate]"
                           dataType="numeric"
                           name="estimate"
@@ -6075,11 +6282,19 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[estimate_participant]"
+                          dataType="i4"
+                          name="estimate_participant" />
+                        <externalMetadataColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[average_group_estimate]"
                           dataType="numeric"
                           name="average_group_estimate"
                           precision="18"
                           scale="2" />
+                        <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[workers_count]"
+                          dataType="i4"
+                          name="workers_count" />
                         <externalMetadataColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].ExternalColumns[worker_factor]"
                           dataType="numeric"
@@ -6126,11 +6341,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           length="300"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[department]"
                           name="department" />
-                        <outputColumn
-                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
-                          dataType="i4"
-                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
-                          name="estimate_participant" />
                         <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[work_days]"
                           dataType="i4"
@@ -6232,11 +6442,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[kdt_qty]"
                           name="kdt_qty" />
                         <outputColumn
-                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
-                          dataType="i4"
-                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
-                          name="workers_count" />
-                        <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[spec_broker_payment]"
                           dataType="numeric"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[spec_broker_payment]"
@@ -6314,6 +6519,21 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_kdt]"
+                          dataType="i4"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_kdt]"
+                          name="all_kdt" />
+                        <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_exams]"
+                          dataType="i4"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_exams]"
+                          name="all_exams" />
+                        <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_obligations]"
+                          dataType="i4"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[all_obligations]"
+                          name="all_obligations" />
+                        <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate]"
                           dataType="numeric"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate]"
@@ -6328,12 +6548,22 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           precision="18"
                           scale="2" />
                         <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
+                          dataType="i4"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[estimate_participant]"
+                          name="estimate_participant" />
+                        <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[average_group_estimate]"
                           dataType="numeric"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[average_group_estimate]"
                           name="average_group_estimate"
                           precision="18"
                           scale="2" />
+                        <outputColumn
+                          refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
+                          dataType="i4"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[workers_count]"
+                          name="workers_count" />
                         <outputColumn
                           refId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Error Output].Columns[worker_factor]"
                           dataType="numeric"
@@ -6446,12 +6676,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           cachedName="department"
                           externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[department]"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[department]" />
-                        <inputColumn
-                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[estimate_participant]"
-                          cachedDataType="i4"
-                          cachedName="estimate_participant"
-                          externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_participant]"
-                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]" />
                         <inputColumn
                           refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[work_days]"
                           cachedDataType="i4"
@@ -6573,12 +6797,6 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[kdt_qty]"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[kdt_qty]" />
                         <inputColumn
-                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[workers_count]"
-                          cachedDataType="i4"
-                          cachedName="workers_count"
-                          externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_count]"
-                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]" />
-                        <inputColumn
                           refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[spec_broker_payment]"
                           cachedDataType="numeric"
                           cachedName="spec_broker_payment"
@@ -6667,6 +6885,24 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[spec_request]"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[spec_request]" />
                         <inputColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[all_kdt]"
+                          cachedDataType="i4"
+                          cachedName="all_kdt"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_kdt]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_kdt]" />
+                        <inputColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[all_exams]"
+                          cachedDataType="i4"
+                          cachedName="all_exams"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_exams]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_exams]" />
+                        <inputColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[all_obligations]"
+                          cachedDataType="i4"
+                          cachedName="all_obligations"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_obligations]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[all_obligations]" />
+                        <inputColumn
                           refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[estimate]"
                           cachedDataType="numeric"
                           cachedName="estimate"
@@ -6683,6 +6919,12 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[overall_estimate]"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[overall_estimate]" />
                         <inputColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[estimate_participant]"
+                          cachedDataType="i4"
+                          cachedName="estimate_participant"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[estimate_participant]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[estimate_participant]" />
+                        <inputColumn
                           refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[average_group_estimate]"
                           cachedDataType="numeric"
                           cachedName="average_group_estimate"
@@ -6690,6 +6932,12 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           cachedScale="2"
                           externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[average_group_estimate]"
                           lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[average_group_estimate]" />
+                        <inputColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[workers_count]"
+                          cachedDataType="i4"
+                          cachedName="workers_count"
+                          externalMetadataColumnId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[workers_count]"
+                          lineageId="Package\Specialist\Reload main\Query.Outputs[ADO NET Source Output].Columns[workers_count]" />
                         <inputColumn
                           refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].Columns[worker_factor]"
                           cachedDataType="numeric"
@@ -6911,6 +7159,18 @@ WHERE CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(id_year,
                           refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[kdt_qty]"
                           dataType="i4"
                           name="kdt_qty" />
+                        <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_kdt]"
+                          dataType="i4"
+                          name="all_kdt" />
+                        <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_exams]"
+                          dataType="i4"
+                          name="all_exams" />
+                        <externalMetadataColumn
+                          refId="Package\Specialist\Reload main\Table.Inputs[ADO NET Destination Input].ExternalColumns[all_obligations]"
+                          dataType="i4"
+                          name="all_obligations" />
                       </externalMetadataColumns>
                     </input>
                   </inputs>
@@ -8313,11 +8573,11 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 2]"
       DTS:CreationName=""
-      DTS:DTSID="{509F6EB6-3568-4ECF-BDFC-D771CF475A35}"
+      DTS:DTSID="{E2FDBB8B-CA83-4FB8-B4EA-C59A73B8CC33}"
       DTS:From="Package\Update estimate pariticipant"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 2"
-      DTS:To="Package\Specialist" />
+      DTS:To="Package\Obligations" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 3]"
       DTS:CreationName=""
@@ -8353,11 +8613,11 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 7]"
       DTS:CreationName=""
-      DTS:DTSID="{396E097F-9BEE-4F63-9E50-923B79941E08}"
-      DTS:From="Package\Update estimate pariticipant"
+      DTS:DTSID="{801D0496-B569-4AD5-8F64-15649DE00A45}"
+      DTS:From="Package\Obligations"
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 7"
-      DTS:To="Package\Declarant" />
+      DTS:To="Package\Specialist" />
     <DTS:PrecedenceConstraint
       DTS:refId="Package.PrecedenceConstraints[Ограничение 8]"
       DTS:CreationName=""
@@ -8366,6 +8626,14 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
       DTS:LogicalAnd="True"
       DTS:ObjectName="Ограничение 8"
       DTS:To="Package\Timesheet merge" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Ограничение 9]"
+      DTS:CreationName=""
+      DTS:DTSID="{6AAAC80E-BC4F-4ECD-BC09-30EC3D06BCA6}"
+      DTS:From="Package\Obligations"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Ограничение 9"
+      DTS:To="Package\Declarant" />
   </DTS:PrecedenceConstraints>
   <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
 <!--В данном разделе CDATA содержатся сведения о макете пакета. В данном разделе содержатся сведения о координатах (x,y), ширине и высоте.-->
@@ -8964,7 +9232,7 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
         <NodeLayout
           Size="211,42"
           Id="Package\Update estimate pariticipant"
-          TopLeft="868,300" />
+          TopLeft="864,203" />
         <NodeLayout
           Size="187,42"
           Id="Package\Update main roles decl"
@@ -9001,52 +9269,30 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
         </EdgeLayout>
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 1]"
-          TopLeft="835.333333333333,322.833333333333">
+          TopLeft="740.833333333333,303.666666666667">
           <EdgeLayout.Curve>
             <mssgle:Curve
               StartConnector="{assembly:Null}"
-              EndConnector="32.666666666667,0"
+              EndConnector="194.833333333334,-58.666666666667"
               Start="0,0"
-              End="25.166666666667,0">
+              End="194.833333333334,-51.166666666667">
               <mssgle:Curve.Segments>
                 <mssgle:SegmentCollection
                   Capacity="5">
                   <mssgle:LineSegment
-                    End="25.166666666667,0" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 2]"
-          TopLeft="973.5,342">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="104,69"
-              Start="0,0"
-              End="104,61.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,30.5" />
+                    End="0,-30.9350893697086" />
                   <mssgle:CubicBezierSegment
-                    Point1="0,30.5"
-                    Point2="0,34.5"
-                    Point3="4,34.5" />
+                    Point1="0,-30.9350893697086"
+                    Point2="0,-34.9350893697086"
+                    Point3="4,-34.9350893697086" />
                   <mssgle:LineSegment
-                    End="100,34.5" />
+                    End="190.833333333334,-34.9350893697086" />
                   <mssgle:CubicBezierSegment
-                    Point1="100,34.5"
-                    Point2="104,34.5"
-                    Point3="104,38.5" />
+                    Point1="190.833333333334,-34.9350893697086"
+                    Point2="194.833333333334,-34.9350893697086"
+                    Point3="194.833333333334,-38.9350893697086" />
                   <mssgle:LineSegment
-                    End="104,61.5" />
+                    End="194.833333333334,-51.166666666667" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
@@ -9180,40 +9426,6 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
           </EdgeLayout.Labels>
         </EdgeLayout>
         <EdgeLayout
-          Id="Package.PrecedenceConstraints[Ограничение 7]"
-          TopLeft="939.666666666667,342">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-563.722222222223,84.7777777777781"
-              Start="0,0"
-              End="-563.722222222223,77.2777777777781">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,30.2939270408698" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,30.2939270408698"
-                    Point2="0,34.2939270408698"
-                    Point3="-4,34.2939270408698" />
-                  <mssgle:LineSegment
-                    End="-559.722222222223,34.2939270408698" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-559.722222222223,34.2939270408698"
-                    Point2="-563.722222222223,34.2939270408698"
-                    Point3="-563.722222222223,38.2939270408698" />
-                  <mssgle:LineSegment
-                    End="-563.722222222223,77.2777777777781" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <EdgeLayout
           Id="Package.PrecedenceConstraints[Ограничение 8]"
           TopLeft="386,243.75">
           <EdgeLayout.Curve>
@@ -9227,6 +9439,112 @@ AND CAST(GETDATE() AS date) &lt; CAST(DATEADD(month, 3, DATEFROMPARTS(YYYY, MM, 
                   Capacity="5">
                   <mssgle:LineSegment
                     End="48,0" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <NodeLayout
+          Size="131,42"
+          Id="Package\Obligations"
+          TopLeft="890,310" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 2]"
+          TopLeft="1003.33333333333,245">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-47.8333333333333,65"
+              Start="0,0"
+              End="-47.8333333333333,57.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22.2935089369709" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22.2935089369709"
+                    Point2="0,26.2935089369709"
+                    Point3="-4,26.2935089369709" />
+                  <mssgle:LineSegment
+                    End="-43.8333333333333,26.2935089369709" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-43.8333333333333,26.2935089369709"
+                    Point2="-47.8333333333333,26.2935089369709"
+                    Point3="-47.8333333333333,30.2935089369709" />
+                  <mssgle:LineSegment
+                    End="-47.8333333333333,57.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 7]"
+          TopLeft="976,352">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="101.5,59"
+              Start="0,0"
+              End="101.5,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.027149321267" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.027149321267"
+                    Point2="0,24.027149321267"
+                    Point3="4,24.027149321267" />
+                  <mssgle:LineSegment
+                    End="97.5,24.027149321267" />
+                  <mssgle:CubicBezierSegment
+                    Point1="97.5,24.027149321267"
+                    Point2="101.5,24.027149321267"
+                    Point3="101.5,28.027149321267" />
+                  <mssgle:LineSegment
+                    End="101.5,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Ограничение 9]"
+          TopLeft="935,352">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-559.055555555556,74.7777777777781"
+              Start="0,0"
+              End="-559.055555555556,67.2777777777781">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26.4524886877829" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26.4524886877829"
+                    Point2="0,30.4524886877829"
+                    Point3="-4,30.4524886877829" />
+                  <mssgle:LineSegment
+                    End="-555.055555555556,30.4524886877829" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-555.055555555556,30.4524886877829"
+                    Point2="-559.055555555556,30.4524886877829"
+                    Point3="-559.055555555556,34.4524886877829" />
+                  <mssgle:LineSegment
+                    End="-559.055555555556,67.2777777777781" />
                 </mssgle:SegmentCollection>
               </mssgle:Curve.Segments>
             </mssgle:Curve>
